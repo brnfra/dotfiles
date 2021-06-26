@@ -60,7 +60,7 @@ export CLASSPATH=$JAVA_HOME/lib:$CLASSPATH
 export PATH=$JAVA_HOME/bin:$PATH
 export MANPATH=$JAVA_HOME/man:$MANPATH
 
-export PATH_TO_FX="/home/devlab/.jdks/javafx-sdk-11.0.2/lib"
+export PATH_TO_FX="$HOME/.jdks/javafx-sdk-11.0.2/lib"
 
 #fzf need to fd-find ripgrep packs
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
