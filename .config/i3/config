@@ -429,10 +429,14 @@ $exe xfce4-power-manager
     #Networkmanager wicd and NM do not work together
 $exe nm-applet --indicator
 
-#change config for my preferences
-$exe ~/.config/i3/autostart/i3config.sh 
-    #Wallpaper
-$exe ~/.config/i3/autostart/wallpaper.sh
+    ##change config for my preferences (two monitors config, don't use the option 
+    ##bellow if you are using nvidia drivers
+    
+#$exe ~/.config/i3/autostart/i3config.sh 
+    
+    ##Wallpaper (require ~/.wallpaper folder)
+
+#$exe ~/.config/i3/autostart/wallpaper.sh
 
     #Apps autoexec on start
 $exe parcellite
