@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
   
     #APT aliases {{{
     #list dependencies
@@ -36,6 +36,7 @@ alias la.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.
 alias li='ls -AFoh --color=always | grep --regexp="^[l]"'                                           #show links
 alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                                           #show directories
 
+
     #exa aliases
 alias xll='exa -alF --color=always --group-directories-first --sort name'                               #prefered hidden include
 alias xl='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
@@ -44,8 +45,7 @@ alias xli='exa -alF --sort name | grep --regexp="^[l]"'                         
 alias xld='exa -alF --sort name | grep --regexp="^[d]"'                                                 # exa directories
 alias xlt='exa -aTF --color=always --group-directories-first --sort name'                                   # tree listing
 alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
-   
-   # grep
+    # grep
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
     
@@ -98,3 +98,30 @@ alias dcon='docker container ls -a'
 alias dimg='docker image ls'
 alias dstop='docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin'
     # }}}
+    # Shortcuts map {{{
+alias repo="cd ~/Documents/Projects/git"
+alias down="cd ~/Downloads"
+alias dwall="cd ~/.wallpapers/"
+alias docs="cd ~/Documents/"
+alias doc="cd ~/Documents/"
+alias dotfiles="cd ~/Documents/Projects/git/dotRepo/privateConfig/"
+alias myscripts="cd ~/Documents/Projects/git/dotRepo/privateShell/scripts"
+alias myscript="cd ~/Documents/Projects/git/dotRepo/privateShell/scripts"
+alias notes="cd ~/Documents/Projects/git/dotRepo/privateNotes"
+alias lab="cd ~/Documents/Projects/git/LearningLab/"
+alias cmod="cd ~/Documents/Projects/git/Cmod/"
+    # }}}
+    # Apps exec {{{
+alias anki="cd ~/ && setsid ./Anki &>/dev/null"
+alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
+alias android="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+alias ANDROID="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+alias eclipse="cd ~/ && setsid ./eclipse_ide &>/dev/null"
+alias ECLIPSE="cd ~/ && setsid ./eclipse_ide &>/dev/null"
+alias tor="cd ~/ && setsid ./tor-browser &>/dev/null"
+alias TOR="cd ~/ && setsid ./tor-browser &>/dev/null"
+alias nvi="nvim"
+alias nv="nvim"
+alias v="vim"
+#alias play="vlc --play-and-exit --no-loop --no-repeat"
+# }}}

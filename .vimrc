@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 24-06-2021
+" Ultima_modificacao: 02-08-2021
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,6 +14,8 @@
 " (_)\_/  |___|_|  |_|_| \_\\____|
 "
 "====================================================================
+"Nerd-Fonts  - https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip
+"PATH(Debian)- placing FONTS them into /usr/local/share/fonts (system-wide), ~/.local/share/fonts (user-specific)
 "                  System Config {{{
 "-------------------------------------------------------
 set nocompatible    " be iMproved, required
@@ -21,6 +23,8 @@ set path+=**
 set exrc
 scriptencoding utf-8
 set secure
+set makeprg=make\ -C\ ../build\ -j9
+nnoremap <F3> :make!<cr>
 
 let g:dl1 = '~/.vim/autoload'
 let g:dl2 = '~/.vim/bundle'
@@ -28,6 +32,7 @@ let g:cur = getcwd()
 
 let g:dw1 = 'C:\Program Files\Vim\vim82\autoload'
 let g:dw2 = 'C:\Program Files\Vim\vim82\bundle'
+
 
 if has('unix')
     "-------------------------------------------------------
@@ -62,6 +67,8 @@ if has('unix')
 
         exec ":redraw!"
 
+        "Option - 1) junegunn /vim-plug "
+
         silent exec 'cd' a:dl1
         if !filereadable("plug.vim")
 
@@ -76,6 +83,7 @@ if has('unix')
         endif
 
     endfunction
+
 
 elseif (has('win32') || has('win64'))
 
@@ -131,8 +139,6 @@ elseif (has('win32') || has('win64'))
     "-------------------------------------------------------
     "                   Plugins Install
     "-------------------------------------------------------
-    "
-    "check diretorios
 
     function! Base(dw1,dw2) abort
         echo 'Checando diretorios'
@@ -142,9 +148,11 @@ elseif (has('win32') || has('win64'))
         "bundle
         let dir2 =  empty(glob(a:dw2))
 
+
         "echo "Checando diretorios"
         let dir1 = empty(glob('C:\Program Files\Vim\vim82\autoload'))
         let dir2 = empty(glob('C:\Program Files\Vim\vim82\bundle'))
+
 
         if (dir1 || dir2)
 
@@ -159,6 +167,7 @@ elseif (has('win32') || has('win64'))
                 "echo "~/bundle criado"
             endif
 
+
             silent exec 'cd' a:dw2
             "Option - 1) junegunn /vim-plug "
             silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -171,6 +180,7 @@ elseif (has('win32') || has('win64'))
 
         endif
 
+
     endfunction
 
 endif
@@ -179,8 +189,7 @@ endif
 "-------------------------------------------------------
 ""Set Inicial work-folder
 if (has('win32') || has('win64'))
-    "CHANGE IF YOU NEED"
-    :cd $HOME\$USER\Documents
+    :cd C:\Users\Bruno\Documents
 endif
 
 set ttyfast " Send more characters at a given time
@@ -214,14 +223,19 @@ set foldmethod=marker
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 set cul             " underline active line
+""set number          " show number
+""set ruler           " show ruler cursor
+""set relativenumber  " show relative relative line number
 syntax on           " Switch on syntax highlighting.
 syntax enable
 set showmode        " Show the current mode
 set showcmd         "Exibe comando sendo executado
 set autowrite       " write buffers automagically when leaving them
+""set vb              " set visual bell --
 setlocal wildmode=full
 
 "Word completion
+"Complementação de palavras
 set dictionary+=~/.vim/c_src/tags
 set dictionary+=~/.vim/cpp_src/8/tags
 
@@ -240,7 +254,9 @@ set smarttab  " Be smart when using tabs ;)
 set noexpandtab   "no- Use spaces instead of tabs
 set si "Smart indent
 set lbr
+set tw=500  " Linebreak on 500 characters
 set showmatch
+set textwidth=80
 "---------------------------------------------------------------------------
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
@@ -252,11 +268,13 @@ set undodir=~/.vim/backups/undo/
 set foldenable " Enable folding
 set foldcolumn=0 " Column to show folds
 set foldlevel=0 " Close all folds by default
+
 set termencoding=utf-8
+
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 
 " By default, without wrapping
-""set nowrap
+set nowrap
 
 set title
 set titleold="Terminal"
@@ -268,8 +286,11 @@ set modeline          "" Use modeline overrides
 set modelines=2
 
 set ch=2              " Make command line two lines high
+
 set backspace=2       " Allow backspacing over indent, eol, and the start of an insert
+
 set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines from the top and 8" lines from the bottom
+
 set wildmenu          " Make the command-line completion better
 
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
@@ -294,11 +315,14 @@ endif
 "     BEGIN PLUGINS INSTALL  {{{
 "--------------------------------------------------------
 "--AUTOCOMPLETION--
+"filetype off                    "Vundle required if installed
+""execute pathogen#infect()
 filetype plugin indent on
 filetype plugin on
 filetype indent on
 
 " - Avoid using standard Vim directory names like 'plugin'
+""execute plug#begin()
 call plug#begin('~/.vim/bundle')
 
 " Make sure you use single quotes
@@ -317,6 +341,9 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading on both conditions
 Plug 'junegunn/vader.vim',  { 'on': 'Vader', 'for': 'vader' }
 ""unlet g:plug_url_format
+
+" Multiple Plug commands can be written in a single line using | separators
+""Plug 'tomtom/tlib_vim'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree'
@@ -342,7 +369,24 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+" Code Snnipets"
+
+"coc - https://github.com/neoclide/coc.nvim
+if has('nvim')
+  " Use release branch (recommend)
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
+
+" Or build from source code by using yarn: https://yarnpkg.com
+" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+
 " YouCompleteMe"
+""Plug 'ycm-core/youcompleteme'
+
+" Problem with cmake have to install and point in path to newer version of cmake
+" Problem when install/compile clang. was aborted
+" Problem with legacy version of vim have to install this patch
+" 3 problems, packages not found,sol cmd $python3 -m pip install --upgrade neovim/cmake/msgpack
 " https://github.com/ycm-core/YouCompleteMe/issues/3764
 if has('patch-8.1.2269')
 " Latest YCM needs at least this version of vim
@@ -360,6 +404,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 "colorschemes
 Plug 'altercation/vim-colors-solarized'
+
 Plug 'dense-analysis/ale'
 
 "code indent"
@@ -376,12 +421,16 @@ Plug 'vim-scripts/c.vim'
 "Table Of Contents[toc]
 Plug 'mzlogin/vim-markdown-toc'
 
-""let g:plug_url_format = 'git@github.com:%s.git'
+"javascript
+""Plug 'pangloss/vim-javascript'
+""Plug 'jelera/vim-javascript-syntax'
+
+let g:plug_url_format = 'git@github.com:%s.git'
 "Myplugins
 Plug 'brnfra/vim-short-html'
 Plug 'brnfra/vim-short-cpp'
 Plug 'brnfra/vim-markdown-brn'
-""unlet g:plug_url_format
+unlet g:plug_url_format
 
 " Unmanaged plugin (manually installed and updated)
 ""Plug '~/.vim/bundle/vim-short-cpp'
@@ -407,11 +456,13 @@ set completeopt+=menuone,noinsert,longest,preview,noselect
  " Limit popup menu height
 set pumheight=15
 
+
 "              }}}
 "             Netrw configuration       {{{2
 ""------------------------------------------------------
 let g:loaded_netrw       = 1
 let g:loaded_netrwPlugin = 1
+
 let shownetrw =0
 let g:netrw_banner=0        " disable banner
 let g:netrw_browse_split=4  " open in prior window
@@ -433,34 +484,53 @@ endif
 "              NERDTree configuration      {{{2
 ""------------------------------------------------------
 
+"p  -   parent directory
+"s  -   vertical split
+"i  -   horizontal split
+"u  -   up on folder tree
+"t  -   open file in new tab
+"r  -   refresh tree
+"q  -   quit nerdtree
+"z  -   z+[direction] move screen on nerdtree
+"x  -   close tree root
+"m  -   menu
+
 if !has('nvim')
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
 endif
 
 let g:NERDTreeChDirMode=2
+""let g:nerdtree_tabs_open_on_console_startup=0
+""let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeTooggle = 1
+"let g:NERDTreeShowHidden=1
 let g:NERDTreeWinSize = 40
+""au VimEnter * NERDTree | wincmd p    " open NERDTree automatically, focus on file buffer
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-
 "Disable arrows
 let g:NERDTreeDirArrowExpandable = "\u00a0"
 let g:NERDTreeDirArrowCollapsible = "\u00a0"
+
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+
 let g:NERDTreeMapUpdir = '<Left>'
 let g:NERDTreeMapActivateNode = '<Right>'
 let g:NERDTreeMapOpenSplit= '-'
 let g:NERDTreeMapOpenVSplit= '+'
+""nnoremap <F2> :NERDTreeTabsOpen<CR>
+""nnoremap <F3> :NERDTreeTabsClose<CR>
 nnoremap <F2> :NERDTreeToggle<CR>
 inoremap <F2> <esc>:NERDTreeToggle<CR>i
 vnoremap <F2> <esc>:NERDTreeToggle<CR>
+
 
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
@@ -522,6 +592,8 @@ let g:airline_filetype_overrides = {
       \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
       \ }
 
+""* enable/disable ale integration >
+
 let airline#extensions#ale#error_symbol = 'E:'
 let airline#extensions#ale#warning_symbol = 'W:'
 let airline#extensions#ale#show_line_numbers = 1
@@ -537,11 +609,17 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#csv#column_display = 'Name'
 let g:airline_section_b=" %{FugitiveHead()}"
-let g:airline_section_c='%M%0*%t %1* %-0.50{CurDir()}'
-let g:airline_section_x='%Y'
+let g:airline_section_c='%r%m%0*%t %1* %-0.50{CurDir()}'
+let g:airline_section_x='%k%y'
 let g:airline_section_z='%p%% %l Col:%c'
 let g:airline_section_error=''
 let g:airline_section_warning=''
+
+"+-------------------------------------------------------+
+"| Set advanced status line				 |
+"+-------------------------------------------------------+
+"| https://vimhelp.org/options.txt.html#%27statusline%27 |
+"+-------------------------------------------------------+
 
 set laststatus=2      "" display Status bar always
 
@@ -593,10 +671,13 @@ let s:terms_italic=[
 ""---------------------------------END COLORSCHEME }}}2
 "                 ALE.VIM  {{{2
 
+"-------------------------------------------------------
+
 set omnifunc=ale#completion#OmniFunc
 let g:ale_completion_enabled = 1
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_completion_autoimport = 1
+
 
 "-----------------------------------END ALE.VIM}}}2
 "             YOUCOMPLETEME {{{
@@ -649,10 +730,11 @@ let g:C_MapLeader  = '\'
 let g:C_FormatDate = '%d/%m/%Y'
 let g:C_FormatTime = '%H:%M'
 let g:C_Styles = { '*.c,*.h' : 'default', '*.cc,*.cpp,*.hh' : 'CPP' }
+
 "              }}}
 "                    TAGBAR     {{{2
-" -----------------------Tagbar Exuberant ctags
-" --- TagBar
+"-------------------------------------------------------
+
 nnoremap <leader>t :TagbarToggle<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
@@ -665,13 +747,13 @@ let g:tagbar_type_markdown = {
             \ 'ctagstype': 'markdown',
             \ 'kinds': [ 'h:Heading_L1', 'i:Heading_L2', 'k:Heading_L3' ]
             \ }
-
 "------------------------------------------------------}}}2
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
 
 "-------------------------------------------------------
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
+
 augroup vimrc-sync-fromstart
     autocmd!
     autocmd BufEnter * :syntax sync maxlines=200
@@ -729,6 +811,7 @@ augroup END
 " }}}
 
 " Arquivos .sh sao sempre bash, e não sh
+"au FileType sh let b:is_bash=1
 set shell=$SHELL\ -f
 
 "autocmd vimenter * NERDTree
@@ -773,6 +856,7 @@ au BufNewFile,BufRead *.less set filetype=less
 
 "au BufWritePre * :%s/\s\+$//e        " remove trailing whitespace
 
+
 "---------------------------------------------
 " Enable omni completion. (Ctrl-X Ctrl-O)
 "---------------------------------------------
@@ -796,6 +880,7 @@ if has("autocmd") && exists("+omnifunc")
 endif
 set cot-=preview	"disable doc preview in omnicomplete
 
+
 "---------------------------------------------
 " for PHP programming
 "---------------------------------------------
@@ -814,6 +899,12 @@ autocmd BufNewFile,BufRead *.sass			set ft=sass.css
 " for edit HTML
 "---------------------------------------------
 autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+
+"---------------------------------------------------------------------------
+" Tip #382: Search for <cword> and replace with input() in all open buffers
+"---------------------------------------------------------------------------
+"let mapleader="," " Map <Leader> to ,
+" set leader to ;
 let mapleader=";"
 
 "-------------------------------------------END SYNTAX }}}
@@ -835,6 +926,7 @@ let mapleader=";"
  inoremap ' ''<left>
  inoremap " ""<left>
 
+" <F6> :setlocal spell! spelllang=pt_br<CR>
   noremap <F10> :q<cr>
   noremap <F9> :q!<cr>
   noremap <F8> :wall<cr>:mkview<cr>
@@ -883,6 +975,7 @@ endif
 if has('unix')
 "Copy
 vnoremap <C-c> :w !xclip -i -selection clipboard<CR><CR>
+
 vnoremap y ""y<CR>
 "Cut
 vnoremap x ""x
@@ -895,12 +988,16 @@ endif
 "                   EDITING
 "---------------------------------------------
 "repeate line bellow
+""inoremap <C-d> <esc>$v<Up>+yo<esc>pi
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
 inoremap <C-T> <C-R><Tab>
+
 nnoremap <C-r> :redo<cr>
+
+
 noremap <F4> :Goyo 120x90%<CR>
 
-noremap ,n :call Numshow()<CR>          " show line number on/off""
+noremap ,n :call Numshow()<CR>          " show number on/off""
 function Numshow()
     let num = &number
     if !num
@@ -931,6 +1028,7 @@ function DelBlanks()
 
 endfunction
 
+
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -941,9 +1039,10 @@ nmap ga <Plug>(EasyAlign)
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
 
+
 " Mover linhas com: Ctrl+(seta abaixo) ou (seta acima)
 " tem que estar em modo normal!
-" Move lines Block down"
+" Move Block down"
 vnoremap <S-Down> VdjP`[v`]
 " Move Block up"
 vnoremap <S-Up> VdkP`[v`]
@@ -978,15 +1077,18 @@ nnoremap <leader>- :vsplit<cr>
  nnoremap <S-Tab> gT
  nnoremap <S-t> :tabnew<CR>
 
+
 "autocompletion document with ctrl+space
 inoremap <c-space> <c-n>
 
 "-------------------------------------------------------
 "" Custom configs
 "-------------------------------------------------------
+
 " c
 autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+
 
 " javascript
 let g:javascript_enable_domhtmlcss = 1

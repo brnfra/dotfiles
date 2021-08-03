@@ -256,9 +256,8 @@ function gpull ()
 
 # }}}
 
-# Name standardize {{{
-#Remove especial chars from files names and folders names from current directory 
-#change names for standard. Ex.: change s@p%c to 's_p_c'; and so on...
+#NAMESTD {{{
+#change names for standard. Ex.: s p c='s_p_c'; and so on...
 function namestd ()
 {
     printf "\n%s\n\n" "Checking Files..." 
@@ -268,19 +267,21 @@ STDNAMES=$((0))
 STDFILES=$((0))
 STDFOLDERS=$((0))
 LOCAL=$(pwd)
-
+#first, make some general changes, just in case(remove spaces)
 for FILE in "$LOCAL"/* 
 do
-    OLD=$FILE
-    NAME=${FILE// /_}
+    OLD=$(echo $FILE | sed "s|$LOCAL/||g")
+    NAME=$(echo $FILE | sed "s|$LOCAL/||g")
+
+    NAME=${NAME// /_}
     NAME=$(echo $NAME | tr '\n\r\a\b\f\v\t\ ' '_' | sed -r 's/_$//gi')
 
-    mv "$OLD" "$NAME" &>/dev/null 
+    mv "$OLD" "$NAME"&>/dev/null 
     ISOK="$?"
 
     if [[ "$ISOK" = "0" ]]
     then
-	    printf "\t%-20s%10s%-20s\n" " [$OLD] " " ----> " " [$NAME]"
+	    printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
 	    STDNAMES=$(($STDNAMES + 1))      
     fi
 
@@ -338,11 +339,11 @@ do
 		      ISOK="$?"
 		      if [[ "$ISOK" = "0" ]]
 		      then
-			  printf "\t%-20s%10s%-20s\n" " [$OLD] " " ----> " " [$NAME]"
+			  printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
 			  STDFILES=$(($STDFILES + 1))
 		      fi
 	          else
-		  printf "\t%-20s%10s%-20s\n" " [$OLD] " " ----> " " [no changes]"
+		  printf "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
 		  fi
 	done
 	      printf "\n\t%-20s\n" "All done. $STDFILES files renamed again."
@@ -389,13 +390,13 @@ then
 		ISOK="$?"
 		if [[ "$ISOK" = "0" ]]
 		then
-		    printf "\t%-20s%10s%-20s\n" " [$OLD] " " ----> " " [$NAME]"
+		    printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
 		    STDFOLDERS=$(($STDFOLDERS + 1))
 		fi
 	    fi
 
 	else
-		  printf "\t%-20s%10s%-20s\n" " [$OLD] " " ----> " " [no changes]"
+		  printf "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
 
 	fi
     done
@@ -432,12 +433,27 @@ function extract ()
 }
 #}}}
 
-# search avaliable packages to install from online repo {{{
+# search avaliable packages to install {{{
 function psearch () 
 { 
     apt-cache search "" |  fzf +m -i -e --prompt='------>' --header='Find:' --height=60% --border --hscroll-off=800 --preview="apt-cache show ^{1}$" --preview-window=wrap --bind="tab:toggle-preview" ; 
 }
 # }}}
+
+## packages installed list(commented) {{{ 
+#mypacks () 
+#{
+#    list="$(apt list --installed 2>/dev/null)"
+#    if [[ $# -eq 0 ]]; then
+#        less <<< $list
+#    else
+#        for pkg in "$@"; do
+#            grep -@ $pkg <<< $list
+#        done
+#    fi
+
+#}
+##}}}
 
 # Show installed packages {{{
 function mypacks () 
@@ -486,7 +502,6 @@ complete -F auto_complete_apt pdeps
 # }}}
 
 # Counters (minutes) {{{
-# use -> $countdown 50 to timer 50 minutes and alarm
 function countdown ()
 {
     MINS=$(($1 * 60)) 

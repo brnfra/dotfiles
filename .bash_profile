@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # Options to fzf command
 #export FZF_COMPLETION_OPTS='--border --info=inline'

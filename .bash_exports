@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
@@ -47,20 +47,24 @@ export PATH="$HOME/gems/bin:$PATH"
 export PATH=$PATH:$HOME/bin/composer
 
 # Android
+export ANDROID_SDK_ROOT="/media/SamsungHDD/AndroidProjects/Android/Sdk/"
+export ANDROID_SDK_HOME="/media/SamsungHDD/AndroidProjects/.android/"
+export ANDROID_EMULATOR_HOME="/media/SamsungHDD/AndroidProjects/.android/"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
+export ANDROID_HOME="/media/SamsungHDD/AndroidProjects/Android/Sdk"
 export PATH=$PATH:ANDROID_HOME/tools
 
 # Flutter
 export PATH="$PATH:$HOME/opt/flutter/bin"
 
-# Java - SDK 11
+# Java - SDK 12
 #export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-12-openj9-amd64"
 export JAVA_HOME="/usr/lib/jvm/java-1.11.0-openjdk-amd64"
 export CLASSPATH=$JAVA_HOME/lib:$CLASSPATH
 export PATH=$JAVA_HOME/bin:$PATH
 export MANPATH=$JAVA_HOME/man:$MANPATH
 
-export PATH_TO_FX="$HOME/.jdks/javafx-sdk-11.0.2/lib"
+export PATH_TO_FX="/home/devlab/.jdks/javafx-sdk-11.0.2/lib"
 
 #fzf need to fd-find ripgrep packs
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
