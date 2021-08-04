@@ -16,7 +16,6 @@
 # i3 config file (v4)
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-
 #set $mod Mod1
 
 set $mod Mod4
@@ -25,7 +24,7 @@ floating_modifier $mod
     #}}}
 # start a terminal {{{
 #bindsym $mod+Return exec i3-sensible-terminal
-#set $myTerm tilix
+
 set $myTerm xfce4-terminal
 bindsym $mod+Return exec $myTerm
     #}}}
@@ -35,17 +34,14 @@ default_border pixel 3
     # }}}
 # kill focused window {{{
 bindsym $mod+q kill
-#bindsym $mod+F4 kill
+
     #}}}
 # start dmenu (a program launcher){{{
-#bindsym $mod+d exec dmenu_run
+
 # fzf search
 bindsym $mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
 for_window [title="fzf-menu"] floating enable move position center
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
     #}}}
 # bindsym shortener {{{
 set $sup bindsym Mod4
@@ -106,10 +102,6 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
     # }}}
     # split window key in horizontal orientation {{{
-#bindsym $mod+h split h
-
-# split in vertical orientation
-#bindsym $mod+v split v
 
 # split orientation
 bindsym $mod+v split h;exec notify-send 'tile horizontally'
@@ -137,7 +129,6 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
     # }}}
 # focus the child container workspace {{{
-#bindsym $mod+d focus child
 
 workspace_auto_back_and_forth yes
 
@@ -211,10 +202,7 @@ workspace 3 output DVI-0
 workspace 5 output DVI-0
 workspace 7 output DVI-0
 workspace 9 output DVI-0
-# Open applications on specific workspaces
-# assign [class="Thunderbird"] $ws1
-# assign [class="Firefox"] $ws2
-# assign [class="Pcmanfm"] $ws3
+
     # }}}
     #Config tab for contain the app for_window {{{
 #resize set [width] <width> [px | ppt] [height] <height> [px | ppt]
@@ -229,7 +217,6 @@ for_window [window_role="PictureInPicture"] floating enable, move position right
 
 no_focus [class="jetbrains-studio"]
 assign [class="jetbrains-studio"] 4 Android Studio
-#for_window [class="jetbrains-studio"] floating disable
 
 no_focus [class="Okular"]
 assign [class="Okular"] 2 Okular
@@ -239,13 +226,11 @@ assign [class="Liferea"] 2
 
 no_focus [class="Zim"]
 assign [class="Zim"] 3
-#assign [class="^Firefox-esr$"] 2
-#assign [class="^Firefox-esr$" instance="^Navigator$"] 2
+#
 
 no_focus [class="Anki"]
 assign [class="Anki"] 5 Anki
-#for_window [title="Application Finder"] floating enable
-#for_window [class="knotes"] floating enable sticky enable border normal
+
 
 #Disable menubar on virtual machine to avoid bug
 for_window [class="(?i)virtualbox"] floating enable
@@ -300,10 +285,6 @@ mode "Adjust resolution and bar. Choose: Esc or Enter to Cancel, (h)d virtual, (
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
@@ -332,10 +313,6 @@ bindsym Ctrl+1 exec firefox
 bindsym Ctrl+3 exec pcmanfm-qt
 bindsym Ctrl+4 exec $myTerm -x vim ~/Documents/
 
-#mod F12 set resolution
-# start program launcher
-#bindsym $mod+KP_Insert exec --no-startup-id rofi -show run
-
 # Apps Launched[Debian] with <SUPER> + <SHIFT> + <KEYPAD 1-9>
 #bindsym $mod+Shift+KP_0 exec $myTerm -e
 bindsym $mod+Shift+KP_1 exec $myTerm -e code
@@ -345,14 +322,6 @@ bindsym $mod+Shift+KP_4 exec $myTerm -e pdfsam
 bindsym $mod+Shift+KP_5 exec $myTerm -e okular
 bindsym $mod+Shift+KP_6 exec $myTerm -e kate
 bindsym $mod+Shift+KP_7 exec $myTerm -e libreoffice
-#bindsym $mod+Shift+KP_8 exec $myTerm -e
-
-# Apps Launched with <SUPER> + <CTRL> + <KEYPAD 1-9>
-#bindsym $mod+Ctrl+KP_End exec $myTerm -e htop
-#bindsym $mod+Ctrl+KP_End exec $myTerm -e htop
-
-
-# Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available) }}}
     #Collors{{{
     # colors definitions ---------------------------------------------------------------------
@@ -378,7 +347,6 @@ client.focused          $green      $gray   $white  $purple     $green
 client.focused_inactive $orange     $gray   $white  $yellow   $orange
 client.unfocused        $orangedark $gray   $white  $purple   $orangedark
 client.urgent           $red        $dark   $white  $red      $red
-#client.placeholder      $white  #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       $dark
     # }}}
@@ -386,47 +354,19 @@ client.background       $dark
 #font pango:Open Sans Semibold 10
 font pango:Quicksand 8
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-#font pango:monospace 9
-#font pango:Font Awesome 5 Free, RobotoMono Nerd Font 9
-#font pango:RobotoMono 9
-
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
-
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
-
-
     #}}}
     # status bar options {{{-------------------------------------------------------------
 
 bar {
      #  exibits just once, the first
         position bottom
-     #   tray_output HDMI-0
-     #   tray_output HDMI-A-1
-     #   tray_output DVI-0
-     #   tray_output DVI-I-1
         tray_output DVI-I-3
-     #   tray_output DVI-0
-     #   tray_output DisplayPort-2
-     #   tray_output HDMI-A-1
-     #   tray_output Virtual1
         tray_padding 0
-      #  separator_symbol "⎠"
         separator_symbol " "
         mode dock
 
         #status_command i3blocks
         status_command SCRIPT_DIR=~/.config/i3/i3blocks i3blocks
-#        status_command SCRIPT_DIR=/usr/share/i3blocks i3blocks
 
         font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
         #font pango:Open Sans 10
@@ -480,38 +420,26 @@ $exe_always xset b off
     #Keyboard settings
 #$exe_always numlockx
 $exe numlockx on
-#$exe setxkbmap -model pc104 -layout us_intl
 
-    #$exe_always xrdb -load ~/.config/i3/.Xresources
-#$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 
     #Networkmanager wicd and NM do not work together
-#$exe wicd-gtk -t
 $exe nm-applet --indicator
 
-    #Wallpaper
-#$exe nitrogen --restore; sleep 1;
-#$exe_always ~/.fehbg
-#change config for my preferences
+    #Wallpaper and keyboard
 $exe ~/.config/i3/autostart/i3config.sh
 $exe ~/.config/i3/autostart/wallpaper.sh
 
     #Apps autoexec on start
-#$exe zim
+
 $exe liferea
-#$exe gnome-clocks
+
 $exe diodon
 
-#$exe knotes
-#$exe goldendict
-# exec --no-startup-id xautolock -time 10 -locker blurlock
 
 # Autostart applications
 $exe kdocker gnome-clocks
-#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-#exec_always --no-startup-id ff-theme-util
-#exec_always --no-startup-id fix_xcursor
+
 
 
     # ----------------------------------------------------------------------------
