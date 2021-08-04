@@ -11,8 +11,8 @@ SCR1="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | head -n 1)"
 SCR2="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | tail -n 1)"
 #My pathes
 PCONF='~/.config/i3/autostart'
-PGIT='~/documents/projects/git/dotRepo/Privateconfig'
-#my KEYBOARD config(US KEYBOARD)
+PGIT='~/Documents/Projects/git/dotRepo/Privateconfig'
+#my KEYBOARD config
 KEYB='setxkbmap -model pc104 -layout us_intl'
 #Hack to select the config related between virtual machines localization
 

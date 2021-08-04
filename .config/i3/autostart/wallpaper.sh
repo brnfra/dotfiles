@@ -1,16 +1,13 @@
 #!/bin/bash
-
 delay1=1200
 delay2=600
 cd $HOME/.wallpapers/
 FILES1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
 
-nitrogen --restore --head=0 --save;
+nitrogen --restore --head=0;
+nitrogen --restore --head=1;
 
-# 2nd monitor(comment line bellow if not)
-nitrogen --restore --head=1 --save;
-
-#sleep 3; compton --config ~/.config/compton.conf &
+sleep 3; compton --config ~/.config/compton.conf &
 
 #monitor1
 while :
