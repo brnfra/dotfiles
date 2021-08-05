@@ -6,6 +6,7 @@ Config files for Debian based distro systems. Please, DO NOT copy/run any file h
 - I3blocks and I3status configs
 - Compton
 - Vim
+- NeoVim
 - Vifm
 - Rofi
 - Xfce4-terminal
@@ -18,11 +19,10 @@ Some functions require some aplications and packages like xorg,fzf,fdfind for ex
 If you want full functions here will required, for some functions, the previous installation of some packages like;
 
 - nm-applet(tool to show network icon)
-- parcellite(tool to show transfer area icon)
-- spectacle(printscreen)
+- diodon(tool to show transfer area icon)
+- gnome-screenshot(printscreen)
 - compton(composer)
 - nitrogen(wallpaper)
 - fzf
 - fdfind
 - exa
-
