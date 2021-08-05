@@ -1,6 +1,14 @@
 # brnfra .dotfiles Repository
 
-Config files for Debian based distro systems. Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)
+1. Config files for Gnu/Linux based distro systems.
+2. The config files expect *two monitors*, maybe you have to change some things.
+3. The ~/.config/i3/autostart/wallpaper.sh will change different wallpaper for
+   each monitor, if you don't want this change it.
+4. The i3config script _rotate the 2nd monitor to right and move to right of the
+   first_.
+5. The keyboard layout is **US-INT**.
+
+**ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)
 
 - I3wm configs
 - I3blocks and I3status configs
