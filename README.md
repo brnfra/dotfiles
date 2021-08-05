@@ -3,8 +3,8 @@
 1. Config files for Gnu/Linux based distro systems.
 2. The config files expect *two monitors*, maybe you have to change some things.
 3. The **~/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
-   each monitor, if you don't want this change it.
-4. The i3config script _rotate the 2nd monitor to right and move to right of the
+   each monitor, if you don't want this, change it.
+4. The i3config script _rotate the 2nd monitor to right and move it to right of the
    first_.
 5. The keyboard layout is **US-INT**.
 
