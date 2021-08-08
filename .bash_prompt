@@ -144,7 +144,6 @@ PS1+="\[${white}\]";
 PS1+="\[${blink}\] → ";   
 PS1+="\[${reset}\]";	
 PS1+="\[${reset}\]";
-PS1+="\[${clear_left}\]";	 
 export PS1;
     # }}}
 PS2="\[${yellow}\]→ \[${reset}\]";
