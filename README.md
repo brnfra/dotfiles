@@ -8,10 +8,10 @@
 
 <br>
 
-- [Install](https://github.com/brnfra/dotfiles/blob/master/README.md#how-to-install)
+- [Install](https://github.com/brnfra/dotfiles#how-to-install)
 
 
-- [Dependencies](https://github.com/brnfra/dotfiles/blob/master/README.md#dependencies)
+- [Dependencies](https://github.com/brnfra/dotfiles#dependencies)
 
 ## My config files to automate computer changing configuration.
 
@@ -76,4 +76,4 @@ If you want full functions here will required, for some functions, the previous 
 - exa
 
 
-[Back](https://github.com/brnfra/dotfiles/blob/master/README.md#my-dotfiles-repository-)
+[Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
