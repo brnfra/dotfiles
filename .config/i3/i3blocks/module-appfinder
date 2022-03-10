@@ -3,13 +3,13 @@
 #name of monitor
 SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)
 #process grep name
-ISOPEN=`pgrep xfce4-appfinder`
+ISOPEN=$(pgrep xfce4-appfinder)
 case "$BLOCK_BUTTON" in
   1|2|3) 
       if [ "$ISOPEN" = "" ]; then  
         i3-msg 'exec xfce4-appfinder' >/dev/null
       else
-          kill $ISOPEN
+          killall -s 9 "$ISOPEN"
       fi
     ;;
     

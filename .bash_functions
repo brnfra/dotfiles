@@ -254,6 +254,33 @@ function gpull ()
     cd $LOCAL
 }
 
+function clone ()
+{ 
+    #!/bin/bash
+
+# exemple clone git@github.com:repo/iteresting-folder.git
+# folder's name /interesting-folder
+
+# 1-change current folder to .../git
+# 2-clone folder
+# 3-add alias
+
+CLONED=$(echo "${1}"| cut -f2 -d "/")
+CLONED="${CLONED%.*}"
+
+WHERE="/home/$USER/Documents/Projects/git"
+
+cd /home/"$USER"/Documents/Projects/git ||\
+    mkdir -p /home/"$USER"/Documents/Projects/git &&\
+    cd /home/"$USER"/Documents/Projects/git ||\
+    echo "Can't create folder. Can you access the path?"
+
+git clone "${1}" &&\
+    echo "alias $CLONED=\"cd $WHERE/$CLONED\"">>/home/"$USER"/.bash_aliases ||\
+    echo "git clone failed!"
+
+}
+
 # }}}
 
 #NAMESTD {{{
@@ -574,3 +601,5 @@ function fhistory ()
 }
 
 # }}}
+
+

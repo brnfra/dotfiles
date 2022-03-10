@@ -30,9 +30,14 @@ MIXER="${2:-$MIXER}"
 # The instance option sets the control to report and configure
 # This defaults to the first control of your selected mixer
 # For a list of the available, use `amixer -D $Your_Mixer scontrols`
+
+# SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
+#                   sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
+#                   tail -n1
+#                 )}"
 SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
                   sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
-                  head -n1
+                  tail -n1 
                 )}"
 
 # The first parameter sets the step to change the volume by (and units to display)
@@ -42,12 +47,12 @@ STEP="${1:-5%}"
 #------------------------------------------------------------------------
 
 capability() { # Return "Capture" if the device is a capture device
-  amixer -D $MIXER get $SCONTROL |
+  amixer -D $MIXER get "$SCONTROL" |
     sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
 }
 
 volume() {
-  amixer -D $MIXER get $SCONTROL $(capability)
+  amixer -D $MIXER get "$SCONTROL" "$(capability)"
 }
 
 format() {
@@ -62,21 +67,21 @@ format() {
 #------------------------------------------------------------------------
 
 case $BLOCK_BUTTON in
-  3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
-  4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
-  5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
+  3) amixer -q -D $MIXER sset "$SCONTROL" toggle ;;  # right click, mute/unmute
+  4) amixer -q -D $MIXER sset "$SCONTROL" $(capability) ${STEP}+ unmute ;; # scroll up, increase
+  5) amixer -q -D $MIXER sset "$SCONTROL" $(capability) ${STEP}- unmute ;; # scroll down, decrease
 esac
 
 #------------------------------------------------------------------------
 #name of monitor
 SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1)
-
+if [ "$SCR" = "Virtual1" ]; then
 
     pv="$(volume | format)"
     nv="${pv::-1}"
     icon="🔊"
     if [[ "$pv" == "MUTE" ]]; then
-     icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔇</span></span>"
+     icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔇 </span></span>"
         pv="<span color='#BF616A'><span size='large'>❌</span></span>"
     else
         if [[ $nv -gt 95 ]]; then
@@ -104,4 +109,57 @@ SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1)
     fi #mute
 
     echo "$icon $pv"
+
+else
+
+    pv="$(volume | format)"
+    nv="${pv::-1}"
+    icon="🔊"
+    if [[ "$pv" == "MUTE" ]]; then
+     icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔇 </span></span>"
+        pv="<span color='#BF616A'><span size='large'>❌</span></span>"
+    else
+        if [[ $nv -gt 95 ]]; then
+                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔊█</span>"
+            else 
+            if [[ $nv -gt 75 ]]; then
+                    icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔊▇</span>"
+                else
+                if [[ $nv -gt 50 ]]; then
+                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔉▅</span>"
+                    else
+                        if [[ $nv -gt 25 ]]; then
+                            icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔉▃</span>"
+                            else
+                                if [[ $nv -gt 0 ]]; then
+                                        icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>🔉▁</span></span>"
+                                else
+                                        icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔈 </span></span>"
+                                fi #0-25
+                        fi #25-50
+                fi #50-75
+            fi #75-99
+        fi #99-100
+
+    fi #mute
+
+    echo "$icon $pv"
+fi
+# icon="🔊"
+# if [[ "$pv" == "MUTE" ]]; then
+#     icon="<span font='Font Awesome' color='#ff4000' size='large'>🔇</span>"
+#     pv="<span color='#BF616A'><span size='large'>×</span></span>"
+# else
+#     if [[ $nv -gt 39 ]]; then
+#         icon="<span font='Font Awesome' color='#ff4000' size='large'>🔊</span>"
+#     else
+#         if [[ $nv -gt 0 ]]; then
+#             icon="<span font='Font Awesome'   color='#ff4000' ><span size='large'>🔉</span></span>"
+#         else
+#             icon="<span font='Font Awesome'  color='#ff4000'  ><span size='large'>🔈</span></span>"
+#         fi    This is a Java FAQ list❌🗙
+#     fi
+# fi
+
+# echo "$icon  $pv"
 

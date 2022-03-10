@@ -1,13 +1,13 @@
 #!/bin/bash
 delay1=1200
 delay2=600
-cd $HOME/.wallpapers/
+
+cd "$HOME/.wallpapers/" || return
+
 FILES1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
 
 nitrogen --restore --head=0;
 nitrogen --restore --head=1;
-
-sleep 3; compton --config ~/.config/compton.conf &
 
 #monitor1
 while :

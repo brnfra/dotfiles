@@ -45,8 +45,10 @@ export MANPAGER='less -X';
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 export PATH=$PATH:$HOME/bin/composer
+export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
 
-# Android
+
+# Android external hard disk
 export ANDROID_SDK_ROOT="/media/SamsungHDD/AndroidProjects/Android/Sdk/"
 export ANDROID_SDK_HOME="/media/SamsungHDD/AndroidProjects/.android/"
 export ANDROID_EMULATOR_HOME="/media/SamsungHDD/AndroidProjects/.android/"
@@ -58,19 +60,33 @@ export PATH=$PATH:ANDROID_HOME/tools
 export PATH="$PATH:$HOME/opt/flutter/bin"
 
 # Java - SDK 12
-#export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-12-openj9-amd64"
-export JAVA_HOME="/usr/lib/jvm/java-1.11.0-openjdk-amd64"
-export CLASSPATH=$JAVA_HOME/lib:$CLASSPATH
+export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-12-openj9-amd64"
 export PATH=$JAVA_HOME/bin:$PATH
-export MANPATH=$JAVA_HOME/man:$MANPATH
-
-export PATH_TO_FX="/home/devlab/.jdks/javafx-sdk-11.0.2/lib"
+export PATH_TO_FX="/home/devlab/.jdks/javafx-sdk-17.0.1/lib"
 
 #fzf need to fd-find ripgrep packs
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
 export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} ia a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,f2:toggle-preview,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-#uSE git-ls-files inside fgit repo, otherwise fd
+
+#use git-ls-files inside fgit repo, otherwise fd
 export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude_standard | fd --type f --type i $FD_OPTIONS"
 export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
 export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
+export DOCKER_HOST=unix:///var/run/docker.sock
 
+#python
+export NVIM_PYTHON_LOG_FILE=/tmp/log
+export NVIM_PYTHON_LOG_LEVEL=DEBUG
+
+#sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+
+#heroku
+export HEROKU="$HOME/opt/heroku"
+export PATH=$HEROKU/bin:$PATH
+
+#nodejs v-16
+VERSION=v16.14.0
+DISTRO=linux-x64
+export NODE="$HOME/opt/node-$VERSION-$DISTRO" 
+export PATH=$NODE/bin:$PATH

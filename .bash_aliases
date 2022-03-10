@@ -12,7 +12,7 @@ alias up='sudo apt-get update'
 alias upgl='apt list -a --upgradable 2>/dev/null'
 alias upg='sudo apt-get upgrade -y'
 alias get='sudo apt-get install'
-alias del='sudo apt-get remove --purge'
+alias remove='sudo apt-get remove --purge'
 alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
     # clean
 alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean'    
@@ -35,7 +35,6 @@ alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep
 alias la.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
 alias li='ls -AFoh --color=always | grep --regexp="^[l]"'                                           #show links
 alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                                           #show directories
-
 
     #exa aliases
 alias xll='exa -alF --color=always --group-directories-first --sort name'                               #prefered hidden include
@@ -88,7 +87,7 @@ alias gcm='git commit -m'
 alias guser='git config --global user.name '
 alias gmail='git config --global user.email '
 alias gconf='git config --list --show-origin'
-    #push see bash_functions
+#push see bash_functions
     # }}}
     #docker {{{
 alias dstop='docker stop'
@@ -99,23 +98,31 @@ alias dimg='docker image ls'
 alias dstop='docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin'
     # }}}
     # Shortcuts map {{{
-alias repo="cd ~/Documents/Projects/git"
 alias down="cd ~/Downloads"
+alias dow="cd ~/Downloads"
 alias dwall="cd ~/.wallpapers/"
 alias docs="cd ~/Documents/"
 alias doc="cd ~/Documents/"
-alias dotfiles="cd ~/Documents/Projects/git/dotRepo/privateConfig/"
-alias myscripts="cd ~/Documents/Projects/git/dotRepo/privateShell/scripts"
-alias myscript="cd ~/Documents/Projects/git/dotRepo/privateShell/scripts"
-alias notes="cd ~/Documents/Projects/git/dotRepo/privateNotes"
-alias lab="cd ~/Documents/Projects/git/LearningLab/"
-alias cmod="cd ~/Documents/Projects/git/Cmod/"
-    # }}}
+
+alias repo="cd ~/documents/projects/git"
+
+alias prompt='vim ~/.bash_prompt' 
+alias bashrc='vim ~/.bashrc' 
+alias aliases='vim ~/.bash_aliases' 
+alias functions='vim ~/.bash_functions' 
+alias vars='vim ~/.bash_exports' 
+alias vimrc='vim ~/.vimrc'
+alias i3rc='vim ~/.config/i3/config'
+
+   # }}}
+
     # Apps exec {{{
 alias anki="cd ~/ && setsid ./Anki &>/dev/null"
 alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
 alias android="cd ~/ && setsid ./AndroidStudio &>/dev/null"
 alias ANDROID="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+alias foxit="cd ~/ && setsid ./Foxit &>/dev/null"
+alias FOXIT="cd ~/ && setsid ./Foxit &>/dev/null"
 alias eclipse="cd ~/ && setsid ./eclipse_ide &>/dev/null"
 alias ECLIPSE="cd ~/ && setsid ./eclipse_ide &>/dev/null"
 alias tor="cd ~/ && setsid ./tor-browser &>/dev/null"
@@ -125,3 +132,4 @@ alias nv="nvim"
 alias v="vim"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
+

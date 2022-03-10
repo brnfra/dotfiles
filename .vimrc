@@ -1,7 +1,8 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 02-08-2021
+" Ultima_modificacao: 10-03-2022
+" Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -39,7 +40,7 @@ if has('unix')
     "                   Plugins Install (UNIX)
     "-------------------------------------------------------
 
-    autocmd VimEnter * echo "Seja bem vindo ao vim. Seu sistema é Unix!"
+    autocmd VimEnter * echo "Unix detected!"
     autocmd VimEnter * call Base(dl1,dl2)
     "digite :AddBase"
     :command AddBase call Base(dl1,dl2)<CR>
@@ -84,10 +85,9 @@ if has('unix')
 
     endfunction
 
-
 elseif (has('win32') || has('win64'))
 
-    autocmd VimEnter * echo "Seja bem vindo ao vim. Seu sistema é Windows!"
+    autocmd VimEnter * echo "Windows detected!"
     :command AddBase call Base(dw1,dw2)<CR>
 
     "-------------------------------------------------------"
@@ -139,6 +139,14 @@ elseif (has('win32') || has('win64'))
     "-------------------------------------------------------
     "                   Plugins Install
     "-------------------------------------------------------
+    "
+    "Init it folder Win32
+    "Set your WORKDIR on windows systems :Vexplore
+    "local C:\Program Files\Vim\_vimrc
+    "autocmd VimEnter * :silent e C:\Users\Bruno\Documents
+    "autocmd VimEnter * :silent e C:\"Program Files"\Vim\vim82\bundle
+
+    "check diretorios
 
     function! Base(dw1,dw2) abort
         echo 'Checando diretorios'
@@ -178,8 +186,12 @@ elseif (has('win32') || has('win64'))
             "force redraw screen
             silent exec "redraw!"
 
-        endif
+            "alterando diretorio corrente
+            ""silent exec 'cd' a:dl2
+            "download control-vim
+            ""silent exec '!git clone https://github.com/brnfra/control-vim.git'
 
+        endif
 
     endfunction
 
@@ -275,6 +287,7 @@ set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 
 " By default, without wrapping
 set nowrap
+
 
 set title
 set titleold="Terminal"
@@ -373,8 +386,17 @@ endif
 
 "coc - https://github.com/neoclide/coc.nvim
 if has('nvim')
-  " Use release branch (recommend)
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  else
+    
+      if has('patch-8.1.2269')
+    " Latest YCM needs at least this version of vim
+	Plug 'ycm-core/YouCompleteMe' 
+    else
+    " Version compatible with the vim in Debian 10 buster
+	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
+    endif
+
 endif
 
 " Or build from source code by using yarn: https://yarnpkg.com
@@ -388,13 +410,6 @@ endif
 " Problem with legacy version of vim have to install this patch
 " 3 problems, packages not found,sol cmd $python3 -m pip install --upgrade neovim/cmake/msgpack
 " https://github.com/ycm-core/YouCompleteMe/issues/3764
-if has('patch-8.1.2269')
-" Latest YCM needs at least this version of vim
-    Plug 'ycm-core/YouCompleteMe' 
-else
-" Version compatible with the vim in Debian 10 buster
-    Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
-endif
 
 " Multiple file types
 "Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
@@ -421,16 +436,15 @@ Plug 'vim-scripts/c.vim'
 "Table Of Contents[toc]
 Plug 'mzlogin/vim-markdown-toc'
 
-"javascript
-""Plug 'pangloss/vim-javascript'
-""Plug 'jelera/vim-javascript-syntax'
+"java
+"Plug 'artur-shaik/vim-javacomplete2'
 
-let g:plug_url_format = 'git@github.com:%s.git'
-"Myplugins
-Plug 'brnfra/vim-short-html'
-Plug 'brnfra/vim-short-cpp'
+""let g:plug_url_format = 'git@github.com:%s.git'
+""Plug 'brnfra/vim-short-html'
+""Plug 'brnfra/vim-short-html'
+Plug 'brnfra/vim-shortcuts'
 Plug 'brnfra/vim-markdown-brn'
-unlet g:plug_url_format
+""unlet g:plug_url_format
 
 " Unmanaged plugin (manually installed and updated)
 ""Plug '~/.vim/bundle/vim-short-cpp'
@@ -448,6 +462,158 @@ if exists("*fugitive#statusline")
 endif
 
 "                                           }}}"
+"COC{{{
+" https://download.eclipse.org/jdtls/milestones/0.57.0/"
+" https://github.com/neoclide/coc-java/issues/99
+if has("nvim")
+
+    " Don't pass messages to |ins-completion-menu|.
+    set shortmess+=c
+
+    " Always show the signcolumn, otherwise it would shift the text each time
+    " diagnostics appear/become resolved.
+    if has("nvim-0.5.0") || has("patch-8.1.1564")
+      " Recently vim can merge signcolumn and number column into one
+      set signcolumn=number
+    else
+      set signcolumn=yes
+    endif
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+    " other plugin before putting this into your config.
+    inoremap <silent><expr> <TAB>
+	  \ pumvisible() ? "\<C-n>" :
+	  \ <SID>check_back_space() ? "\<TAB>" :
+	  \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " Use <c-space> to trigger completion.
+    if has('nvim')
+      inoremap <silent><expr> <c-space> coc#refresh()
+    else
+      inoremap <silent><expr> <c-@> coc#refresh()
+    endif
+
+    " Make <CR> auto-select the first completion item and notify coc.nvim to
+    " format on enter, <cr> could be remapped by other vim plugin
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    " Use `[g` and `]g` to navigate diagnostics
+    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    " GoTo code navigation.
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+	execute 'h '.expand('<cword>')
+      elseif (coc#rpc#ready())
+	call CocActionAsync('doHover')
+      else
+	execute '!' . &keywordprg . " " . expand('<cword>')
+      endif
+    endfunction
+
+    " Highlight the symbol and its references when holding the cursor.
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Symbol renaming.
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Formatting selected code.
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+
+    augroup mygroup
+      autocmd!
+      " Setup formatexpr specified filetype(s).
+      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+      " Update signature help on jump placeholder.
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Applying codeAction to the selected region.
+    " Example: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap keys for applying codeAction to the current buffer.
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    " Remap <C-f> and <C-b> for scroll float windows/popups.
+    if has('nvim-0.4.0') || has('patch-8.2.0750')
+      nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+      inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+      inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+      vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    endif
+
+    " Use CTRL-S for selections ranges.
+    " Requires 'textDocument/selectionRange' support of language server.
+    nmap <silent> <C-s> <Plug>(coc-range-select)
+    xmap <silent> <C-s> <Plug>(coc-range-select)
+
+    " Add `:Format` command to format current buffer.
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Add `:Fold` command to fold current buffer.
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " Add `:OR` command for organize imports of the current buffer.
+    command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+    " Mappings for CoCList
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions.
+    nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+    " Show commands.
+    nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document.
+    nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols.
+    nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list.
+    nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+endif
+
+""}}}
 "              VIM-SENSIBLE {{{
 " automatically open and close the popup menu / preview window
 au CursorMovedI,InsertLeave * if pumvisible()==0|silent! pclose|endif
@@ -512,6 +678,13 @@ let g:NERDTreeTooggle = 1
 let g:NERDTreeWinSize = 40
 ""au VimEnter * NERDTree | wincmd p    " open NERDTree automatically, focus on file buffer
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+
+"let g:NERDTreeDirArrowExpandable = '▸'
+"let g:NERDTreeDirArrowCollapsible = '▾'
+
+""	let g:NERDTreeDirArrowExpandable = '(+)'
+""	let g:NERDTreeDirArrowCollapsible = '|-|'
+
 "Disable arrows
 let g:NERDTreeDirArrowExpandable = "\u00a0"
 let g:NERDTreeDirArrowCollapsible = "\u00a0"
@@ -599,15 +772,59 @@ let airline#extensions#ale#warning_symbol = 'W:'
 let airline#extensions#ale#show_line_numbers = 1
 let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
+
 let g:airline#extensions#keymap#enabled=1
+""* enable/disable vim-capslock integration >
 let g:airline#extensions#capslock#enabled=1
 let g:airline#extensions#bookmark#enabled=1
+""This extension displays the current 'keymap' in use.
+""* enable/disable vim-keymap extension >
+" let g:airline#extensions#tabline#left_sep = ''
+" let g:airline#extensions#tabline#left_alt_sep = ''
+" let g:airline#extensions#tabline#right_sep = ''
+" let g:airline#extensions#tabline#right_alt_sep = ''
+" let g:airline_right_alt_sep =''
+" let g:airline_left_sep = ''
+" let g:airline_right_sep = ''
+
+""let g:airline#extensions#tabline#left_sep = ''
+""let g:airline#extensions#tabline#left_alt_sep = ''
+""let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
+""let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
+""let g:airline_right_alt_sep =''
 let g:airline_right_alt_sep =''
+""let g:airline_left_sep = ''
 let g:airline_left_sep = ''
+"let g:airline_right_sep = ''
 let g:airline_right_sep = ''
+
+""let g:airline_symbols.branch = '  '
+""let g:airline_symbols.dirty='¿¡'
+"let g:airline_symbols.readonly = '  '
+"let g:airline_symbols.linenr = ' ☰  '
+""let g:airline_symbols.linenr = ''
+"let g:airline_symbols.maxlinenr = ' ᶠᶤᶰᵃᶫ '
+""let g:airline_symbols.columnr = ''
 let g:airline#extensions#csv#column_display = 'Name'
+
+" --------------Status line
+"+---------------------------------------------------------------------------+
+"| A | B |                     C                          X | Y | Z |  [...] |
+"+---------------------------------------------------------------------------+
+"  let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
+"  let g:airline_section_b       (hunks, branch)[*]
+"  let g:airline_section_c       (bufferline or filename, readonly)
+"  let g:airline_section_gutter  (csv)
+"  let g:airline_section_x       (tagbar, filetype, virtualenv)
+"  let g:airline_section_y       (fileencoding, fileformat, 'bom', 'eol')
+"  let g:airline_section_z       (percentage, line number, column number)
+"  let g:airline_section_error   (ycm_error_count, syntastic-err, eclim,
+"                                languageclient_error_count)
+"  let g:airline_section_warning (ycm_warning_count, syntastic-warn,
+"                                 languageclient_warning_count, whitespace)
+""let g:airline_section_a='{HasPaste()}'
 let g:airline_section_b=" %{FugitiveHead()}"
 let g:airline_section_c='%r%m%0*%t %1* %-0.50{CurDir()}'
 let g:airline_section_x='%k%y'
@@ -635,12 +852,21 @@ endfun
 let g:indentLine_enabled = 0
 let g:indentLine_concealcursor = 'inc'
 let g:indentLine_conceallevel = 2
+"let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_setColors = 0
 let g:indentLine_char ='┊'
+"let g:indentLine_color_term = 239
+"let g:indentLine_color_gui = '#A4E57E'
+"let g:indentLine_color_dark = 1 "(default: 2)
+"let g:indentLine_bgcolor_term = 202
+"let g:indentLine_bgcolor_gui = '#FF5F00'
+
 
 "------------------------------------END INDENTLINE.VIM }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
+"silent! colorscheme molokai
+"silent! colorscheme visualstudio
 
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
@@ -668,6 +894,7 @@ let s:terms_italic=[
             \"gnome-terminal"
             \]
 
+
 ""---------------------------------END COLORSCHEME }}}2
 "                 ALE.VIM  {{{2
 
@@ -680,6 +907,39 @@ let g:ale_completion_autoimport = 1
 
 
 "-----------------------------------END ALE.VIM}}}2
+"             DEOPLETE{{{
+"let g:neocomplete#enable_at_startup = 1
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+"         \ 'default' : $HOME.'/.vim/c_src/tags',
+"         \ 'gcc' : $HOME.'/.vim/cpp_src/8/tags',
+"         \ 'vimshell' : $HOME.'/.vimshell_hist',
+"         \ 'scheme' : $HOME.'/.gosh_completions'
+"         \ }
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"    let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+""let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+"" For perlomni.vim setting.
+"" https://github.com/c9s/perlomni.vim
+"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+" Use deoplete.
+""let g:deoplete#enable_at_startup = 1
+""let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog = "/usr/bin/python3.9"
+let g:ruby_host_prog = '/home/devlab/.gem/ruby/2.7.0/bin/neovim-ruby-host'
+
+"
+"              }}} "
 "             YOUCOMPLETEME {{{
 let g:ycm_language_server =
   \ [{
@@ -688,12 +948,20 @@ let g:ycm_language_server =
   \   'filetypes': [ 'c', 'cpp', 'cuda', 'objc', 'objcpp' ],
   \   'project_root_files': [ '.ccls-root', 'compile_commands.json' ]
   \ }]
+"disable java suport
+" let g:syntastic_java_checkers = []
+" let g:EclimFileTypeValidate = 0
+
 
 "              }}}
 "              OMNICOMPLETE{{{
 " configure tags - add additional tags here or comment out not-used ones
 set tags-=./tags,tags
+"set tags+=$HOME/.vim/cpp_src/8/tags?
 set tags+=~/.vim/c_src/tags?
+""set tags+=~/.vim/[path]/tags
+""set tags+=~/.vim/[path]/tags
+""set tags+=~/.vim/[path]/tags
 
 " build tags of your own project with Ctrl-F12
 map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q -I _GLIBCXX_NOEXCEPT .<CR>
@@ -723,6 +991,7 @@ let g:C_MapLeader  = '\'
     autocmd BufNewFile,BufRead Templates  set filetype=template
     autocmd BufNewFile,BufRead *.template  set filetype=template
   endif " has("autocmd")
+""g:C_CodeSnippets           plugin_dir.'/c-support/codesnippets/'
 
 "              }}}
 "              CSupport{{{
@@ -735,6 +1004,11 @@ let g:C_Styles = { '*.c,*.h' : 'default', '*.cc,*.cpp,*.hh' : 'CPP' }
 "                    TAGBAR     {{{2
 "-------------------------------------------------------
 
+
+" -----------------------Tagbar Exuberant ctags
+" --- TagBar
+" toggle TagBar with F7 ;tb
+"nnoremap <silent><F7> :TagbarToggle<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
@@ -747,6 +1021,11 @@ let g:tagbar_type_markdown = {
             \ 'ctagstype': 'markdown',
             \ 'kinds': [ 'h:Heading_L1', 'i:Heading_L2', 'k:Heading_L3' ]
             \ }
+
+
+
+
+
 "------------------------------------------------------}}}2
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
@@ -819,7 +1098,7 @@ if !has('nvim')
     autocmd VimEnter * exec ":loadview"
 endif
 "-------------------------------------------END AUTCMD }}}
-"                   SYNTAX Stuff        {{{
+"                   SYNTAX Stuffs       {{{
 
 "-------------------------------------------------------
 
@@ -831,6 +1110,9 @@ au FileType css setl ofu=csscomplete#CompleteCSS
 
 " C/C++ specific settings
 autocmd FileType c,cpp,cc set cindent
+
+" Java specific settings
+au BufNewFile,BufRead *.java set ft=java
 
 " Associate uncommon filetypes
 au BufRead,BufNewFile Guardfile set filetype=ruby
@@ -844,7 +1126,7 @@ au BufRead,BufNewFile txt set filetype=markdown
 au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
-au BufRead,BufNewFile c set filetype=c
+
 
 "---------------------------------------------
 " file type detection
@@ -902,10 +1184,19 @@ autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabsto
 
 "---------------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
-"---------------------------------------------------------------------------
 "let mapleader="," " Map <Leader> to ,
-" set leader to ;
-let mapleader=";"
+let mapleader="," " Map <Leader> to ,
+""let mapleader=";"
+""let mapleader=";"
+
+""fun! Replace()
+""  let s:word = input("Replace " . expand('<cword>') . " with:")
+""  :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/gc'
+""      :unlet! s:word
+""    endfun
+
+"replace the current word in all opened buffers
+""noremap <leader>r :call Replace()<CR>
 
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     {{{
@@ -975,11 +1266,17 @@ endif
 if has('unix')
 "Copy
 vnoremap <C-c> :w !xclip -i -selection clipboard<CR><CR>
-
+""vnoremap <C-c> ""y <Bar> :call system('xclip', ""y)<CR>
+"" noremap <C-c> :w !xclip -i -selection clipboard<CR><CR>
+""vnoremap <leader>c ""y<CR>
 vnoremap y ""y<CR>
 "Cut
+""vnoremap <leader>x ""x
 vnoremap x ""x
 "Paste
+""inoremap <C-v> "*p<CR>
+""inoremap <C-V> <esc>:r !xclip -o<CR>i
+""inoremap  <esc>""p<CR>i
 nnoremap p ""p<CR>
 
 endif
@@ -1047,9 +1344,9 @@ vnoremap <S-Down> VdjP`[v`]
 " Move Block up"
 vnoremap <S-Up> VdkP`[v`]
 
-inoremap <S-Down> <esc>ddp<esc>
+inoremap <S-Down> <esc>ddp<esc>i
 nnoremap <S-Down> <esc>ddp<esc>
-inoremap <S-Up> <esc>ddkP<esc>
+inoremap <S-Up> <esc>ddkP<esc>i
 nnoremap <S-Up> <esc>ddkP<esc>
 
 " terminal emulation
