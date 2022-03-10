@@ -1,26 +1,56 @@
-# My dotfiles Repository 
-
-<center>
-![badge](https://img.shields.io/badge/bash-script-brightgreen)
-![badge](https://img.shields.io/badge/linux-enviroment-blue)
-
-</center>
+<h1 align="center">My dotfiles Repository 🐧</h1>
 
 
-My config files to automate computer changing configuration.
+<p align="center">
+<img src="https://img.shields.io/badge/bash-script-brightgreen" />
+<img src="https://img.shields.io/badge/linux-enviroment-blue" />
+</p>
 
-[ ]Auto update script from repository
+<br>
 
+- [Install](https://github.com/brnfra/dotfiles/edit/master/README.md#how-to-install)
+
+
+- [Dependencies](https://github.com/brnfra/dotfiles/edit/master/README.md#dependencies)
+
+## My config files to automate computer changing configuration.
 
 1. Config files for Gnu/Linux based distro systems.
 2. The config files expect *two monitors*, maybe you have to change some things.
-3. The **~/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
+3. The **$HOME/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
    each monitor, if you don't want this, change it.
 4. The i3config script _rotate the 2nd monitor to right and move it to right of the
    first_.
 5. The keyboard layout is **US-INT**.
 
-**ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)
+**ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)**
+
+<br>
+
+## TODO
+
+- [ ] Auto update script from repository
+
+<br>
+
+## How to install
+ 
+ First clone or download files from repo.
+
+```bash
+$ git clone git@github.com:brnfra/dotfiles.git
+```
+Next, before run the ___brnfra_default_enviroment.sh___ script. Read it first, will create some folders and copy config files. 
+Change **user** and **email** to your user-name and user-email as well. Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
+
+```bash
+$ cd dotfiles/
+$ chmod +x brnfra_default_enviroment.sh
+$ sh brnfra_default_enviroment.sh
+```
+<br>
+
+## Dependencies
 
 - I3wm configs
 - I3blocks and I3status configs
@@ -33,8 +63,6 @@ My config files to automate computer changing configuration.
 - fzf
 - tmux 
 
-### Autostart scripts and bash 
-
 Some functions require some aplications and packages like xorg,fzf,fdfind for example.
 If you want full functions here will required, for some functions, the previous installation of some packages like;
 
@@ -46,3 +74,6 @@ If you want full functions here will required, for some functions, the previous 
 - fzf
 - fdfind
 - exa
+
+
+[Back](https://github.com/brnfra/dotfiles/edit/master/README.md#my-dotfiles-repository-)
