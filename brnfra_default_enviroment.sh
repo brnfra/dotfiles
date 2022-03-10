@@ -53,7 +53,7 @@ FILES+='.tmux.conf .i3blocks.conf .i3status.conf '
 FILES+='.config/ '
 
 for F in $FILES; do
-    cp -r ./"$F" "$HOME"/ || return
+    cp -r "$F" "/home/$USER"/ 
 done
 
 # copy .config files
