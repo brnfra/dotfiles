@@ -35,7 +35,7 @@
 
 ## How to install
  
- First clone or download files from repo.
+ First clone or download files from repo. Git and SSH must be installed and configured before.
 
 ```bash
 $ git clone git@github.com:brnfra/dotfiles.git
