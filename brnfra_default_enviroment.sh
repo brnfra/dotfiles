@@ -52,7 +52,9 @@ FILES+='.bash_exports .bash_prompt .bash_input .wgetrc .curlrc '
 FILES+='.tmux.conf .i3blocks.conf .i3status.conf '
 FILES+='.config/ '
 
-cp -r "$FILES" "$HOME" || return
+for F in $FILES; do
+    cp -r ./"$F" "$HOME"/ || return
+done
 
 # copy .config files
 echo -e "\nCopiando arquivos de configuração..."
