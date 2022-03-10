@@ -1,4 +1,16 @@
-# brnfra .dotfiles Repository
+# My dotfiles Repository 
+
+<center>
+![badge](https://img.shields.io/badge/bash-script-brightgreen)
+![badge](https://img.shields.io/badge/linux-enviroment-blue)
+
+</center>
+
+
+My config files to automate computer changing configuration.
+
+[ ]Auto update script from repository
+
 
 1. Config files for Gnu/Linux based distro systems.
 2. The config files expect *two monitors*, maybe you have to change some things.
