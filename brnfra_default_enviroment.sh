@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 
 #Please check is installed: Git and Ssh
 #dados para esse script 
@@ -49,29 +49,40 @@ FILES+='.tmux.conf .i3blocks.conf .i3status.conf .config/ '
 # copy .config files
 echo -e "\nCopiando arquivos de configuração..."
 for F in $FILES; do
-    cp -r ./"$F" "/home/$USER"/ 
+    cp -rf ./"$F" "/home/$USER"/ 
 done
 
 #Fonts
 cd "$HOME/.fonts" || return
 
-wget -O nerdFont.zip \
-    "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip" & \
-    wget -O codeNewRoman.zip \
-    "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip" & \
-    wget -O Monofur.zip \
-    "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
+nerdfont="nerdfont.zip"
+codeNewRoman="codeNewRoman.zip"
+monofur="Monofur.zip"
 
-PROCESS_ID=$!
-wait $PROCESS_ID
+echo "\n\n Downloading Nerdfont..."
+if $(curl -# -o $nerdfont -O curl -o $nerdfont -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip") 
+then
+    unzip -xvf $nerdfont 
+    echo "extract accomplished"
+fi
 
-unzip nerdFont.zip & unzip codeNewRoman.zip & unzip Monofur.zip
-PROCESS_ID=$!
-wait $PROCESS_ID
+
+echo "\n\n Downloading CoeNewRoman..."
+if $(curl -# -o $codeNewRoman -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip") 
+then
+    unzip -xvf $codeNewRoman 
+    echo "extract accomplished"
+fi
+
+
+echo "\n\n Downloading Monofur..."
+if $(curl -# -o $monofur -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip") 
+then
+    unzip -xvf $monofur 
+    echo "extract accomplished"
+fi
 
 fc-cache -vf "$HOME/.fonts/"
-PROCESS_ID=$!
-wait $PROCESS_ID
 
 echo -e "\nAll done!\n"
 
