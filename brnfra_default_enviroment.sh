@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO
-#     [x]1-update system , criar as pastas necessarias
-#     [ ]2-baixar arquivos de conf(fazer em multithreading)
-#     [x]3-copiar arquivos de conf para seus devidos lugares(opcional clone my repos)
-#     [x]4-criar chave publica ssh
-#     [x]5-instalar programas
-
+#Please check is installed: Git and Ssh
 #dados para esse script 
 email="devlabbr@gmail.com"
 full_name="brnfra"
@@ -22,22 +16,32 @@ mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpape
 # user dirs
 mkdir -p "$HOME/documents/projects/git" "$HOME/downloads" "$HOME/music" "$HOME/pics" "$HOME/videos"
 
-#setup git(script from https://github.com/lewagon/dotfiles/blob/master/git_setup.sh )
-git config --global user.email "$email"
-git config --global user.name "$full_name"
-
-git add .
-git commit --message "Setting up my git configs"
-git push origin master
-
-git remote add upstream git@github.com:brnfra/dotfiles.git
+#setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
+if [[ $(git) ]]
+then
+    git config --global user.email "$email"
+    git config --global user.name "$full_name"
+    
+    git add .
+    git commit --message "Setting up my git configs"
+    git push origin master
+    git remote add upstream git@github.com:brnfra/dotfiles.git
+else
+    echo "Git installation needed. Run apt-get install git"
+fi
 
 #setup ssh
-ssh-keygen -t ed25519 -C "$email"
-PROCESS_ID=$!
-wait $PROCESS_ID
-eval "$(ssh-agent -s)"
-ssh-add "$HOME/.ssh/id_ed25519"
+if [[ $(ssh) ]]
+then
+    ssh-keygen -t ed25519 -C "$email"
+    PROCESS_ID=$!
+    wait $PROCESS_ID
+    
+    eval "$(ssh-agent -s)"
+    ssh-add "$HOME/.ssh/id_ed25519"
+else
+    echo "SSH installation needed. Run apt-get install ssh"
+fi
 
 FILES='.vimrc .bashrc .bash_aliases .bash_profile .bash_functions '
 FILES+='.bash_exports .bash_prompt .bash_input .wgetrc .curlrc ' 
@@ -69,8 +73,6 @@ wait $PROCESS_ID
 fc-cache -vf "$HOME/.fonts/"
 PROCESS_ID=$!
 wait $PROCESS_ID
-
-#install pkgs after
 
 echo -e "\nAll done!\n"
 
