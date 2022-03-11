@@ -16,7 +16,7 @@ mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpape
 mkdir -p "$HOME/documents/projects/git" "$HOME/downloads" "$HOME/music" "$HOME/pics" "$HOME/videos"
 
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
-if [[ $(git) ]]
+if $(git)
 then
     git config --global user.email "$email"
     git config --global user.name "$full_name"
@@ -30,7 +30,7 @@ else
 fi
 
 #setup ssh
-if [[ $(ssh) ]]
+if $(ssh)
 then
     ssh-keygen -t ed25519 -C "$email"
     PROCESS_ID=$!
