@@ -35,13 +35,13 @@
 
 ## How to install
  
- First clone or download files from repo. Git and SSH must be installed and configured before.
+ First clone or download files from repo. **Git and SSH must be installed and configured before**.
 
 ```bash
 $ git clone git@github.com:brnfra/dotfiles.git
 ```
 Next, before run the ___brnfra_default_enviroment.sh___ script. Read it first, will create some folders and copy config files. 
-Change **user** and **email** to your user-name and user-email as well. Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
+Change **user** and **email** to your *user-name* and *user-email* as well. Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 
 ```bash
 $ cd dotfiles/
