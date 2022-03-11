@@ -59,7 +59,7 @@ nerdfont="nerdfont.zip"
 codeNewRoman="codeNewRoman.zip"
 monofur="Monofur.zip"
 
-echo "\n\n Downloading Nerdfont..."
+echo -e "\n\n Downloading Nerdfont..."
 if $(curl -# -o $nerdfont -O curl -o $nerdfont -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip") 
 then
     unzip -xvf $nerdfont 
@@ -67,7 +67,7 @@ then
 fi
 
 
-echo "\n\n Downloading CoeNewRoman..."
+echo -e "\n\n Downloading CoeNewRoman..."
 if $(curl -# -o $codeNewRoman -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip") 
 then
     unzip -xvf $codeNewRoman 
@@ -75,7 +75,7 @@ then
 fi
 
 
-echo "\n\n Downloading Monofur..."
+echo -e "\n\n Downloading Monofur..."
 if $(curl -# -o $monofur -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip") 
 then
     unzip -xvf $monofur 
