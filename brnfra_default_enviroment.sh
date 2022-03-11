@@ -5,7 +5,6 @@
 email="devlabbr@gmail.com"
 full_name="brnfra"
 
-sudo apt-get update
 PROCESS_ID=$!
 wait $PROCESS_ID
 
