@@ -1,83 +1,40 @@
 #!/bin/env bash
 
-#------------------
-#VS code instalation
-VSNAME="vscode-stable.tar.gz"
-
-cd "/tmp" || return
-wget -c --show-progress -O $VSNAME "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64"
-PROCESS="$!"
-wait $PROCESS
-
-tar -xvf $VSNAME
-PROCESS="$!"
-wait $PROCESS
-
-mv ./VSCode-linux-x64/ "$HOME/.local/opt/"
-PROCESS="$!"
-wait $PROCESS
-
-ln -s -T "$HOME/.local/opt/VSCode-linux-x64/bin/code" vscode-stable
-mv vscode-stable "$HOME"
-
-#------------------------
-#Spring Tools instalation
-#
-STSNAME="sts-stable-release.tar.gz"
-
-cd "/tmp" || return
-wget -c --show-progress -O $STSNAME "https://download.springsource.com/release/STS4/4.13.1.RELEASE/dist/e4.22/spring-tool-suite-4-4.13.1.RELEASE-e4.22.0-linux.gtk.x86_64.tar.gz"
-PROCESS="$!"
-wait $PROCESS
-
-tar -xvf $STSNAME
-PROCESS="$!"
-wait $PROCESS
-
-mv ./sts-4.13.1.RELEASE/ "$HOME/.local/opt/"
-PROCESS="$!"
-wait $PROCESS
-
-ln -s -T "$HOME/.local/opt/sts-4.13.1.RELEASE/SpringToolSuite4" spring
-mv spring "$HOME"
-
-# ------------------------
-#PostMan Tools instalation
+VSCODE="vscode-stable.tar.gz"
+SPRING="sts-stable-release.tar.gz"
 POSTMAN="postman.tar.gz"
-
-cd "/tmp" || return
-wget -c --show-progress -O $POSTMAN "https://dl.pstmn.io/download/latest/linux64"
-PROCESS="$!"
-wait $PROCESS
-
-tar -xvf $POSTMAN
-PROCESS="$!"
-wait $PROCESS
-
-mv ./Postman/ "$HOME/.local/opt/"
-PROCESS="$!"
-wait $PROCESS
-
-ln -s -T "$HOME/.local/opt/Postman/Postman" postman
-mv postman "$HOME"
-
-#---------------------
-#Heroku-CLI instalation
 HEROKU="heroku.tar.gz"
 
+#------------------
+#Download packages
 cd "/tmp" || return
-wget -c --show-progress -O $HEROKU "https://cli-assets.heroku.com/heroku-linux-x64.tar.gz"
+
+wget -c --show-progress -O $VSCODE \
+    "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64" & \
+    wget -c --show-progress -O $SPRING \
+    "https://download.springsource.com/release/STS4/4.13.1.RELEASE/dist/e4.22/spring-tool-suite-4-4.13.1.RELEASE-e4.22.0-linux.gtk.x86_64.tar.gz" & \
+    wget -c --show-progress -O $POSTMAN \
+    "https://dl.pstmn.io/download/latest/linux64" & \
+    wget -c --show-progress -O $HEROKU \
+    "https://cli-assets.heroku.com/heroku-linux-x64.tar.gz"
+
 PROCESS="$!"
 wait $PROCESS
 
-tar -xvf $HEROKU
+tar -xvf $VSCODE & tar -xvf $SPRING & tar -xvf $POSTMAN & tar -xvf $HEROKU
 PROCESS="$!"
 wait $PROCESS
 
-mv ./heroku/ "$HOME/.local/opt/"
+#Move files to /.local/opt
+mv ./VSCode-linux-x64/ ./sts-4.13.1.RELEASE/ ./Postman/ ./heroku/ "$HOME/.local/opt/"
 PROCESS="$!"
 wait $PROCESS
 
+#Symlinks
+ln -s -T "$HOME/.local/opt/VSCode-linux-x64/bin/code" vscode-stable
+ln -s -T "$HOME/.local/opt/sts-4.13.1.RELEASE/SpringToolSuite4" spring
+ln -s -T "$HOME/.local/opt/Postman/Postman" postman
 ln -s -T "$HOME/.local/opt/heroku/bin/heroku" heroku
-mv heroku "$HOME"
+
+mv vscode-stable spring postman heroku "$HOME"
 
