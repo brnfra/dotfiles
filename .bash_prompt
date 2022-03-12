@@ -9,8 +9,7 @@ bind '"\C-f":"cd_with_fzf\n"'
 bind '"\C-o":"open_with_fzf\n"'
 bind '"\C-v":"nvim\n"'
 
-
-    #Prompt git 
+    #Prompt git					    {{{ 
 git_branch() {
 	
 	local s='';
@@ -68,7 +67,9 @@ git_branch() {
 }
 
 							    # }}}
-        get_branch="\$(git_branch)";
+
+# Set Colors {{{
+	get_branch="\$(git_branch)";
 	get_branch_length=${#get_branch};
 	#https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x405.html
 	#https://wiki.archlinux.org/title/Bash/Prompt_customization
@@ -135,8 +136,8 @@ else
 fi;
 
     # }}}
-# Set the terminal title and prompt.PS1
-TIME="\D{%d/%m/%Y %H:%M:%S}"
+
+# Set the terminal title and prompt.PS1  {{{ 
 
 PS1="\$(git_branch \"\[${violet}\]\" \"\[${yellow}\]\")"; # Git repository details 
 PS1+="\n";
@@ -154,9 +155,8 @@ PS1+="\[${reset}\]";	# (reset color)
 
 PS1+="\[${reset}\]";
 
-#PS1+="\[${clear_left}\]";	 
 export PS1;
-    # }}}
+     
 PS2="\[${yellow}\]→ \[${reset}\]";
 PS2+=" \u@\h \W \\$";
 
@@ -168,4 +168,6 @@ if [[ "${SSH_TTY}" ]]; then
 else
 	hostStyle="${yellow}";
 fi;
+
+# }}}
 

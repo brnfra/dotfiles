@@ -49,3 +49,4 @@ ln -s -T "$HOME/.local/opt/Postman/Postman" postman
 ln -s -T "$HOME/.local/opt/heroku/bin/heroku" heroku
 
 mv -nuv vscode-stable spring postman heroku "$HOME"
+

@@ -12,6 +12,36 @@ function cdf() { # short for `cdfinder`
 }
 # }}}
 
+# Create a SymLink {{{
+
+function symlink() {
+  #Original code from https://github.com/lewagon/dotfiles/blob/master/install.sh
+  file=$1
+  link=$2
+  if [ ! -e "$link" ]; then
+    echo "-----> Symlinking your new $link"
+    ln -s "$file" "$link"
+  fi
+}
+
+# }}}
+
+# Create a backup {{{
+# Define a function which rename a `target` file to `target.backup` if the file
+# exists and if it's a 'real' file, ie not a symlink
+ #Original code from https://github.com/lewagon/dotfiles/blob/master/install.sh
+function backup() {
+  target=$1
+  if [ -e "$target" ]; then
+    if [ ! -L "$target" ]; then
+      mv "$target" "$target.backup"
+      echo "-----> Moved your old $target config file to $target.backup"
+    fi
+  fi
+}
+
+# }}}
+
 # CREATE TAR {{{
 # Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
 function targz() {
@@ -438,20 +468,21 @@ fi
 #Extract archives {{{ 
 function extract () 
 {
-    if [ -f $1 ] ; then
-	case $1 in
-	    *.tar.bz2)   tar xvjf $1    ;;
-	    *.tar.gz)    tar xvzf $1    ;;
-	    *.tar.xz)    tar xvJf $1    ;; 
-	    *.bz2)       bunzip2 $1     ;;
-	    *.rar)       unrar x $1       ;;
-	    *.gz)        gunzip $1      ;;
-	    *.tar)       tar xvf $1     ;;
-	    *.tbz2)      tar xvjf $1    ;;
-	    *.tgz)       tar xvzf $1    ;;
-	    *.zip)       unzip $1       ;;
-	    *.Z)         uncompress $1  ;;
-	    *.7z)        7z x $1        ;;
+    if [ -f "$1" ] ; then
+	case "$1" in
+	    *.tar.bz2)   tar -xvjf "$1"	    ;;
+	    *.tar.gz)    tar -xvzf "$1"	    ;;
+	    *.tar.xz)    tar -xvJf "$1"	    ;; 
+	    *.bz2)       bunzip2 "$1"	    ;;
+	    *.rar)       unrar x "$1"       ;;
+	    *.gz)        gunzip "$1"	    ;;
+	    *.tar)       tar -xvf "$1"	    ;;
+	    *.tbz2)      tar -xvjf "$1"	    ;;
+	    *.tgz)       tar -xvzf "$1"	    ;;
+	    *.zip)       unzip "$1"	    ;;
+	    *.Z)         uncompress "$1"    ;;
+	    *.7z)        7z x "$1"	    ;;
+	    *.dmg)       hdiutil mount "$1" ;;
 	    *)           echo "don't know how to extract '$1'..." ;;
 	esac
     else

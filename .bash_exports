@@ -2,6 +2,7 @@
 
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
+
 # Make vim the default editor.
 export EDITOR='vim';
 export CLICOLOR=1;
@@ -32,6 +33,7 @@ export HISTCONTROL='ignoreboth';
 #export LC_ALL='en_US.UTF-8';
 
 # Highlight section titles in manual pages.
+yellow=$(tput setaf 220);
 export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
@@ -39,7 +41,10 @@ export MANPAGER='less -X';
 
 # Avoid issues with `gpg` as installed via Homebrew.
 # https://stackoverflow.com/a/42265848/96656
-#export GPG_TTY=$(tty);
+# export GPG_TTY=$(tty);
+
+# Custom installations
+OPT="$HOME/.local/opt/"
 
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/gems"
@@ -47,8 +52,7 @@ export PATH="$HOME/gems/bin:$PATH"
 export PATH=$PATH:$HOME/bin/composer
 export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
 
-
-# Android external hard disk
+# Android
 export ANDROID_SDK_ROOT="/media/SamsungHDD/AndroidProjects/Android/Sdk/"
 export ANDROID_SDK_HOME="/media/SamsungHDD/AndroidProjects/.android/"
 export ANDROID_EMULATOR_HOME="/media/SamsungHDD/AndroidProjects/.android/"
@@ -56,13 +60,10 @@ export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
 export ANDROID_HOME="/media/SamsungHDD/AndroidProjects/Android/Sdk"
 export PATH=$PATH:ANDROID_HOME/tools
 
-# Flutter
-export PATH="$PATH:$HOME/opt/flutter/bin"
-
 # Java - SDK 12
 export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-12-openj9-amd64"
 export PATH=$JAVA_HOME/bin:$PATH
-export PATH_TO_FX="/home/devlab/.jdks/javafx-sdk-17.0.1/lib"
+export PATH_TO_FX="$HOME/.jdks/javafx-sdk-17.0.1/lib"
 
 #fzf need to fd-find ripgrep packs
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
@@ -81,12 +82,15 @@ export NVIM_PYTHON_LOG_LEVEL=DEBUG
 #sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 
+# Flutter
+export PATH="$PATH:$OPT/flutter/bin"
+
 #heroku
-export HEROKU="$HOME/opt/heroku"
+export HEROKU="$OPT/heroku"
 export PATH=$HEROKU/bin:$PATH
 
 #nodejs v-16
 VERSION=v16.14.0
 DISTRO=linux-x64
-export NODE="$HOME/opt/node-$VERSION-$DISTRO" 
+export NODE="$OPT/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
