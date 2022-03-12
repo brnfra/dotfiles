@@ -40,7 +40,7 @@
 ```bash
 $ git clone git@github.com:brnfra/dotfiles.git
 ```
-Next, before run the ___brnfra_default_enviroment.sh___ script. Read it first, will create some folders and copy config files. 
+Next, before run the ___brnfra_default_enviroment.sh___ script. Read and edit it first for your purpose, it will create some folders and copy config files. 
 Change **user** and **email** to your *user-name* and *user-email* as well. Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 
 ```bash
@@ -49,6 +49,8 @@ $ chmod +x brnfra_default_enviroment.sh
 $ sh brnfra_default_enviroment.sh
 ```
 <br>
+
+- [**Optional**] If you'll create enviroment to Java, Spring and React the script ___brnfra_java_spring_react.sh___ install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add **PATH** to **.bash_exports**.
 
 ## Dependencies
 
