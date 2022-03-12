@@ -50,7 +50,7 @@ $ sh brnfra_default_enviroment.sh
 ```
 <br>
 
-- [**Optional**] If you'll create enviroment to Java, Spring and React the script ___brnfra_java_spring_react.sh___ install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add **PATH** to **.bash_exports**.
+- [**Optional**] If you'll create enviroment to Java, Spring and React the script ___brnfra_java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add **PATH** to **.bash_exports**.
 
 ## Dependencies
 
