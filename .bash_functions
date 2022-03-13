@@ -6,7 +6,7 @@ function mkd() {
 }
 # }}}
 
-# Colorized man pages, from:
+# Colorized man pages,{{{ from:
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
 man() {
         env \
@@ -18,6 +18,14 @@ man() {
                 LESS_TERMCAP_us=$(printf "\e[1;32m") \
                 man "$@"
 }
+#}}}
+
+# Where is a function defined? {{{
+whichfunc() {
+        whence -v $1
+        type -a $1
+}
+#}}}
 
 # Change working directory to the top-most Finder window location {{{
 function cdf() { # short for `cdfinder`
