@@ -16,7 +16,7 @@ mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpape
 mkdir -p "$HOME/documents/projects/git" "$HOME/downloads" "$HOME/music" "$HOME/pics" "$HOME/videos"
 
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
-if $(git)
+if command -v git &> /dev/null
 then
     git config --global user.email "$email"
     git config --global user.name "$full_name"
@@ -30,7 +30,9 @@ else
 fi
 
 #setup ssh
-if $(ssh)
+#by  nishanthshanmugham and lhunath 
+#in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
+if command -v ssh &> /dev/null
 then
     ssh-keygen -t ed25519 -C "$email"
     PROCESS_ID=$!
@@ -60,7 +62,7 @@ codeNewRoman="codeNewRoman.zip"
 monofur="Monofur.zip"
 
 echo -e "\n\n Downloading Nerdfont..."
-if $(curl -# -o $nerdfont -O curl -o $nerdfont -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip") 
+if $(curl -# -k -o $nerdfont -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip") 
 then
     unzip -xvf $nerdfont 
     echo "extract accomplished"
@@ -68,7 +70,7 @@ fi
 
 
 echo -e "\n\n Downloading CoeNewRoman..."
-if $(curl -# -o $codeNewRoman -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip") 
+if $(curl -# -k -o $codeNewRoman -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip") 
 then
     unzip -xvf $codeNewRoman 
     echo "extract accomplished"
@@ -76,7 +78,7 @@ fi
 
 
 echo -e "\n\n Downloading Monofur..."
-if $(curl -# -o $monofur -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip") 
+if $(curl -# -k -o $monofur -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip") 
 then
     unzip -xvf $monofur 
     echo "extract accomplished"
