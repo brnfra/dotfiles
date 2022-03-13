@@ -21,6 +21,8 @@ alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-ge
 alias neofetch='neofetch --block_range 0 15'
     # }}}
     # List dir contents aliasesc {{{
+    #show big directories(space)
+alias bigdirs='du --max-depth=1 2> /dev/null | sort -n -r | head -n20'
     # Long form no user group, color
 alias l='ls -AoGh --color=always --group-directories-first'
     # Order by last modified, long form no user group, color
