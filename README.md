@@ -3,10 +3,13 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/bash-script-brightgreen" />
-<img src="https://img.shields.io/badge/linux-enviroment-blue" />
 <img src="https://img.shields.io/badge/requirement-git-orange" />
 <img src="https://img.shields.io/badge/requirement-curl-importany" />
 <img src="https://img.shields.io/badge/tests-in%20progress-red" />
+<img src="https://img.shields.io/badge/license-MIT-informational" />
+<img src="https://img.shields.io/badge/platform-linux--64-lightgrey" />
+<img src="https://img.shields.io/github/last-commit/brnfra/dotfiles" />  
+  
 </p>
 
 <br>
