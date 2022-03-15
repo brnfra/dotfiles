@@ -17,7 +17,7 @@ alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt
     # clean
 alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean'
     # dotfiles update
-alias config='git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME'
+
 
 config pull 
  # }}}
