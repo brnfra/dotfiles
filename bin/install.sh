@@ -6,7 +6,7 @@ REPO="https://github.com/brnfra/dotfiles.git"
 git clone --bare $REPO "$HOME/.dotfiles"
 function config {
     GITCMD=$(type git | awk {'print $3'})
-    $GITCMD --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
+    exec $GITCMD --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
 }
 
 config checkout
