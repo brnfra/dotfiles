@@ -3,17 +3,20 @@
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 REPO="https://github.com/brnfra/dotfiles.git"
 
-git clone --bare $REPO "$HOME/.dotfiles"
+git clone --bare $REPO "$HOME/.dotfiles";
+
 function config {
-    $(type git | awk {'print $3'}) --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
+    $(type git | awk {'print $3'}) --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
 
 config checkout
+
 if [ $? = 0 ]; then
-  echo "Checked out config.";
+    echo "Checked out config.";
   else
     echo "Backing up pre-existing dot files.";
     config checkout 2>&1 | grep "^\s+" | awk {'print $1'} | xargs -I{} mv {} {}.backup
-fi;
+fi
+
 config checkout
 config config status.showUntrackedFiles no
