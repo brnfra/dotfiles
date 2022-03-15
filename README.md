@@ -59,13 +59,13 @@ Install config tracking in your $HOME following the comand;
 ```bash
 $ curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/master/.bin/install.sh | /bin/bash
 ```
-The script will require your name and email to configure your locals
-definitions. Type and go. Read and edit it first for your purpose, it will create some folders and copy config files, you can fork this repo and coment that line.
+The script will require your name and email to configure your locals definitions. Type and go. 
+*Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
 Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
 
 - [**Optional**] If you'll create enviroment to Java, Spring and React the script ___java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add **PATH** to **.bash_exports**.
-In the ./bin folder there are scripts for each case.
+In the ``` ./bin```  folder there are scripts for each case.
 
 ## Dependencies
 
