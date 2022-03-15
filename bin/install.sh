@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #Requirements: Git and Ssh
 #personal data 
 echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
