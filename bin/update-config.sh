@@ -7,7 +7,6 @@ function config {
 mkdir -p .config-backup
 config pull
 
-
 if [ $? = 0 ]; then
         echo "Checked out config.";
 else
