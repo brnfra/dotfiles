@@ -6,7 +6,7 @@ REPO="https://github.com/brnfra/dotfiles.git"
 git clone --bare $REPO "$HOME/.dotfiles";
 
 function config {
-    $(type git | awk {'print $3'}) --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
+    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
 }
 
 config checkout
