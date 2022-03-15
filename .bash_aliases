@@ -16,10 +16,7 @@ alias remove='sudo apt-get remove --purge'
 alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
     # clean
 alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean'
-    # dotfiles update
 
-
-config pull 
  # }}}
 #Neofetch {{{
 alias neofetch='neofetch --block_range 0 15'
@@ -121,7 +118,6 @@ alias vimrc='vim ~/.vimrc'
 alias i3rc='vim ~/.config/i3/config'
 
    # }}}
-
     # Apps exec {{{
 alias anki="cd ~/ && setsid ./Anki &>/dev/null"
 alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
