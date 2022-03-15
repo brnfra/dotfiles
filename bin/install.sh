@@ -1,18 +1,16 @@
+#!/bin/bash
 
-echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
-read full_name
+#Requirements: Git and Ssh
+#personal data 
+read -p "Type in your first and last name (no accent or special characters - e.g. 'ç'): " full_name
+read -p "Type in your email address (the one used for your GitHub account): " email
 
-echo "Type in your email address (the one used for your GitHub account): "
-read email
-
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-
+# create ~/.local dirs 
 echo -e "Criando pastas locais..."
 mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
    "$HOME/documents/projects/git"
 
+#setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if command -v git &> /dev/null
 then
     git config --global user.email "$email"
@@ -27,6 +25,9 @@ else
     exit 1
 fi
 
+#setup ssh
+#by  nishanthshanmugham and lhunath 
+#in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
 if command -v ssh &> /dev/null
 then
     ssh-keygen -t ed25519 -C "$email"
@@ -40,6 +41,10 @@ else
     exit 2
 fi
 
+
+# code providing by ;
+#  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
+#  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 REPO="https://github.com/brnfra/dotfiles.git"
 
 git clone --bare $REPO "$HOME/.dotfiles"
