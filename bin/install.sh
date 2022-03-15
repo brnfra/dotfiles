@@ -2,8 +2,8 @@
 
 #Requirements: Git and Ssh
 #personal data 
-read -p "Type in your first and last name (no accent or special characters - e.g. 'ç'): " full_name < /dev/tty
-read -p "Type in your email address (the one used for your GitHub account): " email < /dev/tty
+full_name="brnfra"
+email="devlabbr@gmail.com"
 
 if [[ $full_name = "" ]] || [[ $email = "" ]]
 then
