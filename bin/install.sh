@@ -5,7 +5,7 @@
 read -p "Type in your first and last name (no accent or special characters - e.g. 'ç'): " full_name < /dev/tty
 read -p "Type in your email address (the one used for your GitHub account): " email < /dev/tty
 
-if [[ $full_name = "" ]] || [[ $email ]]
+if [[ $full_name = "" ]] || [[ $email = "" ]]
 then
     echo "Error! Email and Name cannot be blank."
     exit 1
