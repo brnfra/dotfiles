@@ -18,13 +18,14 @@ _This code was provided by_ ;
 - originally by user ___StreakyCobra___ in an [Hacker News thread](https://news.ycombinator.com/item?id=11070797)
 - in a wonderful tutorial by ___[Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles)___
 
-Thank you guys for sharing
+Thank you guys for sharing :heart:
 
 <br>
 
 - [Requirements](https://github.com/brnfra/dotfiles#requirements)
 - [Install](https://github.com/brnfra/dotfiles#how-to-install)
-- [Dependencies](https://github.com/brnfra/dotfiles#dependencies)
+- [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#updates)
+- [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 
 ## My config files to automate computer changing configuration.
 
@@ -37,7 +38,6 @@ Thank you guys for sharing
 5. The keyboard layout is **US-INT**.
 
 **ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)**
-
 
 <br>
 
@@ -56,21 +56,34 @@ Thank you guys for sharing
 
 ## How to install
  
-This method consist in use git to track your config files. You don't have to install extra tool, only git, ssh(coreutils) and curl.
+This method consist to use git to track your config files. You don't have to install extra tool, only git, ssh(coreutils) and curl.
 Install config tracking in your $HOME following the comand;
 
 ```bash
 curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/master/bin/install.sh | /bin/bash
 ```
-The script will require your name and email to configure your locals definitions. Type and go. 
+The script ```~/bin/config.sh``` will require your name and email to configure your locals definitions. Type and go. 
 *Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
 Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
 
 - [**Optional**] If you'll create enviroment to Java, Spring and React the script ___java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add **PATH** to **.bash_exports**.
-In the ``` ./bin```  folder there are scripts for each case.
+In the ``` ~/bin```  folder there are scripts for each case.
+
+## Updates
+
+If I change configuration and like it, *How can I update for this change?*
+- You can update your remote repository and, after tests, run the script below.
+
+In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *After install*, just run;
+```
+$ bash ~/bin/update.sh
+```
+Now, Git gonna **update snapshot** of the remote repo in your $HOME.
 
 ## Dependencies
+
+Some pkgs here are installed in my computer, after fork, **make changes to yours needs**.
 
 - I3wm configs
 - I3blocks and I3status configs
