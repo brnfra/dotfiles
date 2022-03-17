@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 10-03-2022
+" Ultima_modificacao: 17-03-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -27,175 +27,13 @@ set secure
 set makeprg=make\ -C\ ../build\ -j9
 nnoremap <F3> :make!<cr>
 
-let g:dl1 = '~/.vim/autoload'
-let g:dl2 = '~/.vim/bundle'
-let g:cur = getcwd()
-
-let g:dw1 = 'C:\Program Files\Vim\vim82\autoload'
-let g:dw2 = 'C:\Program Files\Vim\vim82\bundle'
-
-
-if has('unix')
-    "-------------------------------------------------------
-    "                   Plugins Install (UNIX)
-    "-------------------------------------------------------
-
-    autocmd VimEnter * echo "Unix detected!"
-    autocmd VimEnter * call Base(dl1,dl2)
-    "digite :AddBase"
-    :command AddBase call Base(dl1,dl2)<CR>
-
-    function! Base(dl1,dl2) abort
-        "autoload
-        "bundle
-
-        if empty(glob("~/.vim/autoload/"))
-            silent exec "!mkdir -p ~/.vim/autoload/"
-        endif
-        if empty(glob("~/.vim/bundle/"))
-            silent exec "!mkdir -p ~/.vim/bundle/"
-        endif
-
-        if empty(glob("~/.vim/backups/"))
-            silent exec "!mkdir -p ~/.vim/backups/"
-        endif
-        if empty(glob("~/.vim/backups/swaps/"))
-            silent exec "!mkdir -p ~/.vim/backups/swaps/"
-        endif
-        if empty(glob("~/.vim/backups/undo/"))
-            silent exec "!mkdir -p ~/.vim/backups/undo/"
-        endif
-
-        exec ":redraw!"
-
-        "Option - 1) junegunn /vim-plug "
-
-        silent exec 'cd' a:dl1
-        if !filereadable("plug.vim")
-
-            silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-            "force redraw screen
-            silent exec 'cd' g:cur
-            silent exec ":redraw!"
-
-        else
-            echo 'Autoload files and Path OK.'
-            silent exec 'cd' g:cur
-        endif
-
-    endfunction
-
-elseif (has('win32') || has('win64'))
-
-    autocmd VimEnter * echo "Windows detected!"
-    :command AddBase call Base(dw1,dw2)<CR>
-
-    "-------------------------------------------------------"
-    "		Set System
-    "		Original file _vimrc windows
-    "-------------------------------------------------------
-
-    " Vim with all enhancements
-    source $VIMRUNTIME/vimrc_example.vim
-
-    " Use the internal diff if available.
-    " Otherwise use the special 'diffexpr' for Windows.
-    if &diffopt !~# 'internal'
-        set diffexpr=MyDiff()
-    endif
-    function MyDiff()
-        let opt = '-a --binary '
-        if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-        if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-        let arg1 = v:fname_in
-        if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-        let arg1 = substitute(arg1, '!', '\!', 'g')
-        let arg2 = v:fname_new
-        if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-        let arg2 = substitute(arg2, '!', '\!', 'g')
-        let arg3 = v:fname_out
-        if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-        let arg3 = substitute(arg3, '!', '\!', 'g')
-        if $VIMRUNTIME =~ ' '
-            if &sh =~ '\<cmd'
-                if empty(&shellxquote)
-                    let l:shxq_sav = ''
-                    set shellxquote&
-                endif
-                let cmd = '"' . $VIMRUNTIME . '\diff"'
-            else
-                let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-            endif
-        else
-            let cmd = $VIMRUNTIME . '\diff'
-        endif
-        let cmd = substitute(cmd, '!', '\!', 'g')
-        silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-        if exists('l:shxq_sav')
-            let &shellxquote=l:shxq_sav
-        endif
-    endfunction
-
-    "-------------------------------------------------------
-    "                   Plugins Install
-    "-------------------------------------------------------
-    "
-    "Init it folder Win32
-    "Set your WORKDIR on windows systems :Vexplore
-    "local C:\Program Files\Vim\_vimrc
-    "autocmd VimEnter * :silent e C:\Users\Bruno\Documents
-    "autocmd VimEnter * :silent e C:\"Program Files"\Vim\vim82\bundle
-
-    "check diretorios
-
-    function! Base(dw1,dw2) abort
-        echo 'Checando diretorios'
-        "Caminho completo necessário
-        "autoload
-        let dir1 =  empty(glob(a:dw1))
-        "bundle
-        let dir2 =  empty(glob(a:dw2))
-
-
-        "echo "Checando diretorios"
-        let dir1 = empty(glob('C:\Program Files\Vim\vim82\autoload'))
-        let dir2 = empty(glob('C:\Program Files\Vim\vim82\bundle'))
-
-
-        if (dir1 || dir2)
-
-            "criando diretorios  problema ao criar diretorio e privilegio
-            if dir1
-                :silent !mkdir "C:\Program Files\Vim\vim82\autoload"
-                "echo "~/autoload criado"
-            endif
-
-            if dir2
-                :silent !mkdir "C:\Program Files\Vim\vim82\bundle"
-                "echo "~/bundle criado"
-            endif
-
-
-            silent exec 'cd' a:dw2
-            "Option - 1) junegunn /vim-plug "
-            silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-
-            "Option - 2) Pathogen tope/pathogem "
-            "silent exec "!curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
-
-            "force redraw screen
-            silent exec "redraw!"
-
-            "alterando diretorio corrente
-            ""silent exec 'cd' a:dl2
-            "download control-vim
-            ""silent exec '!git clone https://github.com/brnfra/control-vim.git'
-
-        endif
-
-    endfunction
-
+"" automate instalation junegunn vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl --insecure -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
 "------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
@@ -235,9 +73,6 @@ set foldmethod=marker
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 set cul             " underline active line
-""set number          " show number
-""set ruler           " show ruler cursor
-""set relativenumber  " show relative relative line number
 syntax on           " Switch on syntax highlighting.
 syntax enable
 set showmode        " Show the current mode
@@ -268,7 +103,7 @@ set si "Smart indent
 set lbr
 set tw=500  " Linebreak on 500 characters
 set showmatch
-set textwidth=80
+set textwidth=200
 "---------------------------------------------------------------------------
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
@@ -339,7 +174,6 @@ filetype indent on
 call plug#begin('~/.vim/bundle')
 
 " Make sure you use single quotes
-
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -354,9 +188,6 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading on both conditions
 Plug 'junegunn/vader.vim',  { 'on': 'Vader', 'for': 'vader' }
 ""unlet g:plug_url_format
-
-" Multiple Plug commands can be written in a single line using | separators
-""Plug 'tomtom/tlib_vim'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree'
@@ -373,7 +204,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 
 " DEOPLETE"
-""Plug 'shougo/neocomplete'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -383,12 +213,10 @@ else
 endif
 
 " Code Snnipets"
-
 "coc - https://github.com/neoclide/coc.nvim
 if has('nvim')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
   else
-    
       if has('patch-8.1.2269')
     " Latest YCM needs at least this version of vim
 	Plug 'ycm-core/YouCompleteMe' 
@@ -437,18 +265,11 @@ Plug 'vim-scripts/c.vim'
 Plug 'mzlogin/vim-markdown-toc'
 
 "java
-"Plug 'artur-shaik/vim-javacomplete2'
 
 ""let g:plug_url_format = 'git@github.com:%s.git'
-""Plug 'brnfra/vim-short-html'
-""Plug 'brnfra/vim-short-html'
 Plug 'brnfra/vim-shortcuts'
 Plug 'brnfra/vim-markdown-brn'
 ""unlet g:plug_url_format
-
-" Unmanaged plugin (manually installed and updated)
-""Plug '~/.vim/bundle/vim-short-cpp'
-""Plug '~/.vim/bundle/ctags'
 
 call plug#end()
 
@@ -622,7 +443,6 @@ set completeopt+=menuone,noinsert,longest,preview,noselect
  " Limit popup menu height
 set pumheight=15
 
-
 "              }}}
 "             Netrw configuration       {{{2
 ""------------------------------------------------------
@@ -639,17 +459,14 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 " hide dotfiles by default (this is the string toggled by netrw-gh)
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 if shownetrw
-
     let g:netrw_menu=1
     let g:netrw_preview=1
     let g:netrw_browse_split=2
     autocmd VimEnter * :Vexplore
-
 endif
 ""-----------------------------------------END NETRW }}}2
 "              NERDTree configuration      {{{2
 ""------------------------------------------------------
-
 "p  -   parent directory
 "s  -   vertical split
 "i  -   horizontal split
@@ -667,43 +484,27 @@ if !has('nvim')
 endif
 
 let g:NERDTreeChDirMode=2
-""let g:nerdtree_tabs_open_on_console_startup=0
-""let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeTooggle = 1
-"let g:NERDTreeShowHidden=1
 let g:NERDTreeWinSize = 40
-""au VimEnter * NERDTree | wincmd p    " open NERDTree automatically, focus on file buffer
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-
-"let g:NERDTreeDirArrowExpandable = '▸'
-"let g:NERDTreeDirArrowCollapsible = '▾'
-
-""	let g:NERDTreeDirArrowExpandable = '(+)'
-""	let g:NERDTreeDirArrowCollapsible = '|-|'
-
 "Disable arrows
 let g:NERDTreeDirArrowExpandable = "\u00a0"
 let g:NERDTreeDirArrowCollapsible = "\u00a0"
-
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-
 let g:NERDTreeMapUpdir = '<Left>'
 let g:NERDTreeMapActivateNode = '<Right>'
 let g:NERDTreeMapOpenSplit= '-'
 let g:NERDTreeMapOpenVSplit= '+'
-""nnoremap <F2> :NERDTreeTabsOpen<CR>
-""nnoremap <F3> :NERDTreeTabsClose<CR>
 nnoremap <F2> :NERDTreeToggle<CR>
 inoremap <F2> <esc>:NERDTreeToggle<CR>i
 vnoremap <F2> <esc>:NERDTreeToggle<CR>
-
 
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
@@ -766,49 +567,20 @@ let g:airline_filetype_overrides = {
       \ }
 
 ""* enable/disable ale integration >
-
 let airline#extensions#ale#error_symbol = 'E:'
 let airline#extensions#ale#warning_symbol = 'W:'
 let airline#extensions#ale#show_line_numbers = 1
 let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
-
 let g:airline#extensions#keymap#enabled=1
-""* enable/disable vim-capslock integration >
 let g:airline#extensions#capslock#enabled=1
 let g:airline#extensions#bookmark#enabled=1
-""This extension displays the current 'keymap' in use.
-""* enable/disable vim-keymap extension >
-" let g:airline#extensions#tabline#left_sep = ''
-" let g:airline#extensions#tabline#left_alt_sep = ''
-" let g:airline#extensions#tabline#right_sep = ''
-" let g:airline#extensions#tabline#right_alt_sep = ''
-" let g:airline_right_alt_sep =''
-" let g:airline_left_sep = ''
-" let g:airline_right_sep = ''
-
-""let g:airline#extensions#tabline#left_sep = ''
-""let g:airline#extensions#tabline#left_alt_sep = ''
-""let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
-""let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
-""let g:airline_right_alt_sep =''
 let g:airline_right_alt_sep =''
-""let g:airline_left_sep = ''
 let g:airline_left_sep = ''
-"let g:airline_right_sep = ''
 let g:airline_right_sep = ''
-
-""let g:airline_symbols.branch = '  '
-""let g:airline_symbols.dirty='¿¡'
-"let g:airline_symbols.readonly = '  '
-"let g:airline_symbols.linenr = ' ☰  '
-""let g:airline_symbols.linenr = ''
-"let g:airline_symbols.maxlinenr = ' ᶠᶤᶰᵃᶫ '
-""let g:airline_symbols.columnr = ''
 let g:airline#extensions#csv#column_display = 'Name'
-
 " --------------Status line
 "+---------------------------------------------------------------------------+
 "| A | B |                     C                          X | Y | Z |  [...] |
@@ -824,7 +596,6 @@ let g:airline#extensions#csv#column_display = 'Name'
 "                                languageclient_error_count)
 "  let g:airline_section_warning (ycm_warning_count, syntastic-warn,
 "                                 languageclient_warning_count, whitespace)
-""let g:airline_section_a='{HasPaste()}'
 let g:airline_section_b=" %{FugitiveHead()}"
 let g:airline_section_c='%r%m%0*%t %1* %-0.50{CurDir()}'
 let g:airline_section_x='%k%y'
@@ -837,9 +608,7 @@ let g:airline_section_warning=''
 "+-------------------------------------------------------+
 "| https://vimhelp.org/options.txt.html#%27statusline%27 |
 "+-------------------------------------------------------+
-
 set laststatus=2      "" display Status bar always
-
 fun! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir
@@ -848,26 +617,15 @@ endfun
 "------------------------------------END VIM-AIRLINE }}}2
 "               INDENTLINE              {{{2
 "-------------------------------------------------------
-
 let g:indentLine_enabled = 0
 let g:indentLine_concealcursor = 'inc'
 let g:indentLine_conceallevel = 2
-"let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_setColors = 0
 let g:indentLine_char ='┊'
-"let g:indentLine_color_term = 239
-"let g:indentLine_color_gui = '#A4E57E'
-"let g:indentLine_color_dark = 1 "(default: 2)
-"let g:indentLine_bgcolor_term = 202
-"let g:indentLine_bgcolor_gui = '#FF5F00'
-
 
 "------------------------------------END INDENTLINE.VIM }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
-"silent! colorscheme molokai
-"silent! colorscheme visualstudio
-
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
 endif
@@ -894,51 +652,18 @@ let s:terms_italic=[
             \"gnome-terminal"
             \]
 
-
 ""---------------------------------END COLORSCHEME }}}2
 "                 ALE.VIM  {{{2
-
 "-------------------------------------------------------
-
 set omnifunc=ale#completion#OmniFunc
 let g:ale_completion_enabled = 1
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_completion_autoimport = 1
 
-
 "-----------------------------------END ALE.VIM}}}2
 "             DEOPLETE{{{
-"let g:neocomplete#enable_at_startup = 1
-"" Define dictionary.
-"let g:neocomplete#sources#dictionary#dictionaries = {
-"         \ 'default' : $HOME.'/.vim/c_src/tags',
-"         \ 'gcc' : $HOME.'/.vim/cpp_src/8/tags',
-"         \ 'vimshell' : $HOME.'/.vimshell_hist',
-"         \ 'scheme' : $HOME.'/.gosh_completions'
-"         \ }
-"" Use smartcase.
-"let g:neocomplete#enable_smart_case = 1
-"" Set minimum syntax keyword length.
-"let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-"" Enable heavy omni completion.
-"if !exists('g:neocomplete#sources#omni#input_patterns')
-"    let g:neocomplete#sources#omni#input_patterns = {}
-"endif
-""let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-"" For perlomni.vim setting.
-"" https://github.com/c9s/perlomni.vim
-"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-" Use deoplete.
-""let g:deoplete#enable_at_startup = 1
-""let g:deoplete#enable_at_startup = 1
 let g:python3_host_prog = "/usr/bin/python3.9"
 let g:ruby_host_prog = '/home/devlab/.gem/ruby/2.7.0/bin/neovim-ruby-host'
-
-"
 "              }}} "
 "             YOUCOMPLETEME {{{
 let g:ycm_language_server =
@@ -957,12 +682,7 @@ let g:ycm_language_server =
 "              OMNICOMPLETE{{{
 " configure tags - add additional tags here or comment out not-used ones
 set tags-=./tags,tags
-"set tags+=$HOME/.vim/cpp_src/8/tags?
 set tags+=~/.vim/c_src/tags?
-""set tags+=~/.vim/[path]/tags
-""set tags+=~/.vim/[path]/tags
-""set tags+=~/.vim/[path]/tags
-
 " build tags of your own project with Ctrl-F12
 map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q -I _GLIBCXX_NOEXCEPT .<CR>
 
@@ -991,8 +711,6 @@ let g:C_MapLeader  = '\'
     autocmd BufNewFile,BufRead Templates  set filetype=template
     autocmd BufNewFile,BufRead *.template  set filetype=template
   endif " has("autocmd")
-""g:C_CodeSnippets           plugin_dir.'/c-support/codesnippets/'
-
 "              }}}
 "              CSupport{{{
 "---Configurações de plugin do vim 'C Support - csupport.zip'------------------
@@ -1003,9 +721,6 @@ let g:C_Styles = { '*.c,*.h' : 'default', '*.cc,*.cpp,*.hh' : 'CPP' }
 "              }}}
 "                    TAGBAR     {{{2
 "-------------------------------------------------------
-
-
-" -----------------------Tagbar Exuberant ctags
 " --- TagBar
 " toggle TagBar with F7 ;tb
 "nnoremap <silent><F7> :TagbarToggle<CR>
@@ -1022,14 +737,9 @@ let g:tagbar_type_markdown = {
             \ 'kinds': [ 'h:Heading_L1', 'i:Heading_L2', 'k:Heading_L3' ]
             \ }
 
-
-
-
-
 "------------------------------------------------------}}}2
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
-
 "-------------------------------------------------------
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 
@@ -1044,12 +754,6 @@ augroup vimrc-remember-cursor-position
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-"" txt
-augroup vimrc-wrapping
-    autocmd!
-    "autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
-augroup END
-
 "" make/cmake
 augroup vimrc-make-cmake
     autocmd!
@@ -1058,29 +762,25 @@ augroup vimrc-make-cmake
 
 augroup END
 set autoread
-
+" Set header vim files{{{{
 augroup auto_header
     autocmd!
     autocmd BufWritePre * silent! execute "normal ma"
     autocmd BufWritePre * silent! exec "1," . 10 . "g/Arquivo\:.*/s//Arquivo\:"expand("%:t")
-    "" autocmd BufWritePre * silent! exec "1," . 10 . "g/Arquivo\:*/s//Arquivo\:".expand("%:t")
     autocmd BufWritePre * silent! exec "1," . 10 . "g/Autor\:.*/s//Autor\: Bruno Franco"
     autocmd BufWritePre * silent! exec "1," . 10 . "g/Ultima_modificacao\:.*/s//Ultima_modificacao\: ".strftime("%d-%m-%Y")
     autocmd BufWritePre * silent! exec "1," . 10 . "g/Download\:.*/s//Download\: git\@github\.com\:brnfra"
     autocmd BufWritePost,FileWritePost * silent! execute "normal `a"
-
 augroup END
-
+" }}}}
 " NERD Commenter {{{
 augroup nerd_commenter
     autocmd!
-
     let NERDSpaceDelims=1
     let NERDCompactSexyComs=1
     let g:NERDCustomDelimiters = { 'racket': { 'left': ';', 'leftAlt': '#|', 'rightAlt': '|#' } }
 augroup END
 " }}}
-
 " EasyAlign.vim {{{
 augroup easy_align_config
     autocmd!
@@ -1088,20 +788,18 @@ augroup easy_align_config
     nmap <Leader>a <Plug>(EasyAlign) " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 augroup END
 " }}}
+"autocmd vimenter * NERDTree  {{{
+if !has('nvim')
+    autocmd VimEnter * exec ":loadview"
+endif
+"}}}
 
 " Arquivos .sh sao sempre bash, e não sh
 "au FileType sh let b:is_bash=1
 set shell=$SHELL\ -f
-
-"autocmd vimenter * NERDTree
-if !has('nvim')
-    autocmd VimEnter * exec ":loadview"
-endif
 "-------------------------------------------END AUTCMD }}}
 "                   SYNTAX Stuffs       {{{
-
 "-------------------------------------------------------
-
 "au FileType php setl ofu=phpcomplete#CompletePHP
 au FileType ruby,eruby setl ofu=rubycomplete#Complete
 au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
@@ -1127,7 +825,6 @@ au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
 
-
 "---------------------------------------------
 " file type detection
 "---------------------------------------------
@@ -1135,9 +832,7 @@ au BufRead,BufNewFile sh set filetype=bash
 au BufNewFile,BufRead *.mxml set filetype=mxml
 au BufNewFile,BufRead *.as set filetype=actionscript
 au BufNewFile,BufRead *.less set filetype=less
-
 "au BufWritePre * :%s/\s\+$//e        " remove trailing whitespace
-
 
 "---------------------------------------------
 " Enable omni completion. (Ctrl-X Ctrl-O)
@@ -1162,7 +857,6 @@ if has("autocmd") && exists("+omnifunc")
 endif
 set cot-=preview	"disable doc preview in omnicomplete
 
-
 "---------------------------------------------
 " for PHP programming
 "---------------------------------------------
@@ -1184,16 +878,7 @@ autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabsto
 
 "---------------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
-"let mapleader="," " Map <Leader> to ,
 let mapleader="," " Map <Leader> to ,
-""let mapleader=";"
-""let mapleader=";"
-
-""fun! Replace()
-""  let s:word = input("Replace " . expand('<cword>') . " with:")
-""  :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/gc'
-""      :unlet! s:word
-""    endfun
 
 "replace the current word in all opened buffers
 ""noremap <leader>r :call Replace()<CR>
@@ -1223,7 +908,6 @@ let mapleader="," " Map <Leader> to ,
   noremap <F8> :wall<cr>:mkview<cr>
   inoremap <F8> <esc>:w<CR>:mkview<cr>
 
-if has ('unix')
         " Permite recarregar o vim para que modificações no
         " próprio vimrc seja ativadas com o mesmo sendo editado
         nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>
@@ -1232,18 +916,6 @@ if has ('unix')
         noremap =V :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
         noremap ,v :e ~/.vimrc<CR>  " para editar o .vimrc
         noremap ,V :e ~/.vimrc<CR>  " para editar o .vimrc
-
-  elseif (has('win32') || has('win64'))
-      " Permite recarregar o vim para que modificações no
-        " próprio vi<F10>mrc seja ativadas com o mesmo sendo editado
-        nnoremap 0v :<C-u>source ~\_vimrc <BAR> echo "Vimrc recarregado!"<CR>
-        nnoremap 0V :<C-u>source ~\_vimrc <BAR> echo "Vimrc recarregado!"<CR>
-        noremap =v :source ~\_vimrc<CR>  " Para recarregar o .vimrc
-        noremap =V :source ~\_vimrc<CR>  " Para recarregar o .vimrc
-        noremap ,v :e ~\_vimrc<CR>  " para editar o .vimrc
-        noremap ,V :e ~\_vimrc<CR>  " para editar o .vimrc
-
-endif
 
  "--------------------------------------------------------
  ""                 Abbreviations
@@ -1266,17 +938,10 @@ endif
 if has('unix')
 "Copy
 vnoremap <C-c> :w !xclip -i -selection clipboard<CR><CR>
-""vnoremap <C-c> ""y <Bar> :call system('xclip', ""y)<CR>
-"" noremap <C-c> :w !xclip -i -selection clipboard<CR><CR>
-""vnoremap <leader>c ""y<CR>
 vnoremap y ""y<CR>
 "Cut
-""vnoremap <leader>x ""x
 vnoremap x ""x
 "Paste
-""inoremap <C-v> "*p<CR>
-""inoremap <C-V> <esc>:r !xclip -o<CR>i
-""inoremap  <esc>""p<CR>i
 nnoremap p ""p<CR>
 
 endif
@@ -1288,9 +953,7 @@ endif
 ""inoremap <C-d> <esc>$v<Up>+yo<esc>pi
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
 inoremap <C-T> <C-R><Tab>
-
 nnoremap <C-r> :redo<cr>
-
 
 noremap <F4> :Goyo 120x90%<CR>
 
@@ -1325,7 +988,6 @@ function DelBlanks()
 
 endfunction
 
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -1335,7 +997,6 @@ nmap ga <Plug>(EasyAlign)
 " inserir linhas e continuar em modo normal
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
-
 
 " Mover linhas com: Ctrl+(seta abaixo) ou (seta acima)
 " tem que estar em modo normal!
@@ -1374,7 +1035,6 @@ nnoremap <leader>- :vsplit<cr>
  nnoremap <S-Tab> gT
  nnoremap <S-t> :tabnew<CR>
 
-
 "autocompletion document with ctrl+space
 inoremap <c-space> <c-n>
 
@@ -1385,7 +1045,6 @@ inoremap <c-space> <c-n>
 " c
 autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
-
 
 " javascript
 let g:javascript_enable_domhtmlcss = 1
