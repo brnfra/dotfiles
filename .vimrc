@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 10-03-2022
+" Ultima_modificacao: 17-03-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -24,185 +24,17 @@ set path+=**
 set exrc
 scriptencoding utf-8
 set secure
-set makeprg=make\ -C\ ../build\ -j9
-nnoremap <F3> :make!<cr>
 
-let g:dl1 = '~/.vim/autoload'
-let g:dl2 = '~/.vim/bundle'
-let g:cur = getcwd()
-
-let g:dw1 = 'C:\Program Files\Vim\vim82\autoload'
-let g:dw2 = 'C:\Program Files\Vim\vim82\bundle'
-
-
-if has('unix')
-    "-------------------------------------------------------
-    "                   Plugins Install (UNIX)
-    "-------------------------------------------------------
-
-    autocmd VimEnter * echo "Unix detected!"
-    autocmd VimEnter * call Base(dl1,dl2)
-    "digite :AddBase"
-    :command AddBase call Base(dl1,dl2)<CR>
-
-    function! Base(dl1,dl2) abort
-        "autoload
-        "bundle
-
-        if empty(glob("~/.vim/autoload/"))
-            silent exec "!mkdir -p ~/.vim/autoload/"
-        endif
-        if empty(glob("~/.vim/bundle/"))
-            silent exec "!mkdir -p ~/.vim/bundle/"
-        endif
-
-        if empty(glob("~/.vim/backups/"))
-            silent exec "!mkdir -p ~/.vim/backups/"
-        endif
-        if empty(glob("~/.vim/backups/swaps/"))
-            silent exec "!mkdir -p ~/.vim/backups/swaps/"
-        endif
-        if empty(glob("~/.vim/backups/undo/"))
-            silent exec "!mkdir -p ~/.vim/backups/undo/"
-        endif
-
-        exec ":redraw!"
-
-        "Option - 1) junegunn /vim-plug "
-
-        silent exec 'cd' a:dl1
-        if !filereadable("plug.vim")
-
-            silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-            "force redraw screen
-            silent exec 'cd' g:cur
-            silent exec ":redraw!"
-
-        else
-            echo 'Autoload files and Path OK.'
-            silent exec 'cd' g:cur
-        endif
-
-    endfunction
-
-elseif (has('win32') || has('win64'))
-
-    autocmd VimEnter * echo "Windows detected!"
-    :command AddBase call Base(dw1,dw2)<CR>
-
-    "-------------------------------------------------------"
-    "		Set System
-    "		Original file _vimrc windows
-    "-------------------------------------------------------
-
-    " Vim with all enhancements
-    source $VIMRUNTIME/vimrc_example.vim
-
-    " Use the internal diff if available.
-    " Otherwise use the special 'diffexpr' for Windows.
-    if &diffopt !~# 'internal'
-        set diffexpr=MyDiff()
-    endif
-    function MyDiff()
-        let opt = '-a --binary '
-        if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-        if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-        let arg1 = v:fname_in
-        if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-        let arg1 = substitute(arg1, '!', '\!', 'g')
-        let arg2 = v:fname_new
-        if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-        let arg2 = substitute(arg2, '!', '\!', 'g')
-        let arg3 = v:fname_out
-        if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-        let arg3 = substitute(arg3, '!', '\!', 'g')
-        if $VIMRUNTIME =~ ' '
-            if &sh =~ '\<cmd'
-                if empty(&shellxquote)
-                    let l:shxq_sav = ''
-                    set shellxquote&
-                endif
-                let cmd = '"' . $VIMRUNTIME . '\diff"'
-            else
-                let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-            endif
-        else
-            let cmd = $VIMRUNTIME . '\diff'
-        endif
-        let cmd = substitute(cmd, '!', '\!', 'g')
-        silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-        if exists('l:shxq_sav')
-            let &shellxquote=l:shxq_sav
-        endif
-    endfunction
-
-    "-------------------------------------------------------
-    "                   Plugins Install
-    "-------------------------------------------------------
-    "
-    "Init it folder Win32
-    "Set your WORKDIR on windows systems :Vexplore
-    "local C:\Program Files\Vim\_vimrc
-    "autocmd VimEnter * :silent e C:\Users\Bruno\Documents
-    "autocmd VimEnter * :silent e C:\"Program Files"\Vim\vim82\bundle
-
-    "check diretorios
-
-    function! Base(dw1,dw2) abort
-        echo 'Checando diretorios'
-        "Caminho completo necessário
-        "autoload
-        let dir1 =  empty(glob(a:dw1))
-        "bundle
-        let dir2 =  empty(glob(a:dw2))
-
-
-        "echo "Checando diretorios"
-        let dir1 = empty(glob('C:\Program Files\Vim\vim82\autoload'))
-        let dir2 = empty(glob('C:\Program Files\Vim\vim82\bundle'))
-
-
-        if (dir1 || dir2)
-
-            "criando diretorios  problema ao criar diretorio e privilegio
-            if dir1
-                :silent !mkdir "C:\Program Files\Vim\vim82\autoload"
-                "echo "~/autoload criado"
-            endif
-
-            if dir2
-                :silent !mkdir "C:\Program Files\Vim\vim82\bundle"
-                "echo "~/bundle criado"
-            endif
-
-
-            silent exec 'cd' a:dw2
-            "Option - 1) junegunn /vim-plug "
-            silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-
-            "Option - 2) Pathogen tope/pathogem "
-            "silent exec "!curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
-
-            "force redraw screen
-            silent exec "redraw!"
-
-            "alterando diretorio corrente
-            ""silent exec 'cd' a:dl2
-            "download control-vim
-            ""silent exec '!git clone https://github.com/brnfra/control-vim.git'
-
-        endif
-
-    endfunction
-
+"" automate instalation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl --insecure -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-"------------------------------------End System config}}}"
+
+""------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
-""Set Inicial work-folder
-if (has('win32') || has('win64'))
-    :cd C:\Users\Bruno\Documents
-endif
 
 set ttyfast " Send more characters at a given time
 "set ttymouse=xterm " Set mouse type to xterm
@@ -282,12 +114,10 @@ set foldcolumn=0 " Column to show folds
 set foldlevel=0 " Close all folds by default
 
 set termencoding=utf-8
-
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 
 " By default, without wrapping
 set nowrap
-
 
 set title
 set titleold="Terminal"
@@ -382,37 +212,8 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-" Code Snnipets"
+"### Multiple file types
 
-"coc - https://github.com/neoclide/coc.nvim
-if has('nvim')
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  else
-    
-      if has('patch-8.1.2269')
-    " Latest YCM needs at least this version of vim
-	Plug 'ycm-core/YouCompleteMe' 
-    else
-    " Version compatible with the vim in Debian 10 buster
-	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
-    endif
-
-endif
-
-" Or build from source code by using yarn: https://yarnpkg.com
-" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-
-" YouCompleteMe"
-""Plug 'ycm-core/youcompleteme'
-
-" Problem with cmake have to install and point in path to newer version of cmake
-" Problem when install/compile clang. was aborted
-" Problem with legacy version of vim have to install this patch
-" 3 problems, packages not found,sol cmd $python3 -m pip install --upgrade neovim/cmake/msgpack
-" https://github.com/ycm-core/YouCompleteMe/issues/3764
-
-" Multiple file types
-"Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
 "vim air-line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -440,15 +241,9 @@ Plug 'mzlogin/vim-markdown-toc'
 "Plug 'artur-shaik/vim-javacomplete2'
 
 ""let g:plug_url_format = 'git@github.com:%s.git'
-""Plug 'brnfra/vim-short-html'
-""Plug 'brnfra/vim-short-html'
 Plug 'brnfra/vim-shortcuts'
 Plug 'brnfra/vim-markdown-brn'
 ""unlet g:plug_url_format
-
-" Unmanaged plugin (manually installed and updated)
-""Plug '~/.vim/bundle/vim-short-cpp'
-""Plug '~/.vim/bundle/ctags'
 
 call plug#end()
 
