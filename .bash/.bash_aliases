@@ -3,10 +3,8 @@
     #APT aliases {{{
     #list dependencies
 alias pdeps="apt depends"
-
     #source edit
 alias src="sudo apt edit-sources"
-
     # update and upgrade 
 alias up='sudo apt-get update'
 alias upgl='apt list -a --upgradable 2>/dev/null'
@@ -21,7 +19,7 @@ alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-ge
 #Neofetch {{{
 alias neofetch='neofetch --block_range 0 15'
     # }}}
-    # List dir contents aliasesc {{{
+    # List directories contents aliasesc {{{
     #show big directories(space)
 alias bigdirs='du --max-depth=1 2> /dev/null | sort -n -r | head -n20'
     # Long form no user group, color
@@ -32,7 +30,6 @@ alias l='ls -AoGh --color=always --group-directories-first'
 alias lv='ls -AGFSoh --color=auto --group-directories-first'
     # List all except . and ..., color, mark file types, long form no use group, order by last modified
 alias lt='ls -AGFtoh --color=auto'
-
     # some more ls aliases
 alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
 alias la.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
@@ -50,7 +47,6 @@ alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --leve
     # grep
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
-    
     #alias to nav directories 
 alias ..="cd .."
 alias ...="cd ../.."
@@ -109,11 +105,11 @@ alias doc="cd ~/Documents/"
 
 alias repo="cd ~/documents/projects/git"
 
-alias prompt='vim ~/.bash_prompt' 
-alias bashrc='vim ~/.bashrc' 
-alias aliases='vim ~/.bash_aliases' 
-alias functions='vim ~/.bash_functions' 
-alias vars='vim ~/.bash_exports' 
+alias prompt='vim ~/.bash/.bash_prompt' 
+alias bashrc='vim ~/.bash/.bashrc' 
+alias aliases='vim ~/.bash/.bash_aliases' 
+alias functions='vim ~/.bash/.bash_functions' 
+alias vars='vim ~/.bash/.bash_exports' 
 alias vimrc='vim ~/.vimrc'
 alias i3rc='vim ~/.config/i3/config'
 
@@ -134,4 +130,6 @@ alias nv="nvim"
 alias v="vim"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-
+#   Scripts Execs{{{
+alias upconfig ='bash ~/bin/update-config.sh'
+#   }}}
