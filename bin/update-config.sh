@@ -3,7 +3,7 @@
 BKPDIR="$HOME"/.config-backup
 
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
+    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ 2>&1 | sed '/hint/d';
 }
 
 
