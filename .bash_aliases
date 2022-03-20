@@ -134,4 +134,6 @@ alias nv="nvim"
 alias v="vim"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-
+#   Scripts Execs{{{
+alias upconfig="bash ~/bin/update-config.sh"
+#   }}}
