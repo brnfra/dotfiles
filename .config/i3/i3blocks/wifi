@@ -16,8 +16,8 @@
 
 #------------------------------------------------------------------------
 
-#INTERFACE="${BLOCK_INSTANCE:-wlan0}"
-INTERFACE="${BLOCK_INSTANCE:-$(ip a | grep MULTICAST | cut -d ":" -f2)}"
+INTERFACE="${BLOCK_INSTANCE:-wlan0}"
+
 #------------------------------------------------------------------------
 
 # As per #36 -- It is transparent: e.g. if the machine has no battery or wireless

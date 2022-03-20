@@ -383,7 +383,7 @@ client.background       $dark
     # }}}
     #Font {{{
 #font pango:Open Sans Semibold 10
-font pango:Quicksand 8
+font pango:Quicksand 9
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -420,15 +420,15 @@ bar {
         position bottom
         tray_output eDP
         tray_padding 0
-      #  separator_symbol "⎠"
-        separator_symbol " "
+        separator_symbol "⎠"
+      #"  separator_symbol " "
         mode dock
 
         #status_command i3blocks
         status_command SCRIPT_DIR=~/.config/i3/i3blocks i3blocks
 
-        font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-        font pango:Quicksand Bold 8
+       # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+        font pango:Quicksand Bold 9
 
 
         colors {

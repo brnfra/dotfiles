@@ -56,6 +56,11 @@ case $BLOCK_BUTTON in
 esac
 
 #------------------------------------------------------------------------
+wget -q --tries=10 --timeout=20 --spider http://google.com
 
-echo "$IPADDR" # full text
-echo "$IPADDR" # short text
+if [[ $? -eq 0 ]]
+then
+    echo "<span color='#00BB00'><i>$IPADDR</i></span>"
+else
+    echo "<span color='#FF0000'><i>$IPADDR</i></span>"
+fi
