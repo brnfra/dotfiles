@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 19-03-2022
+# Ultima_modificacao: 20-03-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -408,28 +408,14 @@ font pango:Quicksand 9
 
 bar {
      #  exibits just once, the first
-     #   tray_output HDMI-0
-     #   tray_output HDMI-A-1
-     #   tray_output DVI-0
-     #   tray_output DVI-I-1
-#        tray_output DVI-I-3
-     #   tray_output DVI-0
-     #   tray_output DisplayPort-2
-     #   tray_output HDMI-A-1
-     #   tray_output Virtual1
         position bottom
-        tray_output eDP
+        tray_output primary
         tray_padding 0
         separator_symbol "⎠"
-      #"  separator_symbol " "
         mode dock
-
         #status_command i3blocks
         status_command SCRIPT_DIR=~/.config/i3/i3blocks i3blocks
-
-       # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-        font pango:Quicksand Bold 9
-
+        font pango:Monofur 10
 
         colors {
             statusline    $dark
@@ -442,6 +428,7 @@ bar {
             urgent_workspace    $red       $red      $green
         }
 }
+
     # }}}
     # i3blocks - caps lock/num lock status {{{
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
