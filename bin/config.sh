@@ -2,11 +2,11 @@
 
 #Requirements: Git and Ssh
 #personal data
-echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
-read full_name
+#echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
+full_name="brnfra"
 
-echo "Type in your email address (the one used for your GitHub account): "
-read email
+#echo "Type in your email address (the one used for your GitHub account): "
+email="devlabbr@gmail.com"
 
 PROCESS_ID=$!
 wait $PROCESS_ID
