@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 20-03-2022
+# Ultima_modificacao: 21-03-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
@@ -9,8 +9,8 @@
 #
 #
 
-if [ -f ~/.bash/.bash_profile ]; then
-    . ~/.bash/.bash_profile
+if [ -f ~/.bash_profile ]; then
+    . ~/.bash_profile
 fi
 # If not running interactively, don't do anything
 case $- in

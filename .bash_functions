@@ -6,32 +6,12 @@ function mkd() {
 }
 # }}}
 
-# Colorized man pages,{{{ from:
-# http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
-man() {
-        env \
-                LESS_TERMCAP_md=$(printf "\e[1;36m") \
-                LESS_TERMCAP_me=$(printf "\e[0m") \
-                LESS_TERMCAP_se=$(printf "\e[0m") \
-                LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-                LESS_TERMCAP_ue=$(printf "\e[0m") \
-                LESS_TERMCAP_us=$(printf "\e[1;32m") \
-                man "$@"
-}
-#}}}
-
 # Where is a function defined? {{{
 whichfunc() {
         whence -v $1
         type -a $1
 }
 #}}}
-
-# Change working directory to the top-most Finder window location {{{
-function cdf() { # short for `cdfinder`
-    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
-}
-# }}}
 
 # Create a SymLink {{{
 
@@ -62,42 +42,6 @@ function backup() {
 }
 
 # }}}
-
-# CREATE TAR {{{
-# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
-function targz() {
-    local tmpFile="${@%/}.tar";
-    tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
-
-    size=$(
-    stat -f"%z" "${tmpFile}" 2> /dev/null; # macOS `stat`
-    stat -c"%s" "${tmpFile}" 2> /dev/null;  # GNU `stat`
-    );
-
-    local cmd="";
-    if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
-	# the .tar file is smaller than 50 MB and Zopfli is available; use it
-	cmd="zopfli";
-    else
-	if hash pigz 2> /dev/null; then
-	    cmd="pigz";
-	else
-	    cmd="gzip";
-	    fi;
-	    fi;
-
-	    echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
-	    "${cmd}" -v "${tmpFile}" || return 1;
-	    [ -f "${tmpFile}" ] && rm "${tmpFile}";
-
-	    zippedSize=$(
-	    stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # macOS `stat`
-	    stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
-	    );
-
-	    echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
-	}
-    # }}}
 
 # FILE SIZE {{{
 # Determine size of a file or total size of a directory
@@ -154,13 +98,6 @@ function gz() {
     printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
 }
 # }}}
-
-# DIG {{{
-# Run `dig` and display the most useful info
-function digga() {
-    dig +nocmd "$1" any +multiline +noall +answer;
-}
-#}}}
 
 # GETCERTNAMES  {{{
 # Show all the names (CNs and SANs) listed in the SSL certificate
@@ -235,16 +172,6 @@ function play-a-v() {
 
 }
 
-# }}}
-
-# TREE {{{
-# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
-# the `.git` directory, listing directories first. The output gets piped into
-# `less` with options to preserve color and line numbers, unless the output is
-# small enough for one screen.
-function tre() {
-    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
-}
 # }}}
 
 # GIT  {{{
@@ -486,100 +413,6 @@ fi
 }
 	  # }}}
 
-#Extract archives {{{ 
-function extract () 
-{
-    if [ -f "$1" ] ; then
-	case "$1" in
-	    *.tar.bz2)   tar -xvjf "$1"	    ;;
-	    *.tar.gz)    tar -xvzf "$1"	    ;;
-	    *.tar.xz)    tar -xvJf "$1"	    ;; 
-	    *.bz2)       bunzip2 "$1"	    ;;
-	    *.rar)       unrar x "$1"       ;;
-	    *.gz)        gunzip "$1"	    ;;
-	    *.tar)       tar -xvf "$1"	    ;;
-	    *.tbz2)      tar -xvjf "$1"	    ;;
-	    *.tgz)       tar -xvzf "$1"	    ;;
-	    *.zip)       unzip "$1"	    ;;
-	    *.Z)         uncompress "$1"    ;;
-	    *.7z)        7z x "$1"	    ;;
-	    *.dmg)       hdiutil mount "$1" ;;
-	    *)           echo "don't know how to extract '$1'..." ;;
-	esac
-    else
-	echo "'$1' is not a valid file!"
-    fi
-}
-#}}}
-
-# search avaliable packages to install {{{
-function psearch () 
-{ 
-    apt-cache search "" |  fzf +m -i -e --prompt='------>' --header='Find:' --height=60% --border --hscroll-off=800 --preview="apt-cache show ^{1}$" --preview-window=wrap --bind="tab:toggle-preview" ; 
-}
-# }}}
-
-## packages installed list(commented) {{{ 
-#mypacks () 
-#{
-#    list="$(apt list --installed 2>/dev/null)"
-#    if [[ $# -eq 0 ]]; then
-#        less <<< $list
-#    else
-#        for pkg in "$@"; do
-#            grep -@ $pkg <<< $list
-#        done
-#    fi
-
-#}
-##}}}
-
-# Show installed packages {{{
-function mypacks () 
-{ 
-    apt list --installed | awk '{print $1}'| cut -f1 -d '/' | fzf +m -i -e  --height=60% --border --hscroll-off=800 --preview="apt-cache show {1}" --preview-window=wrap --bind="tab:toggle-preview" ; 
-}
-#
-# }}}
-
-#search for non-free installed packages {{{
-function pnonfree () 
-{ 
-    dpkg-query -W -f='${Section}\t{Package}\n' | grep ^non-free; 
-}
-# }}}
-
-#search for contrib installed packages {{{
-function pcontrib () 
-{ 
-    dpkg-query -W -f='${Section}\t{Package}\n' | grep ^contrib; 
-}
-# }}}
-
-# autocomplete {{{
-function auto_complete_apt() 
-{
-    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
-}
-complete -F auto_complete_apt get
-complete -F auto_complete_apt psearch
-complete -F auto_complete_apt pinfo
-complete -F auto_complete_apt instalados
-complete -F auto_complete_apt pdeps
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-# }}}
-
-   #package info dependencies  {{{
-   function depends()
-   { 
-       apt list --installed | awk '{print $1}' | cut -f1 -d '/' | fzf +m -i -e  --height=60% --border --hscroll-off=800 --preview="aptitude why {1} " --preview-window=wrap --bind="tab:toggle-preview" ; 
-
-   }
-
-
-# }}}
-
 # Counters (minutes) {{{
 function countdown ()
 {
@@ -619,39 +452,4 @@ function stopwatch () {
 }
 
 # }}}
-
-# FZF FUNCTIONS {{{
-
-
-function open_with_fzf () 
-{
-    fd -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-
-}
-function cd_with_fzf () 
-{
-    cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
-}
-# do not use yet
-function pacs () {
-    pcmanfm -Syy $(pcmanfm -Ssq | fzf -m --preview="pcmanfm -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
-}
-
-# Display a man page using fzf and fd. usually /usr/share/man
-function man_find () {
-    MANPATH='/usr/share/man'
-    f=$(fd . $MANPATH/man${1:-1} -t f -x echo {/.} | fzf) && man $f
-}
-
-function fman () 
-{
-    man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
-}
-
-function fhistory () 
-{
-    eval "$(cat ~/.bash_history | fzf -m -i)"    
-}
-
-# }}}
-
 
