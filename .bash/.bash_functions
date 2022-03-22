@@ -28,12 +28,6 @@ whichfunc() {
 }
 #}}}
 
-# Change working directory to the top-most Finder window location {{{
-function cdf() { # short for `cdfinder`
-    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
-}
-# }}}
-
 # Create a SymLink {{{
 
 function symlink() {
@@ -114,16 +108,6 @@ function fs() {
 	du $arg .[^.]* ./*;
 	fi;
     }
-# }}}
-
-# Create a data URL from a file {{{
-function dataurl() {
-    local mimeType=$(file -b --mime-type "$1");
-    if [[ $mimeType == text/* ]]; then
-	mimeType="${mimeType};charset=utf-8";
-    fi
-    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
-}
 # }}}
 
 # Start an HTTP server from a directory, optionally specifying the port {{{
@@ -654,5 +638,3 @@ function fhistory ()
 }
 
 # }}}
-
-

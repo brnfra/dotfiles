@@ -39,6 +39,7 @@ ShortcutsNoMnemonics=TRUE
 FontName=Monofur NF 12
 ScrollingUnlimited=TRUE
 ScrollingOnOutput=FALSE
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
 ColorCursorUseDefault=FALSE
 ColorCursorForeground=#f8f8e4e45c5c
 ColorSelectionUseDefault=FALSE

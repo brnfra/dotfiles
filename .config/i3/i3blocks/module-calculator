@@ -17,9 +17,10 @@ case "$BLOCK_BUTTON" in
     
             
 esac
+
 if [ "$SCR" = "Virtual" ]; then
 
-    echo "<span font='Font Awesome' color='#ff4000'> <span size='large'>🖩</span> </span>"
+    echo "<span font='Font Awesome' color='#2666A1'> <span size='large'>🖩</span> </span>"
 else
-    echo "<span font='Font Awesome' color='#ff4000'> <span size='large'>🔢</span> </span>" 
+    echo "<span font='Font Awesome' color='#2666A1'> <span size='large'></span> </span>"
 fi
