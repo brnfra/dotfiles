@@ -60,7 +60,7 @@ This method consist to use git to track your config files. You don't have to ins
 Install config tracking in your $HOME following the comand;
 
 ```bash
-curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/master/bin/install.sh | /bin/bash
+curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install.sh | /bin/bash
 ```
 The script ```~/bin/config.sh``` will require your name and email to configure your locals definitions. Type and go. 
 *Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
