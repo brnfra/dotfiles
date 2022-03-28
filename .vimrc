@@ -219,7 +219,7 @@ if has('nvim')
     " Latest YCM needs at least this version of vim
 	Plug 'ycm-core/YouCompleteMe' 
     else
-    " Version compatible with the vim in Debian 10 buster
+    " Version compatible with the vim in legacy systems
 	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
 
