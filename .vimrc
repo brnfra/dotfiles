@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 17-03-2022
+" Ultima_modificacao: 28-03-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -15,8 +15,6 @@
 " (_)\_/  |___|_|  |_|_| \_\\____|
 "
 "====================================================================
-"Nerd-Fonts  - https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip
-"PATH(Debian)- placing FONTS them into /usr/local/share/fonts (system-wide), ~/.local/share/fonts (user-specific)
 "                  System Config {{{
 "-------------------------------------------------------
 set nocompatible    " be iMproved, required
@@ -663,7 +661,7 @@ let g:ale_completion_autoimport = 1
 "-----------------------------------END ALE.VIM}}}2
 "             DEOPLETE{{{
 let g:python3_host_prog = "/usr/bin/python3.9"
-let g:ruby_host_prog = '/home/devlab/.gem/ruby/2.7.0/bin/neovim-ruby-host'
+let g:ruby_host_prog = '$HOME/.gem/ruby/2.7.0/bin/neovim-ruby-host'
 "              }}} "
 "             YOUCOMPLETEME {{{
 let g:ycm_language_server =

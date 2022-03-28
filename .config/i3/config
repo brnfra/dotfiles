@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 21-03-2022
+# Ultima_modificacao: 28-03-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -330,7 +330,7 @@ bindsym Ctrl+4 exec $myTerm -x vim ~/Documents/
 # start program launcher
 #bindsym $mod+KP_Insert exec --no-startup-id rofi -show run
 
-# Apps Launched[Debian] with <SUPER> + <SHIFT> + <KEYPAD 1-9>
+# Apps Launched with <SUPER> + <SHIFT> + <KEYPAD 1-9>
 #bindsym $mod+Shift+KP_0 exec $myTerm -e
 bindsym $mod+Shift+KP_1 exec $myTerm -e code
 bindsym $mod+Shift+KP_2 exec $myTerm -x sudo plasma-discover
@@ -473,7 +473,7 @@ $exe ~/.config/i3/autostart/wallpaper.sh
 
     #Apps autoexec on start
 #$exe zim
-$exe liferea
+#$exe liferea
 #$exe gnome-clocks
 $exe diodon
 
