@@ -346,7 +346,8 @@ fi
 function pdfstd () 
 {
 
-backup="Backup"
+backup="Backup_"
+backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
 
 if ls ./*.pdf;
@@ -373,7 +374,7 @@ else
     echo "Error. Folder $output doesn't created"
     exit 2
 fi
-echo "Compacting pdf's files $pdf_files_list"
+echo -e "Compacting pdf's files..."
 
 #FOR EACH FILE RUN GHOSTSCRIPT TO COMPACT PDF FILES FROM CAT COMMAND
 for file in $pdf_files_list
@@ -381,29 +382,46 @@ do
     #take the size
     du -b "$file" > oldsize
     OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
-    echo "GhostScripting $file ... "
-    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -sPAPERSIZE=a4 \
-	-dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=./"$output"/"$file" "$file"
-    echo "Done"
+    echo -e "\n[ $file ]"
+    gs \
+	-sDEVICE=pdfwrite \
+	`# font settings` \
+	-dSubsetFonts=true \
+	-dCompressFonts=true \
+	-dEmbedAllFonts=true \
+	`# color format` \
+	-sProcessColorModel=DeviceRGB \
+	-sColorConversionStrategy=sRGB \
+	-sColorConversionStrategyForImages=sRGB \
+	-dConvertCMYKImagesToRGB=true \
+	`# image resample` \
+	-dDetectDuplicateImages=true \
+	-dDownsampleColorImages=true -dDownsampleGrayImages=true -dDownsampleMonoImages=true \
+	-dColorImageResolution=140 -dGrayImageResolution=140 -dMonoImageResolution=140 \
+	`# preset overrides` \
+	-dDoThumbnails=false \
+	-dCreateJobTicket=false \
+	-dPreserveEPSInfo=false \
+	-dPreserveOPIComments=false \
+	-dPreserveOverprintSettings=false \
+	-dUCRandBGInfo=/Remove \
+	-dNOPAUSE -dQUIET -dBATCH \
+	-sOutputFile=./"$output"/"$file" "$file"
+    echo -e "Done\n"
     du -b "./$output/$file" > newsize
     NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
     #Compare if the new size of the new file are bigger than old file
     if [[ $NEWSIZE -gt $OLDSIZE ]]
     then
-	#BACKUP CURRENT SMALLER FILE
 	if rm ./"$output"/"$file";
 	then
-	    echo "$file deleted."
+	    echo "./$output/$file deleted."
 	else
 	    echo "Error. Discart file "$file" code error $?"
 	    break
 	fi
-
-        #echo "if New file bigger than old and will be discart."
-        #rm newsize.txt
     else
-        #Backup FILE TO FOLDER CREATED 
-        if cp "$file" ./"$backup";
+        if mv "$file" ./"$backup";
         then
             echo "$file copied to $backup/ folder"
 	    mv ./"$output"/"$file" ./"$file"
@@ -412,21 +430,21 @@ do
             echo "Error when copy file "$file" code error $?"
             break
         fi
-
     fi
 done
 
 #Clean
-rm -f newsize.txt
-rm -f oldsize.txt
+rm -f newsize
+rm -f oldsize
+rm -f pdf_files_list
 
 #Is empty? yes, remove. 
 if [ -z "$(ls -A ./$output)" ]; then
-   rm -rf ./$output
+    rm -rf ./$output; echo "./$output folder deleted" 
 fi
 
 if [ -z "$(ls -A ./$backup)" ]; then
-   rm -rf ./$backup
+    rm -rf ./$backup; echo "./$backup folder deleted" 
 fi
 
 #END OF SCRIPT
@@ -440,8 +458,18 @@ echo "All done. Success"
 
 function videostd () {
 
-backup="Backup"
+backup="Backup_"
+backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
+
+if ls ./*.mp4;
+then
+    find . -maxdepth 1 -type f -name '*.mp4' |  sed 's|\.\/||gi' > mp4_files_list
+    mp4_files_list=$(cat mp4_files_list)
+else
+    echo "Error. There isn't .mp4 files"
+    exit 1
+fi
 
 #CREATING DESTINY FOLDER
 if mkdir -p ./$output;
@@ -458,21 +486,25 @@ else
     echo "Error. Folder $output doesn't created"
     exit 2
 fi
-echo "Compacting mp4's(codec libx265) files..."
 
-files=$(find . -maxdepth 1 -type f -name '*.mp4' | sed 's|\.\/||gi')
+echo -e "Compacting mp4's(codec libx265) files...\n"
 
 if command -v ffmpeg &> /dev/null
 then
-    for file in $files
+    for file in $mp4_files_list
     do
+	echo -e "[ $file ]\n"
 	#take the size
 	du -b "$file" > oldsize
 	OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
  
-	ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file"
-	wait $!
-	
+	if $(ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file")
+	then
+	    wait $!
+	else
+	    continue
+	fi
+	    
 	du -b "./$output/$file" > newsize
 	NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
 
@@ -482,18 +514,17 @@ then
 	    if rm ./"$output"/"$file";
 	    then
 		wait $!
-	        echo "New output $file deleted."
+	        echo "New output ./$output/$file deleted."
 		else
 		    echo "Error. Discart file "$file" code error $?"
 		    break
 		fi
-
         else
 	    #Backup FILE TO FOLDER CREATED 
-	    if cp "$file" ./"$backup";
+	    if mv "$file" ./"$backup";
 	    then
 		wait $!
-	        echo "$file copied to $backup/ folder"
+	        echo "$file moved to $backup/ folder"
 	        mv ./"$output"/"$file" ./"$file"
 		wait $!
 	        echo "New file substituted old file"
@@ -508,16 +539,16 @@ then
 fi
 
 #Clean
-rm -f newsize.txt
-rm -f oldsize.txt
+rm -f newsize
+rm -f oldsize
+rm -f mp4_files_list
 
 #Is empty? yes, remove. 
 if [ -z "$(ls -A ./$output)" ]; then
-   rm -rf ./$output
+    rm -rf ./$output; echo "./$output folder deleted" 
 fi
-
 if [ -z "$(ls -A ./$backup)" ]; then
-   rm -rf ./$backup
+    rm -rf ./$backup; echo "./$backup folder deleted" 
 fi
 
 #END OF SCRIPT
