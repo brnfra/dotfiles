@@ -27,12 +27,28 @@ Thank you guys for sharing :heart:
 
 ## My config files to automate computer changing configuration.
 
-1. Config files for Gnu/Linux based distro systems and "Git for windows"(mingw).
-2. The config files expect *two monitors* in desktop, maybe you have to change some things in *wallpaper* and *resolution* script in ```~/.config/i3/autostart```.
-3. The **$HOME/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
-   each monitor, if you don't want this, change it. Put the images files in ```~/.wallpapers```
-4. The i3config script _rotate the 2nd monitor to right and move it to right of the first_ in desktop config.
-5. The keyboard layout is **US-INT** in desktop and **PT-BR,ABNT** to notebook.
+### Desktop config(The main branch. Two monitors, monitor2 is left rotated, one in vertical)
+
+1. Config files for Gnu/Linux based distro systems.
+2. The config files expect *two monitors* in main branch, maybe you have to change some things in *wallpaper* and *resolution* script in ```~/.config/i3/autostart```.
+    - The **$HOME/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
+ each monitor, if you don't want this, change it. Put the images files in ```~/.wallpapers```
+3. The i3config script _rotate the 2nd monitor to right and move it to right of the first_ in desktop config.
+4. The keyboard layout is **US-INT**.
+
+### Notebook config(notebook-cfg branch)
+
+1. Config files for Gnu/Linux based distro systems.
+2. I3blocks include charge icon, and wifi signal scripts.
+3. Wallpapers autochange(must have included in folder ~/.wallpapers
+4. The keyboard layout is **PT-BR,ABNT**.
+
+### Mingw32(git-for-windows) config(mingw32-w8 branch)
+
+1. Config files for Gnu/Linux based distro systems(git-bash.exe).
+2. Remove scripts for programs for linux systems.
+3. Remove .config/ folder and some configurations.
+4. The keyboard layout is **PT-BR,ABNT**.
 
 **ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)**
 
@@ -40,6 +56,7 @@ Thank you guys for sharing :heart:
 
 - [x] Auto update script from repository
 - [x] Branches for each computers
+- [ ] Remove unecessary scripts for mingw32
 - [ ] Fix audio/mic control for notebook-cfg in i3block config
 - [ ] Testing and refactoring
 
@@ -82,9 +99,10 @@ In the ``` ~/bin```  folder there are scripts for each case.
 ## Updates
 
 If I change configuration and like it, *How can I update for this change?*
-- You can update your remote repository and, after tests, run the script below.
+- You can update your remote repository and, after tests, run the script below. In my tests, I clone this repo in another local, make the 
+changes and push to remote repo. The others computers can run update script and receive the updates.
 
-In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *After install*, just run;
+In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
 ```
 $ bash ~/bin/update.sh
 ```
