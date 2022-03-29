@@ -99,8 +99,12 @@ In the ``` ~/bin```  folder there are scripts for each case.
 ## Updates
 
 If I change configuration and like it, *How can I update for this change?*
-- You can update your remote repository and, after tests, run the script below. In my tests, I clone this repo in another local, make the 
-changes and push to remote repo. The others computers can run update script and receive the updates.
+- You can update your remote repository and, after tests, run the script below. 
+In my tests;
+1. I clone this repo in another local.
+2. Change to the correspondent branch by ```git checkout COMPUTER_BRANCH_NAME```
+3. Make the changes. Push to remote repo. 
+4. In the computers run update script and receive the updates.
 
 In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
 ```
