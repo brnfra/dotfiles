@@ -1,5 +1,6 @@
 #!/bin/bash
 
+local=$(pwd)
 cd "$HOME" || return
 
 function config {
@@ -9,3 +10,4 @@ function config {
 config fetch 
 config reset --hard HEAD
 config merge '@{u}'
+cd $local || return
