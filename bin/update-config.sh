@@ -1,20 +1,11 @@
 #!/bin/bash
 
-BKPDIR="$HOME"/.config-backup
+cd "$HOME" || return
 
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ 2>&1 | sed '/hint/d';
 }
 
-
-mkdir -p "$BKPDIR"
-config pull 
-
-if [ $? = 0 ]; then
-        echo "Checked out config.";
-else
-  echo "Backing up pre-existing dot files.";
-  config pull  2>&1 | egrep "^\s+\." | awk {'print $1'} | xargs -I{} mv "$HOME"/"{}" "$BKPDIR"
-fi
-
-config pull  
+config fetch 
+config reset --hard HEAD
+config merge '@{u}'

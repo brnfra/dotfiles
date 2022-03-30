@@ -106,6 +106,8 @@ In my tests;
 3. Make the changes. Push to remote repo. 
 4. In the computers run update script and receive the updates.
 
+> Any modifications are going update from remote to local.
+
 In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
 ```
 $ bash ~/bin/update.sh
