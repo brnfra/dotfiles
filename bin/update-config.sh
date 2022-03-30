@@ -10,4 +10,4 @@ function config {
 config fetch 
 config reset --hard HEAD
 config merge '@{u}'
-cd $local || return
+cd "$local" || return
