@@ -55,7 +55,7 @@ alias .....="cd ../../../.."
 alias CD='cd'
     # }}}
     #Command aliases {{{
-alias svim='sudo vim'
+alias svim='sudo nvim'
 alias cd..="cd .."
 alias cim="nvim"
 alias VIM="nvim"
@@ -102,18 +102,23 @@ alias dow="cd ~/Downloads"
 alias dwall="cd ~/.wallpapers/"
 alias docs="cd ~/Documents/"
 alias doc="cd ~/Documents/"
+alias hd='cd /media/SamsungHDD'
+alias hd2='cd /media/WDHDD'
 
+alias hosts='sudo vim /etc/hosts'
 alias repo="cd ~/documents/projects/git"
+alias config="cd ~/documents/projects/git/dotfiles"
 
-alias prompt='vim ~/.bash/.bash_prompt' 
-alias bashrc='vim ~/.bash/.bashrc' 
-alias aliases='vim ~/.bash/.bash_aliases' 
-alias functions='vim ~/.bash/.bash_functions' 
-alias vars='vim ~/.bash/.bash_exports' 
-alias vimrc='vim ~/.vimrc'
-alias i3rc='vim ~/.config/i3/config'
-
-   # }}}
+alias promptrc='nvim ~/.bash/.bash_prompt' 
+alias aliasrc='nvim ~/.bash/.bash_aliases' 
+alias funcrc='nvim ~/.bash/.bash_functions' 
+alias varc='nvim ~/.bash/.bash_exports' 
+alias bashrc='nvim ~/.bash/.bashrc' 
+alias vimrc='nvim ~/.nvimrc'
+alias i3rc='nvim ~/.config/i3/config'
+alias vifmrc='nvim ~/.config/vifm/vifmrc'
+  
+  # }}}
     # Apps exec {{{
 alias anki="cd ~/ && setsid ./Anki &>/dev/null"
 alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
