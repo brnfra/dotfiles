@@ -23,7 +23,7 @@ alias neofetch='neofetch --block_range 0 15'
     #show big directories(space)
 alias bigdirs='du --max-depth=1 2> /dev/null | sort -n -r | head -n20'
     # Long form no user group, color
-alias l='ls -AoGh --color=always --group-directories-first'
+#alias l='ls -AoGh --color=always --group-directories-first'
     # Order by last modified, long form no user group, color
 #alias lt='ls -toG --color=auto'
     # List all except . and ..., color, mark file types, long form no user group, file size
@@ -31,18 +31,15 @@ alias lv='ls -AGFSoh --color=auto --group-directories-first'
     # List all except . and ..., color, mark file types, long form no use group, order by last modified
 alias lt='ls -AGFtoh --color=auto'
     # some more ls aliases
-alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
-alias la.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
+#alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
+alias l.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
 alias li='ls -AFoh --color=always | grep --regexp="^[l]"'                                           #show links
 alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                                           #show directories
 
     #exa aliases
-alias xll='exa -alF --color=always --group-directories-first --sort name'                               #prefered hidden include
-alias xl='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
-alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
-alias xli='exa -alF --sort name | grep --regexp="^[l]"'                                                 # exa links
-alias xld='exa -alF --sort name | grep --regexp="^[d]"'                                                 # exa directories
-alias xlt='exa -aTF --color=always --group-directories-first --sort name'                                   # tree listing
+alias l='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
+#alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
+alias xlt='exa -aTF --level 1 --color=always --group-directories-first --sort name'                                   # tree listing
 alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
     # grep
 alias grep='grep --color=auto'
