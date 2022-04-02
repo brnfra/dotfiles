@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 21-03-2022
+" Ultima_modificacao: 02-04-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -174,18 +174,6 @@ call plug#begin('~/.vim/bundle')
 " Make sure you use single quotes
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
-" Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Multiple commands
-Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] }
-" Code to execute when the plugin is lazily loaded on demand
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-autocmd! User goyo.vim echom 'Goyo is now loaded!'
-" Any valid git URL is allowed
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-" On-demand loading on both conditions
-Plug 'junegunn/vader.vim',  { 'on': 'Vader', 'for': 'vader' }
-""unlet g:plug_url_format
 
 " On-demand loading
 Plug 'scrooloose/nerdtree'
@@ -201,51 +189,13 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 
-" DEOPLETE"
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-" Code Snnipets"
-"coc - https://github.com/neoclide/coc.nvim
-if has('nvim')
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  else
-      if has('patch-8.1.2269')
-    " Latest YCM needs at least this version of vim
-	Plug 'ycm-core/YouCompleteMe' 
-    else
-    " Version compatible with the vim in Debian 10 buster
-	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
-    endif
-
-endif
-
-" Or build from source code by using yarn: https://yarnpkg.com
-" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-
-" YouCompleteMe"
-""Plug 'ycm-core/youcompleteme'
-
-" Problem with cmake have to install and point in path to newer version of cmake
-" Problem when install/compile clang. was aborted
-" Problem with legacy version of vim have to install this patch
-" 3 problems, packages not found,sol cmd $python3 -m pip install --upgrade neovim/cmake/msgpack
-" https://github.com/ycm-core/YouCompleteMe/issues/3764
-
 " Multiple file types
-"Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
 "vim air-line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 "colorschemes
 Plug 'altercation/vim-colors-solarized'
-
 Plug 'dense-analysis/ale'
 
 "code indent"
@@ -255,14 +205,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'mattn/emmet-vim'
 Plug 'hail2u/vim-css3-syntax'
 
-"c/c++"
-Plug 'vim-scripts/OmniCppComplete'
-Plug 'vim-scripts/c.vim'
-
 "Table Of Contents[toc]
 Plug 'mzlogin/vim-markdown-toc'
-
-"java
 
 ""let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'brnfra/vim-shortcuts'
