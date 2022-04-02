@@ -57,14 +57,6 @@ alias gmail='git config --global user.email '
 alias gconf='git config --list --show-origin'
 #push see bash_functions
     # }}}
-    #docker {{{
-alias dstop='docker stop'
-alias dup='docker-compose up'
-alias dexec='docker exec -ti'
-alias dcon='docker container ls -a'
-alias dimg='docker image ls'
-alias dstop='docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin'
-    # }}}
     # Shortcuts map {{{
 alias down="cd ~/Downloads"
 alias dow="cd ~/Downloads"
@@ -74,13 +66,12 @@ alias doc="cd ~/Documents/"
 
 alias repo="cd ~/documents/projects/git"
 
-alias prompt='vim ~/.bash/.bash_prompt' 
-alias bashrc='vim ~/.bash/.bashrc' 
-alias aliases='vim ~/.bash/.bash_aliases' 
-alias functions='vim ~/.bash/.bash_functions' 
-alias vars='vim ~/.bash/.bash_exports' 
+alias prompt='vim ~/.bash_prompt' 
+alias bashrc='vim ~/.bashrc' 
+alias aliases='vim ~/.bash_aliases' 
+alias functions='vim ~/.bash_functions' 
+alias vars='vim ~/.bash_exports' 
 alias vimrc='vim ~/.vimrc'
-alias i3rc='vim ~/.config/i3/config'
 
    # }}}
 #   Scripts Execs{{{

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 21-03-2022
+# Ultima_modificacao: 02-04-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
@@ -41,5 +41,3 @@ if [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
