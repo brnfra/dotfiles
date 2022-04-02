@@ -4,7 +4,7 @@ local=$(pwd)
 cd "$HOME" || return
 
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ;
+    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ; wait $!;
 }
 
 config pull 

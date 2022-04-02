@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 28-03-2022
+" Ultima_modificacao: 01-04-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -22,8 +22,6 @@ set path+=**
 set exrc
 scriptencoding utf-8
 set secure
-set makeprg=make\ -C\ ../build\ -j9
-nnoremap <F3> :make!<cr>
 
 "" automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -35,13 +33,7 @@ endif
 "------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
-""Set Inicial work-folder
-if (has('win32') || has('win64'))
-    :cd C:\Users\Bruno\Documents
-endif
 
-set ttyfast " Send more characters at a given time
-"set ttymouse=xterm " Set mouse type to xterm
 set undofile " Persistent Undoo
 if !has('nvim')
     set viminfo=<500,:100,/50,%,'50,h,f0,s512
@@ -59,7 +51,6 @@ set splitright " New windows goes right
 set suffixes=.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll
 
 " ignore these files while expanding wild chars
-"
 set wildignore+=.svn,CVS,.git
 set wildignore+=*.o,*.a,*.class,*.mo,*.la,*.so,*.lo,*.la,*.obj,*.pyc
 set wildignore+=*.exe,*.zip,*.jpg,*.png,*.gif,*.jpeg,*pdf
@@ -80,7 +71,6 @@ set autowrite       " write buffers automagically when leaving them
 setlocal wildmode=full
 
 "Word completion
-"Complementação de palavras
 set dictionary+=~/.vim/c_src/tags
 set dictionary+=~/.vim/cpp_src/8/tags
 
@@ -97,7 +87,6 @@ set autoindent      " auto indent
 set smartindent
 set smarttab  " Be smart when using tabs ;)
 set noexpandtab   "no- Use spaces instead of tabs
-set si "Smart indent
 set lbr
 set tw=500  " Linebreak on 500 characters
 set showmatch
@@ -115,28 +104,20 @@ set foldcolumn=0 " Column to show folds
 set foldlevel=0 " Close all folds by default
 
 set termencoding=utf-8
-
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 
 " By default, without wrapping
 set nowrap
-
-
 set title
 set titleold="Terminal"
 set titlestring=%F
-
 set gcr=a:blinkon0    "" Disable the blinking cursor.
 set scrolloff=3
 set modeline          "" Use modeline overrides
 set modelines=2
-
 set ch=2              " Make command line two lines high
-
 set backspace=2       " Allow backspacing over indent, eol, and the start of an insert
-
 set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines from the top and 8" lines from the bottom
-
 set wildmenu          " Make the command-line completion better
 
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
@@ -152,7 +133,6 @@ set showfulltag       " When completing by tag, show the whole tag, not just the
 " --- sane text files -------   Encoding ----"
 set encoding=utf-8
 set ttyfast
-
 if !has('nvim')
    set ttymouse=xterm2
 endif
@@ -507,7 +487,7 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
-let g:airline_theme = 'base16'
+let g:airline_theme = 'solarized'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -636,13 +616,6 @@ else
     silent!colorscheme base16-ateliercave
 endif
 
-if has('unix')
-    if has('gui_running')
-        set background=light
-    else
-        set background=dark
-    endif
-endif
 
 " Terminals that support italics
 let s:terms_italic=[
