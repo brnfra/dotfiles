@@ -487,7 +487,7 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
-let g:airline_theme = 'base16_shell'
+let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -607,11 +607,11 @@ let g:indentLine_char ='┊'
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
 endif
+let g:solarized_termcolors=256
 
 set background=dark
 if has('unix')
-    silent! colorscheme solarized
-    "let g:solarized_termtrans=1
+    colorscheme solarized
 else
     silent!colorscheme base16-ateliercave
 endif
