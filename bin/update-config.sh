@@ -7,7 +7,7 @@ function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ;
 }
 
-config pull
+config pull origin mingw32-w8
 
 if [ $? = 0 ]; then
    echo "Checked out config.";
