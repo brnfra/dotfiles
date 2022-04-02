@@ -12,7 +12,7 @@ config pull
 if [ $? = 0 ]; then
    echo "Checked out config.";
 else
-    config fetch origin main
+    config fetch origin mingw32-w8
     config reset --hard HEAD
     config merge '@{u}'
 fi

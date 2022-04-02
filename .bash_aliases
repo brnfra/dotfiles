@@ -27,8 +27,9 @@ alias CD='cd'
     # }}}
     #Command aliases {{{
 alias cd..="cd .."
-alias cim="nvim"
-alias VIM="nvim"
+alias cim="vim"
+alias VIM="vim"
+alias v="vim"
 alias grep="grep --color=auto"
 alias EXIT="exit"
 alias myhost='ssh -T user@my.remote.host screen -dAr'
