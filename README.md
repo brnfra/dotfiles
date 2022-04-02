@@ -110,6 +110,7 @@ In my tests;
 
 In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
 ```
+$ cd ~/
 $ bash ~/bin/update.sh
 ```
 Now, Git gonna **update snapshot** of the remote repo in your $HOME.
