@@ -117,7 +117,7 @@ alias aliasrc='nvim ~/.bash/.bash_aliases'
 alias funcrc='nvim ~/.bash/.bash_functions' 
 alias varc='nvim ~/.bash/.bash_exports' 
 alias bashrc='nvim ~/.bash/.bashrc' 
-alias vimrc='nvim ~/.nvimrc'
+alias vimrc='nvim ~/.vimrc'
 alias i3rc='nvim ~/.config/i3/config'
 alias vifmrc='nvim ~/.config/vifm/vifmrc'
   
