@@ -138,28 +138,28 @@ function gpush ()
 }
 
 #GIT PULL 
-function gpull ()
-{
-    #Set my local REPO/Projects
-    LOCAL=$(pwd)
-    cd ~/Documents/Projects/git/   
-    UPFILES=$(git status -sb)
+#function gpull ()
+#{
+#    #Set my local REPO/Projects
+#    LOCAL=$(pwd)
+#    cd ~/Documents/Projects/git/   
+#    UPFILES=$(git status -sb)
 
-    echo $UPFILES
-    # PULL=`ll | cut -d . -f1`
-    PULL=$(ls)
-    for d in $PULL; do
-	if [ ! -f $d ];then
-	    cd "$d"
-	    echo "$d -> $(git pull)"
-	    cd ..
-	fi
-    done
-    echo ""
-    git add -A -v;git commit -v -m "$1 Update  $UPFILES";   
-    echo $UPFILES
-    cd $LOCAL
-}
+#    echo $UPFILES
+#    # PULL=`ll | cut -d . -f1`
+#    PULL=$(ls)
+#    for d in $PULL; do
+#	if [ ! -f $d ];then
+#	    cd "$d"
+#	    echo "$d -> $(git pull)"
+#	    cd ..
+#	fi
+#    done
+#    echo ""
+#    git add -A -v;git commit -v -m "$1 Update  $UPFILES";   
+#    echo $UPFILES
+#    cd $LOCAL
+#}
 
 function clone ()
 { 

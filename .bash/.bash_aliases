@@ -88,6 +88,9 @@ alias gmail='git config --global user.email '
 alias gconf='git config --list --show-origin'
 #push see bash_functions
     # }}}
+# jekyll {{{
+alias jstart="bundle exec jekyll serve --livereload"
+#}}}
     #docker {{{
 alias dstop='docker stop'
 alias dup='docker-compose up'
