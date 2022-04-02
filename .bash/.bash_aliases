@@ -39,7 +39,7 @@ alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                       
     #exa aliases
 alias l='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
 #alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
-alias xlt='exa -aTF --level 1 --color=always --group-directories-first --sort name'                                   # tree listing
+alias xlt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
 alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
     # grep
 alias grep='grep --color=auto'
