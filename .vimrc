@@ -18,6 +18,7 @@
 "                  System Config {{{
 "-------------------------------------------------------
 set nocompatible    " be iMproved, required
+set shell=$SHELL\ -f
 set path+=**
 set exrc
 scriptencoding utf-8
@@ -40,8 +41,6 @@ if !has('nvim')
     set viminfo=<500,:100,/50,%,'50,h,f0,s512
     set viminfo+=n~/.vim/.viminfo
 else
-    ""   Do nothing here to use the neovim default
-    ""   or do soemething like:
     set viminfo+=n~/.vim/.shada
 endif
 
@@ -51,7 +50,6 @@ set cursorline
 set splitbelow " New window goes below
 set splitright " New windows goes right
 set suffixes=.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll
-
 " ignore these files while expanding wild chars
 set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 set wildignore+=.svn,CVS,.git
@@ -78,7 +76,6 @@ setlocal wildmode=full
 "Word completion
 set dictionary+=~/.vim/c_src/tags
 set dictionary+=~/.vim/cpp_src/8/tags
-
 set complete-=i
 set complete+=.,w,k
 "set infercase
@@ -129,9 +126,7 @@ set wildmenu          " Make the command-line completion better
 
 set hlsearch          " Enable search highlighting
 set incsearch         " Incrementally match the search
-
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
-
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
 
@@ -151,34 +146,14 @@ filetype indent on
 filetype plugin on
 filetype plugin indent on
 
-" - Avoid using standard Vim directory names like 'plugin'
-""execute plug#begin()
 call plug#begin('~/.vim/bundle')
-
-" Make sure you use single quotes
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
-" Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Multiple commands
 Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] }
-" Code to execute when the plugin is lazily loaded on demand
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-autocmd! User goyo.vim echom 'Goyo is now loaded!'
-" Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-" On-demand loading on both conditions
-Plug 'junegunn/vader.vim',  { 'on': 'Vader', 'for': 'vader' }
-""unlet g:plug_url_format
-
-" On-demand loading
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-
-"Nerdtree icons(require Nerd Fonts)"
 Plug 'ryanoasis/vim-devicons'
-" tpope
-""Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -195,81 +170,51 @@ else
 endif
 
 " Code Snnipets"
-"coc - https://github.com/neoclide/coc.nvim
 if has('nvim')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
     if has('patch-8.1.2269')
-	" Latest YCM needs at least this version of vim
 	Plug 'ycm-core/YouCompleteMe' 
     else
-	" Version compatible with the vim in legacy systems
 	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
-
 endif
-
-"vim air-line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 "colorschemes
 Plug 'altercation/vim-colors-solarized'
-
 Plug 'dense-analysis/ale'
-
 "code indent"
 Plug 'Yggdroot/indentLine'
-
 "emmet tags html
 Plug 'mattn/emmet-vim'
 Plug 'hail2u/vim-css3-syntax'
-
 "c/c++"
 Plug 'vim-scripts/OmniCppComplete'
 Plug 'vim-scripts/c.vim'
-
 "Table Of Contents[toc]
 Plug 'mzlogin/vim-markdown-toc'
-
-""java
-
 ""let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'brnfra/vim-shortcuts'
 Plug 'brnfra/vim-markdown-brn'
 ""unlet g:plug_url_format
-
 call plug#end()
-
 "-------------------------------------------------------
 "     END PLUGINS  }}}1
 "             PLUGINS CONFIG {{{1
 "              FUGITIVE                          {{{
-"-------------------------------------------------------
 if exists("*fugitive#statusline")
     set statusline+=%{fugitive#statusline()}
 endif
-
 "                                           }}}"
 "COC{{{
-" https://download.eclipse.org/jdtls/milestones/0.57.0/"
-" https://github.com/neoclide/coc-java/issues/99
 if has("nvim")
-
-    " Don't pass messages to |ins-completion-menu|.
     set shortmess+=c
-
-    " Always show the signcolumn, otherwise it would shift the text each time
-    " diagnostics appear/become resolved.
     if has("nvim-0.5.0") || has("patch-8.1.1564")
-	" Recently vim can merge signcolumn and number column into one
 	set signcolumn=number
     else
 	set signcolumn=yes
     endif
-
-    " Use tab for trigger completion with characters ahead and navigate.
-    " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
     " other plugin before putting this into your config.
     inoremap <silent><expr> <TAB>
 		\ pumvisible() ? "\<C-n>" :
@@ -281,30 +226,25 @@ if has("nvim")
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
-
     " Use <c-space> to trigger completion.
     if has('nvim')
 	inoremap <silent><expr> <c-space> coc#refresh()
     else
 	inoremap <silent><expr> <c-@> coc#refresh()
     endif
-
     " Make <CR> auto-select the first completion item and notify coc.nvim to
     " format on enter, <cr> could be remapped by other vim plugin
     inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 		\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
     nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
     " GoTo code navigation.
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
-
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -317,13 +257,10 @@ if has("nvim")
 	    execute '!' . &keywordprg . " " . expand('<cword>')
 	endif
     endfunction
-
     " Highlight the symbol and its references when holding the cursor.
     autocmd CursorHold * silent call CocActionAsync('highlight')
-
     " Symbol renaming.
     nmap <leader>rn <Plug>(coc-rename)
-
     " Formatting selected code.
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
@@ -337,15 +274,12 @@ if has("nvim")
     augroup end
 
     " Applying codeAction to the selected region.
-    " Example: `<leader>aap` for current paragraph
     xmap <leader>a  <Plug>(coc-codeaction-selected)
     nmap <leader>a  <Plug>(coc-codeaction-selected)
-
     " Remap keys for applying codeAction to the current buffer.
     nmap <leader>ac  <Plug>(coc-codeaction)
     " Apply AutoFix to problem on the current line.
     nmap <leader>qf  <Plug>(coc-fix-current)
-
     " Map function and class text objects
     " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
     xmap if <Plug>(coc-funcobj-i)
@@ -371,16 +305,12 @@ if has("nvim")
     " Requires 'textDocument/selectionRange' support of language server.
     nmap <silent> <C-s> <Plug>(coc-range-select)
     xmap <silent> <C-s> <Plug>(coc-range-select)
-
     " Add `:Format` command to format current buffer.
     command! -nargs=0 Format :call CocAction('format')
-
     " Add `:Fold` command to fold current buffer.
     command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
     " Add `:OR` command for organize imports of the current buffer.
     command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
     " Mappings for CoCList
     " Show all diagnostics.
     nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
@@ -398,10 +328,7 @@ if has("nvim")
     nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list.
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-
 endif
-
 ""}}}
 "              VIM-SENSIBLE {{{
 " automatically open and close the popup menu / preview window
@@ -410,13 +337,11 @@ au CursorMovedI,InsertLeave * if pumvisible()==0|silent! pclose|endif
 set completeopt+=menuone,noinsert,longest,preview,noselect
 " Limit popup menu height
 set pumheight=15
-
 "              }}}
 "             Netrw configuration       {{{2
 ""------------------------------------------------------
 let g:loaded_netrw       = 1
 let g:loaded_netrwPlugin = 1
-
 let shownetrw =0
 let g:netrw_banner=0        " disable banner
 let g:netrw_browse_split=4  " open in prior window
@@ -472,7 +397,6 @@ let g:NERDTreeMapOpenVSplit= '+'
 nnoremap <F2> :NERDTreeToggle<CR>
 inoremap <F2> <esc>:NERDTreeToggle<CR>i
 vnoremap <F2> <esc>:NERDTreeToggle<CR>
-
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
@@ -605,7 +529,6 @@ else
     silent!colorscheme base16-ateliercave
 endif
 
-
 " Terminals that support italics
 let s:terms_italic=[
 	    \"rxvt",
@@ -633,11 +556,6 @@ let g:ycm_language_server =
 	    \   'filetypes': [ 'c', 'cpp', 'cuda', 'objc', 'objcpp' ],
 	    \   'project_root_files': [ '.ccls-root', 'compile_commands.json' ]
 	    \ }]
-"disable java suport
-" let g:syntastic_java_checkers = []
-" let g:EclimFileTypeValidate = 0
-
-
 "              }}}
 "              OMNICOMPLETE{{{
 " configure tags - add additional tags here or comment out not-used ones
@@ -645,7 +563,6 @@ set tags-=./tags,tags
 set tags+=~/.vim/c_src/tags?
 " build tags of your own project with Ctrl-F12
 map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q -I _GLIBCXX_NOEXCEPT .<CR>
-
 " OmniCppComplete
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -658,11 +575,9 @@ let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
-
 "              }}}
 "              C.VIM {{{
 let g:C_MapLeader  = '\'
-
 let tlist_template_settings  = 'template;t:template'
 "---------------------------------------------------------------
 " plugin templates : set filetype for *.template  
@@ -677,13 +592,9 @@ endif " has("autocmd")
 let g:C_FormatDate = '%d/%m/%Y'
 let g:C_FormatTime = '%H:%M'
 let g:C_Styles = { '*.c,*.h' : 'default', '*.cc,*.cpp,*.hh' : 'CPP' }
-
 "              }}}
 "                    TAGBAR     {{{2
 "-------------------------------------------------------
-" --- TagBar
-" toggle TagBar with F7 ;tb
-"nnoremap <silent><F7> :TagbarToggle<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
@@ -696,30 +607,25 @@ let g:tagbar_type_markdown = {
 	    \ 'ctagstype': 'markdown',
 	    \ 'kinds': [ 'h:Heading_L1', 'i:Heading_L2', 'k:Heading_L3' ]
 	    \ }
-
 "------------------------------------------------------}}}2
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
 "-------------------------------------------------------
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
-
 augroup vimrc-sync-fromstart
     autocmd!
     autocmd BufEnter * :syntax sync maxlines=200
 augroup END
-
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
     autocmd!
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
-
 "" make/cmake
 augroup vimrc-make-cmake
     autocmd!
     autocmd FileType make setlocal noexpandtab
     autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
-
 augroup END
 " Set header vim files{{{{
 augroup auto_header
@@ -752,25 +658,19 @@ if !has('nvim')
     autocmd VimEnter * exec ":loadview"
 endif
 "}}}
-
 " Arquivos .sh sao sempre bash, e não sh
 "au FileType sh let b:is_bash=1
-set shell=$SHELL\ -f
 "-------------------------------------------END AUTCMD }}}
 "                   SYNTAX Stuffs       {{{
 "-------------------------------------------------------
-"au FileType php setl ofu=phpcomplete#CompletePHP
 au FileType ruby,eruby setl ofu=rubycomplete#Complete
 au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
 au FileType c setl ofu=ccomplete#CompleteCpp
 au FileType css setl ofu=csscomplete#CompleteCSS
-
 " C/C++ specific settings
 autocmd FileType c,cpp,cc set cindent
-
 " Java specific settings
 au BufNewFile,BufRead *.java set ft=java
-
 " Associate uncommon filetypes
 au BufRead,BufNewFile Guardfile set filetype=ruby
 au BufRead,BufNewFile *.module set filetype=php
@@ -783,7 +683,6 @@ au BufRead,BufNewFile txt set filetype=markdown
 au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
-
 "---------------------------------------------
 " file type detection
 "---------------------------------------------
@@ -792,11 +691,9 @@ au BufNewFile,BufRead *.mxml set filetype=mxml
 au BufNewFile,BufRead *.as set filetype=actionscript
 au BufNewFile,BufRead *.less set filetype=less
 "au BufWritePre * :%s/\s\+$//e        " remove trailing whitespace
-
 "---------------------------------------------
 " Enable omni completion. (Ctrl-X Ctrl-O)
 "---------------------------------------------
-
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
@@ -815,13 +712,11 @@ if has("autocmd") && exists("+omnifunc")
 		\ endif
 endif
 set cot-=preview	"disable doc preview in omnicomplete
-
 "---------------------------------------------
 " for PHP programming
 "---------------------------------------------
 autocmd FileType php set makeprg=php\ -l\ %
 autocmd FileType php set errorformat=%m\ in\ %f\ on\ line\ %l
-
 "---------------------------------------------
 " for edit CSS
 "---------------------------------------------
@@ -829,42 +724,25 @@ autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 " make CSS omnicompletion work for SASS and SCSS
 autocmd BufNewFile,BufRead *.scss			set ft=scss.css
 autocmd BufNewFile,BufRead *.sass			set ft=sass.css
-
 "---------------------------------------------
 " for edit HTML
 "---------------------------------------------
 autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-
 "---------------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
 let mapleader="," " Map <Leader> to ,
 let g:mapleader=","
-
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     {{{
 "-------------------------------------------------------
-"Maps;
-"<BAR>       - |
-"<leader>    - ;
-"<C-w>       - Ctrl + w
-"<CR>        - Enter(confirma)
-"<S-w>       - Shift + w
-"<F1>        - F1
-
-" Ativa fechamento automático para parêntese
-" Set automatic expansion of parenthesis/brackets
-inoremap ( ()<left>
-inoremap { {}<left>
-inoremap [ []<left>
-inoremap ' ''<left>
-inoremap " ""<left>
-
-" <F6> :setlocal spell! spelllang=pt_br<CR>
 noremap <F10> :q<cr>
 noremap <F9> :q!<cr>
 noremap <F8> :wall<cr>:mkview<cr>
 inoremap <F8> <esc>:w<CR>:mkview<cr>
 
+"--------------------------------------------------------
+""                 Abbreviations
+"--------------------------------------------------------
 " Permite recarregar o vim para que modificações no
 " próprio vimrc seja ativadas com o mesmo sendo editado
 nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>
@@ -874,9 +752,6 @@ noremap =V :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
 noremap ,v :e ~/.vimrc<CR>  " para editar o .vimrc
 noremap ,V :e ~/.vimrc<CR>  " para editar o .vimrc
 
-"--------------------------------------------------------
-""                 Abbreviations
-"--------------------------------------------------------
 "" this shortcuts will make improve type errors
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -896,19 +771,46 @@ noremap <C-c> "
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
-"repeate line bellow
-inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
+" Move lines: Shift+(seta abaixo) ou (seta acima)
+" Move Block down"
+vnoremap <S-Down> VdjP`[v`]
+" Move Block up"
+vnoremap <S-Up> VdkP`[v`]
 "repeate selection block"
 vnoremap <C-d> VOyP`[v`]
-
-inoremap <C-T> <C-R><Tab>
+"repeate line bellow
+inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
+"close tags
+inoremap ,/ </<C-X><C-O>
+"redo"
 nnoremap U :redo<cr>
+"select ALL"
 nnoremap <C-a> ggVG
-
+"call goyo-plugin"
 noremap ,g :Goyo 120x90%<CR>
+"toggle wrap"
 noremap <F7> :set wrap! wrap?<CR>
+" show number on/off""
+noremap <F3> :call Numshow()<CR>          
+"toggle show spaces"
+nnoremap <F3> :set list! list?<CR>    
+"delete blanck spaces"
+noremap ,d :call DelBlanks()<CR>    
+"easy indent all the file
+nnoremap <F6> gg=G
+" inserir linhas e continuar em modo normal
+noremap +l o<ESC>:echo<CR>
+noremap +L O<ESC>:echo<CR>
+"autocompletion document with ctrl+space
+inoremap <c-space> <c-n>
+" Ativa fechamento automático para parêntese
+" Set automatic expansion of parenthesis/brackets
+inoremap ( ()<left>
+inoremap { {}<left>
+inoremap [ []<left>
+inoremap ' ''<left>
+inoremap " ""<left>
 
-noremap <F3> :call Numshow()<CR>          " show number on/off""
 function Numshow()
     let num = &number
     if !num
@@ -920,12 +822,7 @@ function Numshow()
 	set noruler
 	set norelativenumber
     endif
-
 endfunction
-
-nnoremap <F3> :set list! list?<CR>     "show spaces
-
-noremap ,d :call DelBlanks()<CR>       " del blanck spaces
 
 function DelBlanks()
     :%s/\s\+$//
@@ -933,23 +830,8 @@ endfunction
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-"easy indent all the file
-nnoremap <F6> gg=G
-
-" inserir linhas e continuar em modo normal
-noremap +l o<ESC>:echo<CR>
-noremap +L O<ESC>:echo<CR>
-
-" Mover linhas com: Ctrl+(seta abaixo) ou (seta acima)
-" tem que estar em modo normal!
-" Move Block down"
-vnoremap <S-Down> VdjP`[v`]
-" Move Block up"
-vnoremap <S-Up> VdkP`[v`]
 
 inoremap <S-Down> <esc>ddp<esc>i
 nnoremap <S-Down> <esc>ddp<esc>
@@ -964,7 +846,6 @@ nnoremap <leader>/ :split<cr>
 nnoremap <leader>- :vsplit<cr>
 
 "" Switching windows buffer(NerdTree)
-
 nnoremap <C-Down> <C-W>j    "v
 nnoremap <C-Up> <C-W>k   "^
 nnoremap <C-Left> <C-W>h    "<
@@ -980,9 +861,6 @@ nnoremap <C--> <C-w>-
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
 nnoremap <S-t> :tabnew<CR>
-
-"autocompletion document with ctrl+space
-inoremap <c-space> <c-n>
 
 "-------------------------------------------------------
 "" Custom configs
