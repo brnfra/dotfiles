@@ -4,10 +4,10 @@ local=$(pwd)
 cd "$HOME" || return
 
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ; wait $!;
+    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ; 
 }
 
-config pull 
+config pull origin main
 
 if [ $? = 0 ]; then
    echo "Checked out config.";
