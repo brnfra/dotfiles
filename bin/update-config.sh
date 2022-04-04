@@ -1,7 +1,7 @@
 #!/bin/bash
 
 local=$(pwd)
-cd "$HOME" || return
+$(cd "$HOME") || return
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ; 
 }
