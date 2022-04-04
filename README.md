@@ -108,7 +108,7 @@ In my tests;
 
 > Any modifications are going update from remote to local.
 
-In the folder ```~/bin``` there is a script named ```update.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
+In the folder ```~/bin``` there is a script named ```update-config.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
 ```
 $ bash ~/bin/update-config.sh
 ```
