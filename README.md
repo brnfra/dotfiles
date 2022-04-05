@@ -112,7 +112,7 @@ In the folder ```~/bin``` there is a script named ```update-config.sh``` such ma
 ```
 $ bash ~/bin/update-config.sh
 ```
-Now, Git gonna **update snapshot** of the remote repo in your $HOME.
+Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
 
 ## Dependencies
 
