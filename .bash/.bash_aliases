@@ -23,7 +23,7 @@ alias neofetch='neofetch --block_range 0 15'
     #show big directories(space)
 alias bigdirs='du --max-depth=1 2> /dev/null | sort -n -r | head -n20'
     # Long form no user group, color
-#alias l='ls -AoGh --color=always --group-directories-first'
+alias l='ls -AoGh --color=always --group-directories-first'
     # Order by last modified, long form no user group, color
 #alias lt='ls -toG --color=auto'
     # List all except . and ..., color, mark file types, long form no user group, file size
@@ -37,10 +37,10 @@ alias li='ls -AFoh --color=always | grep --regexp="^[l]"'                       
 alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                                           #show directories
 
     #exa aliases
-alias l='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
+#alias l='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
 #alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
-alias xlt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
-alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
+#alias xlt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
+#alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
     # grep
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
