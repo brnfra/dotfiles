@@ -20,8 +20,7 @@ alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-ge
 alias neofetch='neofetch --block_range 0 15'
     # }}}
     # List directories contents aliasesc {{{
-	#show big directories(space)
-alias bigdirs='du -hm --max-depth=1 2> /dev/null | sort -n -r | head -n20'
+	
 	# Long form no user group, color sort by name, directories first
 alias l='ls -Agophv --color=always --group-directories-first'
 	# Long form with user group, color sort by name, directories first
@@ -29,7 +28,7 @@ alias ll='ls -AGophv --color=always --group-directories-first'
     	# Order by last modified, long form no user group, color
 alias lt='ls -Atogp --color=auto --group-directories-first'
     	# List all dirs with size
-alias lv='du -h --max-depth=1'
+alias lv='du -h --max-depth=1 | sort -h'
     	# List order by type
 alias lx='ls -Axogh | grep -v -e "[^\/]$"'
     	# some more ls aliases
