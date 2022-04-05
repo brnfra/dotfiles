@@ -1,14 +1,13 @@
 [Configuration]
 ColorForeground=#dededddddada
-ColorBackground=#002b36
+ColorBackground=#222227272e2e
 ColorCursor=#5757e3e38989
 ColorBold=#1c1c7171d8d8
-ColorBoldUseDefault=FALSE
-ColorPalette=rgb(7,54,66);rgb(220,50,47);rgb(133,153,0);rgb(181,137,0);rgb(38,210,178);rgb(211,54,130);rgb(42,161,152);rgb(195,190,174);rgb(0,43,54);rgb(203,75,22);rgb(174,250,78);rgb(24,28,29);rgb(157,188,191);rgb(108,113,196);rgb(127,241,241);rgb(253,246,227)
+ColorPalette=rgb(0,0,0);rgb(247,65,62);rgb(37,208,60);rgb(214,164,6);rgb(52,123,250);rgb(176,59,180);rgb(47,198,187);rgb(191,191,191);rgb(78,90,93);rgb(243,147,147);rgb(142,255,0);rgb(221,226,91);rgb(114,194,229);rgb(252,0,255);rgb(37,209,209);rgb(255,255,255)
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBellUrgent=FALSE
-MiscBordersDefault=FALSE
+MiscBordersDefault=TRUE
 MiscCursorBlinks=FALSE
 MiscCursorShape=TERMINAL_CURSOR_SHAPE_BLOCK
 MiscDefaultGeometry=80x24
@@ -39,10 +38,9 @@ ShortcutsNoMnemonics=TRUE
 FontName=Monofur NF 12
 ScrollingUnlimited=TRUE
 ScrollingOnOutput=FALSE
-ColorCursorUseDefault=FALSE
-ColorCursorForeground=#f8f8e4e45c5c
-ColorSelectionUseDefault=FALSE
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
+ColorCursorForeground=#9999c1c1f1f1
 ColorSelection=#f6f6f5f5f4f4
 ColorSelectionBackground=#4dad4a114f5b
-ScrollingBar=TERMINAL_SCROLLBAR_NONE
+ColorBoldIsBright=FALSE
 

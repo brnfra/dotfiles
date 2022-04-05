@@ -23,7 +23,7 @@ alias neofetch='neofetch --block_range 0 15'
     #show big directories(space)
 alias bigdirs='du --max-depth=1 2> /dev/null | sort -n -r | head -n20'
     # Long form no user group, color
-alias l='ls -AoGh --color=always --group-directories-first'
+#alias l='ls -AoGh --color=always --group-directories-first'
     # Order by last modified, long form no user group, color
 #alias lt='ls -toG --color=auto'
     # List all except . and ..., color, mark file types, long form no user group, file size
@@ -31,18 +31,15 @@ alias lv='ls -AGFSoh --color=auto --group-directories-first'
     # List all except . and ..., color, mark file types, long form no use group, order by last modified
 alias lt='ls -AGFtoh --color=auto'
     # some more ls aliases
-alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
-alias la.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
+#alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
+alias l.='ls -AF1 --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
 alias li='ls -AFoh --color=always | grep --regexp="^[l]"'                                           #show links
 alias ld='ls -AFoh --color=always | grep --regexp="^[d]"'                                           #show directories
 
     #exa aliases
-alias xll='exa -alF --color=always --group-directories-first --sort name'                               #prefered hidden include
-alias xl='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
-alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
-alias xli='exa -alF --sort name | grep --regexp="^[l]"'                                                 # exa links
-alias xld='exa -alF --sort name | grep --regexp="^[d]"'                                                 # exa directories
-alias xlt='exa -aTF --color=always --group-directories-first --sort name'                                   # tree listing
+alias l='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
+#alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
+alias xlt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
 alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
     # grep
 alias grep='grep --color=auto'
@@ -55,7 +52,7 @@ alias .....="cd ../../../.."
 alias CD='cd'
     # }}}
     #Command aliases {{{
-alias svim='sudo vim'
+alias svim='sudo nvim'
 alias cd..="cd .."
 alias cim="nvim"
 alias VIM="nvim"
@@ -88,6 +85,9 @@ alias gmail='git config --global user.email '
 alias gconf='git config --list --show-origin'
 #push see bash_functions
     # }}}
+# jekyll {{{
+alias jstart="bundle exec jekyll serve --livereload"
+#}}}
     #docker {{{
 alias dstop='docker stop'
 alias dup='docker-compose up'
@@ -102,18 +102,23 @@ alias dow="cd ~/Downloads"
 alias dwall="cd ~/.wallpapers/"
 alias docs="cd ~/Documents/"
 alias doc="cd ~/Documents/"
+alias hd='cd /media/SamsungHDD'
+alias hd2='cd /media/WDHDD'
 
+alias hosts='sudo vim /etc/hosts'
 alias repo="cd ~/documents/projects/git"
+alias config="cd ~/documents/projects/git/dotfiles"
 
-alias prompt='vim ~/.bash/.bash_prompt' 
-alias bashrc='vim ~/.bash/.bashrc' 
-alias aliases='vim ~/.bash/.bash_aliases' 
-alias functions='vim ~/.bash/.bash_functions' 
-alias vars='vim ~/.bash/.bash_exports' 
-alias vimrc='vim ~/.vimrc'
-alias i3rc='vim ~/.config/i3/config'
-
-   # }}}
+alias promptrc='nvim ~/.bash/.bash_prompt' 
+alias aliasrc='nvim ~/.bash/.bash_aliases' 
+alias funcrc='nvim ~/.bash/.bash_functions' 
+alias varc='nvim ~/.bash/.bash_exports' 
+alias bashrc='nvim ~/.bash/.bashrc' 
+alias vimrc='nvim ~/.vimrc'
+alias i3rc='nvim ~/.config/i3/config'
+alias vifmrc='nvim ~/.config/vifm/vifmrc'
+  
+  # }}}
     # Apps exec {{{
 alias anki="cd ~/ && setsid ./Anki &>/dev/null"
 alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"

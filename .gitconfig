@@ -1,7 +1,6 @@
 [user]
 	name = brnfra
 	email = devlabbr@outlook.com
-[filesystem "Debian|11.0.13|/dev/sdb7"]
 	timestampResolution = 4000 nanoseconds
 	minRacyThreshold = 7440 microseconds
 # push/pull/diff/options {{{
