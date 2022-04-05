@@ -30,7 +30,7 @@ alias ll='ls -AGophv --color=always --group-directories-first'
     # List all except . and ..., color, mark file types, long form no user group, file size
 alias lv='ls -ApgSoh --color=auto --group-directories-first'
     # List all except . and ..., color, mark file types, long form no use group, order by last modified
-alias ls='ls -AghpSxo --group-directories-first | grep --regexp="[^\/]$'
+alias lx='ls -AghpSxo --group-directories-first | grep --regexp="[^\/]$"'
     # some more ls aliases
 #alias l.='ls -AF1 --color=always --group-directories-first --hide='[\/]$' | grep --regexp="^[.]"'   #show hidden no folders
 alias l.='ls -ApGv --color=always --group-directories-first | grep --regexp="^[.]"'                 #show hidden folders included
