@@ -30,7 +30,7 @@ alias lt='ls -Atogp --color=auto --group-directories-first'
     	# List all dirs with size
 alias lv='du -h --max-depth=1 | sort -h'
     	# List order by type
-alias lx='ls -Axogh | grep -v -e "[^\/]$"'
+alias lx='ls -Agxoph | grep -e "[^\/]$"'
     	# some more ls aliases
 	#show hiddens only
 alias l.='ls -ApGv --group-directories-first | grep --regexp="^[.]"'                 
