@@ -165,7 +165,6 @@ function depends()
 # }}}
 # FZF FUNCTIONS {{{
 
-
 function open_with_fzf () 
 {
     fd -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-
@@ -175,9 +174,9 @@ function cd_with_fzf ()
     cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
 }
 # do not use yet
-function pacs () {
-    pcmanfm -Syy $(pcmanfm -Ssq | fzf -m --preview="pcmanfm -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
-}
+# function pacs () {
+#     pcmanfm -Syy $(pcmanfm -Ssq | fzf -m --preview="pcmanfm -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
+# }
 
 # Display a man page using fzf and fd. usually /usr/share/man
 function man_find () {
@@ -192,7 +191,7 @@ function fman ()
 
 function fhistory () 
 {
-    eval "$(cat ~/.bash_history | fzf -m -i)"    
+    command "$(cat < ~/.bash_history | fzf -m -i)"    
 }
 
 # }}}
