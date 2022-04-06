@@ -20,11 +20,11 @@ Thank you guys for sharing :heart:
 
 ## Sumary
 
-- [Requirements](https://github.com/brnfra/dotfiles/tree/notebook-cfg#requirements)
-- [Install](https://github.com/brnfra/dotfiles/tree/notebook-cfg#how-to-install)
-- [Pull state from remote after installation](https://github.com/brnfra/dotfiles/tree/notebook-cfg#pull-state-from-remote-to-local-config)
-- [Update my dotfiles after installation](https://github.com/brnfra/dotfiles/tree/notebook-cfg#update-remote-state-from-local-to-remote)
-- [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles/tree/notebook-cfg#dependencies)
+- [Requirements](https://github.com/brnfra/dotfiles#requirements)
+- [Install](https://github.com/brnfra/dotfiles#how-to-install)
+- [Pull state from remote after installation](https://github.com/brnfra/dotfiles#pull-state-from-remote-to-local-config)
+- [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
+- [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 
 ## My config files to automate computer changing configuration.
 
@@ -153,4 +153,4 @@ If you want full functions here will required, for some functions, the previous 
 - exa
 
 
-[Back](https://github.com/brnfra/dotfiles/tree/notebook-cfg#my-dotfiles-repository-)
+[Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
