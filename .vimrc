@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 02-04-2022
+" Ultima_modificacao: 06-04-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -15,8 +15,6 @@
 " (_)\_/  |___|_|  |_|_| \_\\____|
 "
 "====================================================================
-"Nerd-Fonts  - https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip
-"PATH(Debian)- placing FONTS them into /usr/local/share/fonts (system-wide), ~/.local/share/fonts (user-specific)
 "                  System Config {{{
 "-------------------------------------------------------
 set nocompatible    " be iMproved, required
@@ -78,7 +76,7 @@ set showcmd         "Exibe comando sendo executado
 set autowrite       " write buffers automagically when leaving them
 ""set vb              " set visual bell --
 setlocal wildmode=full
-
+set noerrorbells
 "Word completion
 "Complementação de palavras
 set dictionary+=~/.vim/c_src/tags
