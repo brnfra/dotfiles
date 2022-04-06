@@ -20,10 +20,11 @@ Thank you guys for sharing :heart:
 
 ## Sumary
 
-- [Requirements](https://github.com/brnfra/dotfiles#requirements)
-- [Install](https://github.com/brnfra/dotfiles#how-to-install)
-- [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#updates)
-- [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
+- [Requirements](https://github.com/brnfra/dotfiles/tree/notebook-cfg#requirements)
+- [Install](https://github.com/brnfra/dotfiles/tree/notebook-cfg#how-to-install)
+- [Pull state from remote after installation](https://github.com/brnfra/dotfiles/tree/notebook-cfg#pull-state-from-remote-to-local-config)
+- [Update my dotfiles after installation](https://github.com/brnfra/dotfiles/tree/notebook-cfg#update-remote-state-from-local-to-remote)
+- [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles/tree/notebook-cfg#dependencies)
 
 ## My config files to automate computer changing configuration.
 
@@ -96,23 +97,33 @@ Attention on ssh-key problems, just in case, you find help [here](https://docs.g
 - [**Optional**] If you'll create enviroment to Java, Spring and React the script ___java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add the **PATH** to **.bash_exports**.
 In the ``` ~/bin```  folder there are scripts for each case.
 
-## Updates
+## Pull state from remote to local config
+
+After install, if remote has changed configuration and you want pull it, *How can I update local for this change?*
+- You can pull to your local repository run the script below. 
+
+In the folder ```~/bin``` there is a script named ```pull-config.sh``` such make a "**pull request**" like a normal git repo. Just run;
+```
+$ bash ~/bin/pull-config.sh
+```
+Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
+
+## Update remote state from local to remote 
 
 If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
-In my tests;
-1. I clone this repo in another local.
-2. Change to the correspondent branch by ```git checkout COMPUTER_BRANCH_NAME```
-3. Make the changes. Push to remote repo. 
-4. In the computers run update script and receive the updates.
 
-> Any modifications are going update from remote to local.
+1. Clone this repo in another local.(here the default is ``` ~/documents/projects/git/ ``` )
+2. Change to the correspondent branch by ```git switch [main/mingw32-w8/notebook-cfg]``` 
+3. Make the changes and push to remote repo in correspondent branch. 
+4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
-In the folder ```~/bin``` there is a script named ```update-config.sh``` such make a "**pull request**" like a normal git repo. *Later*, just run;
+In the folder ```~/bin``` there is a script named ```stage-local-config.sh``` gonna make copy my edited config files to
+**dotfiles** folder. Now check the status and if it's fine proceed to push changes, just run;
 ```
-$ bash ~/bin/update-config.sh
+$ git push origin [main/mingw32-w8/notebook-cfg]
 ```
-Now, Git gonna **update snapshot** of the remote repo in your $HOME.
+Now, Git gonna **update snapshot** from local to remote.
 
 ## Dependencies
 
@@ -142,4 +153,4 @@ If you want full functions here will required, for some functions, the previous 
 - exa
 
 
-[Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
+[Back](https://github.com/brnfra/dotfiles/tree/notebook-cfg#my-dotfiles-repository-)

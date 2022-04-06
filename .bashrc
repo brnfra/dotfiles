@@ -1,28 +1,25 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-03-2022
+# Ultima_modificacao: 05-04-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
 #           causados pelo uso deste arquivo.
 #
 #
-
-if [ -f ~/.bash/.bash_profile ]; then
-    . ~/.bash/.bash_profile
-fi
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
 
+if [ -f ~/.bash/.bash_profile ]; then
+    . ~/.bash/.bash_profile
+fi
+
 shopt -s autocd
 shopt -s checkwinsize
-
-force_color_prompt=yes
-
 shopt -s nocaseglob;
 shopt -s histappend;
 shopt -s cdspell;
@@ -42,4 +39,3 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
