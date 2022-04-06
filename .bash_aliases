@@ -83,5 +83,5 @@ alias vimrc='vim ~/.vimrc'
    # }}}
 #   Scripts Execs{{{
 alias upconfig="bash ~/bin/update-config.sh"
-alias up=`git update-git-for-windows`  
+alias up="git update-git-for-windows"  
 #   }}}
