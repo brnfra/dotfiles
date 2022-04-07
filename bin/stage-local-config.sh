@@ -1,7 +1,7 @@
 #!/bin/bash
 #  Arquivo: stage-local-config.sh
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 05-04-2022
+#  Ultima_modificacao: 07-04-2022
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -13,7 +13,7 @@ SCRIPTS="$HOME/Documents/Projects/git/dotRepo/privateShell/scripts"
 DOTFILES="$HOME/Documents/Projects/git/dotRepo/privateConfig"
 DOTREPO="$HOME/Documents/Projects/git/dotRepo"
 GITD="$HOME/Documents/Projects/git"
-copyTo="$HOME/.config-backup"
+copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog=".config-backup/bkp.log"
 #function for backup
 sync_copy ()

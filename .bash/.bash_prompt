@@ -147,7 +147,15 @@ else
 fi;
 
 build_prompt() {
-    PS1='$(git_branch $violet $yellow)'
+    PS1="\n\[${bold}\]\[${cyan}\]Ctrl+a\[${reset}\] - Start of the line	| "; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+e\[${reset}\] - End of the line		\n"; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+r\[${reset}\] - List history cmd	| "; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+l\[${reset}\] - Clear\n"; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+k\[${reset}\] - Cut from cursor->Fim   | "; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+w\[${reset}\] - Cut from Begin->cursor	\n"; 
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+y\[${reset}\] - Paste cuted\n"; 
+    
+    PS1+='$(git_branch $violet $yellow)'
     PS1+=$'\n' #ambiguous problem here
     PS1+="\[${inverted}\]"; 
     PS1+="\[${italic}\]"; 

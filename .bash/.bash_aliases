@@ -92,6 +92,9 @@ alias gconf='git config --list --show-origin'
 # jekyll {{{
 alias jstart="bundle exec jekyll serve --livereload"
 #}}}
+# python {{{
+alias py="python3 "
+#}}}
     #docker {{{
 alias dstop='docker stop'
 alias dup='docker-compose up'
@@ -116,8 +119,8 @@ alias config="cd ~/documents/projects/git/dotfiles"
 alias promptrc='nvim ~/.bash/.bash_prompt' 
 alias aliasrc='nvim ~/.bash/.bash_aliases' 
 alias funcrc='nvim ~/.bash/.bash_functions' 
-alias varc='nvim ~/.bash/.bash_exports' 
-alias bashrc='nvim ~/.bash/.bashrc' 
+alias pathrc='nvim ~/.bash/.bash_exports' 
+alias bashrc='nvim ~/.bashrc' 
 alias vimrc='nvim ~/.vimrc'
 alias i3rc='nvim ~/.config/i3/config'
 alias vifmrc='nvim ~/.config/vifm/vifmrc'

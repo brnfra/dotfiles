@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-04-2022
+# Ultima_modificacao: 07-04-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
@@ -23,6 +23,7 @@ shopt -s checkwinsize
 shopt -s nocaseglob;
 shopt -s histappend;
 shopt -s cdspell;
+shopt -s dotglob nullglob
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -37,5 +38,3 @@ fi
 if [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
-
-
