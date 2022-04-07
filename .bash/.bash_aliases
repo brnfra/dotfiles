@@ -116,7 +116,8 @@ alias hosts='sudo vim /etc/hosts'
 alias repo="cd ~/documents/projects/git"
 alias config="cd ~/documents/projects/git/dotfiles"
 
-alias promptrc='nvim ~/.bash/.bash_prompt' 
+alias promptrc='nvim ~/.bash/.bash_prompt'
+alias profilerc='nvim ~/.bash/.bash_profile'
 alias aliasrc='nvim ~/.bash/.bash_aliases' 
 alias funcrc='nvim ~/.bash/.bash_functions' 
 alias pathrc='nvim ~/.bash/.bash_exports' 
