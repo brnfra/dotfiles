@@ -1,7 +1,7 @@
-#!/bin/bash
-#  Arquivo: stage-local-config.sh
+#!/usr/bin/env bash
+#  Arquivo: stage-local-config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 07-04-2022
+#  Ultima_modificacao: 09-04-2022
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos

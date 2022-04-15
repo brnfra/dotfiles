@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 04-04-2022
+" Ultima_modificacao: 13-04-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -24,7 +24,7 @@ set exrc
 scriptencoding utf-8
 set secure
 set history=1500
-
+""set magic
 "" automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -147,25 +147,20 @@ filetype plugin on
 filetype plugin indent on
 
 call plug#begin('~/.vim/bundle')
+Plug 'junegunn/fzf', { 'dir': '~/.vim/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] }
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-    Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
+    Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
@@ -184,10 +179,7 @@ Plug 'vim-airline/vim-airline-themes'
 "colorschemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'dense-analysis/ale'
-"code indent"
-Plug 'Yggdroot/indentLine'
-"emmet tags html
-Plug 'mattn/emmet-vim'
+"syntax
 Plug 'hail2u/vim-css3-syntax'
 "c/c++"
 Plug 'vim-scripts/OmniCppComplete'
@@ -295,8 +287,8 @@ if has("nvim")
     if has('nvim-0.4.0') || has('patch-8.2.0750')
 	nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 	nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-	inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-	inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+	inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<right>"
+	inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<left>"
 	vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 	vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
     endif
@@ -390,8 +382,8 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-let g:NERDTreeMapUpdir = '<Left>'
-let g:NERDTreeMapActivateNode = '<Right>'
+let g:NERDTreeMapUpdir = '<left>'
+let g:NERDTreeMapActivateNode = '<right>'
 let g:NERDTreeMapOpenSplit= '-'
 let g:NERDTreeMapOpenVSplit= '+'
 nnoremap <F2> :NERDTreeToggle<CR>
@@ -611,6 +603,7 @@ let g:tagbar_type_markdown = {
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
 "-------------------------------------------------------
+
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
     autocmd!
@@ -733,12 +726,12 @@ autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabsto
 let mapleader="," " Map <Leader> to ,
 let g:mapleader=","
 "-------------------------------------------END SYNTAX }}}
-"                     COMPLETE MAPS     {{{
+"                     COMPLETE MAPS     
 "-------------------------------------------------------
-noremap <F10> :q<cr>
-noremap <F9> :q!<cr>
-noremap <F8> :wall<cr>:mkview<cr>
-inoremap <F8> <esc>:w<CR>:mkview<cr>
+noremap <C-q> :q<cr>
+noremap <C-Q> :q!<cr>
+noremap <C-s> :wall<cr>:mkview<cr>
+inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
 
 "--------------------------------------------------------
 ""                 Abbreviations
@@ -749,8 +742,8 @@ nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>
 nnoremap 0V :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>:redraw!<cr>
 noremap =v :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
 noremap =V :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
-noremap ,v :e ~/.vimrc<CR>  " para editar o .vimrc
-noremap ,V :e ~/.vimrc<CR>  " para editar o .vimrc
+noremap <leader>v :e ~/.vimrc<CR>  " para editar o .vimrc
+noremap <leader>V :e ~/.vimrc<CR>  " para editar o .vimrc
 
 "" this shortcuts will make improve type errors
 cnoreabbrev W! w!
@@ -767,37 +760,82 @@ cnoreabbrev Qall qall
 "---------------------------------------------
 "           copy to system buffer
 "---------------------------------------------
-noremap <C-c> "
+noremap <C-c> :'<,'>:w !xclip -selection clipboard -i<cr><cr>
+"colar area de transferencia xclip"
+noremap <C-v> :r!xclip -o +\%c<cr>
+inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
+" show number on/off""
+noremap <F3> :call ToggleHidden()<CR>10h          
+"toggle show spaces"
+inoremap <F3> <esc>:set list! list?<CR>li
+"easy indent all the file
+nnoremap <F4> gg=G
+"easy indent all the file
+inoremap <F4> <esc>gg=Gli
+"toggle wrap"
+noremap <F5> :set wrap! wrap?<CR>
+"toggle wrap"
+inoremap <F5> <esc>:set wrap! wrap?<CR>li
+set pastetoggle=<F6>
+noremap <F7> :call ToggleFold()<cr>
+inoremap <F7> <esc>:call ToggleFold()<cr>i
+"fold selected
+noremap <leader>f :call ToggleCreateFold()<cr>
+vnoremap <leader>f :call ToggleCreateFold()<cr>
+inoremap <leader>f <esc>:call ToggleCreateFold()<cr>i
+ 
 " Move lines: Shift+(seta abaixo) ou (seta acima)
 " Move Block down"
-vnoremap <S-Down> VdjP`[v`]
+vnoremap <S-down> VdjP`[v`]
 " Move Block up"
-vnoremap <S-Up> VdkP`[v`]
+vnoremap <S-up> VdkP`[v`]
 "repeate selection block"
 vnoremap <C-d> VOyP`[v`]
 "repeate line bellow
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
 "close tags
-inoremap ,/ </<C-X><C-O>
+inoremap <leader>/ </<C-X><C-O>
+inoremap <C-up> <esc>5ki
+inoremap <C-down> <esc>5ji
+inoremap <C-left> <esc>hbi
+inoremap <C-right> <esc>lwi
+" Visual
+nnoremap <silent> vi" ?"<CR><space>v/"<CR><BS>
+nnoremap <silent> vi' ?'<CR><space>v/'<CR><BS>
+nnoremap <silent> vi` ?`<CR><space>v/`<CR><BS>
+nnoremap <silent> va" ?"<CR>v/"<CR>
+nnoremap <silent> va' ?'<CR>v/'<CR>
+nnoremap <silent> va` ?`<CR>v/`<CR>
+
+" Delete
+nnoremap <silent> di" ?"<CR><space>v/"<CR><BS>d
+nnoremap <silent> di' ?'<CR><space>v/'<CR><BS>d
+nnoremap <silent> di` ?`<CR><space>v/`<CR><BS>d
+nnoremap <silent> da" ?"<CR>v/"<CR>d
+nnoremap <silent> da' ?'<CR>v/'<CR>d
+nnoremap <silent> da` ?`<CR>v/`<CR>d
+
+" Change
+nnoremap <silent> ci" ?"<CR><space>v/"<CR><BS>c
+nnoremap <silent> ci' ?'<CR><space>v/'<CR><BS>c
+nnoremap <silent> ci` ?`<CR><space>v/`<CR><BS>c
+nnoremap <silent> ca" ?"<CR>v/"<CR>c
+nnoremap <silent> ca' ?'<CR>v/'<CR>c
+nnoremap <silent> ca` ?`<CR>v/`<CR>c
+
 "redo"
 nnoremap U :redo<cr>
 "select ALL"
 nnoremap <C-a> ggVG
 "call goyo-plugin"
 noremap ,g :Goyo 120x90%<CR>
-"toggle wrap"
-noremap <F7> :set wrap! wrap?<CR>
-" show number on/off""
-noremap <F3> :call Numshow()<CR>          
-"toggle show spaces"
-nnoremap <F3> :set list! list?<CR>    
-"delete blanck spaces"
-noremap ,d :call DelBlanks()<CR>    
-"easy indent all the file
-nnoremap <F6> gg=G
+"delete blank spaces"
+noremap ,d :%s/\s\+$//<CR>    
+"delete blank lines
+noremap ,D :g/^\s*$/d<CR>
 " inserir linhas e continuar em modo normal
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
@@ -811,32 +849,55 @@ inoremap [ []<left>
 inoremap ' ''<left>
 inoremap " ""<left>
 
-function Numshow()
-    let num = &number
-    if !num
+let s:hidden_all = 1 "by @LukeSmithxyz"
+function ToggleHidden()
+    if s:hidden_all == 0
+	let s:hidden_all = 1
 	set number
 	set ruler
 	set relativenumber
+	set laststatus=2
+	set list
     else
+	let s:hidden_all = 0
 	set nonumber
 	set noruler
 	set norelativenumber
+	set laststatus=0
+	set nolist
+    endif
+endfunction
+let s:fold_all = 1 
+function ToggleFold()
+    if s:fold_all == 0
+	let s:fold_all = 1
+	:%foldclose!
+    else
+	let s:fold_all = 0
+	:%foldopen!
+    endif
+endfunction
+function ToggleCreateFold()
+    if foldclosed(".") < 0
+	let s:make_fold = 0
+	:'<,'>fold
+    else
+	:normal zd
     endif
 endfunction
 
-function DelBlanks()
-    :%s/\s\+$//
-endfunction
+
+
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-inoremap <S-Down> <esc>ddp<esc>i
-nnoremap <S-Down> <esc>ddp<esc>
-inoremap <S-Up> <esc>ddkP<esc>i
-nnoremap <S-Up> <esc>ddkP<esc>
+inoremap <S-down> <esc>ddp<esc>i
+nnoremap <S-down> <esc>ddp<esc>
+inoremap <S-up> <esc>ddkP<esc>i
+nnoremap <S-up> <esc>ddkP<esc>
 
 " terminal emulation
 nnoremap <silent> <leader>l :terminal<CR>
@@ -846,16 +907,14 @@ nnoremap <leader>/ :split<cr>
 nnoremap <leader>- :vsplit<cr>
 
 "" Switching windows buffer(NerdTree)
-nnoremap <C-Down> <C-W>j    "v
-nnoremap <C-Up> <C-W>k   "^
-nnoremap <C-Left> <C-W>h    "<
-nnoremap <C-Right> <C-W>l    ">
-nnoremap <Bar> <C-W>w
+nnoremap <C-down> <C-W>j    "v
+nnoremap <C-up> <C-W>k   "^
+nnoremap <C-left> <C-W>h    "<
+nnoremap <C-right> <C-W>l    ">
 
-""nnoremap <S-Up> <C-w>w
-nnoremap <C-q> :close
-nnoremap <C-+> <C-w>+
-nnoremap <C--> <C-w>-
+""nnoremap <S-up> <C-w>w
+nnoremap <C-+> <C-W>+
+nnoremap <C--> <C-W>-
 
 "" Tabs
 nnoremap <Tab> gt
@@ -889,4 +948,4 @@ highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
 
-"--------------------------------------------------------END MAPS  }}}
+"--------------------------------------------------------END MAPS  

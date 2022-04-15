@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Shell prompt based on the Solarized Dark theme.
 # Screenshot: http://i.imgur.com/EkEtphC.png
 # Heavily inspired by @necolas’s prompt: https://github.com/necolas/dotfiles
@@ -8,18 +7,12 @@
 bind '"\C-f":"cd_with_fzf\n"'
 bind '"\C-o":"open_with_fzf\n"'
 bind '"\C-v":"nvim\n"'
-
-    #Prompt git					    {{{ 
+    #Prompt git					    {{{
 git_branch() {
-	
 	local s='';
     local branchName='';
-    local width=$((COLUMNS));
-       
-
 	# Check if the current directory is in a Git repository.
     if git rev-parse --is-inside-work-tree &>/dev/null || return; then
-
 	# Check for what branch we’re on.
 	# Get the short symbolic ref. If HEAD isn’t a symbolic ref, get a
 	# tracking remote branch or tag. Otherwise, get the
@@ -28,7 +21,6 @@ git_branch() {
 		git describe --all --exact-match HEAD 2> /dev/null || \
 		git rev-parse --short HEAD 2> /dev/null || \
 		echo '(unknown)')";
-
 	# Early exit for Chromium & Blink repo, as the dirty check takes too long.
 	# Thanks, @paulirish!
 	# https://github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
@@ -48,33 +40,20 @@ git_branch() {
 		if $(git rev-parse --verify refs/stash &>/dev/null); then
 			s+='Refs++';
 		fi;
-
-
-
 	[ -n "${s}" ] && s="[${s}]";
-
-	    printf "%-*s" $width "${1}[${branchName}]${2}${s}";
-
+	printf "%-*s" ${#branchName} "${1}▛▔ [${branchName}] ▁▟${2}▛▔ ${s} ▁▟";
 	else
-
 	    [ -n "${s}" ] && s="[${s}]";
-
-	    printf "%-*s" $width "${1}[${branchName}]${2}${s}";
-
+	    printf "%-*s" ${#branchName} "${1}▛▔ [${branchName}] ▁▟${2}▛▔ ${s} ▁▟";
 	fi
-
-
 }
-
 							    # }}}
-
 # Set Colors {{{
 	get_branch="\$(git_branch)";
 	get_branch_length=${#get_branch};
 	#https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x405.html
 	#https://wiki.archlinux.org/title/Bash/Prompt_customization
-
-	# Color 
+	# Color
 	tput sgr0; # reset colors
 	bold=$(tput bold);
 	italic=$(tput sitm);
@@ -84,25 +63,23 @@ git_branch() {
 	#movement
 	pos_save=$(tput sc);
 	pos_reset=$(tput rc);
-	pos_left=$(tput hpa 0);	
+	pos_left=$(tput hpa 0);
 	pos_right_branch=$(tput hpa $((COLUMNS+1)));
 #	pos_right_branch=$(tput hpa $((COLUMNS - get_branch_length - 1)));
 	pos_right_status=$(tput hpa $COLUMNS);
-
 	pos_line_down=$(tput cud 1)
 	pos_line_up=$(tput cuu 1)
-
 	#removing
 	clear_left=$(tput el)
 	reset=$(tput sgr0);
-	
 	#especials
 	# http://heyrod.com/snippets/tag-bash.html
 	wrap_off=$(tput rmam)
 	wrap_on=$(tput smam)
-
 	# Solarized colors, taken from http://git.io/solarized-colors.
 	black=$(tput setaf 0);
+	lgray=$(tput setaf 7);
+	dgray=$(tput setaf 8);
 	blue=$(tput setaf 27);
 	cyan=$(tput setaf 39);
 	green=$(tput setaf 34);
@@ -113,9 +90,10 @@ git_branch() {
 	white=$(tput setaf 15);
 	yellow=$(tput setaf 220);
 	brow=$(tput setaf 52);
-	
 	# Set a background color
 	bblack=$(tput setab 0);
+	blgrey=$(tput setab 7);
+	bdgrey=$(tput setab 8);
 	bblue=$(tput setab 27);
 	bcyan=$(tput setab 39);
 	bgreen=$(tput setab 34);
@@ -127,50 +105,50 @@ git_branch() {
 	bwhite=$(tput setab 15);
 	byellow=$(tput setab 220);
 	bbrow=$(tput setab 52);
-	
 # Highlight the user name when logged in as root.
 if [[ "${USER}" == "root" ]]; then
 	userStyle="${red}";
 else
 	userStyle="${italic}";
 fi;
-
     # }}}
-
-# Set the terminal title and prompt.PS1  {{{ 
-
+# Set the terminal title and prompt.PS1  {{{
 # Highlight the hostname when connected via SSH.
 if [[ "${SSH_TTY}" ]]; then
 	hostStyle="${bold}${red}";
 else
 	hostStyle="${yellow}";
 fi;
-
 build_prompt() {
-    PS1="\n\[${bold}\]\[${cyan}\]Ctrl+a\[${reset}\] - Start of the line	| "; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+e\[${reset}\] - End of the line		\n"; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+r\[${reset}\] - List history cmd	| "; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+l\[${reset}\] - Clear\n"; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+k\[${reset}\] - Cut from cursor->Fim   | "; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+w\[${reset}\] - Cut from Begin->cursor	\n"; 
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+y\[${reset}\] - Paste cuted\n"; 
-    
-    PS1+='$(git_branch $violet $yellow)'
-    PS1+=$'\n' #ambiguous problem here
-    PS1+="\[${inverted}\]"; 
-    PS1+="\[${italic}\]"; 
-    PS1+="\[${green}\]\u@\h \w ";	# working directory full path
-    PS1+="\[${reset}\]";	
-    PS1+="\[${white}\]"; 
-    PS1+="\[${blink}\] → ";   
-    PS1+="\[${reset}\]";	# (reset color)
+    DATE=$(date +"%A, %d %b %Y %T ");
+    POS=$((COLUMNS - ${#DATE}));
+    # ULOCAL="$USER $(pwd)";
+    # POSGIT=$((${#ULOCAL}));
+    PS1="\[${bold}\]\[${cyan}\]Ctrl+a\[${reset}\] - Start of the line	|";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+e\[${reset}\] - End of the line		\n";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+u\[${reset}\] - Clear line		|";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+l\[${reset}\] - Clear\n";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+r\[${reset}\] - List history cmd	|";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+k\[${reset}\] - Cut from cursor->Fim\n";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+w\[${reset}\] - Cut from Begin->cursor	|";
+    PS1+="\[${bold}\]\[${cyan}\]Ctrl+y\[${reset}\] - Paste cuted\n";
+    PS1+="\[${inverted}\]";
+    PS1+="\[${italic}\]";
+    PS1+="\[${lgray}\]▛▔ \u@\h ▁▟▛▔ \w ▁▟";	# working directory full path
+    PS1+="\[${bold}\]";
+    PS1+='$(git_branch $violet $yellow)';
+    # PS1+="\[${pos_save}\]";
+    # PS1+="\[$(tput cup 1 $((POSGIT))+20)";
     PS1+="\[${reset}\]";
-	 
-    PS2="\[${yellow}\]→ \[${reset}\]";
+    PS1+="\[${white}\]";
+    PS1+="\n\$\[${blink}\]\[${bold}\] → ";
+    PS1+="\[${reset}\]";	# (reset color)
+    PS1+="\[${pos_save}\]";
+    PS1+="\[$(tput cup 0 $((POS)))";
+    PS1+="\[${bdgrey}\]\[${white}\]\[$(tput sitm)\]";
+    PS1+="\[${DATE}\]\[${pos_reset}\]";
+    PS2="\[${yellow}\] → \[${reset}\]";
     PS2+=" \u@\h \W \\$";
 }
-
 PROMPT_COMMAND=build_prompt
-
 # }}}
-

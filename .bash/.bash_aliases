@@ -26,7 +26,7 @@ alias l='ls -Agophv --color=always --group-directories-first'
 	# Long form with user group, color sort by name, directories first
 alias ll='ls -AGophv --color=always --group-directories-first'
     	# Order by last modified, long form no user group, color
-alias lt='ls -Atogp --color=auto --group-directories-first'
+alias lt='ls -Atogph --color=auto --group-directories-first'
     	# List all dirs with size
 alias lv='du -h --max-depth=1 | sort -h'
     	# List order by type
@@ -35,7 +35,7 @@ alias lx='ls -Agxoph | grep -e "[^\/]$"'
 	#show hiddens only
 alias l.='ls -ApGv --group-directories-first | grep --regexp="^[.]"'                 
 	#show links only
-alias li='ls -AFoh --color=always | grep --regexp="^[l]"'    
+alias li='ls -AFohL --color=always | grep --regexp="^[l]"'    
         #show directories
 alias ld='ls -ApGoh --color=always | grep --regexp="[\/]$"'
 
@@ -145,5 +145,5 @@ alias v="vim"
 # }}}
 #   Scripts Execs{{{
 alias pull-config="bash ~/bin/pull-config.sh"
-alias stage-config="bash ~/bin/stage-local-config.sh"
+#alias stage-config="bash ~/bin/stage-local-config.sh"
 #   }}}
