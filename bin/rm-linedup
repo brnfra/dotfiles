@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -f "$1" ]
+then 
+    echo 'Arquivo encontrado'
+    cat $1 | sort -u | uniq > /tmp/$1
+    cp -f /tmp/$1 $HOME/
+fi
