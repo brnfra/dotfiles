@@ -728,8 +728,8 @@ let g:mapleader=","
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     
 "-------------------------------------------------------
-noremap <F10> :q<cr>
-noremap <F12> :q!<cr>
+noremap <C-q> :q<cr>
+noremap <C-Q> :q!<cr>
 noremap <C-s> :wall<cr>:mkview<cr>
 inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
 
