@@ -143,7 +143,3 @@ alias nv="nvim"
 alias v="vim"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-#   Scripts Execs{{{
-alias pull-config="bash ~/bin/pull-config.sh"
-#alias stage-config="bash ~/bin/stage-local-config.sh"
-#   }}}
