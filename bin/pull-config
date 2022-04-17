@@ -16,6 +16,6 @@ else
 
     config fetch origin main
     config reset --hard HEAD
-    config merge '@{u}'
+    config merge origin '@{u}'
 fi
 cd "$local" || return
