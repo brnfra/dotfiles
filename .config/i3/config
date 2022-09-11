@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-04-2022
+# Ultima_modificacao: 23-05-2022
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -368,10 +368,11 @@ set $purple   #9800FE
 
     #Color appearance -----------------------------------------------------------------
 # class                 border      backgr. text    indicator child_border
-client.focused          $green      $gray   $white  $purple     $green
-client.focused_inactive $orange     $gray   $white  $yellow   $orange
-client.unfocused        $orangedark $gray   $white  $purple   $orangedark
+client.focused          $green      $black  $white  $purple   $green
+client.focused_inactive $orange     $dark   $white  $yellow   $orange
+client.unfocused        $orangedark $dark   $white  $purple   $orangedark
 client.urgent           $red        $dark   $white  $red      $red
+
 #client.placeholder      $white  #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       $dark
@@ -442,6 +443,7 @@ bindsym XF86HomePage         $exe pavucontrol
     # }}}
     # session startup ------------------------------------------------------------ {{{
 
+$exe exec mate-settings-daemon    
 # $exe_always ~/.screenlayout/i3-default.sh
 $exe_always compton --config ~/.config/compton.conf
 
@@ -456,11 +458,11 @@ $exe_always xset b off
 $exe numlockx on
 #$exe setxkbmap -model pc104 -layout us_intl
 
-    #$exe_always xrdb -load ~/.config/i3/.Xresources
+#$exe_always xrdb -load ~/.config/i3/.Xresources
 #$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-$exe xfce4-power-manager
-
-    #Networkmanager wicd and NM do not work together
+#$exe xfce4-power-manager
+$exe exec mate-power-manager
+#Networkmanager wicd and NM do not work together
 #$exe wicd-gtk -t
 $exe nm-applet --indicator
 
@@ -482,7 +484,7 @@ $exe goldendict
 # exec --no-startup-id xautolock -time 10 -locker blurlock
 
 # Autostart applications
-$exe transmission-gtk
+#$exe transmission-gtk -m
 #exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #exec_always --no-startup-id ff-theme-util
 #exec_always --no-startup-id fix_xcursor

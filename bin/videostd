@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+
+#to compact mp4 video files
+
+backup="Backup_"
+backup+=$(pwd | awk -F / '{print $NF}')
+output="Output"
+
+if ls ./*.mp4;
+then
+    find . -maxdepth 1 -type f -name '*.mp4' |  sed 's|\.\/||gi' > mp4_files_list
+    mp4_files_list=$(cat mp4_files_list)
+else
+    echo "Error. There isn't .mp4 files"
+    exit 1
+fi
+
+#CREATING DESTINY FOLDER
+if mkdir -p ./$output;
+then
+    echo "Folder $output created"
+    if mkdir -p ./$backup;
+    then
+	echo "Folder $backup created"
+    else
+	echo "Error. Folder $backup doesn't created"
+	exit 3
+    fi
+else
+    echo "Error. Folder $output doesn't created"
+    exit 2
+fi
+
+echo -e "Compacting mp4's(codec libx265) files...\n"
+
+if command -v ffmpeg &> /dev/null
+then
+    for file in $mp4_files_list
+    do
+	echo -e "[ $file ]\n"
+	#take the size
+	du -b "$file" > oldsize
+	OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
+
+	if $(ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file")
+	then
+	    wait $!
+	else
+	    continue
+	fi
+
+	du -b "./$output/$file" > newsize
+	NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
+
+	if [[ $NEWSIZE -gt $OLDSIZE ]]
+	then
+	    #BACKUP CURRENT SMALLER FILE
+	    if rm ./"$output"/"$file";
+	    then
+		wait $!
+		echo "New output ./$output/$file deleted."
+	    else
+		echo "Error. Discart file "$file" code error $?"
+		break
+	    fi
+	else
+	    #Backup FILE TO FOLDER CREATED 
+	    if mv "$file" ./"$backup";
+	    then
+		wait $!
+		echo "$file moved to $backup/ folder"
+		mv ./"$output"/"$file" ./"$file"
+		wait $!
+		echo "New file substituted old file"
+	    else
+		echo "Error when copy file "$file" code error $?"
+		break
+	    fi
+
+	fi
+
+    done
+fi
+
+#Clean
+rm -f newsize
+rm -f oldsize
+rm -f mp4_files_list
+
+#Is empty? yes, remove. 
+if [ -z "$(ls -A ./$output)" ]; then
+    rm -rf ./$output; echo "./$output folder deleted" 
+fi
+if [ -z "$(ls -A ./$backup)" ]; then
+    rm -rf ./$backup; echo "./$backup folder deleted" 
+fi
+
+#END OF SCRIPT
+echo "All done. Success"

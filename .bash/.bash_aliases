@@ -66,6 +66,7 @@ alias myhost='ssh -T user@my.remote.host screen -dAr'
 alias cp='cp -i'
 alias mv='mv -i'
 alias fd='fdfind'
+alias tam='item_size'
  # }}}
     #git {{{
     #status

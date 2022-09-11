@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+#Search dupes lines and delete them
 
 if [ -f "$1" ]
 then 

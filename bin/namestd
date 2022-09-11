@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+
+#change names for standard. Ex.: 's p c' => s_p_c; and so on...
+
+printf "\n%s\n\n" "Checking Files..." 
+
+# saida" remove blank spaces and trailing especial chars
+STDNAMES=$((0))
+STDFILES=$((0))
+STDFOLDERS=$((0))
+LOCAL=$(pwd)
+#first, make some general changes, just in case(remove spaces)
+for FILE in "$LOCAL"/* 
+do
+    OLD=$(echo "$FILE" | sed  "s|$LOCAL/||g")
+    NAME=$(echo "$FILE" | sed "s|$LOCAL/||g")
+
+    NAME=${NAME// /_}
+    NAME=$(echo "$NAME" | sed -r 's/\s+/_/gi')
+
+    NAME=$(echo "$NAME" | tr '\n\r\a\b\f\v\t' '_' | sed -r 's/_$//gi')
+
+
+    if [[ "$NAME" != "$OLD" ]]
+    then
+	mv -n "$OLD" "$NAME" &>/dev/null
+	ISOK="$?"
+	if [[ "$ISOK" = "0" ]]
+	then
+	    printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
+	    STDNAMES=$(($STDNAMES + 1))      
+	fi
+    else
+	printf "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
+    fi
+
+done
+
+printf "\n\t%-20s\n\n" "Scanning ... $STDNAMES modifications."
+
+FILES=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi')
+STFILES=$?
+FOLDERS=""
+eval "find . -maxdepth 1 -type d -name '*' &>> /dev/null"
+STFOLDERS=$?
+# if output is 0 folder = folders list
+[[ $STFOLDERS -eq 0 ]] && FOLDERS=$(find . -maxdepth 1 -type d -name '*' | sed 's|\.\/||gi' | sed '1d') || FOLDERS=""
+
+if [[ $STFILES -eq 0 ]]
+then
+    for FILE in ${FILES} ;
+    do
+	OLD=$FILE
+
+	NAME=${FILE// /_}
+	if [[ $NAME == *"."* ]]; then       
+	    #remove os pontos dos nomes dos arquivos
+	    #palavra da extensao ou apos simbolo .
+	    EXT=$(echo "${NAME##*'.'}")
+	    #palavra antes do ultimo ponto ou antes do simbolo .
+	    NAME=$(echo ${NAME%.*})
+	    NAME=${NAME//[\\+]/}
+
+		  #converte codificação para ascII simples/aqui, remove acentuacao,simbolos e excessos
+		  NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<<$NAME)
+		  # sed command recursive ; is the delimiter
+		  NAME=$(echo $NAME | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+		  if [[ $NAME == "" ]]; then 
+		      NAME="new_renamed_file"
+		  fi
+
+		  EXT=$(iconv -f UTF8 -t ASCII//TRANSLIT<<<$EXT)
+		  EXT=$(echo $EXT | sed -r 's/\W/_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+		  #output file name  
+		  NAME=$NAME.$EXT
+
+	      else
+		  NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<<$NAME)
+		  NAME=${NAME//[\\+]/}
+		  NAME=$(echo $NAME | sed -r 's/[ _-]/_/g; s/\W/_/gim; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+		  if [[ $NAME == "" ]]; then 
+		      NAME="new_renamed_file"
+		  fi
+	fi
+
+	if [[ "$NAME" != "$OLD" ]]
+	then
+	    mv -n "$OLD" "$NAME" &>/dev/null
+	    ISOK="$?"
+	    if [[ "$ISOK" = "0" ]]
+	    then
+		printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
+		STDFILES=$(($STDFILES + 1))
+	    fi
+	else
+	    printf "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
+	fi
+    done
+    printf "\n\t%-20s\n" "Scanning ... $STDFILES modifications."
+
+else
+    printf "\n\t%-20s\n" "No files founded."
+fi
+
+#atribui valor 0(null)
+STDFOLDERS=$((0))
+NEW=
+NAME=
+printf "\n%s\n\n" "Checking folders..."
+
+if [[ $STFOLDERS -eq 0 ]]    
+then
+    for FOLDER in ${FOLDERS} ;
+    do      
+	#receive step by step the names  
+	OLD=$FOLDER 
+	NAME=$FOLDER
+	#in case the character has been special chenge for blank otherwise write 
+	NAME=${FOLDER//[^a-z|A-Z|0-9|('/')|('_')]/}
+	NAME=${NAME//[\\+]/}
+	NAME=${NAME//{\$}/}
+
+	#in case the first has been _ sbst ""
+	NAME=${NAME/#_/} 
+
+	# coding to ascII remove latin chars
+	NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<<$NAME)
+
+	#remove os pontos e _ em excesso dos nomes dos arquivos
+	NAME=$(echo $NAME | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+
+	if [[ "$NAME" != "$OLD" ]]
+	then
+	    if [[ "$NAME" == "/" ]]
+	    then
+		echo "Folder's name is empty"
+
+	    else
+		mv -n "$OLD" "$NAME" &>/dev/null
+		ISOK="$?"
+		if [[ "$ISOK" = "0" ]]
+		then
+		    printf "\t%s\e[9m%-20s\e[0m%s%10s%-20s\n" "[" "$OLD" "]" " ----> " " [$NAME]"
+		    STDFOLDERS=$(($STDFOLDERS + 1))
+		fi
+	    fi
+
+	else
+	    printf "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
+
+	fi
+    done
+    printf "\n\t%-20s\n\n\n" "Checking ... $STDFOLDERS folders' modifications."
+else
+    printf "\n\t%-20s\n\n\n" "No folders founded."
+fi
+

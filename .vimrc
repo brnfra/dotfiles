@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 13-04-2022
+" Ultima_modificacao: 01-07-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -762,8 +762,8 @@ cnoreabbrev Qall qall
 "---------------------------------------------
 noremap <C-c> :'<,'>:w !xclip -selection clipboard -i<cr><cr>
 "colar area de transferencia xclip"
-noremap <C-v> :r!xclip -o +\%c<cr>
-inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
+""noremap <C-v> :r!xclip -o +\%c<cr>
+""inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
