@@ -20,3 +20,4 @@ fi
 
 config checkout
 config config status.showUntrackedFiles no
+exec ~/bin/install_enviroment
