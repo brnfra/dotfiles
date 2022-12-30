@@ -30,7 +30,7 @@ Thank you guys for sharing :heart:
 
 ### Desktop config(The main branch. Two monitors, monitor2 is left rotated, one in vertical)
 
-1. Config files for Gnu/Linux based distro systems.
+1. Config files for Gnu/Linux based distro systems(Made on **Debian based**, pls check first).
 2. The config files expect *two monitors* in main branch, maybe you have to change some things in *wallpaper* and *resolution* script in ```~/.config/i3/autostart```.
     - The **$HOME/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
  each monitor, if you don't want this, change it. Put the images files in ```~/.wallpapers```
