@@ -39,7 +39,7 @@ Thank you guys for sharing :heart:
 
 ### Notebook config(notebook-cfg branch)
 
-1. Config files for Gnu/Linux based distro systems.
+1. Config files for Gnu/Linux based distro systems.(Made on **Debian based**, pls check first)
 2. I3blocks include charge icon, and wifi signal scripts.
 3. Wallpapers autochange(must have included in folder ~/.wallpapers
 4. The keyboard layout is **PT-BR,ABNT**.
@@ -57,8 +57,8 @@ Thank you guys for sharing :heart:
 
 - [x] Auto update script from repository
 - [x] Branches for each computers
-- [ ] Remove unecessary scripts for mingw32
-- [ ] Fix audio/mic control for notebook-cfg in i3block config
+- [x] Remove unecessary scripts for mingw32
+- [x] Fix audio/mic control for notebook-cfg in i3block config
 - [ ] Testing and refactoring
 
 <br>
