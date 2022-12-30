@@ -17,3 +17,5 @@ esac
 if [ -f ~/.bash/.bash_profile ]; then
     . ~/.bash/.bash_profile
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

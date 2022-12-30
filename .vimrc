@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 01-07-2022
+" Ultima_modificacao: 13-12-2022
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -782,6 +782,10 @@ inoremap <F5> <esc>:set wrap! wrap?<CR>li
 set pastetoggle=<F6>
 noremap <F7> :call ToggleFold()<cr>
 inoremap <F7> <esc>:call ToggleFold()<cr>i
+
+noremap <F8> :call OneLineAllText()<cr>v$
+inoremap <F8> <esc>:call OneLineAllText()<cr>v$
+
 "fold selected
 noremap <leader>f :call ToggleCreateFold()<cr>
 vnoremap <leader>f :call ToggleCreateFold()<cr>
@@ -885,7 +889,9 @@ function ToggleCreateFold()
 	:normal zd
     endif
 endfunction
-
+function OneLineAllText()
+    :%j
+endfunction    
 
 
 

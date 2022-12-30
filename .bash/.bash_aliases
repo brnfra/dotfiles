@@ -2,7 +2,7 @@
   
     #APT aliases {{{
     #list dependencies
-alias pdeps="apt depends"
+alias pdeps="depends"
     #source edit
 alias src="sudo apt edit-sources"
     # update and upgrade 

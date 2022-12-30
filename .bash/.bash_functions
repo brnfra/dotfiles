@@ -127,7 +127,7 @@ function psearch ()
 #}
 ##}}}
 # Show installed packages {{{
-function mypacks () 
+function plist () 
 { 
     apt list --installed | awk '{print $1}'| cut -f1 -d '/' | fzf +m -i -e  --height=60% --border --hscroll-off=800 --preview="apt-cache show {1}" --preview-window=wrap --bind="tab:toggle-preview" ; 
 }
@@ -136,7 +136,7 @@ function mypacks ()
 #search for non-free installed packages {{{
 function pnonfree () 
 { 
-    dpkg-query -W -f='${Section}\t{Package}\n' | grep ^non-free; 
+    dpkg-query -W -f='${Section}\t{Package}\n' | sort -u; 
 }
 # }}}
 #search for contrib installed packages {{{
