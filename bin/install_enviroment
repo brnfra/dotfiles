@@ -1,82 +1,45 @@
 #!/usr/bin/env bash
 
-#
-#Personal data here(CHANGE E-MAIL & NAME) 
-email="devlabbr@gmail.com"
-full_name="brnfra"
+#Requirements: Git and Ssh
+#personal data
+echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
+read full_name
 
-sudo apt-get update
+echo "Type in your email address (the one used for your GitHub account): "
+read email
+
 PROCESS_ID=$!
 wait $PROCESS_ID
 
-# create ~/.local dirs 
-echo -e "Making local folders ..."
-mkdir -p "$HOME/.local/opt"
-mkdir -p "$HOME/.local/share"
-mkdir -p "$HOME/.fonts"
-mkdir -p "$HOME/.wallpapers"
+# create ~/.local dirs
+echo -e "Criando pastas locais..."
+mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
+    "$HOME/documents/projects/git"
 
-# user dirs
-mkdir -p "$HOME/Documents/projects/git"
-
-#setup git(script from https://github.com/lewagon/dotfiles/blob/master/git_setup.sh )
-git config --global user.email "$email"
-git config --global user.name "$full_name"
-
-git add .
-git commit --message "Setting up my git configs"
-git push origin master
-git remote add upstream git@github.com:brnfra/dotfiles.git
+#setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
+if command -v git &> /dev/null
+then
+    git config --global user.email "$email"
+    git config --global user.name "$full_name"
+    git add .
+    git commit --message "Setting up my git configs"
+    git push origin master
+    git remote add upstream git@github.com:brnfra/dotfiles.git
+else
+    echo "Git installation needed. Run apt-get  install git or read output for problems"
+    exit 1
+fi
 
 #setup ssh
-ssh-keygen -t ed25519 -C "$email"
-PROCESS_ID=$!
-wait $PROCESS_ID
-eval "$(ssh-agent -s)"
-ssh-add "$HOME/.ssh/id_ed25519"
+#by  nishanthshanmugham and lhunath  #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
+if command -v ssh &> /dev/null
+then
+    ssh-keygen -t ed25519 -C "$email";  wait $!
 
-#copy config files
-FILES='.vimrc .bashrc .bash_aliases .bash_profile .bash_functions '
-FILES+='.bash_exports .bash_prompt .bash_input .wgetrc .curlrc ' 
-FILES+='.tmux.conf .i3blocks.conf .i3status.conf '
-FILES+='.config/ '
+    eval "$(ssh-agent -s)" ssh-add
+    "$HOME/.ssh/id_ed25519"
+else
+    echo "SSH installation needed. Run apt-get install ssh or read output for problems"
+    exit 2
+fi
 
-cp -r "$FILES" "$HOME" || return
-
-# copy .config files
-echo -e "\nCopying config files ..."
-cd "$HOME/.fonts" || return
-
-wget -O nerdFont.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip"
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-unzip nerdFont.zip
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-wget -O codeNewRoman.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-unzip codeNewRoman.zip
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-wget -O Monofur.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-unzip Monofur.zip
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-fc-cache -vf "$HOME/.fonts/"
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-#install pkgs after
-
-echo -e "\nAll done!\n"
-
-exit 0
