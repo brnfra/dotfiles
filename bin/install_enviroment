@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 #Requirements: Git and Ssh
-#personal data
-echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
-read full_name
 
-echo "Type in your email address (the one used for your GitHub account): "
-read email
+#Personal data here(comment and CHANGE E-MAIL & NAME) 
+email="devlabbr@gmail.com"
+full_name="brnfra"
 
-PROCESS_ID=$!
-wait $PROCESS_ID
 
 # create ~/.local dirs
 echo -e "Criando pastas locais..."
 mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
-    "$HOME/documents/projects/git"
+    "$HOME/documents/projects/git" "$HOME/.vim/backups" "$HOME/.vim/bundle" "$HOME/.vim/autoload" \
+    "$HOME/backup/copiados" "$HOME/backup/excluidos"
+
+PROCESS_ID=$!
+wait $PROCESS_ID
 
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if command -v git &> /dev/null
@@ -43,3 +43,43 @@ else
     exit 2
 fi
 
+# copy .config files
+echo -e "\nCopying config files ..."
+cd "$HOME/.fonts" || return
+
+# get nerdfonts
+wget -O nerdFont.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip nerdFont.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+# get code new roman font
+wget -O codeNewRoman.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip codeNewRoman.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# get monofur
+wget -O Monofur.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip Monofur.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# cache fonts
+fc-cache -vf "$HOME/.fonts/"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# remember install pkgs after
+
+echo -e "\nAll done!\n"
+
+exit 0
