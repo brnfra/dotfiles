@@ -10,7 +10,7 @@ full_name="brnfra"
 # create ~/.local dirs
 echo -e "Criando pastas locais..."
 mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
-    "$HOME/documents/projects/git" "$HOME/.vim/backups" "$HOME/.vim/bundle" "$HOME/.vim/autoload" \
+    "$HOME/Documents/projects/git" "$HOME/.vim/backups" "$HOME/.vim/bundle" "$HOME/.vim/autoload" \
     "$HOME/backup/copiados" "$HOME/backup/excluidos"
 
 PROCESS_ID=$!
