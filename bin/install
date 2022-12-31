@@ -20,4 +20,8 @@ fi
 
 config checkout
 config config status.showUntrackedFiles no
+
+# install enviroment
+# create my enviroments folders, implement ssh(for git), download fonts(nerdfont, codenew and monofur)
+# config git user and email
 exec ~/bin/install_enviroment

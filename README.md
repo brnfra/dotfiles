@@ -59,7 +59,7 @@ Thank you guys for sharing :heart:
 - [x] Branches for each computers
 - [x] Remove unecessary scripts for mingw32
 - [x] Fix audio/mic control for notebook-cfg in i3block config
-- [ ] Testing and refactoring
+- [ ] Tested and refactoring
 
 <br>
 
@@ -74,22 +74,28 @@ Thank you guys for sharing :heart:
 This method consist to use git to track your config files. **You don't have to install extra tool**, only need git, ssh(coreutils) and curl.
 Install config tracking in your **$HOME** following the comand;
 
->If Desktop, run;
+1. Fork this repository.
+
+2. Edit file  /[YOUR_USER_NAME]/dotfiles/bin/install_enviroment to put your username and email.
+
+3. Execute script bellow ( **change username** ).
+
+>If Desktop/Virtual Machine, copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install | /bin/bash
+curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install | /bin/bash
 ```
->If Mingw/Windows 8, run;
+>If Mingw for Windows, copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install-mingw-cfg | /bin/bash
+curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-mingw-cfg | /bin/bash
 ```
->If Notebook(batery and temp indicator, wifi graduated signa), run;
+>If Notebook(batery and temp indicator, wifi graduated signa), copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install-note-cfg | /bin/bash
+curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-note-cfg | /bin/bash
 ```
 
 <br>
 
-The script ```~/bin/config.sh``` will require your name and email to configure your locals definitions. Type and go. 
+The script ```~/bin/install_enviroment``` has my username and email. Configure your locals definitions. Type and go. 
 *Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
 Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
@@ -102,9 +108,9 @@ In the ``` ~/bin```  folder there are scripts for each case.
 After install, if remote has changed configuration and you want pull it, *How can I update local for this change?*
 - You can pull to your local repository run the script below. 
 
-In the folder ```~/bin``` there is a script named ```pull-config.sh``` such make a "**pull request**" like a normal git repo. Just run;
+In the folder ```~/bin``` there is a script named ```pull-config``` such make a "**pull request**" like a normal git repo. Just run;
 ```
-$ bash ~/bin/pull-config.sh
+$ bash ~/bin/pull-config
 ```
 Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
 
@@ -118,7 +124,7 @@ If I change configuration and like it, *How can I update for this change?*
 3. Make the changes and push to remote repo in correspondent branch. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
-In the folder ```~/bin``` there is a script named ```stage-local-config.sh``` gonna make copy my edited config files to
+In the folder ```~/bin``` there is a script named ```stage-local-config``` gonna make copy my edited config files to
 **dotfiles** folder. Now check the status and if it's fine proceed to push changes, just run;
 ```
 $ git push origin [main/mingw32-w8/notebook-cfg]
@@ -128,6 +134,19 @@ Now, Git gonna **update snapshot** from local to remote.
 ## Dependencies
 
 Some pkgs here are installed in my computer, after fork, **make changes to yours needs**.
+
+- nm-applet(tool to show network icon)
+- diodon(tool to show transfer area icon)
+- gnome-screenshot(printscreen)
+- compton(composer)
+- nitrogen(wallpaper)
+- fzf
+- fdfind
+- exa
+
+Some functions require some aplications and packages like xorg,fzf,fdfind for example.
+If you want full functions here will required, for some functions, the previous installation of some packages like;
+
 
 - I3wm configs
 - I3blocks and I3status configs
@@ -140,17 +159,14 @@ Some pkgs here are installed in my computer, after fork, **make changes to yours
 - fzf
 - tmux 
 
-Some functions require some aplications and packages like xorg,fzf,fdfind for example.
-If you want full functions here will required, for some functions, the previous installation of some packages like;
+## Problems
 
-- nm-applet(tool to show network icon)
-- diodon(tool to show transfer area icon)
-- gnome-screenshot(printscreen)
-- compton(composer)
-- nitrogen(wallpaper)
-- fzf
-- fdfind
-- exa
+If you get the message after or try update your local configs, try this
 
+1. Delete, in your home folder, ```  ~/.dotfiles/``` .
+
+2. Re-run the command curl for install again.
+
+For other problems, again, check your name and email in install_enviroment or comment.
 
 [Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
