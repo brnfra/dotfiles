@@ -161,7 +161,7 @@ If you want full functions here will required, for some functions, the previous 
 
 ## Problems
 
-If you get the message after or try update your local configs, try this
+If you get the message ```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ```after or try update your local configs, try this
 
 1. Delete, in your home folder, ```  ~/.dotfiles/``` .
 
