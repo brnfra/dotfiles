@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# copy .config files
+echo -e "\nInstaling Fonts. Downloading files ..."
+cd "$HOME/.fonts" || return
+
+# get nerdfonts
+wget -O nerdFont.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip nerdFont.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+# get code new roman font
+wget -O codeNewRoman.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip codeNewRoman.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# get monofur
+wget -O Monofur.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+unzip Monofur.zip
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# cache fonts
+fc-cache -vf "$HOME/.fonts/"
+PROCESS_ID=$!
+wait $PROCESS_ID

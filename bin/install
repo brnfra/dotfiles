@@ -21,7 +21,19 @@ fi
 config checkout
 config config status.showUntrackedFiles no
 
-# install enviroment
-# create my enviroments folders, implement ssh(for git), download fonts(nerdfont, codenew and monofur)
+# install enviroment, Comment line to skip instalation
+# create my enviroments folders, implement ssh(for git), 
 # config git user and email
 exec ~/bin/install_enviroment
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+# config fonts
+# download fonts(nerdfont, codenew and monofur)
+exec ~/bin/install_fonts
+PROCESS_ID=$!
+wait $PROCESS_ID
+
+#Install Vim plugin manager
+exec ~/bin/install_plug_vim
+

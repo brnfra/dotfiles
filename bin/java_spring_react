@@ -3,7 +3,7 @@
 VSCODE='vscode-stable.tar.gz'
 SPRING='sts-stable-release.tar.gz'
 POSTMAN='postman.tar.gz'
-HEROKU='heroku.tar.gz'
+#HEROKU='heroku.tar.gz'
 
 #------------------
 #Download packages
@@ -30,12 +30,13 @@ then
     echo "extract accomplished"
 fi
 
-echo -e "\n\n Downloading Heroku-CLI..."
-if $(curl -# -o $HEROKU -O "https://cli-assets.heroku.com/heroku-linux-x64.tar.gz")
-then
-    tar -xvf $HEROKU
-    echo "extract accomplished"
-fi
+#Heroku is no free anymore
+#echo -e "\n\n Downloading Heroku-CLI..."
+#if $(curl -# -o $HEROKU -O "https://cli-assets.heroku.com/heroku-linux-x64.tar.gz")
+#then
+#    tar -xvf $HEROKU
+#    echo "extract accomplished"
+#fi
    
 #Move files to /.local/opt
 mv -nuv ./VSCode-linux-x64/ ./sts-4.13.1.RELEASE/ ./Postman/ ./heroku/ "$HOME/.local/opt/"
@@ -46,7 +47,7 @@ wait $PROCESS
 ln -s -T "$HOME/.local/opt/VSCode-linux-x64/bin/code" vscode-stable
 ln -s -T "$HOME/.local/opt/sts-4.13.1.RELEASE/SpringToolSuite4" spring
 ln -s -T "$HOME/.local/opt/Postman/Postman" postman
-ln -s -T "$HOME/.local/opt/heroku/bin/heroku" heroku
+#ln -s -T "$HOME/.local/opt/heroku/bin/heroku" heroku
 
-mv -nuv vscode-stable spring postman heroku "$HOME"
+#mv -nuv vscode-stable spring postman heroku "$HOME"
 
