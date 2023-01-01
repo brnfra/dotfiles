@@ -52,6 +52,7 @@ Thank you guys for sharing :heart:
 4. The keyboard layout is **PT-BR,ABNT**.
 
 **ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)**
+This configuration works with **i3-wm** and **i3status**.  
 
 ## TODO
 
@@ -133,7 +134,7 @@ Now, Git gonna **update snapshot** from local to remote.
 
 ## Dependencies
 
-Some pkgs here are installed in my computer, after fork, **make changes to yours needs**.
+Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs** in files.
 
 - nm-applet(tool to show network icon)
 - diodon(tool to show transfer area icon)
@@ -148,7 +149,8 @@ Some functions require some aplications and packages like xorg,fzf,fdfind for ex
 If you want full functions here will required, for some functions, the previous installation of some packages like;
 
 
-- I3wm configs
+- I3-wm
+- i3status
 - I3blocks and I3status configs
 - Compton
 - Vim
@@ -161,7 +163,11 @@ If you want full functions here will required, for some functions, the previous 
 
 ## Problems
 
-If you get the message ```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ```after or try update your local configs, try this
+If you get the error message 
+
+```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ``` 
+
+after install or trying update your local configs, try this;
 
 1. Delete, in your home folder, ```  ~/.dotfiles/``` .
 
