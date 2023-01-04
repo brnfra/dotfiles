@@ -76,25 +76,25 @@ SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1)
     nv="${pv::-1}"
     icon="🔊"
     if [[ "$pv" == "MUTE" ]]; then
-     icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔇</span></span>"
-        pv="<span color='#BF616A'><span size='large'>❌</span></span>"
+     icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf026; </span></span>"
+        pv="<span color='#BF616A'><span size='large'>&#xf00d;</span></span>"
     else
         if [[ $nv -gt 95 ]]; then
-                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔊█</span>"
+                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf028; █</span>"
             else 
             if [[ $nv -gt 75 ]]; then
-                    icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔊▇</span>"
+                    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf028; ▇</span>"
                 else
                 if [[ $nv -gt 50 ]]; then
-                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔉▅</span>"
+                        icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf027; ▅</span>"
                     else
                         if [[ $nv -gt 25 ]]; then
-                            icon="<span font='Font Awesome' color='#88C0D0' size='large'>🔉▃</span>"
+                            icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf027; ▃</span>"
                             else
                                 if [[ $nv -gt 0 ]]; then
-                                        icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>🔉▁</span></span>"
+                                        icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>&#xf027; ▁</span></span>"
                                 else
-                                        icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>🔈 </span></span>"
+                                        icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf026;</span></span>"
                                 fi #0-25
                         fi #25-50
                 fi #50-75

@@ -9,7 +9,7 @@ case "$BLOCK_BUTTON" in
 esac
 if [ "$SCR" = "Virtual" ]; then
 
-    echo "$(date '+%d/%m/%Y - %H:%M') <span font='Font Awesome' color='#ff4000'><span size='large'> 🗓</span></span> "
+    echo "$(date '+%H:%M %a %d/%m/%g') <span font='Font Awesome' color='#ff4000'><span size='large'> 🗓</span></span> "
 else
-    echo "$(date '+%d/%m/%Y - %H:%M') <span font='Font Awesome' color='#ff4000'><span size='large'> 📅</span></span> "
+    echo "$(date '+%H:%M %a %d/%m/%g') <span font='Font Awesome'><span size='large'> &#xf073;</span></span> "
 fi

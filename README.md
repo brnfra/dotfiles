@@ -26,23 +26,19 @@ Thank you guys for sharing :heart:
 - [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 
-## My config files to automate computer changing configuration.
+## Using git to manage config files.
 
 ### Desktop config(The main branch. Two monitors, monitor2 is left rotated, one in vertical)
 
-1. Config files for Gnu/Linux based distro systems(Made on **Debian based**, pls check first).
-2. The config files expect *two monitors* in main branch, maybe you have to change some things in *wallpaper* and *resolution* script in ```~/.config/i3/autostart```.
-    - The **$HOME/.config/i3/autostart/wallpaper.sh** will change **different wallpaper** for
- each monitor, if you don't want this, change it. Put the images files in ```~/.wallpapers```
-3. The i3config script _rotate the 2nd monitor to right and move it to right of the first_ in desktop config.
-4. The keyboard layout is **US-INT**.
+1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
+2. Pls check **$HOME/.config/i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
+3. The keyboard layout is **US-INT**.
 
 ### Notebook config(notebook-cfg branch)
 
-1. Config files for Gnu/Linux based distro systems.(Made on **Debian based**, pls check first)
+1. Tested in Gnu/Linux based distro(Made on **Debian based**, pls check first).
 2. I3blocks include charge icon, and wifi signal scripts.
-3. Wallpapers autochange(must have included in folder ~/.wallpapers
-4. The keyboard layout is **PT-BR,ABNT**.
+3. The keyboard layout is **PT-BR,ABNT**.
 
 ### Mingw32(git-for-windows) config(mingw32-w8 branch)
 
