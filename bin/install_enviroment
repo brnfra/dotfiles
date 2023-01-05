@@ -41,12 +41,12 @@ fi
 #by  nishanthshanmugham and lhunath  #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
 if command -v ssh &> /dev/null
 then
-    ssh-keygen -t ed25519 -C "$email";  wait $!
+    eval ssh-keygen -t ed25519 -C "$email";  wait $!
 
     eval "$(ssh-agent -s)" ssh-add
     "$HOME/.ssh/id_ed25519"
 else
-    echo "SSH installation needed. Run apt-get install ssh or read output for problems"
+    echo "SSH installation needed. Install ssh or read output for problems"
     exit 2
 fi
 

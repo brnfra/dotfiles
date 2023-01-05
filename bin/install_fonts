@@ -6,19 +6,27 @@ nerdfont="nerdfont.zip"
 codeNewRoman="codeNewRoman.zip"
 monofur="Monofur.zip"
 
-echo -e "\n\n Downloading Nerdfont..."
-curl -C - -Lkso $nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip" 
-echo -e "\n\n Downloading CoeNewRoman..."
-curl -C - -Lkso $codeNewRoman "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
-echo -e "\n\n Downloading Monofur..."
-curl -C - -Lkso $monofur "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
+#setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
+if  command -v unzip &>/dev/null  
+then
+    	echo -e "\n Downloading Nerdfont..."
+	eval curl -C - -Lkso $nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip" 
+	echo -e "\n Downloading CoeNewRoman..."
+	eval curl -C - -Lkso $codeNewRoman "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
+	echo -e "\n Downloading Monofur..."
+	eval curl -C - -Lkso $monofur "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
 
-unzip -uCoq $nerdfont $codeNewRoman $monofur
+else
+    echo "Error! The package Unzip is not installed."
+    exit 1
+fi
+
+eval unzip -uCoq "*.zip"
 
 PROCESS_ID=$!
 wait $PROCESS_ID
 
-fc-cache -vf "$HOME/.fonts/"
+eval fc-cache -vf "$HOME/.fonts/"
 echo -e "\nAll done!\n"
 
 exit 0
