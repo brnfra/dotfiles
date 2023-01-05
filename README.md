@@ -82,15 +82,15 @@ Install config tracking in your **$HOME** following the comand;
 
 >If Desktop/Virtual Machine, copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install | /bin/bash
+curl https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install | /usr/bin/env bash; bash ~/bin/install_enviroment
 ```
 >If Mingw for Windows, copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-mingw-cfg | /bin/bash
+curl https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-mingw-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
 ```
 >If Notebook(batery and temp indicator, wifi graduated signa), copy/paste in terminal;
 ```bash
-curl -Lks https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-note-cfg | /bin/bash
+curl https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install-note-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
 ```
 
 <br>
