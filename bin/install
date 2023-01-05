@@ -1,6 +1,8 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
+
+#Change for your REPO adress
 REPO="https://github.com/brnfra/dotfiles.git"
 
 git clone --bare $REPO "$HOME/.dotfiles";
@@ -21,15 +23,4 @@ fi
 config checkout
 config config status.showUntrackedFiles no
 
-# install enviroment, Comment line to skip instalation
-# create my enviroments folders, implement ssh(for git), 
-# config git user and email
-eval ~/bin/install_enviroment
-PROCESS_ID=$!
-wait $PROCESS_ID
-
-# config fonts
-# download fonts(nerdfont, codenew and monofur)
-eval ~/bin/install_fonts
-PROCESS_ID=$!
-wait $PROCESS_ID
+#Next, gonna install enviroment and fonts

@@ -76,9 +76,9 @@ Install config tracking in your **$HOME** following the comand;
 
 1. Fork this repository.
 
-2. Edit file  /[YOUR_USER_NAME]/dotfiles/bin/install_enviroment to put your username and email.
+2. Edit ```install```  file REPO URL and   ```install_enviroment```, in  ```dotfiles/bin/```   to put your URL,username and email.
 
-3. Execute script bellow ( **change username** ).
+3. Update your remote forked repository  and execute script bellow ( **check your username** ).
 
 >If Desktop/Virtual Machine, copy/paste in terminal;
 ```bash
