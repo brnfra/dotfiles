@@ -6,12 +6,19 @@
 email="devlabbr@gmail.com"
 full_name="brnfra"
 
-
 # create ~/.local dirs
 echo -e "Criando pastas locais..."
-mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
-    "$HOME/Documents/projects/git" "$HOME/.vim/backups" "$HOME/.vim/bundle" "$HOME/.vim/autoload" \
-    "$HOME/backup/copiados" "$HOME/backup/excluidos"
+mkdir -p "$HOME/.local/opt" \
+    "$HOME/.local/share" \
+    "$HOME/.fonts" \
+    "$HOME/.wallpapers" \
+    "$HOME/.ssh" \
+    "$HOME/Documents/Projects/git" \
+    "$HOME/.vim/backups" \
+    "$HOME/.vim/bundle" \
+    "$HOME/.vim/autoload" \
+    "$HOME/backup/copiados" \
+    "$HOME/backup/excluidos"
 
 PROCESS_ID=$!
 wait $PROCESS_ID
