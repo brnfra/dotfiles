@@ -34,9 +34,12 @@ Thank you guys for sharing :heart:
 2. Pls check **$HOME/.config/i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
+<img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
+
+
 ### Notebook config(notebook-cfg branch)
 
-1. Tested in Gnu/Linux based distro(Made on **Debian based**, pls check first).
+1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
 2. I3blocks include charge icon, and wifi signal scripts.
 3. The keyboard layout is **PT-BR,ABNT**.
 
@@ -132,6 +135,7 @@ Now, Git gonna **update snapshot** from local to remote.
 
 Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs** in files.
 
+- i3blocks
 - nm-applet(tool to show network icon)
 - diodon(tool to show transfer area icon)
 - gnome-screenshot(printscreen)
@@ -146,8 +150,8 @@ If you want full functions here will required, for some functions, the previous 
 
 
 - I3-wm
+- I3blocks or  I3status configs
 - i3status
-- I3blocks and I3status configs
 - Compton
 - Vim
 - NeoVim
