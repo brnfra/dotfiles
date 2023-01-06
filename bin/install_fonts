@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 #Fonts
-cd "$HOME/.fonts" || return
+cd "$HOME/.local/share/fonts" || return
+
 nerdfont="nerdfont.zip"
 codeNewRoman="codeNewRoman.zip"
 monofur="Monofur.zip"
@@ -26,7 +27,7 @@ eval unzip -uCoq "*.zip"
 PROCESS_ID=$!
 wait $PROCESS_ID
 
-eval fc-cache -vf "$HOME/.fonts/"
+eval fc-cache -vf "$HOME/.local/share/fonts"
 echo -e "\nAll done!\n"
 
 exit 0

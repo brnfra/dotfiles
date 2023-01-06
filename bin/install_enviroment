@@ -9,8 +9,7 @@ full_name="brnfra"
 # create ~/.local dirs
 echo -e "Criando pastas locais..."
 mkdir -p "$HOME/.local/opt" \
-    "$HOME/.local/share" \
-    "$HOME/.fonts" \
+    "$HOME/.local/share/fonts" \
     "$HOME/.wallpapers" \
     "$HOME/.ssh" \
     "$HOME/Documents/Projects/git" \
