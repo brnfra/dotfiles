@@ -6,18 +6,31 @@
 email="devlabbr@gmail.com"
 full_name="brnfra"
 
+folder_list="$HOME/.local/opt" 
+folder_list+=" $HOME/.local/share/fonts" 
+folder_list+=" $HOME/.wallpapers" 
+folder_list+=" $HOME/.ssh" 
+folder_list+=" $HOME/Documents/Projects/git" 
+folder_list+=" $HOME/.vim/backups" 
+folder_list+=" $HOME/.vim/bundle" 
+folder_list+=" $HOME/.vim/autoload" 
+folder_list+=" $HOME/backup/copiados" 
+folder_list+=" $HOME/backup/excluidos"
+
 # create ~/.local dirs
-echo -e "Criando pastas locais..."
-mkdir -p "$HOME/.local/opt" \
-    "$HOME/.local/share/fonts" \
-    "$HOME/.wallpapers" \
-    "$HOME/.ssh" \
-    "$HOME/Documents/Projects/git" \
-    "$HOME/.vim/backups" \
-    "$HOME/.vim/bundle" \
-    "$HOME/.vim/autoload" \
-    "$HOME/backup/copiados" \
-    "$HOME/backup/excluidos"
+echo -e "Creating folders..."
+
+for Folder in folder_list
+do
+	if [ -d "$Folder" ] 
+	then
+		echo "$Folder exists"
+	else
+		mkdir -p "$Folder"
+	fi
+done
+
+echo  "Creating folders...Done"
 
 PROCESS_ID=$!
 wait $PROCESS_ID
@@ -25,12 +38,15 @@ wait $PROCESS_ID
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if command -v git &> /dev/null
 then
+	echo "Add git config"
     git config --global user.email "$email"
     git config --global user.name "$full_name"
     git add .
     git commit --message "Setting up my git configs"
     git push origin master
     git remote add upstream git@github.com:brnfra/dotfiles.git
+	echo "Add git config.Done"
+	
 else
     echo "Git installation needed. Run apt-get  install git or read output for problems"
     exit 1
@@ -40,10 +56,17 @@ fi
 #by  nishanthshanmugham and lhunath  #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
 if command -v ssh &> /dev/null
 then
-    eval ssh-keygen -t ed25519 -C "$email";  wait $!
-
-    eval "$(ssh-agent -s)" ssh-add
-    "$HOME/.ssh/id_ed25519"
+    echo "Creating pub keys for ssh use"
+    
+	if [ -f "$HOME/.ssh/id_ed25519" ] 
+	then
+		echo "ssh-agent in use."
+	else
+		eval ssh-keygen -t ed25519 -C "$email";  wait $!
+		eval "$(ssh-agent -s)" ssh-add
+		"$HOME/.ssh/id_ed25519"
+	fi
+	echo "Creating pub keys for ssh use.Done"
 else
     echo "SSH installation needed. Install ssh or read output for problems"
     exit 2
