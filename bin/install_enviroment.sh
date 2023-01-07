@@ -1,20 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #Requirements: Git and Ssh
-#personal data
-#echo "Type in your first and last name (no accent or special characters - e.g. 'ç'): "
-full_name="brnfra"
 
-#echo "Type in your email address (the one used for your GitHub account): "
+#Personal data here(comment and CHANGE E-MAIL & NAME) 
 email="devlabbr@gmail.com"
-
-PROCESS_ID=$!
-wait $PROCESS_ID
+full_name="brnfra"
 
 # create ~/.local dirs
 echo -e "Criando pastas locais..."
-mkdir -p "$HOME/.local/opt" "$HOME/.local/share" "$HOME/.fonts" "$HOME/.wallpapers" \
-    "$HOME/documents/projects/git"
+mkdir -p "$HOME/.local/opt" \
+    "$HOME/.local/share/fonts" \
+    "$HOME/.wallpapers" \
+    "$HOME/.ssh" \
+    "$HOME/Documents/Projects/git" \
+    "$HOME/.vim/backups" \
+    "$HOME/.vim/bundle" \
+    "$HOME/.vim/autoload" \
+    "$HOME/backup/copiados" \
+    "$HOME/backup/excluidos"
+
+PROCESS_ID=$!
+wait $PROCESS_ID
 
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if command -v git &> /dev/null
@@ -34,12 +40,17 @@ fi
 #by  nishanthshanmugham and lhunath  #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
 if command -v ssh &> /dev/null
 then
-    ssh-keygen -t ed25519 -C "$email";  wait $!
+    eval ssh-keygen -t ed25519 -C "$email";  wait $!
 
     eval "$(ssh-agent -s)" ssh-add
     "$HOME/.ssh/id_ed25519"
 else
-    echo "SSH installation needed. Run apt-get install ssh or read output for problems"
+    echo "SSH installation needed. Install ssh or read output for problems"
     exit 2
 fi
+# config fonts
+# download fonts(nerdfont, codenew and monofur)
+eval ~/bin/install_fonts
+PROCESS_ID=$!
+wait $PROCESS_ID
 

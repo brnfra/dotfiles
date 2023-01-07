@@ -74,7 +74,7 @@ syntax enable
 set showmode        " Show the current mode
 set showcmd         "Exibe comando sendo executado
 set autowrite       " write buffers automagically when leaving them
-""set vb              " set visual bell --
+set novb              " set visual bell --
 setlocal wildmode=full
 set noerrorbells
 "Word completion
