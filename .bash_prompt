@@ -88,7 +88,7 @@ git_branch() {
 
 	#removing
 	#clear_left=$(tput el)
-	#reset=$(tput sgr0);
+	reset=$(tput sgr0);
 	
 	#especials
 	# http://heyrod.com/snippets/tag-bash.html
@@ -141,18 +141,18 @@ else
 fi;
 
 build_prompt() {
-    PS1='$(git_branch $violet $yellow)'
+    PS1='$(git_branch)'
 	 PS1+=$'\n'
 	 PS1+="\w \\$ ";	# working directory full path
     #PS1+=$'\n' #ambiguous problem here
     #PS1+="\[${inverted}\]"; 
     #PS1+="\[${italic}\]"; 
    
+    #PS1+="\[${reset}\]";
     #PS1+="\[${reset}\]";	
     #PS1+="\[${white}\]"; 
     #PS1+="\[${blink}\] → ";   
     #S1+="\[${reset}\]";	# (reset color)
-    #PS1+="\[${reset}\]";
 	 
     PS2="\[${yellow}\]→ \[${reset}\]";
     PS2+=" \u@\h \W \\$";
