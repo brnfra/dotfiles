@@ -48,9 +48,5 @@ else
     echo "SSH installation needed. Install ssh or read output for problems"
     exit 2
 fi
-# config fonts
-# download fonts(nerdfont, codenew and monofur)
-eval ~/bin/install_fonts
-PROCESS_ID=$!
-wait $PROCESS_ID
+
 
