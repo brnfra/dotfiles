@@ -11,7 +11,7 @@ fi
 
 REPO="https://github.com/brnfra/dotfiles.git"
 
-git clone --branch mingw32-w8-cfg --bare $REPO "$HOME/.dotfiles";
+git clone --branch mingw32-w8 --bare $REPO "$HOME/.dotfiles";
 
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
