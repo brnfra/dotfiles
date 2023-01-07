@@ -18,19 +18,22 @@ folder_list+=" $HOME/backup/copiados"
 folder_list+=" $HOME/backup/excluidos"
 
 # create ~/.local dirs
-echo -e "Creating folders..."
+printf "[INFO] Creating folders\r\n"
+sleep 1
 
-for Folder in folder_list
+for Folder in $folder_list
 do
 	if [ -d "$Folder" ] 
 	then
-		echo "$Folder exists"
+		printf "[INFO] Creating folders: $Folder already exists.\n"
 	else
 		mkdir -p "$Folder"
+		printf "[INFO] Creating folders: $Folder created.\n"
 	fi
 done
 
-echo  "Creating folders...Done"
+printf "[INFO] Creating folders: Done\n"
+sleep 1
 
 PROCESS_ID=$!
 wait $PROCESS_ID
@@ -38,17 +41,15 @@ wait $PROCESS_ID
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if command -v git &> /dev/null
 then
-	echo "Add git config"
+	printf "[INFO] Add git config.\r"
+	sleep 1
     git config --global user.email "$email"
     git config --global user.name "$full_name"
-    git add .
-    git commit --message "Setting up my git configs"
-    git push origin master
-    git remote add upstream git@github.com:brnfra/dotfiles.git
-	echo "Add git config.Done"
+   	printf "[INFO] Add git config: Done.\r\n"
+	sleep 1
 	
 else
-    echo "Git installation needed. Run apt-get  install git or read output for problems"
+    echo "[ERROR] Add git config: Git installation needed. Run apt-get install git or read output for problems"
     exit 1
 fi
 
@@ -56,20 +57,22 @@ fi
 #by  nishanthshanmugham and lhunath  #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
 if command -v ssh &> /dev/null
 then
-    echo "Creating pub keys for ssh use"
+    printf "[INFO] Creating pub keys.\r" 
+	sleep 1
     
 	if [ -f "$HOME/.ssh/id_ed25519" ] 
 	then
-		echo "ssh-agent in use."
+		printf "[INFO] Creating pub keys: ssh-agent in use.\r"
+		sleep 1
 	else
 		eval ssh-keygen -t ed25519 -C "$email";  wait $!
 		eval "$(ssh-agent -s)" ssh-add
 		"$HOME/.ssh/id_ed25519"
 	fi
-	echo "Creating pub keys for ssh use.Done"
+	printf "[INFO] Creating pub keys: Done\r\n"
+	sleep 1
 else
-    echo "SSH installation needed. Install ssh or read output for problems"
+    echo "[ERROR] Creating pub keys: SSH installation needed. Install ssh or read output for problems"
     exit 2
 fi
-
-
+printf "[INFO] Enviroment installed\n"
