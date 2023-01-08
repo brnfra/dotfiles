@@ -34,8 +34,6 @@ Thank you guys for sharing :heart:
 2. Pls check **$HOME/.config/i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
-<img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
-
 
 ### Notebook config(notebook-cfg branch)
 
@@ -84,15 +82,16 @@ Install config tracking in your **$HOME** following the comand;
 ```bash
 curl https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install | /usr/bin/env bash; bash ~/bin/install_enviroment
 ```
->If Mingw for Windows, copy/paste in terminal;
-```bash
-curl -fL https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
-```
+
 >If Notebook(batery and temp indicator, wifi graduated signa), copy/paste in terminal;
 ```bash
 curl -fL https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/notebook-cfg/bin/install-note-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
 ```
 
+>If Mingw for Windows, copy/paste in terminal;
+```bash
+curl -fL https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
+```
 <br>
 
 The script ```~/bin/install_enviroment``` has my username and email. Configure your locals definitions. Type and go. 

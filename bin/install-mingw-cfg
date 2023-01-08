@@ -3,28 +3,50 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
+REPO="https://github.com/brnfra/dotfiles.git"
 BKPDIR="$HOME"/.config-backup/
 if [ -d "$BKPDIR" ] 
 then
-	mkdir -p "$BKPDIR"
+    printf "[INFO]  $BKPDIR already exists.\r"
+	sleep 1	
+else
+    mkdir -p "$BKPDIR"
+	printf "[INFO]  $BKPDIR created.\r"
+	sleep 1	
 fi
 
-REPO="https://github.com/brnfra/dotfiles.git"
-
+printf "[INFO] Git clone mingw32-w8(--bare).\r"
+	sleep 1
 git clone --branch mingw32-w8 --bare $REPO "$HOME/.dotfiles";
-
+printf "[INFO] Git clone mingw32-w8(--bare): Done\r\n"
+	sleep 1
+	
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
 }
 
+printf "[INFO] Checkout branch.\r"
+sleep 1
 config checkout
+printf "[INFO] Checkout branch: Done\r"
+sleep 1
 
 if [ $? = 0 ]; then
-    echo "Checked out config.";
+	printf "[INFO] Checkout branch: Exit\r"
+	sleep 1
+    
   else
-    echo "Backing up pre-existing dot files.";
-    config checkout 2>&1 | egrep "^\s+" | awk {'print $1'} | xargs -I{} mv "$HOME"/{} "$BKPDIR"
+    printf "[ERROR] Checkout branch: Trying backup configs to $BKPDIR\r"
+	sleep 1
+	config checkout 2>&1 | egrep "^\s+" | awk {'print $1'} | xargs -I{} mv "$HOME"/{} "$BKPDIR"
+	printf "[ERROR] Checkout branch: Done.\r"
+	sleep 1
+
 fi
 
+printf "[INFO] Checkout branch: Trying again after backup\r"
+	sleep 1
 config checkout
+printf "[INFO] Checkout branch: Done.\r"
+	sleep 1
 config config status.showUntrackedFiles no
