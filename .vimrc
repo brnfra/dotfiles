@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 13-12-2022
+" Ultima_modificacao: 09-01-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -58,9 +58,6 @@ set wildignore+=*.exe,*.zip,*.jpg,*.png,*.gif,*.jpeg,*pdf
 set wildignore+=*.swp,*.bak,*.pyc,*.class,.svn
 ""set wildchar=<TAB>      " start wild expansion in the command line using <TAB>
 set linebreak
-set foldcolumn=4
-set foldclose=all
-set foldmethod=marker
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 set cul             " underline active line
@@ -101,9 +98,11 @@ set backupdir=~/.vim/backups/
 set directory=~/.vim/backups/swaps/
 set undodir=~/.vim/backups/undo/
 " }}}
+"set nofoldenable " Enable folding
+set foldmethod=marker
 set foldenable " Enable folding
-set foldcolumn=0 " Column to show folds
 set foldlevel=0 " Close all folds by default
+set foldnestmax=10
 
 set termencoding=utf-8
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
