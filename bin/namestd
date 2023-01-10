@@ -19,9 +19,11 @@ function first_check() {    #{{{
     OLD=${FILE//$LOCAL\//}
     NAME=${FILE//$LOCAL\//}
 
+    #OLD=$(echo "$FILE" | sed  "s|$LOCAL/||g")
+    #NAME=$(echo "$FILE" | sed "s|$LOCAL/||g")
     NAME=${NAME// /_}
     NAME=${NAME//'$'/_}
-    NAME=$(echo "$NAME" | sed -r 's/\s+/_/gi')
+    NAME=$(echo "$NAME" | sed -r 's/(\s)+/_/gi')
     NAME=$(echo "$NAME" | tr '\n\r\a\b\f\v\t' '_' | sed -r 's/_$//gi')
     # coding to ascII remove latin chars
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
@@ -29,6 +31,7 @@ function first_check() {    #{{{
     if [[ "$NAME" != "$OLD" ]]
     then
 	mv -n "$OLD" "$NAME" &>/dev/null
+
     fi
 
 }
@@ -50,29 +53,32 @@ function rename_file() {			#{{{
 	NAME=${NAME//[\\+]/}
 
 	# sed command recursive ; is the delimiter
-	NAME=$(echo "$NAME" | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+	NAME=$(echo "$NAME" | sed -r '	s/[^A-Za-z0-9_.]/_/gi; s/\s/_/g; s/_+/_/gi; s/^_//gi; s/_$//gi')
+#	s/\./_/gi;
 	if [[ $NAME == "" ]]; then 
-	    NAME="new_renamed_file"
+	      NAME="new_renamed_file"
 	fi
 
 	EXT=$(echo "$EXT" | sed -r 's/\W/_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
-	#output file name  
+	  #output file name  
 	NAME=$NAME.$EXT
 
 	  #}}} 
-      else   
+    else   
 	  #{{{
-	  NAME=${NAME//[\\+]/}
-	  NAME=$(echo "$NAME" | sed -r 's/[ _-]/_/g; s/\W/_/gim; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
-	  if [[ $NAME == "" ]]; then 
+	NAME=${NAME//[\\+]/}
+	NAME=$(echo "$NAME" | sed -r 's/[ _-]/_/g; s/\W/_/gim; s/\s/_/g; s/(_+)+/_/gi; s/^_//gi; s/_$//gi')
+	if [[ $NAME == "" ]]; then 
 	      NAME="new_renamed_file"
-	  fi
-	  #}}}
+	fi
+		  #}}}
     fi
 
     if [[ "$NAME" != "$OLD" ]]
     then
+
 	mv -n "$OLD" "$NAME" &>/dev/null
+
     fi
 }
 #}}}
@@ -82,33 +88,35 @@ function rename_folder() {   #{{{
     FOLDER=$1
 
 	#receive step by step the names  
-	OLD=$FOLDER 
-	NAME=$FOLDER
-	NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
+    OLD=$FOLDER 
+    NAME=$FOLDER
+    NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
 	#in case the character has been special chenge for blank otherwise write 
-	NAME=${FOLDER//[^a-z|A-Z|0-9|('/')|('_')]/}
-	NAME=${NAME//[\\+]/}
-	NAME=${NAME//'$'/}
+    NAME=${FOLDER//[^a-z|A-Z|0-9|('/')|('_')]/}
+    NAME=${NAME//[\\+]/}
+    NAME=${NAME//'$'/}
 
 	#in case the first has been _ sbst ""
-	NAME=${NAME/#_/} 
+    NAME=${NAME/#_/} 
 
 	#remove os pontos e _ em excesso dos nomes dos arquivos
-	NAME=$(echo "$NAME" | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
+    NAME=$(echo "$NAME" | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
 
-	if [[ "$NAME" != "$OLD" ]]
-	then
-	    if [[ "$NAME" == "/" ]]
-	    then
-		echo "Folder's name is empty"
+    if [[ "$NAME" != "$OLD" ]]
+    then
+        if [[ "$NAME" == "/" ]]
+        then
+	    echo "Folder's name is empty"
 
-	    else
-		mv -n "$OLD" "$NAME" &>/dev/null
-
-	    fi
-
+	else
+	    mv -n "$OLD" "$NAME" &>/dev/null
+	
 	fi
-    }
+
+   
+
+    fi
+}
 #}}}
 
 function show_result() { #{{{
@@ -132,7 +140,7 @@ function show_result() { #{{{
 #ALL_BEFORE=$(find . -maxdepth 1  | sed 's|\.\/||gi' | sed '1d'| sort) &> /dev/null
 ALL_BEFORE="$(pwd)"/* 
 LOCAL=$(pwd)
-#	${variable//search/replace}	
+    #	${variable//search/replace}	
 ALL_BEFORE=${ALL_BEFORE//$LOCAL\//}
 
 # Call fun

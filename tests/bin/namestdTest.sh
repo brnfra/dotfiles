@@ -23,6 +23,36 @@ testRename_File() {
 
     }
 
+testRename_File_DotFile() {
+
+    local=$(pwd)
+    touch "$local/123.@#%456"
+
+    ../namestd 1> /dev/null 
+
+    result=$(find 123.456 -maxdepth 1 -type f)
+    assertEquals \
+	"${_ASSERT_EQUALS_} [FAIL]The result of 123.@#%456' was wrong\n\n" \
+	"123.456" \
+	"${result}"
+
+    }
+
+testRename_File_DotDotFile() {
+
+    local=$(pwd)
+    touch "$local/brn.123.@#%456"
+
+    ../namestd 1> /dev/null 
+
+    result=$(find "brn.123.456" -maxdepth 1 -type f)
+    assertEquals \
+	"${_ASSERT_EQUALS_} [FAIL]The result of brn.123.@#%456' was wrong\n\n" \
+	"brn.123.456" \
+	"${result}"
+
+    }
+
 testRename_File_Bars() {
 
 
