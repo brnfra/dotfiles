@@ -115,7 +115,7 @@ alias hd2='cd /media/WDHDD'
 
 alias hosts='sudo vim /etc/hosts'
 alias repo="cd ~/documents/projects/git"
-alias config="cd ~/documents/projects/git/dotfiles"
+alias dotfiles="cd ~/documents/projects/git/dotfiles"
 
 alias promptrc='nvim ~/.bash/.bash_prompt'
 alias profilerc='nvim ~/.bash/.bash_profile'

@@ -72,10 +72,8 @@ function rename_file() {			#{{{
 
     if [[ "$NAME" != "$OLD" ]]
     then
-
 	mv -n "$OLD" "$NAME" &>/dev/null
     fi
-    echo $NAME   
 }
 #}}}
 
@@ -106,9 +104,8 @@ function rename_folder() {   #{{{
 
 	    else
 		mv -n "$OLD" "$NAME" &>/dev/null
-	    fi
 
-	    "\t%-20s%10s%-20s\n" "[$OLD]" " ----> " " [no changes]"
+	    fi
 
 	fi
     }
@@ -132,7 +129,11 @@ function show_result() { #{{{
 }
 #}}}
 
-ALL_BEFORE=$(find . -maxdepth 1  | sed 's|\.\/||gi' | sed '1d'| sort) &> /dev/null
+#ALL_BEFORE=$(find . -maxdepth 1  | sed 's|\.\/||gi' | sed '1d'| sort) &> /dev/null
+ALL_BEFORE="$(pwd)"/* 
+LOCAL=$(pwd)
+#	${variable//search/replace}	
+ALL_BEFORE=${ALL_BEFORE//$LOCAL\//}
 
 # Call fun
 #first_check 
