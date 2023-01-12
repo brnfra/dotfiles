@@ -80,17 +80,18 @@ Install config tracking in your **$HOME** following the comand;
 
 3. Update your remote forked repository  and execute script bellow ( **check your username** ).
 
+
 >If Desktop/Virtual Machine, copy/paste in terminal;
 ```bash
-curl -C - -L -O https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install | /usr/bin/env bash; bash ~/bin/install_enviroment
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)"; bash ~/bin/install_enviroment
 ```
 >If Notebook(batery and temp indicator, wifi graduated signa), copy/paste in terminal;
 ```bash
-curl -C - -L -O https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/notebook-cfg/bin/install-notebook-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/notebook-cfg/bin/install-notebook-cfg)"; bash ~/bin/install_enviroment
 ```
 >If Mingw for Windows, copy/paste in terminal;
 ```bash
-curl -C - -L -O https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg | /usr/bin/env bash; bash ~/bin/install_enviroment
+ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg)"; bash ~/bin/install_enviroment
 ```
 
 <br>
