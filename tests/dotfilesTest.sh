@@ -43,6 +43,7 @@ testInstallBranchNotebook() {
     local=$(pwd)
 
     git checkout notebook-cfg 1>/dev/null
+    
     localBranchTest="$(cat $local/bin/install-notebook-cfg | grep "git clone" | awk '{print $4}')"
     result="$(git describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     
@@ -58,7 +59,7 @@ testInstallBranchNotebook() {
 #    #mkdir -p ./tests/
 #}
 oneTimeTearDown() {
-#    #cd ..
+    cd ./tests
     git checkout main
 }
 

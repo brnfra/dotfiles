@@ -380,7 +380,7 @@ bar {
         separator_symbol " "
         mode dock
         font pango:Quicksand Bold 10
-        status_command SCRIPT_DIR=~/.config/i3/i3blocks i3blocks
+        status_command SCRIPT_DIR=~/.i3/i3blocks i3blocks
         colors {
             statusline    $dark
             background    $white
