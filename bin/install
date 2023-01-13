@@ -52,7 +52,7 @@ else
     sleep 1
     printf "[INFO] Moving backup files to $BKPDIRt\r"
     sleep 1
-    find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I'{}' mv {} "$BKPDIR"
+    find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I'{}' mv {} "$BKPDIR"
     printf "[INFO] Moving backup files to $BKPDIR. Done\r\n"
     sleep 1
 fi

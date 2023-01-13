@@ -38,7 +38,7 @@ else
     printfi "[ERROR] Git pull branch can't merge: Done\r\n"
     printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
     sleep 1
-    find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+    find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
     printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
     sleep 1
 
@@ -60,13 +60,13 @@ else
     printf "[INFO] Git pull branch can't merge: Trying rename files.\r"
     sleep 1
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printfi "[INFO] Git pull branch can't merge: Done\r\n"
+    printf "[INFO] Git pull branch can't merge: Done\r\n"
     printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
     sleep 1
 fi
 printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
 sleep 1
-find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
 printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
 sleep 1
 
