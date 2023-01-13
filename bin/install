@@ -2,7 +2,7 @@
 
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-01-2023
+# Ultima_modificacao: 13-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -11,50 +11,50 @@
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 local=$(pwd)
-    $(cd "$HOME") || return]
+$(cd "$HOME") || return]
 #Change for your REPO adress
-    REPO="https://github.com/brnfra/dotfiles.git"
-    BKPDIR="$HOME"/.config-backup/
+REPO="https://github.com/brnfra/dotfiles.git"
+BKPDIR="$HOME"/.config-bkp/
 
-    if [ -d "$BKPDIR" ]
-    then
+if [ -d "$BKPDIR" ]
+then
     printf "[INFO]  $BKPDIR already exists.\r"
     sleep 1
-    else
+else
     mkdir -p "$BKPDIR"
     printf "[INFO]  $BKPDIR created.\r"
     sleep 1
-    fi
+fi
 
-    printf "[INFO] Git clone main(--bare).\r"
-    sleep 1
-    git clone --branch main --bare $REPO "$HOME/.dotfiles";
-    printf "[INFO] Git clone main(--bare): Done\r\n"
-    sleep 1
+printf "[INFO] Git clone main(--bare).\r"
+sleep 1
+git clone --branch main --bare $REPO "$HOME/.dotfiles";
+printf "[INFO] Git clone main(--bare): Done\r\n"
+sleep 1
 
-    function config {
-	git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
-    }
+function config {
+    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
+}
 
 printf "[INFO] Checkout branch.\r"
 sleep 1
 config checkout
 
 if [ $? = 0 ]; then
-printf "[INFO] Checkout branch: Done\r"
-sleep 1
+    printf "[INFO] Checkout branch: Done\r"
+    sleep 1
 
 else
-printf "[ERROR] Checkout branch: Trying backup configs to $BKPDIR\r"
-sleep 1
-config checkout 2>&1 | egrep "^\s+" | awk {'print $1'} | xargs -I'{}'  mv {} {}.backup
-printf "[ERROR] Checkout branch: Done.\r\n"
-sleep 1
-printf "[INFO] Moving backup files to $BKPDIRt\r"
-sleep 1
-find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I'{}' mv {} "$BKPDIR"
-printf "[INFO] Moving backup files to $BKPDIR. Done\r\n"
-sleep 1
+    printf "[ERROR] Checkout branch: Trying backup configs to $BKPDIR\r"
+    sleep 1
+    config checkout 2>&1 | egrep "^\s+" | awk {'print $1'} | xargs -I'{}'  mv {} {}.backup
+    printf "[ERROR] Checkout branch: Done.\r\n"
+    sleep 1
+    printf "[INFO] Moving backup files to $BKPDIRt\r"
+    sleep 1
+    find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I'{}' mv {} "$BKPDIR"
+    printf "[INFO] Moving backup files to $BKPDIR. Done\r\n"
+    sleep 1
 fi
 
 printf "[INFO] Checkout branch: Trying again after backup\r"

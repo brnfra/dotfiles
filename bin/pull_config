@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Arquivo: pull-config
+# Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-01-2023
+# Ultima_modificacao: 13-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 local=$(pwd)
 
-BKPDIR="$HOME"/.config-backup/
+BKPDIR="$HOME"/.config-bkp/
 if [ -d "$BKPDIR" ] 
 then
     printf "[INFO]  $BKPDIR already exists.\n"
@@ -62,7 +62,19 @@ else
     config merge origin '@{u}'
     printf "[INFO] Merging origin main. Done\r\n"
     sleep 1
+    printf "[INFO] Git pull branch can't merge: Trying rename files.\r"
+    sleep 1
+    config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    printfi "[INFO] Git pull branch can't merge: Done\r\n"
+    printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
+    sleep 1
 fi
+printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
+sleep 1
+find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
+sleep 1
+
 
 cd "$local" || return
 printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
