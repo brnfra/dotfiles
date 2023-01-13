@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-01-2023
+# Ultima_modificacao: 13-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -322,7 +322,7 @@ bindsym $mod+r mode "resize"
     # }}}
     # Keybidings applications {{{
 #bindsym Ctrl+1 exec xfce4-appfinder
-bindsym Ctrl+0 exec $myTerm -x vim ~/.config/i3/config
+bindsym Ctrl+0 exec $myTerm -x vim ~/.i3/config
 
 bindsym Ctrl+2 exec rofi -show run
 bindsym Ctrl+1 exec firefox

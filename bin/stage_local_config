@@ -20,7 +20,7 @@ sync_copy ()
 {
     echo "
     |-----------------------------------------------
-    Sincronização iniciada em $DATE " > ~/$bkpLog
+    Sincronização iniciada em $DATE " > $bkpLog
     bashrc='.bashrc .bash/ '
     vimrc='.vimrc .config/nvim/ '
     vifmrc='.config/vifm/vifmrc .config/vifm/scripts/ .config/vifm/colors/ ' 
@@ -36,57 +36,57 @@ sync_copy ()
     for file in $bashrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $vimrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP  --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP  --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $vifmrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $terminalrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $i3rc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $rofirc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $systemrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $gitrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $comptonrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $tmuxrc; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP  --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP  --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
     for file in $scripts; do
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> ~/$bkpLog
+	rsync -uvahP --exclude '*.backup' -b --backup-dir=$backupCopy --progress $HOME/$file $copyTo/$file &>> $bkpLog
     done
 
     
@@ -99,9 +99,9 @@ sync_copy
   #Verifica se a sincronizaçao foi bem sucedida se ela foi bem entra no if se nao cai no else
   if [ $? = 0 ]; then
       echo "Accomplished at $DATE
-      -----------------------------------------------|" &>> ~/$bkpLog
+      -----------------------------------------------|" &>> $bkpLog
   else
-      echo "A Error occured at $DATE" &>> ~/$bkpLog
+      echo "A Error occured at $DATE" &>> $bkpLog
   fi
   echo "Check log output: $bkpLog"
  
