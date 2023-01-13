@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
-#  Arquivo: stage-local-config
+#  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 08-01-2023
+#  Ultima_modificacao: 13-01-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
 
-backupCopy="$HOME/backup/copiados"
 DATE=$(date +%d/%m/%Y-%H:%M)
 SCRIPTS="$HOME/Documents/Projects/git/dotRepo/privateShell/scripts"
 DOTFILES="$HOME/Documents/Projects/git/dotRepo/privateConfig"
 DOTREPO="$HOME/Documents/Projects/git/dotRepo"
 GITD="$HOME/Documents/Projects/git"
 copyTo="$HOME/Documents/Projects/git/dotfiles"
-bkpLog="$HOME/.config-backup/bkp.log"
+backupCopy="$HOME/.config-bkp/copiados"
+bkpLog="$HOME/.config-bkp/bkp.log"
 #function for backup
 sync_copy ()
 {
@@ -25,7 +25,7 @@ sync_copy ()
     vimrc='.vimrc .config/nvim/ '
     vifmrc='.config/vifm/vifmrc .config/vifm/scripts/ .config/vifm/colors/ ' 
     terminalrc='.config/xfce4/terminal/terminalrc ' 
-    i3rc='.i3blocks.conf .config/i3/autostart/ .config/i3/ .config/i3/i3blocks/ '
+    i3rc='.i3blocks.conf .i3/autostart/ .i3/ .i3/i3blocks/ '
     rofirc='.config/rofi/ .config/rofi/themes/'
     systemrc='.wgetrc .curlrc '
     gitrc='.gitconfig .git-completion.bash'

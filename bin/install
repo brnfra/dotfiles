@@ -14,7 +14,7 @@ local=$(pwd)
 $(cd "$HOME") || return]
 #Change for your REPO adress
 REPO="https://github.com/brnfra/dotfiles.git"
-BKPDIR="$HOME"/.config-bkp/
+BKPDIR="$HOME"/.config-bkp/excluidos
 
 if [ -d "$BKPDIR" ]
 then

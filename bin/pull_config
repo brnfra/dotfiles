@@ -8,7 +8,7 @@
 #           causados pelo uso deste script.
 local=$(pwd)
 
-BKPDIR="$HOME"/.config-bkp/
+BKPDIR="$HOME"/.config-bkp/excluidos
 if [ -d "$BKPDIR" ] 
 then
     printf "[INFO]  $BKPDIR already exists.\n"
