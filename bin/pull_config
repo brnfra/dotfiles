@@ -9,67 +9,67 @@
 local=$(pwd)
 
 BKPDIR="$HOME"/.config-bkp/excluidos
+
 if [ -d "$BKPDIR" ] 
 then
-    printf "[INFO]  $BKPDIR already exists.\n"
+    printf "[INFO] %s already exists.\n" "$BKPDIR" 
     sleep 1	
 else
     mkdir -p "$BKPDIR"
-    printf "[INFO]  $BKPDIR created.\n"
+    printf "[INFO] %s created.\n" "$BKPDIR" 
     sleep 1	
 fi
-$(cd "$HOME") || return
+
+cd "$HOME" || return
 
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@ ; 
+    git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
 }
-printf "[INFO] Git pull config main(--bare):\r"
+printf "[INFO] Git pull config main(--bare):"
 sleep 1
+
 config pull origin main
 
 if [ $? = 0 ]; then
-    printf "[INFO] Git pull config main(--bare): Done\r\n"
+    printf "\r[INFO] Git pull config main(--bare): Done\n"
     sleep 1
 else
-    printf "[ERROR] Git pull config branch: Conflict.\r\n"
-    printf "[ERROR] Git pull branch can't merge: Trying rename files.\r"
+    printf "[ERROR] Git pull config branch: Conflict.\n"
+    printf "\r[ERROR] Git pull branch can't merge: Trying rename files.\r"
     sleep 1
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printfi "[ERROR] Git pull branch can't merge: Done\r\n"
-    printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
+    printf "\r[ERROR] Git pull branch can't merge: Done      \n"
+    printf "[INFO] Moving backup files to %s:" "$BKPDIR"
     sleep 1
     find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-    printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
+    printf "\r[INFO] Moving backup files to %s: Done         \n" "$BKPDIR"
     sleep 1
 
-    printf "[INFO] Fetching origin main\r"
+    printf "[INFO] Fetching origin main."
     sleep 1
     config fetch origin main
-    printf "[INFO] Fetching origin main. Done\r\n"
+    printf "\r[INFO] Fetching origin main. Done\n"
     sleep 1
-    printf "[INFO] Reset --hard main\r"
+    printf "[INFO] Reset --hard main."
     sleep 1
     config reset --hard HEAD
-    printf "[INFO] Reset --hard main. Done\r\n"
+    printf "\r[INFO] Reset --hard main. Done\n"
     sleep 1
-    printf "[INFO] Merging origin main\r"
+    printf "[INFO] Merging origin main. "
     sleep 1
     config merge origin '@{u}'
-    printf "[INFO] Merging origin main. Done\r\n"
+    printf "\r[INFO] Merging origin main. Done   \n"
     sleep 1
-    printf "[INFO] Git pull branch can't merge: Trying rename files.\r"
+    printf "[INFO] Git pull branch can't merge: Trying rename files."
     sleep 1
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printf "[INFO] Git pull branch can't merge: Done\r\n"
-    printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
-    sleep 1
+    printf "\r[INFO] Git pull branch can't merge: Done                    \n"
 fi
-printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
-sleep 1
-find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
-sleep 1
-
+    printf "[INFO] Moving backup files to %s: " "$BKPDIR"
+    sleep 1
+    find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+    printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
+    sleep 1
 
 cd "$local" || return
 printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
