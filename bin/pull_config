@@ -32,11 +32,6 @@ if [ $? = 0 ]; then
     sleep 1
 else
     printf "[ERROR] Git pull config branch: Conflict.\r\n"
-    printf "[INFO] Moving backup files to %s: \r\n" "$BKPDIR"
-    sleep 1
-    find . -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-    printf "[INFO] Moving backup files to %s: Done\r\n" "$BKPDIR"
-    sleep 1
     printf "[ERROR] Git pull branch can't merge: Trying rename files.\r"
     sleep 1
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
