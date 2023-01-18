@@ -45,7 +45,7 @@ else
     sleep 1
     # ----------
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printf "\r[ERROR] Git pull branch can't merge: Done      \n"
+    printf "\r[ERROR] Git pull branch can't merge: Done                 \n"
     sleep 1
 
     printf "[INFO] Fetching origin main."
