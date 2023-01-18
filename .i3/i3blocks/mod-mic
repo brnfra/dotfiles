@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
+# Copyright (C) 2014 Alexander Keller <github@nycroth.com>
+# Copyright (C) 2023 Bruno Franco <github@brnfra.com>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#------------------------------------------------------------------------
+# The first parameter sets the step to change the volume by (and units to display)
+# This may be in in % or dB (eg. 5% or 3dB)
+STEP="${1:-5%}"
+#------------------------------------------------------------------------
+#Using pactl
+
+pa_sink_mic="$(pactl list short | grep input)"
+pa_sink_mic="${pa_sink_mic:0:1}"
+
+pa-volume-mic() {
+    #in
+    pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
+    if [[ $vol -ge 95 ]]
+    then
+	pactl set-source-volume "$pa_sink_mic" 95%
+
+    fi
+
+}
+
+pa-mute-mic() {
+    #is mute?
+    pactl get-source-mute "$pa_sink_mic" | cut -d ":" -f 2
+}
+
+#------------------------------------------------------------------------
+
+volume() {
+    amixer -D $MIXER get $SCONTROL $(capability)
+}
+
+case $BLOCK_BUTTON in
+    3) pactl set-source-mute $pa_sink_mic toggle ;;  # right click, mute/unmute
+    4) pactl set-source-volume $pa_sink_mic  +${STEP}  ;; # scroll up, increase
+    5) pactl set-source-volume $pa_sink_mic  -${STEP}  ;; # scroll down, decrease
+esac
+
+#------------------------------------------------------------------------
+
+pm_mic="$(pa-mute-mic)"
+pv_mic="$(pa-volume-mic)"
+nv_mic="${pv_mic::-1}"
+
+if [ $pm_mic = "yes" ]; then
+    icon="<span font='Font Awesome'  color='#88C0D0' >&#xf130; </span>"
+    mute="<span font='Font Awesome' color='#BF616A'>&#xf00d; </span>"
+    echo "$icon $mute"
+    exit
+else
+    if [[ $nv_mic -gt 95 ]]; then
+	icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; █</span>"
+    else 
+	if [[ $nv_mic -gt 75 ]]; then
+	    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▇</span>"
+	else
+	    if [[ $nv_mic -gt 50 ]]; then
+		icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▅</span>"
+	    else
+		if [[ $nv_mic -gt 25 ]]; then
+		    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▃</span>"
+		else
+		    if [[ $nv_mic -gt 0 ]]; then
+			icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>&#xf130; ▁</span></span>"
+		    else
+			icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf130;</span></span>"
+		    fi #0-25
+		fi #25-50
+	    fi #50-75
+	fi #75-99
+    fi #99-100
+fi #mute
+
+echo "$icon $pv_mic"
+
+
