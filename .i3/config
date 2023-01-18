@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 13-01-2023
+# Ultima_modificacao: 18-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,7 +10,10 @@
 # i3 config file (v4)
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
+# Config file location {{{
+set $config_path ~/.i3
 
+#}}}
 #set $mod Mod1
 
 set $mod Mod4
@@ -18,7 +21,7 @@ set $mod Mod4
 floating_modifier $mod
     #}}}
     #Font {{{
-font pango:Quicksand Bold 10
+font pango:Quicksand 12
     #}}}
     # Icons {{{
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
@@ -282,10 +285,10 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
 bindsym $mod+F12 mode "Adjust resolution and bar. Choose: Esc or Enter to Cancel, (h)d virtual, (v)irtual, (d)esktop"
 
 mode "Adjust resolution and bar. Choose: Esc or Enter to Cancel, (h)d virtual, (v)irtual, (d)esktop"{
-    bindsym v exec "~/.config/i3/autostart/resolution1.sh" , mode "default"
-    bindsym h exec "~/.config/i3/autostart/resolution.sh" , mode "default"
+    bindsym v exec "$config_path/autostart/resolution1.sh" , mode "default"
+    bindsym h exec "$config_path/autostart/resolution.sh" , mode "default"
 
-    bindsym d exec " ~/.config/i3/autostart/resolution.sh" , mode "default"
+    bindsym d exec " $config_path/autostart/resolution.sh" , mode "default"
 
     #DEFAULT ESCAPE
     bindsym Return mode "default"
@@ -322,7 +325,7 @@ bindsym $mod+r mode "resize"
     # }}}
     # Keybidings applications {{{
 #bindsym Ctrl+1 exec xfce4-appfinder
-bindsym Ctrl+0 exec $myTerm -x vim ~/.i3/config
+bindsym Ctrl+0 exec $myTerm -x vim $config_path/config
 
 bindsym Ctrl+2 exec rofi -show run
 bindsym Ctrl+1 exec firefox
@@ -380,7 +383,7 @@ bar {
         separator_symbol " "
         mode dock
         font pango:Quicksand Bold 10
-        status_command SCRIPT_DIR=~/.i3/i3blocks i3blocks
+        status_command SCRIPT_DIR=$config_path/i3blocks i3blocks
         colors {
             statusline    $dark
             background    $white
@@ -441,7 +444,7 @@ $exe_always xset b off
     #Keyboard settings
 $exe numlockx on
 
-#$exe_always xrdb -load ~/.config/i3/.Xresources
+#$exe_always xrdb -load $config_path/.Xresources
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 #$exe exec mate-power-manager
@@ -451,8 +454,8 @@ $exe nm-applet --indicator
 
     #Wallpaper
 #change config for my preferences
-$exe ~/.config/i3/autostart/i3config.sh
-$exe ~/.config/i3/autostart/wallpaper.sh
+$exe $config_path/autostart/i3config.sh
+$exe $config_path/autostart/wallpaper.sh
 
     #Apps autoexec on start
 #$exe zim

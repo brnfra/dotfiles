@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 13-01-2023
+# Ultima_modificacao: 18-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -27,7 +27,7 @@ function config {
 }
 printf "[INFO] Git pull config main(--bare):"
 sleep 1
-
+# ----------
 config pull origin main
 
 if [ $? = 0 ]; then
@@ -35,41 +35,50 @@ if [ $? = 0 ]; then
     sleep 1
 else
     printf "[ERROR] Git pull config branch: Conflict.\n"
-    printf "\r[ERROR] Git pull branch can't merge: Trying rename files.\r"
-    sleep 1
-    config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printf "\r[ERROR] Git pull branch can't merge: Done      \n"
     printf "[INFO] Moving backup files to %s:" "$BKPDIR"
     sleep 1
+    # ----------
     find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
     printf "\r[INFO] Moving backup files to %s: Done         \n" "$BKPDIR"
+    sleep 1
+    printf "[ERROR] Git pull branch can't merge: Trying rename files.\r"
+    sleep 1
+    # ----------
+    config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    printf "\r[ERROR] Git pull branch can't merge: Done      \n"
     sleep 1
 
     printf "[INFO] Fetching origin main."
     sleep 1
+    # ----------
     config fetch origin main
     printf "\r[INFO] Fetching origin main. Done\n"
     sleep 1
     printf "[INFO] Reset --hard main."
     sleep 1
+    # ----------
     config reset --hard HEAD
     printf "\r[INFO] Reset --hard main. Done\n"
     sleep 1
     printf "[INFO] Merging origin main. "
     sleep 1
+    # ----------
     config merge origin '@{u}'
     printf "\r[INFO] Merging origin main. Done   \n"
     sleep 1
     printf "[INFO] Git pull branch can't merge: Trying rename files."
     sleep 1
+    # ----------
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
     printf "\r[INFO] Git pull branch can't merge: Done                    \n"
 fi
-    printf "[INFO] Moving backup files to %s: " "$BKPDIR"
-    sleep 1
-    find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-    printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
-    sleep 1
+
+printf "[INFO] Moving backup files to %s: " "$BKPDIR"
+sleep 1
+# ----------
+find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
+sleep 1
 
 cd "$local" || return
 printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
