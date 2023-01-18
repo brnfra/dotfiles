@@ -28,9 +28,8 @@ function config {
 printf "[INFO] Git pull config main(--bare):"
 sleep 1
 # ----------
-config pull origin main
-
-if [ $? = 0 ]; then
+if config pull origin main 
+then
     printf "\r[INFO] Git pull config main(--bare): Done\n"
     sleep 1
 else
@@ -41,7 +40,7 @@ else
     config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
     printf "\r[ERROR] Git pull branch can't merge: Done                 \n"
     sleep 1
-    if [ $(config pull origin main) ]
+    if config pull origin main
     then
 	cd "$local" || return
 	printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
@@ -74,12 +73,12 @@ else
     fi
 fi
 
-printf "[INFO] Moving backup files to %s: " "$BKPDIR"
-sleep 1
-# ----------
-find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
-sleep 1
+# printf "[INFO] Moving backup files to %s: " "$BKPDIR"
+# sleep 1
+# # ----------
+# find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
+# printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
+# sleep 1
 
 cd "$local" || return
 printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
