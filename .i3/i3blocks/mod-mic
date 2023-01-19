@@ -15,75 +15,123 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#------------------------------------------------------------------------
+
+# The second parameter overrides the mixer selection
+# For PulseAudio users, use "pulse"
+# For Jack/Jack2 users, use "jackplug"
+# For ALSA users, you may use "default" for your primary card
+# or you may use hw:# where # is the number of the card desired
+MIXER="default"
+[ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
+[ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
+MIXER="${2:-$MIXER}"
+
+# The instance option sets the control to report and configure
+# This defaults to the first control of your selected mixer
+# For a list of the available, use `amixer -D $Your_Mixer scontrols`
+SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
+    sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
+    tail -n1
+    )}"
 
 #------------------------------------------------------------------------
 # The first parameter sets the step to change the volume by (and units to display)
 # This may be in in % or dB (eg. 5% or 3dB)
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
-#Using pactl
+#Using pactl    {{{
 
 pa_sink_mic="$(pactl list short | grep input)"
 pa_sink_mic="${pa_sink_mic:0:1}"
 
 pa-volume-mic() {
-    #in
-    pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}'
-    vol=$(pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}')
-    vol=${vol%\%*}
-    if [[ $vol -ge 95 ]]
-    then
-	pactl set-source-volume "$pa_sink_mic" 95%
+#in
+pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}'
+vol=$(pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}')
+vol=${vol%\%*}
+if [[ $vol -ge 95 ]]
+then
+    pactl set-source-volume "$pa_sink_mic" 95%
 
-    fi
+fi
 
 }
 
 pa-mute-mic() {
-    #is mute?
-    pactl get-source-mute "$pa_sink_mic" | cut -d ":" -f 2
+#is mute?
+pactl get-source-mute "$pa_sink_mic" | cut -d ":" -f 2
 }
 
 #------------------------------------------------------------------------
+#}}}
+
+capability() { # Return "Capture" if the device is a capture device
+    amixer -D "$MIXER" get "$SCONTROL" |
+	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
+    }
 
 volume() {
     amixer -D $MIXER get $SCONTROL $(capability)
 }
 
-case $BLOCK_BUTTON in
-    3) pactl set-source-mute $pa_sink_mic toggle ;;  # right click, mute/unmute
-    4) pactl set-source-volume $pa_sink_mic  +${STEP}  ;; # scroll up, increase
-    5) pactl set-source-volume $pa_sink_mic  -${STEP}  ;; # scroll down, decrease
-esac
+format() {
+    perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
+    perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
+    # If dB was selected, print that instead
+    perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+    perl_filter+='"; exit}'
+    perl -ne "$perl_filter"
+}
 
+
+if pactl -v
+then
+    case $BLOCK_BUTTON in
+	3) pactl set-source-mute $pa_sink_mic toggle ;;  # right click, mute/unmute
+	4) pactl set-source-volume $pa_sink_mic  +${STEP}  ;; # scroll up, increase
+	5) pactl set-source-volume $pa_sink_mic  -${STEP}  ;; # scroll down, decrease
+    esac
+else
+    case $BLOCK_BUTTON in
+	3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
+	4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
+	5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
+    esac
+fi
 #------------------------------------------------------------------------
+if pactl -v
+then
+    pm_mic="$(pa-mute-mic)"
+    pv_mic="$(pa-volume-mic)"
+    nv_mic="${pv_mic::-1}"
+else
+    pv="$(volume | format)"
+    nv="${pv::-1}"
+fi
 
-pm_mic="$(pa-mute-mic)"
-pv_mic="$(pa-volume-mic)"
-nv_mic="${pv_mic::-1}"
-
-if [ $pm_mic = "yes" ]; then
+if [ "$pm_mic" = "yes" ] || [ "$pv" = "MUTE" ]; then
     icon="<span font='Font Awesome'  color='#88C0D0' >&#xf130; </span>"
     mute="<span font='Font Awesome' color='#BF616A'>&#xf00d; </span>"
     echo "$icon $mute"
     exit
 else
-    if [[ $nv_mic -gt 95 ]]; then
+    if [[ $nv_mic -gt 95 ]] || [[ $nv -gt 95 ]]; then
 	icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; █</span>"
     else 
-	if [[ $nv_mic -gt 75 ]]; then
+	if [[ $nv_mic -gt 75 ]] || [[ $nv -gt 75 ]]; then
 	    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▇</span>"
 	else
-	    if [[ $nv_mic -gt 50 ]]; then
+	    if [[ $nv_mic -gt 50 ]] || [[ $nv -gt 50 ]]; then
 		icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▅</span>"
 	    else
-		if [[ $nv_mic -gt 25 ]]; then
+		if [[ $nv_mic -gt 25 ]] || [[ $nv -gt 25 ]]; then
 		    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▃</span>"
 		else
-		    if [[ $nv_mic -gt 0 ]]; then
+		    if [[ $nv_mic -gt 0 ]] || [[ $nv -gt 0 ]]; then
 			icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>&#xf130; ▁</span></span>"
 		    else
-			icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf130;</span></span>"
+			icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf130;   </span></span>"
 		    fi #0-25
 		fi #25-50
 	    fi #50-75
@@ -91,6 +139,10 @@ else
     fi #99-100
 fi #mute
 
-echo "$icon $pv_mic"
 
-
+if pactl -v
+then
+    echo "$icon $pv_mic"
+else
+    echo "$icon $pv"
+fi

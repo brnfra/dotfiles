@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 09-01-2023
+" Ultima_modificacao: 18-01-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -194,9 +194,6 @@ call plug#end()
 "     END PLUGINS  }}}1
 "             PLUGINS CONFIG {{{1
 "              FUGITIVE                          {{{
-if exists("*fugitive#statusline")
-    set statusline+=%{fugitive#statusline()}
-endif
 "                                           }}}"
 "COC{{{
 if has("nvim")
@@ -395,7 +392,6 @@ let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#fugitiveline#enabled=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
@@ -436,7 +432,6 @@ let g:airline_mode_map = {
 let g:airline_filetype_overrides = {
 	    \ 'coc-explorer':  [ 'CoC Explorer', '' ],
 	    \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
-	    \ 'fugitive': ['fugitive', '%{airline#util#wrap(airline#extensions#branch#get_head(),80)}'],
 	    \ 'gundo': [ 'Gundo', '' ],
 	    \ 'help':  [ 'Help', '%f' ],
 	    \ 'minibufexpl': [ 'MiniBufExplorer', '' ],
@@ -478,7 +473,6 @@ let g:airline#extensions#csv#column_display = 'Name'
 "                                languageclient_error_count)
 "  let g:airline_section_warning (ycm_warning_count, syntastic-warn,
 "                                 languageclient_warning_count, whitespace)
-let g:airline_section_b=" %{FugitiveHead()}"
 let g:airline_section_c='%r%m%0*%t %1* %-0.50{CurDir()}'
 let g:airline_section_x='%k%y'
 let g:airline_section_z='%p%% %l Col:%c'
