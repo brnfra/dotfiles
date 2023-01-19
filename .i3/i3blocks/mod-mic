@@ -111,27 +111,26 @@ else
 fi
 
 if [ "$pm_mic" = "yes" ] || [ "$pv" = "MUTE" ]; then
-    icon="<span font='Font Awesome'  color='#88C0D0' >&#xf130; </span>"
-    mute="<span font='Font Awesome' color='#BF616A'>&#xf00d; </span>"
-    echo "$icon $mute"
+    icon="<span font='Font Awesome'  color='#BF616A' size='medium' >&#xf131; </span>"
+    echo "$icon"
     exit
 else
     if [[ $nv_mic -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; █</span>"
+	icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf130; █</span>"
     else 
 	if [[ $nv_mic -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▇</span>"
+	    icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf130; ▇</span>"
 	else
 	    if [[ $nv_mic -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▅</span>"
+		icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf130; ▅</span>"
 	    else
 		if [[ $nv_mic -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='Font Awesome' color='#88C0D0' size='large'>&#xf130; ▃</span>"
+		    icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf130; ▃</span>"
 		else
 		    if [[ $nv_mic -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='Font Awesome'   color='#88C0D0' ><span size='large'>&#xf130; ▁</span></span>"
+			icon="<span font='Font Awesome'   color='#88C0D0' size='medium'>&#xf130; ▁</span>"
 		    else
-			icon="<span font='Font Awesome'  color='#88C0D0'  ><span size='large'>&#xf130;   </span></span>"
+			icon="<span font='Font Awesome'  color='#88C0D0' size='medium'>&#xf130;   </span>"
 		    fi #0-25
 		fi #25-50
 	    fi #50-75
