@@ -2,19 +2,20 @@
 
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-01-2023
+# Ultima_modificacao: 21-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #Fonts
 
+loca=$(pwd)
 printf "[INFO] Installing fonts.\n"
 sleep 1
 cd "$HOME/.local/share/fonts" || return
 
-nerdfont="nerdfont.zip"
-codeNewRoman="codeNewRoman.zip"
+nerdfont="3270.zip"
+codeNewRoman="CodeNewRoman.zip"
 monofur="Monofur.zip"
 
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
@@ -22,15 +23,15 @@ if  command -v unzip &>/dev/null
 then
     printf "[INFO] Downloading Nerdfont.\n" 
     sleep 1
-    eval curl -# -C - -Lko $nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/3270.zip" 
+    eval curl -# -C - -Lko $nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
    
     printf "[INFO] Downloading CoeNewRoman.\n"
     sleep 1
-    eval curl -# -C - -Lko $codeNewRoman "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CodeNewRoman.zip"
+    eval curl -# -C - -Lko $codeNewRoman "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
     
     printf "[INFO] Downloading Monofur.\n"
     sleep 1
-    eval curl -# -C - -Lko $monofur "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Monofur.zip"
+    eval curl -# -C - -Lko $monofur "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
 else
     printf "[ERROR]The package Unzip is not installed. Execute apt install unzip"
     exit 1
@@ -39,13 +40,15 @@ fi
 printf "[INFO] Unpack downloaded fonts.\n"
 sleep 1
 eval unzip -uCoq "*.zip"
+PROCESS_ID=$!
+wait $PROCESS_ID
 printf "\r[INFO] Unpack downloaded fonts: Done\n"
 sleep 1
 
-PROCESS_ID=$!
-wait $PROCESS_ID
 
-eval fc-cache -vf "$HOME/.local/share/fonts"
+eval fc-cache -vf 
+cd $local || return
+
 echo -e "\nAll done!\n"
 
 exit 0

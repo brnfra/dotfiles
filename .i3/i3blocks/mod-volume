@@ -41,23 +41,23 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl  {{{
-pa_sink="$(pactl list short | grep output)"
-pa_sink="${pa_sink:0:1}"
-
+pa_sink="$(pactl list short sinks | grep "RUNNING" | awk '{print $1}' | sed 1q)"
+pa_adpt="$(pactl list short sinks | grep "RUNNING" | awk '{print $2}')"
+#pa_sink="${pa_sink:0:1}"
 pa-volume() {
-#out
-pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
-vol=$(pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}')
-vol=${vol%\%*}
-if [[ $vol -ge 95 ]]
-then
-    pactl set-sink-volume "$pa_sink" 95%
-fi
+    #out
+    pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
+    if [[ $vol -ge 95 ]]
+    then
+	pactl set-sink-volume "$pa_sink" 95%
+    fi
 }
 
 pa-mute() {
-#is mute?
-pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
+    #is mute?
+    pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
 }
 
 #}}}
@@ -68,21 +68,21 @@ capability() { # Return "Capture" if the device is a capture device
 	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
     }
 
-volume() {
-    amixer -D $MIXER get $SCONTROL $(capability)
-}
+    volume() {
+	amixer -D $MIXER get $SCONTROL $(capability)
+    }
 
-format() {
-    perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
-    perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
-    # If dB was selected, print that instead
-    perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
-    perl_filter+='"; exit}'
-    perl -ne "$perl_filter"
-}
+    format() {
+	perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
+	perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
+	# If dB was selected, print that instead
+	perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+	perl_filter+='"; exit}'
+	perl -ne "$perl_filter"
+    }
 
 #------------------------------------------------------------------------
-if pactl -v
+if pactl --version &> /dev/null
 then
     case $BLOCK_BUTTON in
 	3) pactl set-sink-mute $pa_sink toggle ;;  # right click, mute/unmute
@@ -98,46 +98,49 @@ else
     esac
 fi
 #------------------------------------------------------------------------
-
+if pactl --version &> /dev/null
+then
     pam="$(pa-mute)"
     pav="$(pa-volume)"
     nav="${pv::-1}"
-
+    res="yes"
+else
     pv="$(volume | format)"
     nv="${pv::-1}"
+    res="MUTE"
+fi
 
 
-if [ "$pam" = "yes" ] || [ "$pv" == "MUTE" ]; then
-    icon="<span font='Font Awesome'  color='#BF616A' size='x-large' >&#xf026; </span>"
+if [ $pam = $res ] || [ $pv = $res ]; then
+    icon="<span font='Font Awesome'  color='#BF616A' size='medium' >&#xf026; </span>"
     echo "$icon "
-    exit
+    exit 0
 else
     if [[ $nav -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='Font Awesome' color='#88C0D0' size='x-large'>&#xf028; </span><span color='#88C0D0' size='medium'>█</span>"
+	icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf028; </span><span color='#88C0D0' size='medium'>█</span>"
     else 
 	if [[ $nav -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='Font Awesome' color='#88C0D0' size='x-large'>&#xf028; </span><span color='#88C0D0' size='medium'>▇</span>"
+	    icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf028; </span><span color='#88C0D0' size='medium'>▇</span>"
 	else
 	    if [[ $nav -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='Font Awesome' color='#88C0D0' size='x-large'>&#xf027; </span><span color='#88C0D0' size='medium'>▅</span>"
+		icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▅</span>"
 	    else
 		if [[ $nav -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='Font Awesome' color='#88C0D0' size='x-large'>&#xf027; </span><span color='#88C0D0' size='medium'>▃</span>"
+		    icon="<span font='Font Awesome' color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▃</span>"
 		else
 		    if [[ $nav -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='Font Awesome'   color='#88C0D0' size='x-large'>&#xf027; </span><span color='#88C0D0' size='medium'>▁</span>"
+			icon="<span font='Font Awesome'   color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▁</span>"
 		    else
-			icon="<span font='Font Awesome'  color='#88C0D0' size='x-large'>&#xf026;  </span><span> </span>"
+			icon="<span font='Font Awesome'  color='#88C0D0' size='medium'>&#xf026;  </span><span> </span>"
 		    fi #0-25
 		fi #25-50
 	    fi #50-75
 	fi #75-99
     fi #99-100
-fi #mute
-
-if pactl -v
+fi #mute 
+if pactl --version &> /dev/null
 then
-    echo "$icon $pav"
+    echo -n "$icon $pav"
 else
-    echo "$icon $pv"
+    echo -n "$icon $pv"
 fi

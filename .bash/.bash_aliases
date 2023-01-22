@@ -46,7 +46,7 @@ alias ld='ls -ApGoh --color=always | grep --regexp="[\/]$"'
 #alias xlr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
 
 	# grep
-alias grep='grep --color=auto'
+alias grep="grep --color=auto"
 alias egrep='egrep --color=auto'
     #alias to nav directories 
 alias ..="cd .."
@@ -54,29 +54,28 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias CD='cd'
+alias cd..="cd .."
     # }}}
     #Command aliases {{{
 alias svim='sudo nvim'
-alias cd..="cd .."
 alias cim="nvim"
 alias VIM="nvim"
-alias grep="grep --color=auto"
 alias EXIT="exit"
-alias myhost='ssh -T user@my.remote.host screen -dAr'
 alias cp='cp -i'
 alias mv='mv -i'
 alias fd='fdfind'
 alias tam='item_size'
+alias myhost='ssh -T user@my.remote.host screen -dAr'
  # }}}
     #git {{{
     #status
-alias g='git status -sb'
+alias g='git status '
 alias glog="git log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar. %s ;'"
     #git diff
 alias gdiff="git diff"    
     #add and rm
 alias ga='git add -A'
-alias gr='git rm '
+alias gr='git restore '
     #commit
 alias gc='git commit'
 alias gcm='git commit -m'

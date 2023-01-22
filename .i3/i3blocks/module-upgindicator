@@ -3,7 +3,7 @@
 CHECK=$(expr $(apt list --upgradeable | wc -l) - 1)
 
 if [ $CHECK -lt 1 ]; then
-    echo " "
+    echo ""
 else
-    echo "<span font='Font Awesome' color='#FF0000'>$CHECK Pkgs Upg Avaliable</span>"
+    echo "<span font='Font Awesome' color='#FF0000'>Upg! ($CHECK)</span>"
 fi

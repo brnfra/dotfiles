@@ -41,26 +41,25 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl    {{{
-
-pa_sink_mic="$(pactl list short | grep input)"
-pa_sink_mic="${pa_sink_mic:0:1}"
+pa_source_adp="$(pactl list short sinks | grep "RUNNING" | awk '{print $2}')"
+pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
 
 pa-volume-mic() {
-#in
-pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}'
-vol=$(pactl get-source-volume "$pa_sink_mic" | grep Volume | awk '{print $5}')
-vol=${vol%\%*}
+    #in
+    pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
 if [[ $vol -ge 95 ]]
 then
-    pactl set-source-volume "$pa_sink_mic" 95%
+    pactl set-source-volume "$pa_source_mic" 95%
 
 fi
 
 }
 
 pa-mute-mic() {
-#is mute?
-pactl get-source-mute "$pa_sink_mic" | cut -d ":" -f 2
+    #is mute?
+    pactl get-source-mute "$pa_source_mic" | cut -d ":" -f 2
 }
 
 #------------------------------------------------------------------------
@@ -85,12 +84,12 @@ format() {
 }
 
 
-if pactl -v
+if pactl --version &> /dev/null
 then
     case $BLOCK_BUTTON in
-	3) pactl set-source-mute $pa_sink_mic toggle ;;  # right click, mute/unmute
-	4) pactl set-source-volume $pa_sink_mic  +${STEP}  ;; # scroll up, increase
-	5) pactl set-source-volume $pa_sink_mic  -${STEP}  ;; # scroll down, decrease
+	3) pactl set-source-mute $pa_source_mic toggle ;;  # right click, mute/unmute
+	4) pactl set-source-volume $pa_source_mic  +${STEP}  ;; # scroll up, increase
+	5) pactl set-source-volume $pa_source_mic  -${STEP}  ;; # scroll down, decrease
     esac
 else
     case $BLOCK_BUTTON in
@@ -100,17 +99,19 @@ else
     esac
 fi
 #------------------------------------------------------------------------
-if pactl -v
+if pactl --version &> /dev/null
 then
     pm_mic="$(pa-mute-mic)"
     pv_mic="$(pa-volume-mic)"
     nv_mic="${pv_mic::-1}"
+    res="yes"
 else
     pv="$(volume | format)"
     nv="${pv::-1}"
+    res="MUTE"
 fi
 
-if [ "$pm_mic" = "yes" ] || [ "$pv" = "MUTE" ]; then
+if [ $pm_mic = $res ] || [ $pv = $res ]; then
     icon="<span font='Font Awesome'  color='#BF616A' size='medium' >&#xf131; </span>"
     echo "$icon"
     exit
@@ -139,7 +140,7 @@ else
 fi #mute
 
 
-if pactl -v
+if pactl --version &> /dev/null
 then
     echo "$icon $pv_mic"
 else
