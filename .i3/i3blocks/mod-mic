@@ -35,6 +35,8 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     tail -n1
     )}"
 
+#debian ubuntu manjaro etc
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #------------------------------------------------------------------------
 # The first parameter sets the step to change the volume by (and units to display)
 # This may be in in % or dB (eg. 5% or 3dB)
@@ -45,10 +47,10 @@ pa_source_adp="$(pactl list short sinks | grep "RUNNING" | awk '{print $2}')"
 pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
 
 pa-volume-mic() {
-    #in
-    pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
-    vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
-    vol=${vol%\%*}
+#in
+pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
+vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
+vol=${vol%\%*}
 if [[ $vol -ge 95 ]]
 then
     pactl set-source-volume "$pa_source_mic" 95%
@@ -58,8 +60,8 @@ fi
 }
 
 pa-mute-mic() {
-    #is mute?
-    pactl get-source-mute "$pa_source_mic" | cut -d ":" -f 2
+#is mute?
+pactl get-source-mute "$pa_source_mic" | cut -d ":" -f 2
 }
 
 #------------------------------------------------------------------------
@@ -84,7 +86,7 @@ format() {
 }
 
 
-if pactl --version &> /dev/null
+if [ "$osys" = "ubuntu" ]
 then
     case $BLOCK_BUTTON in
 	3) pactl set-source-mute $pa_source_mic toggle ;;  # right click, mute/unmute
@@ -99,7 +101,8 @@ else
     esac
 fi
 #------------------------------------------------------------------------
-if pactl --version &> /dev/null
+
+if [ "$osys" = "ubuntu" ]
 then
     pm_mic="$(pa-mute-mic)"
     pv_mic="$(pa-volume-mic)"
@@ -140,7 +143,7 @@ else
 fi #mute
 
 
-if pactl --version &> /dev/null
+if [ "$osys" = "ubuntu" ]
 then
     echo "$icon $pv_mic"
 else
