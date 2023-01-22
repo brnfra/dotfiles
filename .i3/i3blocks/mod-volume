@@ -111,7 +111,7 @@ else
 fi
 
 
-if [ $pam = $res ] || [ $pv = $res ]; then
+if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
     icon="<span font='Font Awesome'  color='#BF616A' size='medium' >&#xf026; </span>"
     echo "$icon "
     exit 0
