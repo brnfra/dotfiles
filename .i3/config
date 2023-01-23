@@ -213,8 +213,6 @@ workspace 5 output DVI-0
 workspace 7 output DVI-0
 workspace 9 output DVI-0
 # Open applications on specific workspaces
-# assign [class="Thunderbird"] $ws1
-# assign [class="Firefox"] $ws2
 # assign [class="Pcmanfm"] $ws3
     # }}}
     #Config tab for contain the app for_window {{{
@@ -394,20 +392,7 @@ bar {
             inactive_workspace  $purple    $gray     $dark
             urgent_workspace    $red       $red      $green
         }
-     #   tray_output HDMI-0
-     #   tray_output HDMI-A-1
-     #   tray_output DVI-0
-     #   tray_output DVI-I-1
-     #   tray_output DVI-0
-     #   tray_output DisplayPort-2
-     #   tray_output HDMI-A-1
-     #   tray_output Virtual1
-      #  separator_symbol "⎠"
-
-        #status_command i3blocks
-        #font pango:Open Sans 10
-
-}
+ }
     # }}}
     # i3blocks - caps lock/num lock status {{{
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
@@ -426,52 +411,30 @@ bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_si
 bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
 bindsym XF86HomePage         $exe pavucontrol
     
-   
-
-
     # }}}
     # session startup ------------------------------------------------------------ {{{
 
 # $exe_always ~/.screenlayout/i3-default.sh
 $exe_always compton --config ~/.config/compton.conf
-
 #volume control
 #$exe pasystray
-   
    #OFF bell on preference for X
 $exe_always xset b off
-
     #Keyboard settings
 $exe numlockx on
-
 #$exe_always xrdb -load $config_path/.Xresources
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
-#$exe exec mate-power-manager
 #Networkmanager wicd and NM do not work together
-#$exe wicd-gtk -t
 $exe nm-applet --indicator
-
+$exe blueman-manager
     #Wallpaper
 #change config for my preferences
 $exe $config_path/autostart/i3config.sh
 $exe $config_path/autostart/wallpaper.sh
 
     #Apps autoexec on start
-#$exe zim
-#$exe liferea
-#$exe gnome-clocks
 $exe diodon
-#$exe knotes
 $exe goldendict
-$exec --no-startup-id xautolock -time 10 -locker blurlock
-
-# Autostart applications
-#$exe transmission-gtk -m
-#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-#exec_always --no-startup-id ff-theme-util
-#exec_always --no-startup-id fix_xcursor
-
-
     # ----------------------------------------------------------------------------
     # }}}
