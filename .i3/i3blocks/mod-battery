@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Arquivo: mod-battery
+# Autor: Bruno Franco
+# Ultima_modificacao: 11-01-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste arquivo. 
+bat_number="${BLOCK_INSTANCE:-0}";
+
+status=$(acpi -b | grep "Battery $bat_number" | awk '{print $3}')
+status=${status%,*}
+bat_percent=$(acpi -b | grep "Battery $bat_number" | awk '{print $4}' )
+bat_percent=${bat_percent%,*}
+timeto=$(acpi -b | grep "Battery $bat_number" | awk '{print $5}' )
+timeto=${timeto%:*}
+bat_percent_int=${bat_percent%\%*}
+
+if [ "$status" = 'Discharging' ]
+then
+    chrg_icon="<span font='Font Awesome' color='#f44336'>&#xf103;</span>"
+else
+    chrg_icon="<span font='Font Awesome' color='#8fce00'>&#xf102;</span>"
+fi
+
+# 0-5
+if [[ 5 -ge bat_percent_int ]]
+then
+    btry_icon="<span font='Font Awesome' color='#ff2800'>&#xf244; $bat_percent</span>"
+fi
+#35-6
+if [[ 35 -ge bat_percent_int ]]
+then
+    btry_icon="<span font='Font Awesome' color='#ffd800'>&#xf243; $bat_percent</span>"
+fi
+#60-36
+if [[ 60 -ge bat_percent_int ]] && [[ bat_percent_int -ge 36 ]]
+then
+    btry_icon="<span font='Font Awesome' color='#f1e132'>&#xf242; $bat_percent</span>"
+fi
+#90-61
+if [[ 90 -ge bat_percent_int ]] && [[ bat_percent_int -ge 61 ]]
+then
+    btry_icon="<span font='Font Awesome' color='#4e9100'>&#xf241; $bat_percent</span>"
+fi
+#100-91
+if [[ 101 -ge bat_percent_int ]] && [[ bat_percent_int -ge 91 ]]
+then
+    btry_icon="<span font='Font Awesome' color='#2666a1'>&#xf240; $bat_percent</span>"
+fi
+
+echo "$btry_icon" "$chrg_icon""($timeto)"
