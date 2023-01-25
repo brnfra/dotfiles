@@ -28,7 +28,7 @@ Thank you guys for sharing :heart:
 
 ## Using git to manage config files.
 
-### Desktop config
+### Main config
 
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
 2. Pls check **$HOME/.i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
