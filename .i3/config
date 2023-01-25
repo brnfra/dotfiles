@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 23-01-2023
+# Ultima_modificacao: 24-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -279,21 +279,6 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
     bindsym Escape mode "default"
 }
     # }}}
-#Set the shortcuts to adjust display resolution labed {{{
-bindsym $mod+F12 mode "Adjust resolution and bar. Choose: Esc or Enter to Cancel, (h)d virtual, (v)irtual, (d)esktop"
-
-mode "Adjust resolution and bar. Choose: Esc or Enter to Cancel, (h)d virtual, (v)irtual, (d)esktop"{
-    bindsym v exec "$config_path/autostart/resolution1.sh" , mode "default"
-    bindsym h exec "$config_path/autostart/resolution.sh" , mode "default"
-
-    bindsym d exec " $config_path/autostart/resolution.sh" , mode "default"
-
-    #DEFAULT ESCAPE
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
-    # }}}
 # resize window labed (you can also use the mouse for that) {{{
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -383,14 +368,14 @@ bar {
         font pango:Monofur 11
         status_command SCRIPT_DIR=$config_path/i3blocks i3blocks
         colors {
-            statusline    $dark
+            statusline    $darker
             background    $white
 
             #                   border     backgr    text
-            focused_workspace   $red       $purple   $white
-            active_workspace    $dark      $blue     $whitew
-            inactive_workspace  $purple    $gray     $dark
-            urgent_workspace    $red       $red      $green
+            focused_workspace   $blue      $green    $dark
+            active_workspace    $dark      $blue     $white
+            inactive_workspace  $dark      $gray     $dark
+            urgent_workspace    $dark      $yellow   $dark
         }
  }
     # }}}

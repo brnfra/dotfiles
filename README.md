@@ -28,20 +28,13 @@ Thank you guys for sharing :heart:
 
 ## Using git to manage config files.
 
-### Desktop config(The main branch. Two monitors, monitor2 is left rotated, one in vertical)
+### Desktop config
 
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
-2. Pls check **$HOME/.config/i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
+2. Pls check **$HOME/.i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
 <img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
-
-
-### Notebook config(notebook-cfg branch)
-
-1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
-2. I3blocks include charge icon, and wifi signal scripts.
-3. The keyboard layout is **PT-BR,ABNT**.
 
 ### Mingw32(git-for-windows) config(mingw32-w8 branch)
 
@@ -81,14 +74,11 @@ Install config tracking in your **$HOME** following the comand;
 3. Update your remote forked repository  and execute script bellow ( **check your username** ).
 
 
->If Desktop/Virtual Machine, copy/paste in terminal;
+>If Desktop/Virtual/Notebooks, copy/paste in terminal;
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)"; bash ~/bin/install_enviroment
 ```
->If Notebook(batery and temp indicator, wifi graduated signa), copy/paste in terminal;
-```bash
-bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/notebook-cfg/bin/install-notebook-cfg)"; bash ~/bin/install_enviroment
-```
+
 >If Mingw for Windows, copy/paste in terminal;
 ```bash
  bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg)"; bash ~/bin/install_enviroment
