@@ -31,7 +31,7 @@ Thank you guys for sharing :heart:
 ### Main config
 
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
-2. Pls check **$HOME/.i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
+2. Pls check **~/.i3/autostart/i3config.sh**. There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
 <img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
