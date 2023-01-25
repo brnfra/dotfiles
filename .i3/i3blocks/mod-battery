@@ -7,15 +7,12 @@
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste arquivo. 
-
-acpi_batdir="/proc/acpi/battery"  
-
-if [ -d "$acpi_batdir" ]
+if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
+    exit 1
+else
     bat_number=$(acpi -b | grep -v "unavailable" | awk '{print $2}')
     bat_number=${bat_number:0:1}
-else
-    exit 1
 fi
 
 status=$(acpi -b | grep "Battery $bat_number" | awk '{print $3}')
