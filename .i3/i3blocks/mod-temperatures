@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# Arquivo: mod-temperatures
+# Autor: Bruno Franco
+# Ultima_modificacao: 24-01-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste arquivo.
+# depends 'jq' package
+
+# dont inject shell variables into your jq filter!
+# instead use --argjson
+temps_all=$(sensors -j | jq '.' | grep "temp[1-2]_input" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g')
+#temp_max=$(sensors -j | jq '.' | grep "temp[1-9]_max" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
+temp_crit=$(sensors -j | jq '.' | grep "temp[1-2]_crit" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
+
+cold="\"blue\""
+normal="\"green"\"
+alert="\"red"\"
+icon="&#xf2c9;"
+output=""
+
+for temp in $temps_all
+do
+
+    if [[ $temp -lt 200 ]]
+    then
+	if [[ $temp -lt 20  ]]
+	then
+	    output+="<span font='Font Awesome' color="$cold">$icon $temp</span> "
+	elif [[ $temp -lt 70 ]]
+	then
+	    output+="<span font='Font Awesome' color="$normal">$icon $temp</span> "
+	elif [[ $temp -lt $temp_crit ]]
+	then
+	    output+="<span font='Font Awesome' color="$alert">$icon $temp</span> "
+	fi
+    fi
+done
+
+echo "$output"
+
+
+#sensors -j | jq '.["asus-isa-0000"]' | grep "temp[1-9]_input"
+#sensors -j | jq '.[] | .Adapter'
+#sensors -j | jq '.[] | ."Core 3"'
+##mesmo nivel
+#sensors -j | jq '.[] | .temp1'
+#sensors -j | jq '.[] | length'
+#sensors -j | jq '.[] | keys'
+#sensors -j | jq '. | keys'
+##for candidate
+#sensors -j | jq '. | keys' | cut -d "," -f 1 | sed 's/[\[ +]//g; s/\]//g; /^$/D'
+
+#sensors -j | jq '.["asus-isa-0000"]' | grep "temp[1-9]_input"
+
+## special chars
+#sensors -j | jq '.["coretemp-isa-0000"]'
+#sensors -j | jq '.["soc_dts1-virtual-0"] | length'	    #2
+#sensors -j | jq '.["soc_dts1-virtual-0"].temp1 | length'    #1
+#sensors -j | jq '.["soc_dts1-virtual-0"].temp1 | keys'	    #temp1_input
+
+#sensors -j | jq -c '.["soc_dts1-virtual-0"].temp1 | keys' | sed 's/\W//g'
+## list per line
+#sensors -j | jq '.["soc_dts1-virtual-0"] | keys' | cut -d "," -f 1 | sed 's/\W//g'

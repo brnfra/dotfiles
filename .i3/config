@@ -427,7 +427,7 @@ $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 #Networkmanager wicd and NM do not work together
 $exe nm-applet --indicator
-$exe blueman-manager
+$exe blueman-tray
     #Wallpaper
 #change config for my preferences
 $exe $config_path/autostart/i3config.sh
