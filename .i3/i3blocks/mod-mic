@@ -43,7 +43,7 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl    {{{
-pa_source_adp="$(pactl list short sinks | grep "RUNNING" | awk '{print $2}')"
+pa_source_adp="$(pactl list short sinks |  awk '{print $2}')"
 pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
 
 pa-volume-mic() {
@@ -104,8 +104,11 @@ fi
 
 if [ "$osys" = "ubuntu" ]
 then
+
     pm_mic="$(pa-mute-mic)"
+    pm_mic=$(echo $pm_mic | sed 's/^\s//g;s/\s$//g')
     pv_mic="$(pa-volume-mic)"
+    pv_mic=$(echo $pv_mic | sed 's/^\s//g;s/\s$//g')
     nv_mic="${pv_mic::-1}"
     res="yes"
 else

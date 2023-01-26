@@ -43,9 +43,10 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl  {{{
-pa_sink="$(pactl list short sinks | grep "RUNNING" | awk '{print $1}' | sed 1q)"
-pa_adpt="$(pactl list short sinks | grep "RUNNING" | awk '{print $2}')"
+pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
+pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
 #pa_sink="${pa_sink:0:1}"
+
 pa-volume() {
 #out
 pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
@@ -104,7 +105,9 @@ fi
 if [ "$osys" = "ubuntu" ]
 then
     pam="$(pa-mute)"
+    pam=$(echo $pam| sed 's/^\s//g;s/\s$//g')
     pav="$(pa-volume)"
+    pav=$(echo $pav| sed 's/^\s//g;s/\s$//g')
     nav="${pv::-1}"
     res="yes"
 else
@@ -112,7 +115,6 @@ else
     nv="${pv::-1}"
     res="MUTE"
 fi
-
 
 if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
     icon="<span font='Font Awesome'  color='#BF616A' size='medium' >&#xf026; </span>"

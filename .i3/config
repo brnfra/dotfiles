@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 24-01-2023
+# Ultima_modificacao: 26-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -412,7 +412,7 @@ $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 #Networkmanager wicd and NM do not work together
 $exe nm-applet --indicator
-$exe blueman-tray
+$exe blueman-applet
     #Wallpaper
 #change config for my preferences
 $exe $config_path/autostart/i3config.sh

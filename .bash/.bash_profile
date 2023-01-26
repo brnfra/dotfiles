@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# Options to fzf command
-#export FZF_COMPLETION_OPTS='--border --info=inline'
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
