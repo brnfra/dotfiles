@@ -43,8 +43,8 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl  {{{
-pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
-pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
+pa_sink="$(pactl list short sinks | grep "RUNNING" |  awk '{print $1}' | sed '1q; s/\s//g')"
+pa_adpt="$(pactl list short sinks | grep "RUNNING" |  awk '{print $2}')"
 #pa_sink="${pa_sink:0:1}"
 
 pa-volume() {

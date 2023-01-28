@@ -260,7 +260,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
     # }}}
 # Lock screen {{{
-bindsym $mod+Ctrl+l $exe i3lock -c 000000
+#bindsym $mod+Ctrl+l $exe i3lock -c 000000  -e -f -p default -i ~/.wallpaper/Ubuntu-Mate-Radioactive-no-logo.png
+bindsym $mod+Ctrl+l $exe i3lock-fancy -p
     # }}}
 # Set shut down labed, restart and locking features {{{
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
@@ -410,6 +411,7 @@ $exe numlockx on
 #$exe_always xrdb -load $config_path/.Xresources
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
+$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
 #Networkmanager wicd and NM do not work together
 $exe nm-applet --indicator
 $exe blueman-applet

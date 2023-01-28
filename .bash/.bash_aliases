@@ -132,6 +132,7 @@
   alias anki="cd ~/ && setsid ./Anki &>/dev/null"
   alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
   alias android="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+  alias studio="setsid studio.sh &>/dev/null"
   alias ANDROID="cd ~/ && setsid ./AndroidStudio &>/dev/null"
   alias foxit="cd ~/ && setsid ./Foxit &>/dev/null"
   alias FOXIT="cd ~/ && setsid ./Foxit &>/dev/null"
@@ -142,5 +143,6 @@
   alias nvi="nvim"
   alias nv="nvim"
   alias v="vim"
+  alias py="python3"
   #alias play="vlc --play-and-exit --no-loop --no-repeat"
   # }}}
