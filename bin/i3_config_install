@@ -245,7 +245,7 @@ options="${options}for_window [window_type=\"menu\"] floating enable\n"
 options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 600 600\n"
 options="${options}for_window [title=\"File Transfer*\"] floating enable\n"
 options="${options}for_window [class=\"knotes\"] floating enable resize set 300 500\n"
-options="${options}for_window [class=\"Gsimplecal\"] floating enable move position 80 ppt 80 ppt\n"
+options="${options}for_window [class=\"Gsimplecal\"] floating enable move absolute position 1500px 820px\n"
 options="${options}for_window [class=\"GParted\"] floating enable border normal\n"
 options="${options}for_window [title=\"Calculator\"] floating enable move position center\n"
 
