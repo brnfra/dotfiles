@@ -1,6 +1,6 @@
 # Arquivo: config
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-01-2023
+# Ultima_modificacao: 29-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -21,7 +21,7 @@ set $mod Mod4
 floating_modifier $mod
     #}}}
     #Font {{{
-font pango:Quicksand 12
+font pango:Monofur 12
     #}}}
     # Icons {{{
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
@@ -61,7 +61,7 @@ hide_edge_borders smart
 default_border pixel 3
     # }}}
 # kill focused window {{{
-bindsym $mod+q kill
+bindsym $mod+Shift+q kill
 #bindsym $mod+F4 kill
     #}}}
 # start dmenu (a program launcher){{{
@@ -261,7 +261,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
     # }}}
 # Lock screen {{{
 #bindsym $mod+Ctrl+l $exe i3lock -c 000000  -e -f -p default -i ~/.wallpaper/Ubuntu-Mate-Radioactive-no-logo.png
-bindsym $mod+Ctrl+l $exe i3lock-fancy -p
+#bindsym $mod+Ctrl+l $exe i3lock-fancy -p
+bindsym $mod+Ctrl+l $exe blurlock
     # }}}
 # Set shut down labed, restart and locking features {{{
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
@@ -307,14 +308,22 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
     # }}}
-    # Keybidings applications {{{
+    # Keybidings Start Applications {{{
 #bindsym Ctrl+1 exec xfce4-appfinder
 bindsym Ctrl+0 exec $myTerm -x vim $config_path/config
 
-bindsym Ctrl+2 exec rofi -show run
 bindsym Ctrl+1 exec firefox
-bindsym Ctrl+3 exec pcmanfm-qt
-bindsym Ctrl+4 exec $myTerm -x vim ~/Documents/
+bindsym Ctrl+2 exec $myTerm -x ranger 
+bindsym Ctrl+3 exec pcmanfm
+bindsym Ctrl+F2 exec $myTerm -x alsamixer
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -w
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
+bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
+bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+
+
+
 
 # Apps Launched with <SUPER> + <SHIFT> + <KEYPAD 1-9>
 #bindsym $mod+Shift+KP_0 exec $myTerm -e
@@ -361,12 +370,14 @@ client.background       $dark
     # i3blocks options(botton bar) {{{-------------------------------------------------------------
 
 bar {
-        position bottom
+        id bar-1
+	position bottom
+        output primary
         tray_output primary
-        tray_padding 1
-        separator_symbol " "
+	tray_padding 2
+	separator_symbol " "
         mode dock
-        font pango:Monofur 11
+        font pango: Monofur 11
         status_command SCRIPT_DIR=$config_path/i3blocks i3blocks
         colors {
             statusline    $darker
@@ -379,6 +390,30 @@ bar {
             urgent_workspace    $dark      $yellow   $dark
         }
  }
+bar {
+        id bar-2
+	position bottom
+        output nonprimary
+        separator_symbol " "
+        mode dock
+        font pango: Monofur 11
+        status_command SCRIPT_DIR=$config_path/i3blocks i3blocks
+        colors {
+            statusline    $darker
+            background    $white
+
+            #                   border     backgr    text
+            focused_workspace   $blue      $green    $dark
+            active_workspace    $dark      $blue     $white
+            inactive_workspace  $dark      $gray     $dark
+            urgent_workspace    $dark      $yellow   $dark
+        }
+ }
+
+
+
+
+
     # }}}
     # i3blocks - caps lock/num lock status {{{
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
@@ -386,7 +421,7 @@ bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
     # }}}
     # screenshots ---------------------------------------------------------------- {{{
 
-bindsym Print                $exe gnome-screenshot --interactive
+#bindsym Print                $exe gnome-screenshot --interactive
     # }}}
     # volume control and i3blocks volume status ---------------------------------- {{{
 
@@ -411,11 +446,14 @@ $exe numlockx on
 #$exe_always xrdb -load $config_path/.Xresources
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
-$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
+#$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
+$exe xautolock -time 10 -locker blurlock
 #Networkmanager wicd and NM do not work together
 $exe nm-applet --indicator
 $exe blueman-applet
-    #Wallpaper
+$exe pamac-tray
+$exe volumeicon
+#Wallpaper
 #change config for my preferences
 $exe $config_path/autostart/i3config.sh
 $exe $config_path/autostart/wallpaper.sh
@@ -423,5 +461,12 @@ $exe $config_path/autostart/wallpaper.sh
     #Apps autoexec on start
 $exe diodon
 $exe goldendict
+$exe --no-startup-id clipit
+# exec_always --no-startup-id sbxkb
+$exe conky -c ~/.config/conky/conky_maia
+$exe conky -c ~/.config/conky/conky1.10_shortcuts_maia
+#$exe start_conky_green
+$exe ff-theme-util
+$exe fix_xcursor
     # ----------------------------------------------------------------------------
     # }}}

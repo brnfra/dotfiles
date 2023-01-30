@@ -37,7 +37,7 @@ if [ "$LOC" = "ubuntu-ideapad3" ]; then
     exit 0
 fi
 
-if [ "$LOC" = "debian-r5-desktop" ]; then
+if [ "$LOC" = "debian-r5-desktop" ] || [ "$LOC" = "manjaro-r5-desktop" ]; then
     eval "$KEYB_US"
     #set primary
     #M1-set resolution full_hd

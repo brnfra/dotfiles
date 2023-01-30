@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+
     #APT aliases {{{
+    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+
     #list dependencies
     alias pdeps="apt depends"
     #source edit
@@ -14,8 +18,18 @@
     alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
     # clean
     alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean'
+    alias fd='fdfind'
 
  # }}}
+ # {{{ pacman alias
+ #
+elif [ "$osys" = "manjaro" ]; then
+    # update and upgrade 
+    alias up='sudo pacman -Syyu'
+    alias get='sudo pacman -Syu'
+    alias remove='sudo pacman -R'
+    fi
+ # #}}}
  #Neofetch {{{
  alias neofetch='neofetch --block_range 0 15'
  # }}}
@@ -64,7 +78,6 @@
 	alias EXIT="exit"
 	alias cp='cp -i'
 	alias mv='mv -i'
-	alias fd='fdfind'
 	alias tam='item_size'
 	alias myhost='ssh -T user@my.remote.host screen -dAr'
 	# }}}
@@ -89,6 +102,8 @@
 	alias gmail='git config --global user.email '
 	alias gconf='git config --list --show-origin'
 	#push see bash_functions
+	#config
+	alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 	# }}}
 	# jekyll {{{
 	alias jstart="bundle exec jekyll serve --livereload"
@@ -115,7 +130,7 @@
 
 	alias hosts='sudo vim /etc/hosts'
 	alias repo="cd ~/documents/projects/git"
-	alias dotfiles="cd ~/documents/projects/git/dotfiles"
+	alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
 
 	alias promptrc='nvim ~/.bash/.bash_prompt'
 	alias profilerc='nvim ~/.bash/.bash_profile'
@@ -123,7 +138,7 @@
 	alias funcrc='nvim ~/.bash/.bash_functions' 
 	alias pathrc='nvim ~/.bash/.bash_exports' 
 	alias bashrc='nvim ~/.bashrc' 
-	alias vimrc='nvim ~/.vimrc'
+	alias vimrc='vim ~/.vimrc'
 	alias i3rc='nvim ~/.i3/config'
 	alias vifmrc='nvim ~/.config/vifm/vifmrc'
 
@@ -140,9 +155,10 @@
   alias ECLIPSE="cd ~/ && setsid ./eclipse_ide &>/dev/null"
   alias tor="cd ~/ && setsid ./tor-browser &>/dev/null"
   alias TOR="cd ~/ && setsid ./tor-browser &>/dev/null"
+  alias vi="vim"
+  alias v="vim"
   alias nvi="nvim"
   alias nv="nvim"
-  alias v="vim"
   alias py="python3"
   #alias play="vlc --play-and-exit --no-loop --no-repeat"
   # }}}

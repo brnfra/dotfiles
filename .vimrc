@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 18-01-2023
+" Ultima_modificacao: 29-01-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -44,7 +44,7 @@ else
     set viminfo+=n~/.vim/.shada
 endif
 
-set mouse=a " Enable mouse in all modes
+set mouse-=a " Enable mouse in all modes
 set cursorcolumn
 set cursorline
 set splitbelow " New window goes below
