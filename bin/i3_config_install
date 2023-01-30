@@ -271,6 +271,7 @@ fi
    
 
 # Resize window (you can also use the mouse for that).
+options="${options}bindsym \$mod+Ctrl+r mode resize\n"
 options="${options}mode resize {\n"
 options="${options}    bindsym h resize shrink width 10 px or 10 ppt\n"
 options="${options}    bindsym j resize grow height 10 px or 10 ppt\n"
@@ -288,9 +289,9 @@ options="${options}    bindsym Escape mode default\n"
 options="${options}    bindsym \$mod+r mode default\n"
 options="${options}}\n"
 
-options="${options}bindsym \$mod+Ctrl+r mode resize\n"
 
 #exit, logout, shutdown, restart etc
+options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\"\n"
 options="${options}mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\" {\n"
 options="${options}	bindsym e exec \"i3-msg exit\" , mode default\n"
 options="${options}	bindsym s exec \"systemctl suspend\", mode default\n"
@@ -302,7 +303,6 @@ options="${options}	bindsym Return mode default\n"
 options="${options}	bindsym Escape mode default\n"
 options="${options}}\n"
 
-options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate,[r]eboot,Shut[d]own\"\n"
  
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
@@ -376,7 +376,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    }\n"
     options="${options}}\n"
 
-elif [ "$system_id" = "manjaro " ]; then
+elif [ "$system_id" = "manjaro" ]; then
 
     options="${options}bar {\n"
     options="${options}    id bar-1 \n"
@@ -457,7 +457,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
 options="${options}\$exe diodon\n"
 
-elif [ "$system_id" = "manjaro " ]; then
+elif [ "$system_id" = "manjaro" ]; then
 options="${options}\$exe --no-startup-id clipit\n"
 options="${options}\$exe xautolock -time 10 -locker blurlock\n"
 options="${options}\$exe blueman-applet\n"

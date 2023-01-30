@@ -128,6 +128,7 @@ bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
 bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Ctrl+l $exe i3lock-fancy -p
+bindsym $mod+Ctrl+r mode resize
 mode resize {
     bindsym h resize shrink width 10 px or 10 ppt
     bindsym j resize grow height 10 px or 10 ppt
@@ -141,7 +142,7 @@ mode resize {
     bindsym Escape mode default
     bindsym $mod+r mode default
 }
-bindsym $mod+Ctrl+r mode resize
+bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
 mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own" {
 	bindsym e exec "i3-msg exit" , mode default
 	bindsym s exec "systemctl suspend", mode default
@@ -151,7 +152,6 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
 	bindsym Return mode default
 	bindsym Escape mode default
 }
-bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate,[r]eboot,Shut[d]own"
 bindsym Ctrl+0 exec $Terminal -x vim /home/devlab/.i3/config
 bindsym Ctrl+1 exec firefox
 bindsym Ctrl+2 exec $Terminal -x ranger
