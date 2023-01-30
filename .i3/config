@@ -152,7 +152,7 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
 	bindsym Escape mode default
 }
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate,[r]eboot,Shut[d]own"
-bindsym Ctrl+0 exec $Terminal -x vim $config_path/config
+bindsym Ctrl+0 exec $Terminal -x vim /home/devlab/.i3/config
 bindsym Ctrl+1 exec firefox
 bindsym Ctrl+2 exec $Terminal -x ranger
 bindsym Ctrl+3 exec pcmanfm

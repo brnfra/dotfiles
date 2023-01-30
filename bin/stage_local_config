@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 23-01-2023
+#  Ultima_modificacao: 30-01-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -27,7 +27,7 @@ sync_copy ()
     vifmrc='.config/vifm/vifmrc .config/vifm/scripts/ .config/vifm/colors/ ' 
     terminalrc='.config/xfce4/terminal/terminalrc ' 
     # i3rc='.i3blocks.conf .config/i3/autostart/ .config/i3/ .config/i3/i3blocks/ '
-    i3rc='.i3blocks.conf .i3/autostart/ .i3/ .i3/i3blocks/ '
+    i3rc='.i3/autostart/ .i3/ .i3/i3blocks/ '
     rofirc='.config/rofi/ .config/rofi/themes/'
     systemrc='.wgetrc .curlrc '
     gitrc='.gitconfig .git-completion.bash'

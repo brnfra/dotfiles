@@ -306,7 +306,7 @@ options="${options}bindsym \$mod+Escape mode \"Warning. You call system control.
  
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
-options="${options}bindsym Ctrl+0 exec \$Terminal -x vim \$config_path/config\n"
+options="${options}bindsym Ctrl+0 exec \$Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+1 exec firefox\n"
 options="${options}bindsym Ctrl+2 exec \$Terminal -x ranger\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
