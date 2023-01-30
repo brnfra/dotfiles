@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-#name of monitor
-
-SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)
 case "$BLOCK_BUTTON" in
   1|2|3) 
     i3-msg 'exec gsimplecal' > /dev/null ;;
 esac
-if [ "$SCR" = "Virtual" ]; then
 
-    echo "$(date '+%a %d/%m/%g') <span font='Font Awesome' color='#ff4000'> 🗓</span> $(date '+%H:%M')  "
-else
-    echo "$(date '+%a %d/%m/%g') <span font='Font Awesome'> &#xf073;</span> $(date '+%H:%M')  "
-fi
+echo "$(date '+%a %d/%m/%g') <span font='Font Awesome'> &#xf073;</span> $(date '+%H:%M')  "
