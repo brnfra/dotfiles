@@ -59,14 +59,14 @@ fi
 if [ "$LOC" = "virtual" ]; then
     eval "$KEYB"
     eval xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-    eval xrandr --addmode $SCR "1920x1080_60.00"
-    eval xrandr --output $SCR --mode "1920x1080_60.00"
+    eval xrandr --addmode $SCR1 "1920x1080_60.00"
+    eval xrandr --output $SCR1 --mode "1920x1080_60.00"
 
     exit 0
 else
     eval xrandr --newmode "1360x768_60.00" 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
-    eval xrandr --addmode $SCR "1360x768_60.00"
-    eval xrandr --output $SCR --mode "1360x768_60.00"
+    eval xrandr --addmode $SCR1 "1360x768_60.00"
+    eval xrandr --output $SCR1 --mode "1360x768_60.00"
     
     exit 0
 fi

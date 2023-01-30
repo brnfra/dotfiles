@@ -122,75 +122,65 @@ function pcontrib ()
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 
-    function psearch () 
-    { 
-	apt-cache search "" |  fzf +m -i -e --prompt='------>' --header='Find:' --height=80% --border --hscroll-off=800 --preview="apt-cache show ^{1}$" --preview-window=wrap --bind="tab:toggle-preview" | xargs -ro sudo apt-get install
- 
-    }
-    # }}}
-    # Show installed packages {{{
-    function plist () 
-    { 
-	apt list --installed | awk '{print $1}'| cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="apt-cache show {1}" --preview-window=wrap --bind="tab:toggle-preview" ; 
-    }
-    # autocomplete {{{
-    function auto_complete_apt() 
-    {
-	mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
-    }
+function psearch () { 
+    apt-cache search ""	|  fzf +m -i -e --prompt='------> ' --header='Pkg-Name - Description:' --height=80% --border --hscroll-off=800 --preview="apt-cache show
+    ^{1}$" --preview-window=wrap --bind="tab:toggle-preview" | cut -d "-" -f 1 |  xargs -ro sudo apt-get install 
+}
+# }}}
+# Show installed packages {{{
+function plist () { 
+    apt list --installed | awk '{print $1}'| cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="apt-cache show {1}" --preview-window=wrap --bind="tab:toggle-preview" ; 
+}
+# autocomplete {{{
+function auto_complete_apt() {
+    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+}
     complete -F auto_complete_apt get
     complete -F auto_complete_apt psearch
     complete -F auto_complete_apt pinfo
     complete -F auto_complete_apt plist
     complete -F auto_complete_apt pdeps
     # }}}
-    #package info dependencies  {{{
-    function depends()
-    { 
-	apt list --installed | awk '{print $1}' | cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="aptitude why {1} " --preview-window=wrap --bind="tab:toggle-preview" ; 
-    }
-    # {{{ pacman alias
+#package info dependencies  {{{
+function depends() { 
+    apt list --installed | awk '{print $1}' | cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="aptitude why {1} " --preview-window=wrap --bind="tab:toggle-preview" ; 
+}
+# {{{ pacman alias
     #
 elif [ "$osys" = "manjaro" ]; then
-    function psearch ()
-    {
-	pacman -Slq | fzf --multi --preview 'pacman -Si {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview" | xargs -ro sudo pacman -S
-    }
-    function fremove () {
-	pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns to remove
-    }
+function psearch () {
+    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview" | xargs -ro sudo pacman -S
+}
+function fremove () {
+    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns 
+}
+# autocomplete {{{
+function auto_complete_pacman() {
+    mapfile -t COMPREPLY < <(pacman -Si  "$2");
+}
+function plist () {
+    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
+}
+# function pinfo ()
+# {
+    # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
 
-    # autocomplete {{{
-    function auto_complete_pacman() 
-    {
-	mapfile -t COMPREPLY < <(pacman -Si  "$2");
-    }
-    function plist ()
-    {
-	pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
-    }
-    # function pinfo ()
-    # {
-	# pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
- 
-    # }
+# }
 
-    complete -F auto_complete_pacman get
-    complete -F auto_complete_pacman pdeps
-    complete -F auto_complete_pacman pinfo
-    complete -F auto_complete_pacman plist
-    # }}}
+complete -F auto_complete_pacman get
+complete -F auto_complete_pacman pdeps
+complete -F auto_complete_pacman pinfo
+complete -F auto_complete_pacman plist
+# }}}
 
 fi
 # }}}
 # FZF FUNCTIONS {{{
 
-function open_with_fzf () 
-{
+function open_with_fzf () {
     fd -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-
 }
-function cd_with_fzf () 
-{
+function cd_with_fzf () {
     cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
 }
 # do not use yet
@@ -204,13 +194,11 @@ function man_find () {
     f=$(fd . $MANPATH/man${1:-1} -t f -x echo {/.} | fzf) && man $f
 }
 
-function fman () 
-{
+function fman () {
     man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
 }
 
-function fhistory () 
-{
+function fhistory () {
     command "$(cat < ~/.bash_history | fzf -m -i)"    
 }
 

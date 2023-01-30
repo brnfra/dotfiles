@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 29-01-2023
+# Ultima_modificacao: 30-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
@@ -19,5 +19,3 @@ if [ -f ~/.bash/.bash_profile ]; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-complete -F _complete_alias config
