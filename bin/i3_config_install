@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-01-2023
+# Ultima_modificacao: 31-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -34,7 +34,7 @@ purple="#9800FE"
 status_command="i3blocks -c $HOME/.i3/i3blocks.conf"
 cfg_file="$HOME/.i3/config"
 cfg_dir="$HOME/.i3"
-bkp_local="$HOME/.config-bkp/excluidos"
+bkp_local="$HOME/.config-bkp"
 binaries="$HOME/bin"
 #Apps
 terminal="xfce4-terminal"

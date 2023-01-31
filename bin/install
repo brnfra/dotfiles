@@ -2,7 +2,7 @@
 
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 13-01-2023
+# Ultima_modificacao: 31-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,61 +10,98 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-local=$(pwd)
-$(cd "$HOME") || return]
-#Change for your REPO adress
-REPO="https://github.com/brnfra/dotfiles.git"
-BKPDIR="$HOME"/.config-bkp/excluidos
 
-if [ -d "$BKPDIR" ]
+local=$(pwd)
+cd "$HOME" || return
+#Change for your url REPO adress
+REPO="https://github.com/brnfra/dotfiles.git"
+bkpdir="$HOME"/.config-bkp
+branch="main"
+
+if [ -d "$bkpdir" ]
 then
-    printf "[INFO]  $BKPDIR already exists.\r"
-    sleep 1
+    printf "[INFO] %s already exists.\n" "$bkpdir" 
+    sleep 1	
 else
-    mkdir -p "$BKPDIR"
-    printf "[INFO]  $BKPDIR created.\r"
-    sleep 1
+    mkdir -p "$bkpdir"
+    printf "[INFO] %s created.\n" "$bkpdir" 
+    sleep 1	
 fi
 
-printf "[INFO] Git clone main(--bare).\r"
+printf "[INFO] Git clone %s(--bare)." "$branch"
 sleep 1
-git clone --branch main --bare $REPO "$HOME/.dotfiles";
-printf "[INFO] Git clone main(--bare): Done\r\n"
+git clone --branch $branch --bare $REPO "$HOME/.dotfiles";
+printf "\r[INFO] Git clone %s(--bare): Done\n" "$branch"
 sleep 1
 
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree=$HOME $@;
+    git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
 
-printf "[INFO] Checkout branch.\r"
-sleep 1
-config checkout
+function cleanbkp {
 
-if [ $? = 0 ]; then
-    printf "[INFO] Checkout branch: Done\r"
+    folders="$HOME "
+    folders+="$HOME/.bash "
+    folders+="$HOME/.config/nvim "
+    folders+="$HOME/.config/vifm $HOME/.config/vifm/scripts $HOME/.config/vifm/colors "
+    folders+="$HOME/.config/xfce4/terminal "
+    folders+="$HOME/.i3/autostart $HOME/.i3 $HOME/.i3/i3blocks "
+    folders+="$HOME/.config/rofi $HOME.config/rofi/themes "
+    folders+="$HOME/.config $HOME.config/compton "
+    folders+="$HOME/bin "
+    printf "[INFO] Moving files .backup to %s" "$bkpdir"
+    for folder in $folders; do
+	mv "$folder"/*.backup "$bkpdir"
+    done
+    printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
+
+}
+
+printf "[INFO] Checkout branch %s." "$branch"
+sleep 1
+
+if config checkout
+then
+    printf "\r[INFO] Checkout branch %s: Done\n" "$branch"
     sleep 1
+    exit 0
 
 else
-    printf "[ERROR] Checkout branch: Trying backup configs to $BKPDIR\r"
+    printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
     sleep 1
-    config checkout 2>&1 | egrep "^\s+" | awk {'print $1'} | xargs -I'{}'  mv {} {}.backup
-    printf "[ERROR] Checkout branch: Done.\r\n"
+    config checkout 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{}  mv {} {}.backup
+    printf "\r[ERROR] Checkout branch: backup Done.                      \n"
     sleep 1
-    printf "[INFO] Moving backup files to $BKPDIRt\r"
+    printf "[INFO] Checkout branch: Trying again after backup\r"
     sleep 1
-    find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I'{}' mv {} "$BKPDIR"
-    printf "[INFO] Moving backup files to $BKPDIR. Done\r\n"
-    sleep 1
+    if config checkout
+    then
+	printf "[INFO] Checkout branch: Done.\r"
+	sleep 1
+	config config status.showUntrackedFiles no
+	printf "[INFO] Install main(--bare). All done. Exit\n"
+	exit 0
+    else
+	exit 1
+    fi
 fi
 
-printf "[INFO] Checkout branch: Trying again after backup\r"
-sleep 1
-config checkout
-printf "[INFO] Checkout branch: Done.\r"
-sleep 1
-config config status.showUntrackedFiles no
-cd "$local" || return
-printf "[INFO] Install main(--bare). All done. Exit\n"
-sleep 1
+printf "[INFO] Install main(--bare). All done. \n"
+printf "[INFO] Installing Enviroment.   \n"
+eval "$HOME/bin/install_enviroment"
+printf "\r[INFO] Install Enviroment. All done. \n"
+printf "[INFO] Installing Fonts.\n"
+eval "$HOME/bin/install_fonts"
+printf "\r[INFO] Install Fonts. All done. \n"
+printf "[INFO] Installing I3config.\n"
+eval "$HOME/bin/i3_config_install"
+printf "\r[INFO] Install I3config. All done. \n"
 
-#Next, gonna install enviroment and fonts
+if [ -d "$bkpdir" ]; then
+    cleanbkp
+else
+    printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
+fi
+
+cd "$local" || return
+sleep 1

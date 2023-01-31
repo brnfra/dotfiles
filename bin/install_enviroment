@@ -16,8 +16,7 @@ folder_list+=" $HOME/.vim/backups/swaps"
 folder_list+=" $HOME/.vim/backups/undo" 
 folder_list+=" $HOME/.vim/bundle" 
 folder_list+=" $HOME/.vim/autoload" 
-folder_list+=" $HOME/.config-bkp/copiados" 
-folder_list+=" $HOME/.config-bkp/excluidos"
+folder_list+=" $HOME/.config-bkp" 
 
 # create ~/.local dirs
 printf "[INFO] Creating folders\r\n"

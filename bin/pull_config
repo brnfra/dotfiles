@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2023
+# Ultima_modificacao: 31-01-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 local=$(pwd)
 
-BKPDIR="$HOME"/.config-bkp/excluidos
+bkpdir="$HOME"/.config-bkp
+dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
+branch="main"
 
-if [ -d "$BKPDIR" ] 
+if [ -d "$bkpdir" ] 
 then
-    printf "[INFO] %s already exists.\n" "$BKPDIR" 
+    printf "[INFO] %s already exists.\n" "$bkpdir" 
     sleep 1	
 else
-    mkdir -p "$BKPDIR"
-    printf "[INFO] %s created.\n" "$BKPDIR" 
+    mkdir -p "$bkpdir"
+    printf "[INFO] %s created.\n" "$bkpdir" 
     sleep 1	
 fi
 
@@ -25,60 +27,88 @@ cd "$HOME" || return
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
 }
-printf "[INFO] Git pull config main(--bare):"
+
+function cleanbkp {
+
+    folders="$HOME "
+    folders+="$HOME/.bash "
+    folders+="$HOME/.config/nvim "
+    folders+="$HOME/.config/vifm $HOME/.config/vifm/scripts $HOME/.config/vifm/colors "
+    folders+="$HOME/.config/xfce4/terminal "
+    folders+="$HOME/.i3/autostart $HOME/.i3 $HOME/.i3/i3blocks "
+    folders+="$HOME/.config/rofi $HOME.config/rofi/themes "
+    folders+="$HOME/.config $HOME.config/compton "
+    folders+="$HOME/bin "
+    printf "[INFO] Moving files .backup to %s" "$bkpdir"
+    for folder in $folders; do
+	mv "$folder"/*.backup "$bkpdir"
+    done
+    printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
+
+}
+
+printf "[INFO] Git pull config %s(--bare):" "$branch"
 sleep 1
-# ----------
-if config pull origin main 
+
+if config pull origin $branch 
 then
-    printf "\r[INFO] Git pull config main(--bare): Done\n"
+    printf "\r[INFO] Git pull config %s(--bare): Done\n" "$branch"
     sleep 1
 else
-    printf "[ERROR] Git pull config branch: Conflict.\n"
-    printf "[ERROR] Git pull branch can't merge: Trying rename files .backup.\r"
+    printf "[ERROR] Checking again and backup files: Conflict.\n"
     sleep 1
     # ----------
-    config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    printf "\r[ERROR] Git pull branch can't merge: Done                 \n"
+    config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    printf "\r[ERROR] Checking again and backup files: Done         \n"
     sleep 1
-    if config pull origin main
+    if config pull origin $branch
     then
 	cd "$local" || return
-	printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
+	printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
 	exit 0
     else
     
-	printf "[INFO] Fetching origin main."
+	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
+	printf "\r[INFO] Fetching origin %s.                            " "$branch"
     	sleep 1
     	# ----------
-    	config fetch origin main
-    	printf "\r[INFO] Fetching origin main. Done\n"
+    	config fetch origin $branch
+    	printf "\r[INFO] Fetching origin %s. Done\n" "$branch"
     	sleep 1
-    	printf "[INFO] Reset --hard main."
+    	printf "[INFO] Reset --hard %s." "$branch"
     	sleep 1
     	# ----------
     	config reset --hard HEAD
-    	printf "\r[INFO] Reset --hard main. Done\n"
+    	printf "\r[INFO] Reset --hard %s. Done		\n" "$branch"
     	sleep 1
-    	printf "[INFO] Merging origin main. "
+    	printf "[INFO] Merging origin %s." "$branch"
     	sleep 1
     	# ----------
     	config merge origin '@{u}'
-    	printf "\r[INFO] Merging origin main. Done   \n"
+    	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
     	sleep 1
-    	printf "[INFO] Git pull branch can't merge: Trying rename files."
+    	printf "[INFO] Checking again and backup files."
     	sleep 1
     	# ----------
-    	config pull origin main 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
-    	printf "\r[INFO] Git pull branch can't merge: Done                    \n"
+    	config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    	printf "\r[INFO] Checking and backup files: Done      \n" 
     fi
 fi
 
-# printf "[INFO] Moving backup files to %s: " "$BKPDIR"
-# sleep 1
-# # ----------
-# find . -maxdepth 1 -name "*.backup" -type f | cut -d "/" -f 2 | xargs -p -I{} mv {} "$BKPDIR"
-# printf "\r[INFO] Moving backup files to %s: Done\n" "$BKPDIR"
-# sleep 1
+if [ -d "$bkpdir" ]; then
+    cleanbkp
+else
+    printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
+fi
+    
+printf "\r[INFO]Pull remote to %s .\n" "$dotfiles_dir"
+if [ -d "$dotfiles_dir" ];then
+    cd "$dotfiles_dir" || return
+    git checkout $branch
+    git pull origin $branch
+else
+    printf "\r[ERROR]Can't locate %s .\n" "$dotfiles_dir"
+fi
 
 cd "$local" || return
-printf "[INFO] Git pull config main(--bare): All done. Exit\r\n"
+printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
