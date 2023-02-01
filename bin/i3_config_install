@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 31-01-2023
+# Ultima_modificacao: 01-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -135,6 +135,11 @@ options="${options}bindsym \$mod+Shift+y move left\n"
 options="${options}bindsym \$mod+Shift+j move down\n"
 options="${options}bindsym \$mod+Shift+u move up\n"
 options="${options}bindsym \$mod+Shift+i move right\n"
+# Move focused window arrows.
+options="${options}bindsym \$mod+Shift+Left move left\n"
+options="${options}bindsym \$mod+Shift+Down move down\n"
+options="${options}bindsym \$mod+Shift+Up move up\n"
+options="${options}bindsym \$mod+Shift+Right move right\n"
 # split orientation
 options="${options}bindsym \$mod+v split h;exec notify-send 'tile horizontally'\n"
 options="${options}bindsym \$mod+h split v;exec notify-send 'tile vertically'\n"
@@ -392,7 +397,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    colors {\n"
     options="${options}        background $white\n"
     options="${options}        statusline $darker\n"
-    i#options="${options}        separator  $purple\n"
+    #options="${options}        separator  $purple\n"
 			       #                    border     backgr    text
     options="${options}        focused_workspace    $blue      $green    $dark\n"
     options="${options}        active_workspace	    $dark      $blue     $white\n"
@@ -453,6 +458,7 @@ options="${options}\$exe $cfg_dir/autostart/wallpaper.sh\n"
 
 #Apps autoexec on start
 options="${options}\$exe goldendict\n"
+options="${options}\$exe blueman-applet\n"
 
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
@@ -461,7 +467,6 @@ options="${options}\$exe diodon\n"
 elif [ "$system_id" = "manjaro" ]; then
 options="${options}\$exe --no-startup-id clipit\n"
 options="${options}\$exe xautolock -time 10 -locker blurlock\n"
-options="${options}\$exe blueman-applet\n"
 options="${options}\$exe pamac-tray\n"
 options="${options}\$exe volumeicon\n"
 options="${options}\$exe conky -c ~/.config/conky/conky_maia\n"

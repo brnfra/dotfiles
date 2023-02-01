@@ -123,13 +123,31 @@ function pcontrib ()
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 
 function psearch () { 
-    apt-cache search ""	|  fzf +m -i -e --prompt='------> ' --header='Pkg-Name - Description:' --height=80% --border --hscroll-off=800 --preview="apt-cache show
-    ^{1}$" --preview-window=wrap --bind="tab:toggle-preview" | cut -d "-" -f 1 |  xargs -ro sudo apt-get install 
+    apt-cache search ""	|  fzf +m -i -e \
+	--prompt='------> ' \
+	--header='Pkg-Name - Description:' \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview="apt-cache show ^{1}$" \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" \
+	| cut -d "-" -f 1 \
+	| xargs -ro sudo apt-get install 
 }
 # }}}
 # Show installed packages {{{
 function plist () { 
-    apt list --installed | awk '{print $1}'| cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="apt-cache show {1}" --preview-window=wrap --bind="tab:toggle-preview" ; 
+    apt list --installed \
+	| awk '{print $1}' \
+	| cut -f1 -d '/' \
+	| fzf +m -i -e  \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview="apt-cache show {1}" \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" ; 
 }
 # autocomplete {{{
 function auto_complete_apt() {
@@ -143,23 +161,53 @@ function auto_complete_apt() {
     # }}}
 #package info dependencies  {{{
 function depends() { 
-    apt list --installed | awk '{print $1}' | cut -f1 -d '/' | fzf +m -i -e  --height=80% --border --hscroll-off=800 --preview="aptitude why {1} " --preview-window=wrap --bind="tab:toggle-preview" ; 
+    apt list --installed \
+	| awk '{print $1}' \
+	| cut -f1 -d '/' \
+	| fzf +m -i -e  \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview="aptitude why {1} " \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" ; 
 }
 # {{{ pacman alias
     #
 elif [ "$osys" = "manjaro" ]; then
 function psearch () {
-    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview" | xargs -ro sudo pacman -S
+    pacman -Slq \
+	| fzf \
+	--multi \
+	--preview 'pacman -Si {1}' \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" \
+	| xargs -ro sudo pacman -S
 }
 function fremove () {
-    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns 
+    pacman -Qq \
+	| fzf \
+	--multi \
+	--preview 'pacman -Qi {1}' \
+	| xargs -ro sudo pacman -Rns 
 }
 # autocomplete {{{
 function auto_complete_pacman() {
     mapfile -t COMPREPLY < <(pacman -Si  "$2");
 }
 function plist () {
-    pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
+    pacman -Qq \
+	| fzf \
+	--multi \
+	--preview 'pacman -Qi {1}' \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview"
 }
 # function pinfo ()
 # {
@@ -178,7 +226,10 @@ fi
 # FZF FUNCTIONS {{{
 
 function open_with_fzf () {
-    fd -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-
+    fd -t f -H -I \
+	| fzf -m \
+	--preview="xdg-mime query default {}" \
+	| xargs -ro -d "\n" xdg-open 2>&-
 }
 function cd_with_fzf () {
     cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"

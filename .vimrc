@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 30-01-2023
+" Ultima_modificacao: 01-02-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -372,8 +372,8 @@ let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeTooggle = 1
 let g:NERDTreeWinSize = 40
 "Disable arrows
-let g:NERDTreeDirArrowExpandable = "\u00a0"
-let g:NERDTreeDirArrowCollapsible = "\u00a0"
+let g:NERDTreeDirArrowExpandable = "\u21B3"
+let g:NERDTreeDirArrowCollapsible = "\u21B6"
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -388,7 +388,10 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
-let g:airline_theme = 'deus'
+let g:airline_theme = 'jellybeans'
+let g:airline_molokai_bright = 1
+
+let g:airline_symbols_ascii = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -452,12 +455,38 @@ let airline#extensions#ale#close_lnum_symbol = ')'
 let g:airline#extensions#keymap#enabled=1
 let g:airline#extensions#capslock#enabled=1
 let g:airline#extensions#bookmark#enabled=1
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-let g:airline_right_alt_sep =''
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#csv#column_display = 'Name'
+
+
+"powerline"
+let g:airline#extensions#tabline#right_sep  =	"\u2591\u2592\u2593"
+let g:airline#extensions#tabline#left_sep   =	"\u2593\u2592\u2591"
+let g:airline#extensions#tabline#right_alt_sep=	"\u2593\u2592\u2591"
+let g:airline#extensions#tabline#left_alt_sep =	"\u2593\u2592\u2591"
+let g:airline_right_alt_sep =			"\u2591\u2592\u2593"
+let g:airline_left_alt_sep  =			"\u2593\u2592\u2591"
+let g:airline_left_sep	=			"\u2593\u2592\u2591"
+let g:airline_right_sep	=			"\u2593\u2592\u2591"
+
+let g:airline_symbols.branch = ''
+let g:airline_symbols.colnr = ' ℅:'
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ' :'
+let g:airline_symbols.maxlinenr = '☰ '
+let g:airline_symbols.dirty='⚡'
+"\u2581\u2583\u2585\u2587"
+"5\u2591\u2592\u2593"
+"let g:airline_right_alt_sep="\u2587\u2585\u2583\u2581"
+"let g:airline_right_alt_sep = ''
+"let g:airline_left_alt_sep = ''
+"7\u2587\u2585\u2583\u2581"
+"8\u2581\u2583\u2585\u2587"
+"let g:airline_left_sep = ''
+"let g:airline_right_sep="\u2b24"
+"let g:airline_right_sep = ''
+
+
+
+let g:airline#extensions#csv#column_display='Name'
 " --------------Status line
 "+---------------------------------------------------------------------------+
 "| A | B |                     C                          X | Y | Z |  [...] |
@@ -505,9 +534,18 @@ let g:indentLine_char ='┊'
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
 endif
-let g:solarized_termcolors=256
+let g:solarized_termcolors=      256
+let g:solarized_termtrans =      0
+let g:solarized_degrade   =      0
+let g:solarized_bold      =      1
+let g:solarized_underline =      1
+let g:solarized_italic    =      1
+let g:solarized_contrast  =      "high" 
+let g:solarized_visibility=      "high" 
+let g:solarized_hitrail   =      1
+let g:solarized_menu      =      0
 
-set background=dark
+set background=light
 if has('unix')
     colorscheme solarized
 else

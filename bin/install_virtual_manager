@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+sudo apt-get update && sudo apt-get install \
+    virt-manager \
+    qemu-system \
+    libvirt-daemon-system \
+    dnsmasq-base \
+    bridge-utils \
+    iptables
+
+sudo adduser $USER libvirt
+
+echo -e "\nhttps://wiki.debian.org/KVM\n"
