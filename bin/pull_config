@@ -41,7 +41,7 @@ function cleanbkp {
     folders+="$HOME/bin "
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
-	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I{} mv {} "$bkpdir"
+	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 
