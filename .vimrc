@@ -176,7 +176,8 @@ endif
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "colorschemes
-Plug 'altercation/vim-colors-solarized'
+""Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
 Plug 'dense-analysis/ale'
 "syntax
 Plug 'hail2u/vim-css3-syntax'
@@ -531,23 +532,15 @@ let g:indentLine_char ='┊'
 "------------------------------------END INDENTLINE.VIM }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
+set background=dark
+
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
 endif
-let g:solarized_termcolors=      256
-let g:solarized_termtrans =      0
-let g:solarized_degrade   =      0
-let g:solarized_bold      =      1
-let g:solarized_underline =      1
-let g:solarized_italic    =      1
-let g:solarized_contrast  =      "high" 
-let g:solarized_visibility=      "high" 
-let g:solarized_hitrail   =      1
-let g:solarized_menu      =      0
 
-set background=light
+
 if has('unix')
-    colorscheme solarized
+    colorscheme molokai
 else
     silent!colorscheme base16-ateliercave
 endif
@@ -557,6 +550,8 @@ let s:terms_italic=[
 	    \"rxvt",
 	    \"gnome-terminal"
 	    \]
+
+
 
 ""---------------------------------END COLORSCHEME }}}2
 "                 ALE.VIM  {{{2
