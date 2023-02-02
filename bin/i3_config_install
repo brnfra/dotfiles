@@ -56,8 +56,8 @@ fi
 
 if [ -d "$cfg_dir" ]; then
     #backup 
-    mv -iv "$cfg_file" "$cfg_file".backup 
-    mv -iv "$cfg_file".backup "$bkp_local" 
+    mv -f "$cfg_file" "$cfg_file".backup 
+    mv -f "$cfg_file".backup "$bkp_local" 
 else
     mkdir -pv "$cfg_dir"
 fi

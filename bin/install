@@ -2,7 +2,7 @@
 
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-02-2023
+# Ultima_modificacao: 02-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -13,25 +13,11 @@
 
 local=$(pwd)
 cd "$HOME" || return
-#Change for your url REPO adress
-REPO="https://github.com/brnfra/dotfiles.git"
+#Change for your url repository adress
+repository="https://github.com/brnfra/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
+config_dir="$HOME"/.dotfiles
 branch="main"
-
-if [ -d "$bkpdir" ]
-then
-    printf "[INFO] %s already exists.\n" "$bkpdir" 
-
-else
-    mkdir -p "$bkpdir"
-    printf "[INFO] %s created.\n" "$bkpdir" 
-
-fi
-
-printf "[INFO] Git clone %s(--bare)." "$branch"
-
-git clone --branch $branch --bare $REPO "$HOME/.dotfiles";
-printf "\r[INFO] Git clone %s(--bare): Done\n" "$branch"
 
 
 function config {
@@ -40,6 +26,13 @@ function config {
 
 function cleanbkp {
 
+    if [ -d "$bkpdir" ]
+    then
+	printf "[INFO] %s already exists.\n" "$bkpdir" 
+    else
+	mkdir -p "$bkpdir"
+	printf "[INFO] %s created.\n" "$bkpdir" 
+    fi
     folders="$HOME "
     folders+="$HOME/.bash "
     folders+="$HOME/.config/nvim "
@@ -52,7 +45,7 @@ function cleanbkp {
 
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
-	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv {} "$bkpdir"
+	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv -f {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 }
@@ -77,35 +70,46 @@ function make_env {
     fi
 }
 
-printf "[INFO] Checkout branch %s." "$branch"
 
+if [ -d "$config_dir" ]; then
 
-if config checkout
-then
-    printf "\r[INFO] Checkout branch %s: Done\n" "$branch"
-    make_env 
-    cd "$local" || return
-    exit 0
-
+    printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
+    exit 1
 else
-    printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
-    config checkout 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{}  mv {} {}.backup
-    printf "\r[ERROR] Checkout branch: backup Done.                      \n"
-    printf "[INFO] Checkout branch: Trying again after backup\r"
+
+    printf "[INFO] Git clone %s(--bare)." "$branch"
+    git clone --branch $branch --bare $repository "$HOME/.dotfiles";
+    printf "\r[INFO] Git clone %s(--bare): Done\n" "$branch"
+
+    printf "[INFO] Checkout branch %s." "$branch"
 
     if config checkout
     then
-	printf "[INFO] Checkout branch: Done.\r"
-	config config status.showUntrackedFiles no
-	printf "[INFO] Install main(--bare). All done. Exit\n"
-	make_env
+	printf "\r[INFO] Checkout branch %s: Done\n" "$branch"
+	make_env 
 	cd "$local" || return
 	exit 0
+
     else
-	cd "$local" || return
-	exit 1
+	printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
+	config checkout 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I {}  mv {} {}.backup
+	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
+	printf "[INFO] Checkout branch: Trying again after backup\n"
+
+	if config checkout
+	then
+	    printf "[INFO] Checkout branch: Done.\n"
+	    config config status.showUntrackedFiles no
+	    printf "[INFO] Install main(--bare). All done. Exit\n"
+	    make_env
+	    cd "$local" || return
+	    exit 0
+	else
+	    printf "\r[ERROR] Checkout branch: Exit with error.                      \n"
+	    cd "$local" || return
+	    exit 1
+	fi
     fi
 fi
-
 
 

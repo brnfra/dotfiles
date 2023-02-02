@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-02-2023
+# Ultima_modificacao: 02-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -41,7 +41,7 @@ function cleanbkp {
     folders+="$HOME/bin "
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
-	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv {} "$bkpdir"
+	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv -f {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 
@@ -58,7 +58,7 @@ else
     printf "[ERROR] Checking again and backup files: Conflict.\n"
     sleep 1
     # ----------
-    config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I {} mv {} {}.backup
     printf "\r[ERROR] Checking again and backup files: Done         \n"
     sleep 1
     if config pull origin $branch
@@ -90,7 +90,7 @@ else
     	printf "[INFO] Checking again and backup files."
     	sleep 1
     	# ----------
-    	config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I{} mv {} {}.backup
+    	config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I {} mv {} {}.backup
     	printf "\r[INFO] Checking and backup files: Done      \n" 
     fi
 fi

@@ -1,9 +1,10 @@
 [Configuration]
-ColorForeground=#dededddddada
-ColorBackground=#000000000000
-ColorCursor=#5757e3e38989
+ColorCursor=#d7d7e7e7d3d3
+ColorForeground=#d7d7e7e7d3d3
+ColorBackground=#161618181919
+ColorPalette=#090912121717;#dcdc6a6a6a6a;#525295954a4a;#ffff7f7f0000;#3b3b6363a8a8;#fefe5858c7c7;#5656b7b7b4b4;#b8b8bcbcb1b1;#909090909090;#d1d141414141;#6161e2e22e2e;#ffffb8b80000;#1515a1a1e4e4;#b1b14d4dffff;#1b1bdadad4d4;#d5d5e4e4d0d0
+
 ColorBold=#1c1c7171d8d8
-ColorPalette=rgb(0,0,0);rgb(252,80,77);rgb(37,208,60);rgb(214,164,6);rgb(52,123,250);rgb(176,59,180);rgb(47,198,187);rgb(191,191,191);rgb(78,90,93);rgb(243,147,147);rgb(142,255,0);rgb(221,226,91);rgb(114,194,229);rgb(252,0,255);rgb(37,209,209);rgb(255,255,255)
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBellUrgent=FALSE
