@@ -15,11 +15,11 @@ branch="main"
 if [ -d "$bkpdir" ] 
 then
     printf "[INFO] %s already exists.\n" "$bkpdir" 
-    sleep 1	
+    	
 else
     mkdir -p "$bkpdir"
     printf "[INFO] %s created.\n" "$bkpdir" 
-    sleep 1	
+    	
 fi
 
 cd "$HOME" || return
@@ -41,26 +41,24 @@ function cleanbkp {
     folders+="$HOME/bin "
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
-	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -p -I {} mv -f {} "$bkpdir"
+	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 
 }
 
 printf "[INFO] Git pull config %s(--bare):" "$branch"
-sleep 1
+
 
 if config pull origin $branch 
 then
     printf "\r[INFO] Git pull config %s(--bare): Done\n" "$branch"
-    sleep 1
+    
 else
     printf "[ERROR] Checking again and backup files: Conflict.\n"
-    sleep 1
-    # ----------
-    config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    config pull origin $branch 2>&1 | sed -r '/^\w/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
     printf "\r[ERROR] Checking again and backup files: Done         \n"
-    sleep 1
+    
     if config pull origin $branch
     then
 	cd "$local" || return
@@ -70,27 +68,20 @@ else
     
 	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
 	printf "\r[INFO] Fetching origin %s.                            " "$branch"
-    	sleep 1
-    	# ----------
+    	
     	config fetch origin $branch
     	printf "\r[INFO] Fetching origin %s. Done\n" "$branch"
-    	sleep 1
     	printf "[INFO] Reset --hard %s." "$branch"
-    	sleep 1
-    	# ----------
+    	
     	config reset --hard HEAD
     	printf "\r[INFO] Reset --hard %s. Done		\n" "$branch"
-    	sleep 1
     	printf "[INFO] Merging origin %s." "$branch"
-    	sleep 1
-    	# ----------
+    	
     	config merge origin '@{u}'
     	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
-    	sleep 1
     	printf "[INFO] Checking again and backup files."
-    	sleep 1
-    	# ----------
-    	config pull origin $branch 2>&1 | grep -E "^\s+\." | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    	
+    	config pull origin $branch 2>&1 | sed -r '/^\w/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
     	printf "\r[INFO] Checking and backup files: Done      \n" 
     fi
 fi
