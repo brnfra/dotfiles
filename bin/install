@@ -92,7 +92,7 @@ else
 
     else
 	printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
-	config checkout 2>&1 | sed -r '/^\w/d' | awk '{print $1}' | xargs -I {}  mv {} {}.backup
+	config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {}  mv {} {}.backup
 	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
 	printf "[INFO] Checkout branch: Trying again after backup\n"
 
