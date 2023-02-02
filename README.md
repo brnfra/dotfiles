@@ -76,7 +76,7 @@ Install config tracking in your **$HOME** following the comand;
 
 >If Desktop/Virtual/Notebooks, copy/paste in terminal;
 ```bash
-bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)"; bash ~/bin/install_enviroment
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
 
 >If Mingw for Windows, copy/paste in terminal;
