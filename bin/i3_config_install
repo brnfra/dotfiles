@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-02-2023
+# Ultima_modificacao: 02-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -103,9 +103,9 @@ options="${options}bindsym \$mod+Return exec \$Terminal\n"
 options="${options}floating_modifier \$mod\n"
 
 # Disable focus following the mouse.
-options="${options}focus_follows_mouse no\n"
+options="${options}focus_follows_mouse yes\n"
 options="${options}hide_edge_borders smart\n"
-options="${options}default_border pixel 3\n"
+options="${options}default_border pixel 2\n"
 
 # Kill focused window.
 options="${options}bindsym \$mod+Shift+q kill\n"
@@ -234,7 +234,8 @@ fi
 # Open specific applications in floating mode
 
 # Disable title bars.
-options="${options}for_window [class=\"^.*\"] border pixel 1\n"
+options="${options}for_window [class=\"^.*\"] border pixel 2\n"
+options="${options}assign [class=\"firefox\"] \$ico_firefox\n"
 
 # Assign to floating by default.
 options="${options}for_window [class=\"mpv\"] floating enable\n"
@@ -328,8 +329,8 @@ fi
 #Color appearance -----------------------------------------------------------------
 		    # class                 border      backgr. text    indicator child_border
 options="${options}client.focused          $green      $black  $white  $purple   $green\n"
-options="${options}client.focused_inactive $orange     $dark   $white  $yellow   $orange\n"
-options="${options}client.unfocused        $orangedark $dark   $white  $purple   $orangedark\n"
+options="${options}client.focused_inactive $dark       $dark   $white  $yellow   $dark\n"
+options="${options}client.unfocused        $dark       $dark   $white  $purple   $dark\n"
 options="${options}client.urgent           $red        $dark   $white  $red      $red\n"
 
 options="${options}client.background       $dark\n"

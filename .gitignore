@@ -21,3 +21,7 @@ xmonad-i386-linux
 xmonad.errors
 xmonad.hi
 xmonad.op
+.config/ranger/plugins
+.config/ranger/__pycache__
+
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 31-01-2023
+#  Ultima_modificacao: 02-02-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -16,88 +16,47 @@ bkpLog="$HOME/.config-bkp/stage-bkp.log"
 #function for backup
 sync_copy ()
 {
-    echo "
-    |-----------------------------------------------
-    Sincronização iniciada em $DATE|" > $bkpLog
-    bashrc='.bashrc .bash/ '
-    vimrc='.vimrc .config/nvim/ '
-    vifmrc='.config/vifm/vifmrc .config/vifm/scripts/ .config/vifm/colors/ ' 
-    terminalrc='.config/xfce4/terminal/terminalrc ' 
-    i3rc='.i3/autostart/ .i3/ .i3/i3blocks/ '
-    rofirc='.config/rofi/ .config/rofi/themes/'
-    systemrc='.wgetrc .curlrc '
-    gitrc='.gitconfig .git-completion.bash'
-    comptonrc='.config/compton.conf .config/compton/ '
-    tmuxrc='.tmux.conf '
-    scripts='bin/ '
+    printf "[INFO]Sync beginning at %s\n" "$DATE" > $bkpLog
+    # bash
+    files='.bashrc .bash/ '
+    # vim
+    files+='.vimrc .config/nvim/ '
+    # vifm
+    files+='.config/vifm/vifmrc  ' 
+    files+='.config/vifm/scripts/ ' 
+    files+='.config/vifm/colors/ ' 
+    # terminalrc=
+    files+='.config/xfce4/terminal/terminalrc ' 
+    # i3
+    files+='.i3/ '
+    files+='.i3/autostart/ '
+    files+='.i3/i3blocks/ '
+    # rofi
+    files+='.config/rofi/ .config/rofi/themes/ '
+    # ranger
+    files+='.config/ranger/devicons.py '
+    files+='.config/ranger/rc.conf '
+    files+='.config/ranger/scope.sh '
+    # systemrc
+    files+='.wgetrc .curlrc '
+    # git
+    files+='.gitconfig '
+    files+='.git-completion.bash '
+    # compton
+    files+='.config/compton.conf  '
+    files+='.config/compton/ '
+    # tmux
+    files+='.tmux.conf '
+    # scripts
+    files+='bin/ '
 
-    for file in $bashrc; do
-	echo "Files: $bashrc" &>> $bkpLog
+    for file in $files; do
+	printf "[INFO]Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
 	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
+	printf "[INFO]Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
     done
-    for file in $vimrc; do
-	echo "Files: $vimrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va  --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $vifmrc; do
-	echo "Files: $vifmrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $terminalrc; do
-	echo "Files: $terminalrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $i3rc; do
-	echo "Files: $i3rc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $rofirc; do
-	echo "Files: $rofirc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $systemrc; do
-	echo "Files: $systemrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $gitrc; do
-	echo "Files: $gitrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $comptonrc; do
-	echo "Files: $comptonrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $tmuxrc; do
-	echo "Files: $tmuxrc"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va  --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-    for file in $scripts; do
-	echo "Files: $scripts"&>> $bkpLog
-	newDir=$copyTo/$file
-	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-    done
-
 }
 
 #check folders
@@ -105,12 +64,12 @@ if [ -d "$copyTo" ] && [ -d "$backupCopy" ];then
     cd "$copyTo" || return
     sync_copy
 else
-    printf "No %s or/and %s found." "$copyTo" "$backupCopy" 
+    printf "[ERROR]No %s or/and %s found.\n" "$copyTo" "$backupCopy" 
+    printf "[ERROR]No %s or/and %s found.\n" "$copyTo" "$backupCopy" &>> $bkpLog 
     exit 1
 fi
 
 cd "$local" || return
 
-echo "|Accomplished at $DATE &>> $bkpLog
------------------------------------------------|" &>> $bkpLog
-echo "If error occured check backup log: $bkpLog"
+printf "[INFO]Sync accomplished at %s\n" "$DATE" &>> $bkpLog
+printf "If error occured check backup log: %s ; All Done!.\n" "$bkpLog"

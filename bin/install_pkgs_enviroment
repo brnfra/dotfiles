@@ -15,6 +15,7 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     pcmanfm \
     ranger \
     compton \
+    x11-utils \
     xfce4-power-manager \
     nitrogen \
     acpi \
@@ -34,6 +35,7 @@ elif [ "$osys" = "manjaro" ]; then
     pcmanfm \
     ranger \
     picom \
+    xorg-xwininfo \
     xfce4-power-manager \
     nitrogen \
     acpi \
