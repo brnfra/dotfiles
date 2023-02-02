@@ -5,7 +5,7 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #requirements for i3blocks and more
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 
-sudo apt-get update && sudo apt-get install \
+    sudo apt-get update && sudo apt-get install \
     jq \
     sysstat \
     i3lock-fancy \
@@ -19,24 +19,26 @@ sudo apt-get update && sudo apt-get install \
     nitrogen \
     acpi \
     gsimplecal \
-    vifm 
+    vim neovim vifm \
+    unzip
 
 elif [ "$osys" = "manjaro" ]; then
 
- sudo pacman -Syu && sudo pacman -S \
+    sudo pacman -Syu \
     jq \
     sysstat \
-    i3lock-fancy \
+    unzip \
     blueman \
     xfce4-terminal \
     scrot \
     pcmanfm \
     ranger \
-    compton \
+    picom \
     xfce4-power-manager \
     nitrogen \
     acpi \
     gsimplecal \
-    vifm 
+    vim neovim vifm \
+    fzf \
 
 fi
