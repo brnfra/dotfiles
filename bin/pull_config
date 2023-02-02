@@ -63,7 +63,7 @@ else
     then
 	cd "$local" || return
 	printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
-	exit 0
+	
     else
     
 	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
