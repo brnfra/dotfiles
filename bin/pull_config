@@ -56,7 +56,7 @@ then
     
 else
     printf "[ERROR] Checking again and backup files: Conflict.\n"
-    config pull origin $branch 2>&1 | sed -r '/^\w/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    config pull origin $branch 2>&1 | sed -r '/^\w*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
     printf "\r[ERROR] Checking again and backup files: Done         \n"
     
     if config pull origin $branch
@@ -81,7 +81,7 @@ else
     	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
     	printf "[INFO] Checking again and backup files."
     	
-    	config pull origin $branch 2>&1 | sed -r '/^\w/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    	config pull origin $branch 2>&1 | sed -r '/^\w*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
     	printf "\r[INFO] Checking and backup files: Done      \n" 
     fi
 fi
