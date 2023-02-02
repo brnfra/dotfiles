@@ -110,7 +110,7 @@ Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
 If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
 
-1. Clone this repo in another local.(here the default is ``` ~/documents/projects/git/ ``` )
+1. Clone this repo in another local.(here the default is ```~/documents/projects/git/ ``` )
 2. Change to the correspondent branch by ```git switch [main/mingw32-w8/notebook-cfg]``` 
 3. Make the changes and push to remote repo in correspondent branch. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
@@ -140,8 +140,8 @@ Some functions require some aplications and packages like xorg,fzf,fdfind for ex
 If you want full functions here will required, for some functions, the previous installation of some packages like;
 
 
-- I3-wm
-- I3blocks or  I3status configs
+- I3wm
+- I3blocks 
 - i3status
 - Compton
 - Vim
@@ -160,7 +160,7 @@ If you get the error message
 
 after install or trying update your local configs, try this;
 
-1. Delete, in your home folder, ```  ~/.dotfiles/``` .
+1. Delete, in your home folder, ```~/.dotfiles/``` .
 
 2. Re-run the command curl for install again.
 

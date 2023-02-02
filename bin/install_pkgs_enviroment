@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+
+#requirements for i3blocks and more
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+
+sudo apt-get update && sudo apt-get install \
+    jq \
+    sysstat \
+    i3lock-fancy \
+    blueman \
+    xfce4-terminal \
+    scrot \
+    pcmanfm \
+    ranger \
+    compton \
+    xfce4-power-manager \
+    nitrogen \
+    acpi \
+    gsimplecal \
+    vifm 
+
+elif [ "$osys" = "manjaro" ]; then
+
+ sudo pacman -Syu && sudo pacman -S \
+    jq \
+    sysstat \
+    i3lock-fancy \
+    blueman \
+    xfce4-terminal \
+    scrot \
+    pcmanfm \
+    ranger \
+    compton \
+    xfce4-power-manager \
+    nitrogen \
+    acpi \
+    gsimplecal \
+    vifm 
+
+fi

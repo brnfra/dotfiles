@@ -25,7 +25,7 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
  #
 elif [ "$osys" = "manjaro" ]; then
     # update and upgrade 
-    alias up='sudo pacman -Syyu'
+    alias up='sudo pacman -Syu'
     alias get='sudo pacman -Syu'
     alias remove='sudo pacman -R'
     fi

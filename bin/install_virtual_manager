@@ -1,13 +1,30 @@
 #!/usr/bin/env bash
 
-sudo apt-get update && sudo apt-get install \
-    virt-manager \
-    qemu-system \
-    libvirt-daemon-system \
-    dnsmasq-base \
-    bridge-utils \
-    iptables
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
-sudo adduser $USER libvirt
+#requirements for i3blocks and more
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+
+    sudo apt-get update && sudo apt-get install \
+	virt-manager \
+	qemu-system \
+	libvirt-daemon-system \
+	dnsmasq-base \
+	bridge-utils \
+	iptables
+
+elif [ "$osys" = "manjaro" ]; then
+
+    sudo pacman -Syu && sudo pacman -S \
+	virt-manager \
+	qemu-system \
+	libvirt-daemon-system \
+	dnsmasq-base \
+	bridge-utils \
+	iptables
+
+fi
+
+sudo adduser "$USER" libvirt
 
 echo -e "\nhttps://wiki.debian.org/KVM\n"
