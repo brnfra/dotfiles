@@ -32,6 +32,7 @@ purple="#9800FE"
 
 #Paths
 status_command="i3blocks -c $HOME/.i3/i3blocks.conf"
+status_command2="i3blocks -c $HOME/.i3/i3blocks_v.conf"
 cfg_file="$HOME/.i3/config"
 cfg_dir="$HOME/.i3"
 bkp_local="$HOME/.config-bkp"
@@ -48,6 +49,7 @@ use_gaps="true"
 system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
 # I'm using the OS to determine if we need gaps because you might use
+# different OSs on the same host (dual boot). If you do end up using a compiled
 # different OSs on the same host (dual boot). If you do end up using a compiled
 # version of i3 gaps on something like Devuan, then you can use something else.
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
@@ -251,7 +253,7 @@ options="${options}for_window [window_type=\"menu\"] floating enable\n"
 options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 600 600\n"
 options="${options}for_window [title=\"File Transfer*\"] floating enable\n"
 options="${options}for_window [class=\"knotes\"] floating enable resize set 300 500\n"
-options="${options}for_window [class=\"Gsimplecal\"] floating enable move absolute position 1500px 820px\n"
+# options="${options}for_window [class=\"Gsimplecal\"] floating enable move absolute position 1500px 820px\n"
 options="${options}for_window [class=\"GParted\"] floating enable border normal\n"
 options="${options}for_window [title=\"Calculator\"] floating enable move position center\n"
 
@@ -370,7 +372,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: Monofur 11\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"
     options="${options}        statusline $darker\n"
@@ -416,7 +418,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: Monofur 11\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"
     options="${options}        statusline $darker\n"

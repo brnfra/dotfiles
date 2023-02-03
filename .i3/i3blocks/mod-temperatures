@@ -2,7 +2,7 @@
 
 # Arquivo: mod-temperatures
 # Autor: Bruno Franco
-# Ultima_modificacao: 29-01-2023
+# Ultima_modificacao: 02-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -27,13 +27,13 @@ do
     then
 	if [[ $temp -le 20  ]]
 	then
-	    output+="<span font='Font Awesome' color="$cold">$icon $temp</span> "
+	    output+="<span font='monofur NF' color="$cold">$icon $temp</span> "
 	elif [[ $temp -le 70 ]]
 	then
-	    output+="<span font='Font Awesome' color="$normal">$icon $temp</span> "
+	    output+="<span font='monofur NF' color="$normal">$icon $temp</span> "
 	elif [[ $temp -gt 70 ]]
 	then
-	    output+="<span font='Font Awesome' color="$alert">$icon $temp</span> "
+	    output+="<span font='monofur NF' color="$alert">$icon $temp</span> "
 	fi
     fi
 done

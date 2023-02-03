@@ -124,7 +124,6 @@ for_window [window_type="menu"] floating enable
 for_window [class="GoldenDict"] floating enable resize set 600 600
 for_window [title="File Transfer*"] floating enable
 for_window [class="knotes"] floating enable resize set 300 500
-for_window [class="Gsimplecal"] floating enable move absolute position 1500px 820px
 for_window [class="GParted"] floating enable border normal
 for_window [title="Calculator"] floating enable move position center
 assign [class="Virt-manager"] 3 $ico_monitor
@@ -200,7 +199,7 @@ bar {
     separator_symbol " "
     mode dock 
     font pango: Monofur 11
-    status_command SCRIPT_DIR=/home/devlab/.i3/i3blocks i3blocks -c /home/devlab/.i3/i3blocks.conf
+    status_command SCRIPT_DIR=/home/devlab/.i3/i3blocks i3blocks -c /home/devlab/.i3/i3blocks_v.conf
     colors {
         background #F5F6F7
         statusline #080910

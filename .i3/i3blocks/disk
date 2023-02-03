@@ -64,8 +64,8 @@ out_to_int=${output//\%/)}
 
 if [[ $out_to_int > $ALERT_HIGH  ]]
 then
-    echo "<span font='Quicksand Bold' color='#FF0000'>$output</span>"
+    echo "<span font='monofur NF' size='medium' color='#FF0000'>&#xf233;  $output$BLOCK_INSTANCE</span>"
 else
-    echo "<span font='Quicksand Bold' >$output</span>"
+    echo "<span font='monofur NF' size='medium' >&#xf233;  $output$BLOCK_INSTANCE</span>"
 fi
 
