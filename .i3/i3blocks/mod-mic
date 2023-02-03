@@ -123,21 +123,21 @@ if [ "$pm_mic" = "$res" ] || [ "$pv" = "$res" ]; then
     exit
 else
     if [[ $nv_mic -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf130; █</span>"
+	icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; █</span>"
     else 
 	if [[ $nv_mic -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf130; ▇</span>"
+	    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▇</span>"
 	else
 	    if [[ $nv_mic -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf130; ▅</span>"
+		icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▅</span>"
 	    else
 		if [[ $nv_mic -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf130; ▃</span>"
+		    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▃</span>"
 		else
 		    if [[ $nv_mic -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='monofur NF'   color='#88C0D0' size='medium'>&#xf130; ▁</span>"
+			icon="<span font='monofur NF'   color='#2666A1' size='medium'>&#xf130; ▁</span>"
 		    else
-			icon="<span font='monofur NF'  color='#88C0D0' size='medium'>&#xf130;   </span>"
+			icon="<span font='monofur NF'  color='#2666A1' size='medium'>&#xf130;   </span>"
 		    fi #0-25
 		fi #25-50
 	    fi #50-75

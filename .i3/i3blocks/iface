@@ -61,7 +61,7 @@ wget -q --tries=10 --timeout=20 --spider http://google.com
 
 if [[ $? -eq 0 ]]
 then
-    echo "<span color='#00BB00'><i>$IPADDR </i></span>"
+    echo "<span font='monofur NF' color='#00BB00'><i><b>$IPADDR </b></i></span>"
 else
-    echo "<span color='#FF0000'><i>$IPADDR </i></span>"
+    echo "<span font='monofur NF' color='#FF0000'><b>$IPADDR </b></span>"
 fi

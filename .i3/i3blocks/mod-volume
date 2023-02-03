@@ -122,21 +122,21 @@ if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
     exit 0
 else
     if [[ $nav -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf028; </span><span color='#88C0D0' size='medium'>█</span>"
+	icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf028; </span><span color='#2666A1' size='medium'> █</span>"
     else 
 	if [[ $nav -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf028; </span><span color='#88C0D0' size='medium'>▇</span>"
+	    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf028; </span><span color='#2666A1' size='medium'> ▇</span>"
 	else
 	    if [[ $nav -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▅</span>"
+		icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▅</span>"
 	    else
 		if [[ $nav -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='monofur NF' color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▃</span>"
+		    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▃</span>"
 		else
 		    if [[ $nav -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='monofur NF'   color='#88C0D0' size='medium'>&#xf027; </span><span color='#88C0D0' size='medium'>▁</span>"
+			icon="<span font='monofur NF'   color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▁</span>"
 		    else
-			icon="<span font='monofur NF'  color='#88C0D0' size='medium'>&#xf026;  </span><span> </span>"
+			icon="<span font='monofur NF'  color='#2666A1' size='medium'>&#xf026;  </span><span> </span>"
 		    fi #0-25
 		fi #25-50
 	    fi #50-75
@@ -146,7 +146,7 @@ fi #mute
 
 if [ "$osys" = "ubuntu" ]
 then
-    echo -n "$icon $pav"
+    printf "%s %s" "$icon" "$pav"
 else
-    echo -n "$icon $pv"
+    printf "%s %s" "$icon" "$pv"
 fi
