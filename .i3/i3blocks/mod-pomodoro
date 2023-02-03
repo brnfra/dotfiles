@@ -1,0 +1,117 @@
+#!/bin/bash
+# Arquivo: mod-pomodoro
+# Autor: Bruno Franco
+# Ultima_modificacao: 03-02-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste arquivo.
+
+# Thanks to [Original Author] duckl1ng/bog2n
+# script from https://raw.githubusercontent.com/bog2n/i3blocks-pomodoro/master/pomodoro.sh
+# repo: https://github.com/bog2n/i3blocks-pomodoro
+
+# Config variables (min)
+work_time=30
+work_time=$(( work_time * 60 ))
+break_time=15
+break_time=$(( break_time * 60 ))
+
+#fonts awesome icons required
+msg_start="&#xf251; "
+work_prefix="&#xf262; "
+break_prefix="&#xf0f4; "
+
+start_color='"#2666A1"'
+break_color='"#58a814"'
+work_color='"#f39660"'
+# $ fc-list command to list fonts
+font_face='"monofurNF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"large"'
+
+font_start_params="<span font=$font_face"
+font_start_params+=" color=$start_color "
+font_start_params+=" size=$font_size >"
+
+font_work_params="<span font=$font_face"
+font_work_params+=" color=$work_color "
+font_work_params+=" size=$font_size >"
+
+font_break_params="<span font=$font_face"
+font_break_params+=" color=$break_color "
+font_break_params+=" size=$font_size >"
+
+font_params_close="</span>"
+
+
+break_command="notify-send -t 3000 'Grab a tea'"
+break_command+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/complete.oga &> /dev/null' 
+work_command="notify-send -t 3000 'Time to work!'"
+work_command+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &> /dev/null' 
+
+pom_path="/tmp/pomodoro"
+
+function display () {
+    min=$(($s/60))
+    sek=$(($s%60))
+    if [ $min -eq 0 ]
+    then
+	min=00
+    elif [ $min -lt 10 ]
+    then
+	min=0$min
+    fi
+    if [ $sek -lt 10 ]
+    then
+	sek=0$sek
+    fi
+    case $2 in
+	w)
+	    printf "%s %s %s:%s%s" "$font_work_params" "$work_prefix" "$min" "$sek" "$font_params_close"
+	    ;;
+	b)
+	    printf "%s %s %s:%s%s" "$font_break_params" "$break_prefix" "$min" "$sek" "$font_params_close"
+	    ;;
+    esac
+}
+
+if [ -f $pom_path ] && [ $(wc -l $pom_path | awk '{print $1}') -eq 2 ]
+then
+    p=$(sed '1 d' $pom_path) # time
+    t=$(sed '2 d' $pom_path) # mode
+    case $t in
+	w) dur=$work_time;;
+	b) dur=$break_time;;
+    esac 
+    now=$(date +%s)
+    s=$(($dur-$now+$p))
+    if [ $s -le 0 ] # if time less than 0 then switch mode
+    then
+	case $t in
+	    w)
+		echo b > $pom_path
+		eval $break_command
+		;;
+	    b)
+		echo w > $pom_path
+		eval $work_command
+		;;
+	esac
+	echo $now >> $pom_path
+    fi
+    display $s $t
+else
+    printf "%s %s %s" "$font_start_params" "$msg_start" "$font_params_close"
+fi
+
+case $BLOCK_BUTTON in
+    1)
+	if [ -f $pom_path ]; then # if file exists then stop reset timer
+	    rm $pom_path
+	else
+	    echo w > $pom_path # else start timer
+	    date +%s >> $pom_path
+	fi
+	;;
+esac
