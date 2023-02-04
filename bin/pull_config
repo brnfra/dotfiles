@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-02-2023
+# Ultima_modificacao: 03-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,16 +10,18 @@ local=$(pwd)
 
 bkpdir="$HOME"/.config-bkp
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
+i3_cfg="$HOME/.i3/config"
+i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
 
 if [ -d "$bkpdir" ] 
 then
     printf "[INFO] %s already exists.\n" "$bkpdir" 
-    	
+
 else
     mkdir -p "$bkpdir"
     printf "[INFO] %s created.\n" "$bkpdir" 
-    	
+
 fi
 
 cd "$HOME" || return
@@ -64,36 +66,36 @@ printf "[INFO] Git pull config %s(--bare):" "$branch"
 if config pull origin $branch 
 then
     printf "\r[INFO] Git pull config %s(--bare): Done\n" "$branch"
-    
+
 else
     printf "[ERROR] Checking again and backup files: Conflict.\n"
     config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
     printf "\r[ERROR] Checking again and backup files: Done         \n"
-    
+
     if config pull origin $branch
     then
 	cd "$local" || return
 	printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
-	
+
     else
-    
+
 	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
 	printf "\r[INFO] Fetching origin %s.                            " "$branch"
-    	
-    	config fetch origin $branch
-    	printf "\r[INFO] Fetching origin %s. Done\n" "$branch"
-    	printf "[INFO] Reset --hard %s." "$branch"
-    	
-    	config reset --hard HEAD
-    	printf "\r[INFO] Reset --hard %s. Done		\n" "$branch"
-    	printf "[INFO] Merging origin %s." "$branch"
-    	
-    	config merge origin '@{u}'
-    	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
-    	printf "[INFO] Checking again and backup files."
-    	
-    	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
-    	printf "\r[INFO] Checking and backup files: Done      \n" 
+
+	config fetch origin $branch
+	printf "\r[INFO] Fetching origin %s. Done\n" "$branch"
+	printf "[INFO] Reset --hard %s." "$branch"
+
+	config reset --hard HEAD
+	printf "\r[INFO] Reset --hard %s. Done		\n" "$branch"
+	printf "[INFO] Merging origin %s." "$branch"
+
+	config merge origin '@{u}'
+	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
+	printf "[INFO] Checking again and backup files."
+
+	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+	printf "\r[INFO] Checking and backup files: Done      \n" 
     fi
 fi
 
@@ -102,8 +104,18 @@ if [ -d "$bkpdir" ]; then
 else
     printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
 fi
-    
-printf "\r[INFO]Pull remote to %s .\n" "$dotfiles_dir"
+
+if [ -f "$i3_cfg" ]; then
+    printf "[INFO] I3config: OK\n"
+elif [ -f "$i3_scpt" ]; then
+    printf "[ERROR] I3config not found. Installing config file."
+    eval "$HOME/bin/i3_config_install"
+    printf "\r[ERROR] I3config file installed.                    \n"
+else
+    printf "\r[ERROR] I3config[%s] isn't installed and I3script[%s] not found.\n" "$i3_cfg" "$i3_scpt"
+fi
+
+printf "\r[INFO] Git Pull remote dotfiles branch to %s .\n" "$dotfiles_dir"
 if [ -d "$dotfiles_dir" ];then
     cd "$dotfiles_dir" || return
     git checkout $branch
