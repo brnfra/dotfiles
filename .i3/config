@@ -228,3 +228,4 @@ $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
 $exe diodon
+$exe package-update-indicator

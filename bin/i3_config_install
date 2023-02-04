@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-02-2023
+# Ultima_modificacao: 03-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -466,6 +466,7 @@ options="${options}\$exe blueman-applet\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
 options="${options}\$exe diodon\n"
+options="${options}\$exe package-update-indicator\n"
 
 elif [ "$system_id" = "manjaro" ]; then
 options="${options}\$exe --no-startup-id clipit\n"
