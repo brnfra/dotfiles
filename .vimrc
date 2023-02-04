@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 01-02-2023
+" Ultima_modificacao: 04-02-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -23,7 +23,8 @@ set path+=**
 set exrc
 scriptencoding utf-8
 set secure
-set history=1500
+set history=5500
+set t_Co=256
 ""set magic
 "" automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -44,6 +45,7 @@ else
     set viminfo+=n~/.vim/.shada
 endif
 
+set termguicolors
 set mouse=a " Enable mouse in all modes
 set cursorcolumn
 set cursorline
@@ -153,6 +155,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
 " DEOPLETE"
 if has('nvim')
@@ -234,8 +237,8 @@ if has("nvim")
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
-    " Use K to show documentation in preview window.
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
+    " Use M to show documentation in preview window.
+    nnoremap <silent> M :call <SID>show_documentation()<CR>
 
     function! s:show_documentation()
 	if (index(['vim','help'], &filetype) >= 0)
@@ -371,6 +374,7 @@ let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeTooggle = 1
+set fillchars+=vert:\█ 
 let g:NERDTreeWinSize = 40
 "Disable arrows
 let g:NERDTreeDirArrowExpandable = "\u21B3"
@@ -389,9 +393,9 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
-let g:airline_theme = 'jellybeans'
-let g:airline_molokai_bright = 1
-
+""let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'papercolor'
+" let g:airline_molokai_bright = 1
 let g:airline_symbols_ascii = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
@@ -454,7 +458,6 @@ let airline#extensions#ale#show_line_numbers = 1
 let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
 let g:airline#extensions#keymap#enabled=1
-let g:airline#extensions#capslock#enabled=1
 let g:airline#extensions#bookmark#enabled=1
 
 
@@ -474,37 +477,10 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ' :'
 let g:airline_symbols.maxlinenr = '☰ '
 let g:airline_symbols.dirty='⚡'
-"\u2581\u2583\u2585\u2587"
-"5\u2591\u2592\u2593"
-"let g:airline_right_alt_sep="\u2587\u2585\u2583\u2581"
-"let g:airline_right_alt_sep = ''
-"let g:airline_left_alt_sep = ''
-"7\u2587\u2585\u2583\u2581"
-"8\u2581\u2583\u2585\u2587"
-"let g:airline_left_sep = ''
-"let g:airline_right_sep="\u2b24"
-"let g:airline_right_sep = ''
 
-
-
-let g:airline#extensions#csv#column_display='Name'
-" --------------Status line
-"+---------------------------------------------------------------------------+
-"| A | B |                     C                          X | Y | Z |  [...] |
-"+---------------------------------------------------------------------------+
-"  let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
-"  let g:airline_section_b       (hunks, branch)[*]
-"  let g:airline_section_c       (bufferline or filename, readonly)
-"  let g:airline_section_gutter  (csv)
-"  let g:airline_section_x       (tagbar, filetype, virtualenv)
-"  let g:airline_section_y       (fileencoding, fileformat, 'bom', 'eol')
-"  let g:airline_section_z       (percentage, line number, column number)
-"  let g:airline_section_error   (ycm_error_count, syntastic-err, eclim,
-"                                languageclient_error_count)
-"  let g:airline_section_warning (ycm_warning_count, syntastic-warn,
-"                                 languageclient_warning_count, whitespace)
-let g:airline_section_c='%r%m%0*%t %1* %-0.50{CurDir()}'
-let g:airline_section_x='%k%y'
+"check :help statusline or airline
+let g:airline_section_c='%r%m%t %-0.50{CurDir()}'
+let g:airline_section_x='%y'
 let g:airline_section_z='%p%% %l Col:%c'
 let g:airline_section_error=''
 let g:airline_section_warning=''
@@ -514,22 +490,14 @@ let g:airline_section_warning=''
 "+-------------------------------------------------------+
 "| https://vimhelp.org/options.txt.html#%27statusline%27 |
 "+-------------------------------------------------------+
-set laststatus=2      "" display Status bar always
+ set laststatus=2      "" display Status bar always
 fun! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir
 endfun
 
 "------------------------------------END VIM-AIRLINE }}}2
-"               INDENTLINE              {{{2
-"-------------------------------------------------------
-let g:indentLine_enabled = 0
-let g:indentLine_concealcursor = 'inc'
-let g:indentLine_conceallevel = 2
-let g:indentLine_setColors = 0
-let g:indentLine_char ='┊'
 
-"------------------------------------END INDENTLINE.VIM }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
 set background=dark
@@ -863,9 +831,12 @@ nnoremap <C-a> ggVG
 "call goyo-plugin"
 noremap ,g :Goyo 120x90%<CR>
 "delete blank spaces"
-noremap ,d :%s/\s\+$//<CR>    
+noremap <leader>d :%s/\s\+$//<CR>    
 "delete blank lines
-noremap ,D :g/^\s*$/d<CR>
+noremap <leader>D :g/^\s*$/d<CR>
+"manual entry
+noremap <leader>M :call <SNR>44_PreGetPage(0)<CR>
+inoremap <leader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
 " inserir linhas e continuar em modo normal
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
@@ -878,6 +849,11 @@ inoremap { {}<left>
 inoremap [ []<left>
 inoremap ' ''<left>
 inoremap " ""<left>
+"surround "" ou ''  
+nnoremap <leader>s bcw""<esc>P
+inoremap <leader>s <esc>bcw""<esc>Pi
+nnoremap <leader>S bcw''<esc>P
+inoremap <leader>S <esc>bcw''<esc>Pi
 
 let s:hidden_all = 1 "by @LukeSmithxyz"
 function ToggleHidden()
