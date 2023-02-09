@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-01-2023
+# Ultima_modificacao: 09-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
@@ -14,8 +14,8 @@ case $- in
       *) return;;
 esac
 
-if [ -f ~/.bash/.bash_profile ]; then
-    . ~/.bash/.bash_profile
+if [ -f ~/.bash/profile ]; then
+    . ~/.bash/profile
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

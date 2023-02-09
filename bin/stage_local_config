@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 02-02-2023
+#  Ultima_modificacao: 09-02-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -51,25 +51,26 @@ sync_copy ()
     files+='bin/ '
 
     for file in $files; do
-	printf "[INFO]Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
+	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
 	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
-	printf "[INFO]Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
+	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
     done
 }
 
 #check folders
 if [ -d "$copyTo" ] && [ -d "$backupCopy" ];then
     cd "$copyTo" || return
+    git pull
     sync_copy
 else
-    printf "[ERROR]No %s or/and %s found.\n" "$copyTo" "$backupCopy" 
-    printf "[ERROR]No %s or/and %s found.\n" "$copyTo" "$backupCopy" &>> $bkpLog 
+    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$backupCopy" 
+    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$backupCopy" &>> $bkpLog 
     exit 1
 fi
 
 cd "$local" || return
 
-printf "[INFO]Sync accomplished at %s\n" "$DATE" &>> $bkpLog
-printf "If error occured check backup log: %s ; All Done!.\n" "$bkpLog"
+printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> $bkpLog
+printf "[INFO] If error occured check backup log: %s ; All Done!.\n" "$bkpLog"

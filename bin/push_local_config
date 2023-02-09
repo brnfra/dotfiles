@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#  Arquivo: push_local_config
+#  Autor: Bruno Franco
+#  Ultima_modificacao: 09-02-2023
+#  Download: git@github.com:brnfra
+#  Licence:Este arquivo é de domínio público
+#  Garantia: O autor não se responsabiliza por eventuais danos
+#            causados pelo uso deste arquivo.
+
+local=$(pwd)
+DATE=$(date +%d/%m/%Y-%H:%M:%S)
+pushFrom="$HOME/Documents/Projects/git/dotfiles"
+BRANCH="main"
+
+function git_push () 
+{
+    UPFILES=$(git status -sb | sed '1d;s/ M/ C/g;s/??/ +/g;s/ D/ -/g')
+    MSG="[$DATE]: $1. Update-files -> $UPFILES"
+    git add -A -v;git commit -v -m "$MSG";git push origin $BRANCH   
+    if [ $? ];then
+	printf "[INFO] Accomplished, no eirrors.\n" 
+	git status -sb
+    else
+	git status -sb 
+	printf "[ERROR] A error occours. Check log.\n" 
+    fi
+}
+
+if [ -d "$pushFrom" ];then
+    cd "$pushFrom" || return
+    stage_local_config
+    git_push
+else
+    printf "[ERROR] No %s found.\n" "$pushFrom" 
+    exit 1
+fi
+
+cd "$local" || return
+
