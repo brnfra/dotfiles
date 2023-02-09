@@ -14,11 +14,11 @@ BRANCH="main"
 
 function git_push () 
 {
-    UPFILES=$(git status -sb | sed '1d;s/ M/ C/g;s/??/ +/g;s/ D/ -/g')
+    UPFILES=$(git status -sb | sed '1d;s/^\sM/ C/g;s/??/ +/g;s/^\sD/ \-/g')
     MSG="[$DATE]: $1. Update-files -> $UPFILES"
     git add -A -v;git commit -v -m "$MSG";git push origin $BRANCH   
     if [ $? ];then
-	printf "[INFO] Accomplished, no eirrors.\n" 
+	printf "[INFO] Accomplished, no errors.\n" 
 	git status -sb
     else
 	git status -sb 
