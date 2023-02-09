@@ -132,7 +132,7 @@ function psearch () {
 	--preview="apt-cache show ^{1}$" \
 	--preview-window=wrap \
 	--bind="tab:toggle-preview" \
-	| cut -d "-" -f 1 \
+	| cut -d " " -f 1 \
 	| xargs -ro sudo apt-get install 
 }
 # }}}

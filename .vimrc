@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 04-02-2023
+" Ultima_modificacao: 05-02-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -662,14 +662,15 @@ au BufNewFile,BufRead *.java set ft=java
 au BufRead,BufNewFile Guardfile set filetype=ruby
 au BufRead,BufNewFile *.module set filetype=php
 au BufRead,BufNewFile *.install set filetype=php
-au BufRead,BufNewFile md set filetype=markdown
 au BufRead,BufNewFile .rspec set filetype=eruby
 au BufRead,BufNewFile *.workflow set filetype=hcl
 au BufRead,BufNewFile *.acl set filetype=vcl
-au BufRead,BufNewFile txt set filetype=markdown
 au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
+au BufRead,BufNewFile md set filetype=markdown
+au BufRead,BufNewFile txt set filetype=markdown
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
+au BufRead,BufNewFile 'ASCII text' set filetype=bash
 "---------------------------------------------
 " file type detection
 "---------------------------------------------

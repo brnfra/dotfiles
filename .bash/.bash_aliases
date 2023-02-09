@@ -140,6 +140,9 @@ elif [ "$osys" = "manjaro" ]; then
 	alias bashrc='nvim ~/.bashrc' 
 	alias vimrc='vim ~/.vimrc'
 	alias i3rc='nvim ~/.i3/config'
+	alias blocksrc='nvim ~/.i3/i3blocks.conf'
+	alias blocksdir='cd ~/.i3/i3blocks'
+
 	alias vifmrc='nvim ~/.config/vifm/vifmrc'
 
   # }}}
