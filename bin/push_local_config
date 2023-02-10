@@ -14,7 +14,7 @@ BRANCH="main"
 function git_push () 
 {
     UPFILES=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
-    MSG="$1. $UPFILES"
+    MSG="$@. $UPFILES"
     git add -A -v;git commit -v -m "$MSG";git push origin $BRANCH   
     if [ $? ];then
 	printf "[INFO] Accomplished, no errors.\n" 
@@ -28,7 +28,7 @@ function git_push ()
 if [ -d "$pushFrom" ];then
     cd "$pushFrom" || return
     stage_local_config
-    git_push
+    git_push "$1"
 else
     printf "[ERROR] No %s found.\n" "$pushFrom" 
     exit 1
