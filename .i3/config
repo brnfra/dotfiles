@@ -35,7 +35,7 @@ focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
+bindsym $mod+d exec --no-startup-id $Terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
 for_window [title="fzf-menu"] floating enable move position center
 set $sup bindsym Mod4
 set $exe exec --no-startup-id
@@ -224,6 +224,7 @@ $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe /home/devlab/.i3/autostart/i3config.sh
 $exe /home/devlab/.i3/autostart/wallpaper.sh
+$exe /home/devlab/bin/pull_config
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
