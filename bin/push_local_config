@@ -8,14 +8,13 @@
 #            causados pelo uso deste arquivo.
 
 local=$(pwd)
-DATE=$(date +%d/%m/%Y-%H:%M:%S)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 BRANCH="main"
 
 function git_push () 
 {
-    UPFILES=$(git status -sb | sed '1d;s/^\sM/ C/g;s/??/ +/g;s/^\sD/ \-/g')
-    MSG="[$DATE]: $1. Update-files -> $UPFILES"
+    UPFILES=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
+    MSG="$1. $UPFILES"
     git add -A -v;git commit -v -m "$MSG";git push origin $BRANCH   
     if [ $? ];then
 	printf "[INFO] Accomplished, no errors.\n" 
