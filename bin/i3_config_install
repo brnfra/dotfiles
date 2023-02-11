@@ -454,8 +454,8 @@ options="${options}\$exe xfce4-power-manager\n"
 #Networkmanager wicd and NM do not work together
 options="${options}\$exe nm-applet --indicator\n"
 #change config for my preferences
-options="${options}\$exe $cfg_dir/autostart/i3config.sh\n"
-options="${options}\$exe $cfg_dir/autostart/wallpaper.sh\n"
+options="${options}\$exe $cfg_dir/autostart/i3config\n"
+options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
 options="${options}\$exe $binaries/pull_config\n"
 
 #Apps autoexec on start

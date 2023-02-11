@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+delay1=1200
+delay2=600
+
+wallpapers_dir="$HOME/.wallpapers"
+nitrogen_cfg_dir="$HOME/.config/nitrogen"
+bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
+nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
+
+function gen_nitrogen_cfg() {
+
+    bgconfig="[xin_0]\n"
+    bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+    bgconfig="${bgconfig}mode=0\n"
+    bgconfig="${bgconfig}bgcolor=#000000\n\n"
+    bgconfig="[xin_1]\n"
+    bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+    bgconfig="${bgconfig}mode=0\n"
+    bgconfig="${bgconfig}bgcolor=#000000"
+    nitrogen_cfg="[geometry]\n"
+    nitrogen_cfg="${nitrogen_cfg}posx=640\n"
+    nitrogen_cfg="${nitrogen_cfg}posy=0\n"
+    nitrogen_cfg="${nitrogen_cfg}sizex=634\n"
+    nitrogen_cfg="${nitrogen_cfg}sizey=1051\n\n"
+    nitrogen_cfg="${nitrogen_cfg}[nitrogen]\n"
+    nitrogen_cfg="${nitrogen_cfg}view=list\n"
+    nitrogen_cfg="${nitrogen_cfg}recurse=true\n"
+    nitrogen_cfg="${nitrogen_cfg}sort=alpha\n"
+    nitrogen_cfg="${nitrogen_cfg}icon_caps=false\n"
+    nitrogen_cfg="${nitrogen_cfg}dirs=$wallpapers_dir;"
+
+    if [ -f "$bgconfig_file" ]; then
+	printf "[ERROR] Config file already created\n" 
+    else
+	printf "$bgconfig%s" > "$bgconfig_file"
+	printf "[INFO] Created %s config file\n" "$bgconfig_file"
+    fi
+
+    if [ -f "$nitrogen_cfg_file" ]; then
+	printf "[ERROR] Config file already created\n" 
+    else
+	printf "$nitrogen_cfg%s" > "$nitrogen_cfg_file"
+	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"
+    fi
+
+}
+
+if nitrogen -h
+then
+    if [ -d "$nitrogen_cfg_dir" ]; then
+	gen_nitrogen_cfg
+    else
+	printf "[ERROR] Can't find %s directory.\n" "$nitrogen_cfg_dir"
+	printf "[INFO] Creating %s directory." "$nitrogen_cfg_dir"
+	mkdir -p "$nitrogen_cfg_dir"
+	printf "\r[INFO] Creating %s directory: Done\n" "$nitrogen_cfg_dir"
+    fi
+else
+    printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
+fi
+
+cd "$wallpapers_dir" || return
+
+files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+
+nitrogen --restore --head=0;
+nitrogen --restore --head=1;
+
+#monitor1
+while :
+do
+    for I in $files1; do
+
+	nitrogen --set-scaled --head=0  "$I"
+	sleep $delay2        
+	#monitor2
+	files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+	for J in $files2; do
+	    if [ "$I" == "$J" ]; then
+		continue
+	    else
+		nitrogen --set-scaled --head=1  "$J"
+		break
+	    fi
+	done
+	sleep $delay1
+	PROCESS_ID=$!
+	wait $PROCESS_ID
+    done
+done
