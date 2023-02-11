@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 09-02-2023
+#  Ultima_modificacao: 11-02-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,13 +9,13 @@
 
 local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
-BRANCH="main"
+branch="main"
 
 function git_push () 
 {
-    UPFILES=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
-    MSG="$@. $UPFILES"
-    git add -A -v;git commit -v -m "$MSG";git push origin $BRANCH   
+    upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
+    message="$@. $upfiles"
+    git add -A -v;git commit -v -m "$message";git push origin $branch   
     if [ $? ];then
 	printf "[INFO] Accomplished, no errors.\n" 
 	git status -sb

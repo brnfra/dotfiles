@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 09-02-2023
+#  Ultima_modificacao: 11-02-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
 
 local=$(pwd)
-backupCopy="$HOME/.config-bkp"
+bkpdir="$HOME/.config-bkp"
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
@@ -54,19 +54,19 @@ sync_copy ()
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$backupCopy  $HOME/$file $copyTo/$file &>> $bkpLog
+	rsync -va --exclude '*.backup' -b --backup-dir=$bkpdir  $HOME/$file $copyTo/$file &>> $bkpLog
 	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
     done
 }
 
 #check folders
-if [ -d "$copyTo" ] && [ -d "$backupCopy" ];then
+if [ -d "$copyTo" ] && [ -d "$bkpdir" ];then
     cd "$copyTo" || return
     git pull
     sync_copy
 else
-    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$backupCopy" 
-    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$backupCopy" &>> $bkpLog 
+    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$bkpdir" 
+    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$bkpdir" &>> $bkpLog 
     exit 1
 fi
 

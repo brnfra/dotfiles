@@ -2,7 +2,7 @@
 
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-02-2023
+# Ultima_modificacao: 11-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -22,31 +22,29 @@ monofur="Monofur.zip"
 if  command -v unzip &>/dev/null  
 then
     printf "[INFO] Downloading Nerdfont.\n" 
-
-    eval curl -# -C - -Lko $nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
+    curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
     printf "[INFO] Unpack downloaded fonts.\n"
-    eval "unzip -uo $nerdfont"
+    unzip -uo "$nerdfont"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
 
     printf "[INFO] Downloading CoeNewRoman.\n"
-
-    eval curl -# -C - -Lko $codeNewRoman "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
+    curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
     printf "[INFO] Unpack downloaded fonts.\n"
-    eval "unzip -uo $codeNewRoman"
+    unzip -uo "$codeNewRoman"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
 
     printf "[INFO] Downloading Monofur.\n"
-
-    eval curl -# -C - -Lko $monofur "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
+    curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
     printf "[INFO] Unpack downloaded fonts.\n"
-    eval "unzip -uo $monofur"
+    unzip -uo "$monofur"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
-    eval fc-cache -f -v
+
+    fc-cache -f -v
     cd "$local" || return
-    echo -e "\nAll done!\n"
+    printf "\n[INFO] All done!\n"
     exit 0
 else
-    printf "[ERROR]The package Unzip is not installed. Execute apt install unzip\n"
+    printf "[ERROR] The package Unzip is not installed. ute apt install unzip. \n"
     cd "$local" || return
     exit 1
 fi
