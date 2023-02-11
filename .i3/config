@@ -28,14 +28,14 @@ set $ico_volume   <span font='Font Awesome'>&#xf028;</span>
 set $ico_whatsapp <span font='Font Awesome'>&#xf232;</span>
 set $ico_window   <span font='Font Awesome'>&#xf2d0;</span>
 set $Terminal xfce4-terminal
-set $binaries /home/devlab/bin
+set $binaries $HOME/bin
 bindsym $mod+Return exec $Terminal
 floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id $Terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
+bindsym $mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
 for_window [title="fzf-menu"] floating enable move position center
 set $sup bindsym Mod4
 set $exe exec --no-startup-id
@@ -149,7 +149,7 @@ mode resize {
 }
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
 mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own" {
-	bindsym e exec "i3-msg exit" , mode default
+	bindsym e $exe $HOME/bin/push_local_config;i3-msg exit , mode default
 	bindsym s exec "systemctl suspend", mode default
 	bindsym t exec "--no-startup-id sudo -A systemctl restart NetworkManager", mode default
 	bindsym r exec "systemctl reboot" , mode default
@@ -157,14 +157,14 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
 	bindsym Return mode default
 	bindsym Escape mode default
 }
-bindsym Ctrl+0 exec $Terminal -x vim /home/devlab/.i3/config
+bindsym Ctrl+0 exec $Terminal -x vim $HOME/.i3/config
 bindsym Ctrl+1 exec firefox
 bindsym Ctrl+2 exec $Terminal -x ranger
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+F2 exec $Terminal -x alsamixer
-bindsym Print --release $exe $binaries/i3-scrot
-bindsym $mod+Shift+Print --release $exe $binaries/i3-scrot -w
-bindsym $mod+Print --release $exe $binaries/i3-scrot -s
+bindsym Print --release $exe $HOME/bin/i3-scrot
+bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
+bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 client.focused          #00FF00      #2C323E  #F5F6F7  #9800FE   #00FF00
 client.focused_inactive #181920       #181920   #F5F6F7  #FFFF00   #181920
@@ -180,7 +180,7 @@ bar {
     separator_symbol " "
     mode dock 
     font pango: Monofur 11
-    status_command SCRIPT_DIR=/home/devlab/.i3/i3blocks i3blocks -c /home/devlab/.i3/i3blocks.conf
+    status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
         background #F5F6F7
         statusline #080910
@@ -199,7 +199,7 @@ bar {
     separator_symbol " "
     mode dock 
     font pango: Monofur 11
-    status_command SCRIPT_DIR=/home/devlab/.i3/i3blocks i3blocks -c /home/devlab/.i3/i3blocks_v.conf
+    status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks_v.conf
     colors {
         background #F5F6F7
         statusline #080910
@@ -222,9 +222,9 @@ $exe numlockx on
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 $exe nm-applet --indicator
-$exe /home/devlab/.i3/autostart/i3config.sh
-$exe /home/devlab/.i3/autostart/wallpaper.sh
-$exe /home/devlab/bin/pull_config
+$exe $HOME/.i3/autostart/i3config.sh
+$exe $HOME/.i3/autostart/wallpaper.sh
+$exe $HOME/bin/pull_config
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"

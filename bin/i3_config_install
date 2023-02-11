@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-02-2023
+# Ultima_modificacao: 11-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -31,12 +31,12 @@ blue="#0066FF"
 purple="#9800FE"
 
 #Paths
-status_command="i3blocks -c $HOME/.i3/i3blocks.conf"
-status_command2="i3blocks -c $HOME/.i3/i3blocks_v.conf"
+status_command="i3blocks -c \$HOME/.i3/i3blocks.conf"
+status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_file="$HOME/.i3/config"
-cfg_dir="$HOME/.i3"
+cfg_dir="\$HOME/.i3"
 bkp_local="$HOME/.config-bkp"
-binaries="$HOME/bin"
+binaries="\$HOME/bin"
 #Apps
 terminal="xfce4-terminal"
 #font
@@ -56,12 +56,12 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     use_gaps="false"
 fi
 
-if [ -d "$cfg_dir" ]; then
+if [ -d "$HOME/.i3" ]; then
     #backup 
     mv -f "$cfg_file" "$cfg_file".backup 
     mv -f "$cfg_file".backup "$bkp_local" 
 else
-    mkdir -pv "$cfg_dir"
+    mkdir -pv "$HOME/.i3"
 fi
 
 options="# i3 config. Auto generate\n"
@@ -112,7 +112,7 @@ options="${options}default_border pixel 2\n"
 # Kill focused window.
 options="${options}bindsym \$mod+Shift+q kill\n"
 #dmenu
-options="${options}bindsym \$mod+d exec --no-startup-id \$Terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'\n"
+options="${options}bindsym \$mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'\n"
 options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
     
 # exec shortener 
@@ -302,7 +302,7 @@ options="${options}}\n"
 #exit, logout, shutdown, restart etc
 options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\"\n"
 options="${options}mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\" {\n"
-options="${options}	bindsym e exec \"i3-msg exit\" , mode default\n"
+options="${options}	bindsym e \$exe $binaries/push_local_config;i3-msg exit , mode default\n"
 options="${options}	bindsym s exec \"systemctl suspend\", mode default\n"
 options="${options}	bindsym t exec \"--no-startup-id sudo -A systemctl restart NetworkManager\", mode default\n"
 options="${options}	bindsym r exec \"systemctl reboot\" , mode default\n"
@@ -320,9 +320,9 @@ options="${options}bindsym Ctrl+1 exec firefox\n"
 options="${options}bindsym Ctrl+2 exec \$Terminal -x ranger\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
 options="${options}bindsym Ctrl+F2 exec \$Terminal -x alsamixer\n"
-options="${options}bindsym Print --release \$exe \$binaries/i3-scrot\n"
-options="${options}bindsym \$mod+Shift+Print --release \$exe \$binaries/i3-scrot -w\n"
-options="${options}bindsym \$mod+Print --release \$exe \$binaries/i3-scrot -s\n"
+options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
+options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
+options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
 options="${options}bindsym \$mod+Ctrl+x --release exec --no-startup-id xkill\n"
 if [ "$system_id" = "manjaro" ]; then
     options="${options}bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf\n"
@@ -458,7 +458,6 @@ options="${options}\$exe nm-applet --indicator\n"
 #change config for my preferences
 options="${options}\$exe $cfg_dir/autostart/i3config.sh\n"
 options="${options}\$exe $cfg_dir/autostart/wallpaper.sh\n"
-
 options="${options}\$exe $binaries/pull_config\n"
 
 #Apps autoexec on start
