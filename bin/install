@@ -13,7 +13,7 @@
 
 local=$(pwd)
 cd "$HOME" || return
-#Change for your url repository adress
+#Change for your Data
 repository="https://github.com/brnfra/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
 config_dir="$HOME"/.dotfiles
@@ -27,14 +27,6 @@ function config {
 
 function cleanbkp {
 
-    if [ -d "$bkpdir" ]
-    then
-	printf "[INFO] %s already exists.\n" "$bkpdir" 
-    else
-	mkdir -p "$bkpdir"
-	printf "[INFO] %s created.\n" "$bkpdir" 
-    fi
-    
     folders="$HOME "
     folders+="$HOME/.bash "
     folders+="$HOME/.config/nvim "
@@ -64,25 +56,29 @@ function cleanbkp {
 
 function make_env {
 
+    if [ -d "$bkpdir" ]
+    then
+	printf "[INFO] %s already exists.\n" "$bkpdir" 
+    else
+	printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
+	mkdir -p "$bkpdir"
+	printf "[INFO] %s created.\n" "$bkpdir" 
+    fi
+
     printf "[INFO] Install main(--bare). All done. \n"
-    
+
     printf "[INFO] Installing Enviroment.   \n"
     "$HOME/bin/install_enviroment" "$email" "$full_name"
     printf "\r[INFO] Install Enviroment. All done. \n"
-    
+
     printf "[INFO] Installing Fonts.\n"
     "$HOME/bin/install_fonts"
     printf "\r[INFO] Install Fonts. All done. \n"
-    
+
     printf "[INFO] Installing I3config.\n"
     "$HOME/bin/i3_config_install" "$bkpdir"
     printf "\r[INFO] Install I3config. All done. \n"
 
-    if [ -d "$bkpdir" ]; then
-	cleanbkp
-    else
-	printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
-    fi
 }
 
 
@@ -90,6 +86,7 @@ if [ -d "$config_dir" ]; then
 
     printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
     exit 1
+
 else
 
     printf "[INFO] Git clone %s(--bare)." "$branch"
@@ -110,13 +107,14 @@ else
 	config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {}  mv {} {}.backup
 	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
 	printf "[INFO] Checkout branch: Trying again after backup\n"
+	make_env
+	cleanbkp
 
 	if config checkout
 	then
 	    printf "[INFO] Checkout branch: Done.\n"
 	    config config status.showUntrackedFiles no
 	    printf "\r[INFO] Install main(--bare). All done. Exit\n"
-	    make_env
 	    cd "$local" || return
 	    exit 0
 	else
