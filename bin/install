@@ -107,7 +107,6 @@ else
 	config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {}  mv {} {}.backup
 	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
 	printf "[INFO] Checkout branch: Trying again after backup\n"
-	make_env
 	cleanbkp
 
 	if config checkout
@@ -115,6 +114,7 @@ else
 	    printf "[INFO] Checkout branch: Done.\n"
 	    config config status.showUntrackedFiles no
 	    printf "\r[INFO] Install main(--bare). All done. Exit\n"
+	    make_env
 	    cd "$local" || return
 	    exit 0
 	else
