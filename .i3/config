@@ -149,7 +149,7 @@ mode resize {
 }
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
 mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own" {
-	bindsym e $exe $HOME/bin/push_local_config;i3-msg exit , mode default
+	bindsym e exec "$HOME/bin/push_local_config;i3-msg exit" , mode default
 	bindsym s exec "systemctl suspend", mode default
 	bindsym t exec "--no-startup-id sudo -A systemctl restart NetworkManager", mode default
 	bindsym r exec "systemctl reboot" , mode default

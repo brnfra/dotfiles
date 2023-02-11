@@ -302,7 +302,7 @@ options="${options}}\n"
 #exit, logout, shutdown, restart etc
 options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\"\n"
 options="${options}mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\" {\n"
-options="${options}	bindsym e \$exe $binaries/push_local_config;i3-msg exit , mode default\n"
+options="${options}	bindsym e exec \"$binaries/push_local_config;i3-msg exit\" , mode default\n"
 options="${options}	bindsym s exec \"systemctl suspend\", mode default\n"
 options="${options}	bindsym t exec \"--no-startup-id sudo -A systemctl restart NetworkManager\", mode default\n"
 options="${options}	bindsym r exec \"systemctl reboot\" , mode default\n"
