@@ -23,5 +23,6 @@ xmonad.hi
 xmonad.op
 .config/ranger/plugins
 .config/ranger/__pycache__
-
+.config/vifm/vifm-help.txt
+.config/vifm/scripts/README
 
