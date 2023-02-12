@@ -55,6 +55,7 @@ then
 	printf "[INFO] Creating %s directory." "$nitrogen_cfg_dir"
 	mkdir -p "$nitrogen_cfg_dir"
 	printf "\r[INFO] Creating %s directory: Done\n" "$nitrogen_cfg_dir"
+	gen_nitrogen_cfg
     fi
 else
     printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
