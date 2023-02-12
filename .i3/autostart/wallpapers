@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-delay1=1200
-delay2=600
-
-wallpapers_dir="$HOME/.wallpapers"
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
-bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
-nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
 
-function gen_nitrogen_cfg() {
+ gen_nitrogen_cfg() {
+    local bgconfig
+    local nitrogen_cfg
+    local nitrogen_cfg_file
+    local bgconfig_file
+
+    nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
+    bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
 
     bgconfig="[xin_0]\n"
     bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
@@ -46,6 +47,47 @@ function gen_nitrogen_cfg() {
 
 }
 
+ render_images() {
+    local delay1
+    local delay2
+    local files1
+    local files2
+    local process_id
+    local wallpapers_dir
+    wallpapers_dir="$HOME/.wallpapers"
+    cd "$wallpapers_dir" || return
+    delay1=1200
+    delay2=600
+    files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+
+    nitrogen --restore --head=0;
+    nitrogen --restore --head=1;
+
+    #monitor1
+    while :
+    do
+	for I in $files1; do
+
+	    nitrogen --set-scaled --head=0  "$I"
+	    sleep $delay2        
+    #monitor2
+	    files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+	    for J in $files2; do
+		if [ "$I" == "$J" ]; then
+		    continue
+		else
+		    nitrogen --set-scaled --head=1  "$J"
+		    break
+		fi
+	    done
+	    sleep $delay1
+	    process_id=$!
+	    wait $process_id
+	done
+    done
+
+}
+
 if nitrogen -h
 then
     if [ -d "$nitrogen_cfg_dir" ]; then
@@ -57,36 +99,10 @@ then
 	printf "\r[INFO] Creating %s directory: Done\n" "$nitrogen_cfg_dir"
 	gen_nitrogen_cfg
     fi
+    render_images
+    exit 0
 else
     printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
+    exit 1
 fi
 
-cd "$wallpapers_dir" || return
-
-files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
-
-nitrogen --restore --head=0;
-nitrogen --restore --head=1;
-
-#monitor1
-while :
-do
-    for I in $files1; do
-
-	nitrogen --set-scaled --head=0  "$I"
-	sleep $delay2        
-	#monitor2
-	files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
-	for J in $files2; do
-	    if [ "$I" == "$J" ]; then
-		continue
-	    else
-		nitrogen --set-scaled --head=1  "$J"
-		break
-	    fi
-	done
-	sleep $delay1
-	PROCESS_ID=$!
-	wait $PROCESS_ID
-    done
-done
