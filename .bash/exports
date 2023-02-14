@@ -97,3 +97,5 @@ VERSION=v16.14.0
 DISTRO=linux-x64
 export NODE="$OPT/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
+
+export PATH=$PATH:$HOME/.local/bin

@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 05-02-2023
+" Ultima_modificacao: 14-02-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -191,7 +191,6 @@ Plug 'vim-scripts/c.vim'
 Plug 'mzlogin/vim-markdown-toc'
 ""let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'brnfra/vim-shortcuts'
-Plug 'brnfra/vim-markdown-brn'
 ""unlet g:plug_url_format
 call plug#end()
 "-------------------------------------------------------
@@ -666,8 +665,8 @@ au BufRead,BufNewFile .rspec set filetype=eruby
 au BufRead,BufNewFile *.workflow set filetype=hcl
 au BufRead,BufNewFile *.acl set filetype=vcl
 au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
-au BufRead,BufNewFile md set filetype=markdown
-au BufRead,BufNewFile txt set filetype=markdown
+au BufRead,BufNewFile *.markdown,*.mdown,*.mkd,*.mkdn,*.md set filetype=markdown
+au BufRead,BufNewFile txt set filetype=text
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
 au BufRead,BufNewFile 'ASCII text' set filetype=bash
