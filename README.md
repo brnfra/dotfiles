@@ -1,4 +1,4 @@
-<h1 align="center">My dotfiles Repository 🐧</h1>
+<h1 align="center">Dotfiles Repository 🐧</h1>
 
 <p align="center">
 <img src="https://img.shields.io/badge/bash-script-brightgreen" />
@@ -9,6 +9,7 @@
 <img src="https://img.shields.io/badge/platform-linux--64-lightgrey" />
 <img src="https://img.shields.io/github/last-commit/brnfra/dotfiles" />
 </p>
+
 <br>
 
 _This code was provided by_ ;
@@ -48,11 +49,10 @@ This configuration works with **i3-wm** and **i3status**.
 
 ## TODO
 
-- [x] Auto update script from repository
-- [x] Branches for each computers
-- [x] Remove unecessary scripts for mingw32
-- [x] Fix audio/mic control for notebook-cfg in i3block config
-- [ ] Tested and refactoring
+- [ ] Fix audio/mic control for Ubuntu in i3block config
+- [ ] Create test_config branch
+- [ ] Make scripts to generate configs(i3, i3blocks, etc)
+- [ ] Test and refactoring
 
 <br>
 
@@ -69,9 +69,9 @@ Install config tracking in your **$HOME** following the comand;
 
 1. Fork this repository.
 
-2. Edit ```install```  file REPO URL and   ```install_enviroment```, in  ```dotfiles/bin/```   to put your URL,username and email.
+2. Edit ```/bin/install``` file to put your repository url, branch name, email and name.
 
-3. Update your remote forked repository  and execute script bellow ( **check your username** ).
+3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
 
 
 >If Desktop/Virtual/Notebooks, copy/paste in terminal;
@@ -91,24 +91,13 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 
 <br>
 
-The script ```~/bin/install_enviroment``` has my username and email. Configure your locals definitions. Type and go. 
+Check the script ```/bin/install_enviroment``` get username and email from ```/bin/install```. Configure your definitions **before** run it.
 *Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
-Attention on ssh-key problems, just in case, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
+Attention on ssh-key problems, just in case, check your email and user, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
 
 - [**Optional**] If you'll create enviroment to Java, Spring and React the script ___java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add the **PATH** to **.bash_exports**.
 In the ``` ~/bin```  folder there are scripts for each case.
-
-## Pull state from remote to local config
-
-After install, if remote has changed configuration and you want pull it, *How can I update local for this change?*
-- You can pull to your local repository run the script below. 
-
-In the folder ```~/bin``` there is a script named ```pull-config``` such make a "**pull request**" like a normal git repo. Just run;
-```
-$ bash ~/bin/pull-config
-```
-Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
 
 ## Update remote state from local to remote 
 
@@ -120,16 +109,38 @@ If I change configuration and like it, *How can I update for this change?*
 3. Make the changes and push to remote repo in correspondent branch. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
-In the folder ```~/bin``` there is a script named ```stage-local-config``` gonna make copy my edited config files to
-**dotfiles** folder. Now check the status and if it's fine proceed to push changes, just run;
+Run ```$ push_local_config "COMMIT MESSAGE" ``` gonna make copy my edited config files to
+**dotfiles** folder created in ```enviroment script``` and push to your remote repository[auto].
+
+Run ```$ stage-local-config``` gonna only make copy, without push, the edited config files to
+**dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes.
+
 ```
-$ git push origin [main/mingw32-w8/notebook-cfg]
+$ git push origin [main/mingw32-w8]
 ```
 Now, Git gonna **update snapshot** from local to remote.
 
+## Pull state from remote to local config
+
+After install, if remote has changed you can pull config to sync local, *How can I sync local for this change?*
+- You can pull to your local repository run the script below. 
+
+In the folder ```~/bin``` there is a script named ```pull_config``` such make a "**pull request**" like a normal git repo. Just run;
+
+```
+$ bash ~/bin/pull_config 
+
+or
+
+$ pull_config
+```
+
+Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
+
+
 ## Dependencies
 
-Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs** in files.
+Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**, in files.
 
 - i3blocks
 - nm-applet(tool to show network icon)
@@ -144,18 +155,14 @@ Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make change
 Some functions require some aplications and packages like xorg,fzf,fdfind for example.
 If you want full functions here will required, for some functions, the previous installation of some packages like;
 
-
 - I3wm
 - I3blocks 
-- i3status
 - Compton
 - Vim
 - NeoVim
 - Vifm
-- Rofi
 - Xfce4-terminal
 - fzf
-- tmux 
 
 ## Problems
 
