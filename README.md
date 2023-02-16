@@ -32,7 +32,7 @@ Thank you guys for sharing :heart:
 ### Main config
 
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
-2. Pls check ```~/.i3/autostart/i3config.sh``` . There's change in keyboard layout and resolution.
+2. Pls check ```~/.i3/autostart/i3config``` . There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
 <img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
@@ -44,7 +44,7 @@ Thank you guys for sharing :heart:
 3. Remove .config/ folder and some configurations.
 4. The keyboard layout is **PT-BR,ABNT**.
 
-**ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**)**
+**ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**
 This configuration works with **i3-wm** and **i3status**.  
 
 ## TODO
@@ -128,11 +128,11 @@ After install, if remote has changed you can pull config to sync local, *How can
 In the folder ```~/bin``` there is a script named ```pull_config``` such make a "**pull request**" like a normal git repo. Just run;
 
 ```
-$ bash ~/bin/pull_config 
+$ pull_config
 
 or
 
-$ pull_config
+$ bash ~/bin/pull_config 
 ```
 
 Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
