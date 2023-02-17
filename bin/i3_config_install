@@ -36,6 +36,7 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_file="$HOME/.i3/config"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
+bkpdir="$HOME/.config-bkp"
 #Apps
 terminal="xfce4-terminal"
 #font
@@ -57,7 +58,7 @@ fi
 if [ -d "$HOME/.i3" ]; then
     #backup 
     mv -f "$cfg_file" "$cfg_file".backup 
-    mv -f "$cfg_file".backup "$1" 
+    mv -f "$cfg_file".backup "${1:-$bkpdir}" 
 else
     mkdir -pv "$HOME/.i3"
 fi
@@ -465,7 +466,6 @@ options="${options}\$exe blueman-applet\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
 options="${options}\$exe diodon\n"
-options="${options}\$exe package-update-indicator\n"
 
 elif [ "$system_id" = "manjaro" ]; then
 options="${options}\$exe --no-startup-id clipit\n"
