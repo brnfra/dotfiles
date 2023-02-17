@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Copyright (C) 2012 Stefan Breunig <stefan+measure-net-speed@mathphys.fsk.uni-heidelberg.de>
 # Copyright (C) 2014 kaueraal
 # Copyright (C) 2015 Thiago Perrotta <perrotta dot thiago at poli dot ufrj dot br>
@@ -15,6 +15,19 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# $ fc-list command to list fonts
+font_face='"monofurNF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
+color='"#2666A1"'
+font_params="<span font=$font_face"
+font_params+=" color=$color "
+font_params+=" size=$font_size >"
+
+
+font_params_close="</span>"
+
 
 # Use the provided interface, otherwise the device used for the default route.
 if [[ -n $BLOCK_INSTANCE ]]; then
@@ -72,15 +85,23 @@ tx_rate=$(( $tx_diff / $time_diff ))
 # incoming
 rx_kib=$(( $rx_rate >> 10 ))
 if [[ "$rx_rate" -gt 1048576 ]]; then
-    printf "<span font='monofur NF' color='#2666A1' size='large'>↓%sM </span>" "$(echo "scale=2; $rx_kib / 1024" | bc)"
+   # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sM </span>" "$(echo "scale=2; $rx_kib / 1024" | bc)"
+
+    rx_band="$(echo "scale=2; $rx_kib / 1024" | bc)" 
+    printf "%s ↓%sM %s" "$font_params" "$rx_band" "$font_params_close"
 else
-    printf "<span font='monofur NF' color='#2666A1' size='large'>↓%sK </span>" "${rx_kib}"
+   # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sK </span>" "${rx_kib}"
+    rx_band="${rx_kib}" 
+    printf "%s ↓%sK %s" "$font_params" "$rx_band" "$font_params_close"
 fi
 
 # outgoing
 tx_kib=$(( $tx_rate >> 10 ))
 if [[ "$tx_rate" -gt 1048576 ]]; then
-    printf "<span font='monofur NF' color='#2666A1' size='large'>↑%sM</span>" "$(echo "scale=2; $tx_kib / 1024" | bc)"
+
+    tx_band="$(echo "scale=2; $tx_kib / 1024" | bc)"
+    printf "%s ↑%sM %s" "$font_params" "$tx_band" "$font_params_close" 
 else
-    printf "<span font='monofur NF' color='#2666A1' size='large'>↑%sK</span>" "${tx_kib}"
+    tx_band="${tx_kib}"
+    printf "%s ↑%sK %s" "$font_params" "$tx_band" "$font_params_close"
 fi

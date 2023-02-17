@@ -2,7 +2,7 @@
 
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-02-2023
+# Ultima_modificacao: 17-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -39,7 +39,7 @@ binaries="\$HOME/bin"
 #Apps
 terminal="xfce4-terminal"
 #font
-font="Monofur 12"
+font="Monofur 10"
 #mod Mod1 or Mod4
 mod_button="Mod4"
 # Initializing the variable. 0 = true
@@ -347,7 +347,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 11\n"
+    options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"
@@ -369,7 +369,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 11\n"
+    options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"
@@ -393,7 +393,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 11\n"
+    options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"
@@ -415,7 +415,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 11\n"
+    options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
     options="${options}        background $white\n"

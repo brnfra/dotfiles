@@ -84,9 +84,9 @@ my $fg_color = $indicator_status ? $color_on : $color_off;
 my $bg_color = $indicator_status ? $bg_color_on : $bg_color_off;
 
 if (defined $bg_color) {
-    printf "<span color='%s' bgcolor='%s'>%s</span>\n", $fg_color, $bg_color, $indicator;
+    printf "<span font='monofurNF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>%s</span>\n", $fg_color, $bg_color, $indicator;
 } else {
-    printf "<span color='%s'>%s</span>\n", $fg_color, $indicator;
+    printf "<span font='monofurNF' size='medium' font-weight='bold' color='%s'>%s</span>\n", $fg_color, $indicator;
 }
 
 exit 0

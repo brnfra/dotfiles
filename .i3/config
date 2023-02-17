@@ -1,7 +1,7 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config_install
 set $mod Mod4
-font pango:Monofur 12
+font pango:Monofur 10
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
 set $ico_chat     <span font='Font Awesome'>&#xf27b;</span>
 set $ico_chrome   <span font='Font Awesome'>&#xf268;</span>
@@ -179,7 +179,7 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur 11
+    font pango: Monofur 10
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
         background #F5F6F7
@@ -198,7 +198,7 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur 11
+    font pango: Monofur 10
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks_v.conf
     colors {
         background #F5F6F7

@@ -13,6 +13,22 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# $ fc-list command to list fonts
+font_face='"monofurNF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
+color='"#2666A1"'
+color_alert='#FF0000'
+
+font_params="<span font=$font_face"
+font_params+=" color=$color "
+font_params+=" size=$font_size >"
+
+font_alert_params="<span font=$font_face"
+font_alert_params+=" color=$color_alert "
+font_alert_params+=" size=$font_size >"
+
+font_params_close="</span>"
 
 DIR="${BLOCK_INSTANCE:-$HOME}"
 ALERT_LOW="${1:-10}" # color will turn red under this value (default: 10%)
@@ -64,8 +80,8 @@ out_to_int=${output//\%/)}
 
 if [[ $out_to_int > $ALERT_HIGH  ]]
 then
-    echo "<span font='monofur NF' size='medium' color='#FF0000'>&#xf233;  $output$BLOCK_INSTANCE</span>"
+    printf "%s&#xf233; %s%%s" "$font_alert_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
 else
-    echo "<span font='monofur NF' size='medium' >&#xf233;  $output$BLOCK_INSTANCE</span>"
+    printf "%s&#xf233; %s%s%s"  "$font_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
 fi
 

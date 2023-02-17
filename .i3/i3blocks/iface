@@ -14,8 +14,30 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+color_ok="'green'"
+color_fail="'red'"
+
+# $ fc-list command to list fonts
+font_face='"monofurNF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
 
 #------------------------------------------------------------------------
+font_params_ok="<span font=$font_face"
+font_params_ok+=" color=$color_ok "
+font_params_ok+=" size=$font_size ><b>"
+
+font_params_fail="<span font=$font_face"
+font_params_fail+=" color=$color_fail "
+font_params_fail+=" size=$font_size ><b>"
+
+font_params_close="</b></span>"
+
+site1="https://www.google.com"
+site2="https://www.bing.com"
+resp1=$(curl -I -s "$site1"  | awk '/HTTP/ { print $2 }')
+resp2=$(curl -I -s "$site2"  | awk '/HTTP/ { print $2 }')
+
 
 # Use the provided interface, otherwise the device used for the default route.
 if [[ -n $BLOCK_INSTANCE ]]; then
@@ -57,11 +79,10 @@ esac
 
 #------------------------------------------------------------------------
 
-wget -q --tries=10 --timeout=20 --spider http://google.com
 
-if [[ $? -eq 0 ]]
+if [ "${resp1}" = 200 ] || [ "${resp2}" = 200 ]
 then
-    echo "<span font='monofur NF' color='#00BB00'><i><b>$IPADDR </b></i></span>"
+    printf "%s%s%s" "$font_params_ok" "<i>$IPADDR</i>" "$font_params_close"
 else
-    echo "<span font='monofur NF' color='#FF0000'><b>$IPADDR </b></span>"
+    printf "%s%s%s" "$font_params_fail" "$IPADDR" "$font_params_close"
 fi
