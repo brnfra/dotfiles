@@ -150,9 +150,9 @@ elif [ "$osys" = "manjaro" ]; then
   # Apps exec {{{
   alias anki="cd ~/ && setsid ./Anki &>/dev/null"
   alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
-  alias android="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+  alias android="cd ~/ && setsid ./android-studio &>/dev/null"
   alias studio="setsid studio.sh &>/dev/null"
-  alias ANDROID="cd ~/ && setsid ./AndroidStudio &>/dev/null"
+  alias ANDROID="cd ~/ && setsid ./android-studio &>/dev/null"
   alias foxit="cd ~/ && setsid ./Foxit &>/dev/null"
   alias FOXIT="cd ~/ && setsid ./Foxit &>/dev/null"
   alias eclipse="cd ~/ && setsid ./eclipse_ide &>/dev/null"
