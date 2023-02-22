@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 17-02-2023
+# Ultima_modificacao: 22-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -49,7 +49,7 @@ fi
 if [[ 5 -ge bat_percent_int ]]
 then
     btry_icon="<span "
-    btry_icon+="$font_face "
+    btry_icon+="font=$font_face "
     btry_icon+="color='red' "
     btry_icon+="size=$font_size > "
     btry_icon+='&#xf244; '
@@ -60,7 +60,7 @@ fi
 if [[ 35 -ge bat_percent_int ]]
 then
     btry_icon="<span "
-    btry_icon+="$font_face "
+    btry_icon+="font=$font_face "
     btry_icon+="color='orange' "
     btry_icon+="size=$font_size > "
     btry_icon+='&#xf243; '
