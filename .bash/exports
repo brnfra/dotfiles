@@ -48,7 +48,7 @@ export MANPAGER='less -X --save-marks --mouse --wheel-lines=6';
 # export GPG_TTY=$(tty);
 
 # Custom installations
-OPT="$HOME/.local/opt/"
+OPT="$HOME/.local/opt"
 
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/gems"
@@ -112,3 +112,6 @@ export NODE="$OPT/node-$VERSION-$DISTRO"
 export PATH=$NODE/bin:$PATH
 
 export PATH=$PATH:$HOME/.local/bin
+export TOOLBOX="$OPT/JetBrains/Toolbox"
+export PATH=$TOOLBOX/scripts:$PATH
+
