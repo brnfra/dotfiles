@@ -25,4 +25,5 @@ xmonad.op
 .config/ranger/__pycache__
 .config/vifm/vifm-help.txt
 .config/vifm/scripts/README
-
+.tests/
+.examples/
