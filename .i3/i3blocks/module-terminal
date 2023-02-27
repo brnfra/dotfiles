@@ -9,7 +9,5 @@ case "$BLOCK_BUTTON" in
           kill $ISOPEN
       fi
     ;;
-    
-            
 esac
 echo "<span font='Font Awesome'>[]</span>"

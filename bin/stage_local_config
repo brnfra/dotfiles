@@ -6,13 +6,11 @@
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-
 local=$(pwd)
 bkpdir="$HOME/.config-bkp"
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
-
 #function for backup
 sync_copy ()
 {
@@ -51,7 +49,6 @@ sync_copy ()
     # test
     files+='tests/ '
     files+='tests/bin/ '
-
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
 	newDir=$copyTo/$file
@@ -60,7 +57,6 @@ sync_copy ()
 	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
     done
 }
-
 #check folders
 if [ -d "$copyTo" ] && [ -d "$bkpdir" ];then
     cd "$copyTo" || return
@@ -71,8 +67,6 @@ else
     printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$bkpdir" &>> $bkpLog 
     exit 1
 fi
-
 cd "$local" || return
-
 printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> $bkpLog
 printf "[INFO] If error occured check backup log: %s ; All Done!.\n" "$bkpLog"

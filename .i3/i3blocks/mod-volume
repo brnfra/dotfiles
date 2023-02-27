@@ -7,15 +7,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 # The second parameter overrides the mixer selection
 # For PulseAudio users, use "pulse"
 # For Jack/Jack2 users, use "jackplug"
@@ -25,7 +22,6 @@ MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
 [ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
 MIXER="${2:-$MIXER}"
-
 # The instance option sets the control to report and configure
 # This defaults to the first control of your selected mixer
 # For a list of the available, use `amixer -D $Your_Mixer scontrols`
@@ -33,10 +29,8 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
     head -n1
     )}"
-
 #debian ubuntu manjaro etc
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
 #------------------------------------------------------------------------
 # The first parameter sets the step to change the volume by (and units to display)
 # This may be in in % or dB (eg. 5% or 3dB)
@@ -46,7 +40,6 @@ STEP="${1:-5%}"
 pa_sink="$(pactl list short sinks | grep "RUNNING" |  awk '{print $1}' | sed '1q; s/\s//g')"
 pa_adpt="$(pactl list short sinks | grep "RUNNING" |  awk '{print $2}')"
 #pa_sink="${pa_sink:0:1}"
-
 pa-volume() {
 #out
 pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
@@ -57,24 +50,19 @@ then
     pactl set-sink-volume "$pa_sink" 95%
 fi
 }
-
 pa-mute() {
 #is mute?
 pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
 }
-
 #}}}
 #------------------------------------------------------------------------
-
 capability() { # Return "Capture" if the device is a capture device
     amixer -D $MIXER get $SCONTROL |
 	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
     }
-
 volume() {
     amixer -D $MIXER get $SCONTROL $(capability)
 }
-
 format() {
     perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
     perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
@@ -83,7 +71,6 @@ format() {
     perl_filter+='"; exit}'
     perl -ne "$perl_filter"
 }
-
 #------------------------------------------------------------------------
 if [ "$osys" = "ubuntu" ]
 then
@@ -92,7 +79,6 @@ then
 	4) pactl set-sink-volume $pa_sink  +${STEP}  ;; # scroll up, increase
 	5) pactl set-sink-volume $pa_sink  -${STEP}  ;; # scroll down, decrease
     esac
-
 else
     case $BLOCK_BUTTON in
 	3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
@@ -101,7 +87,6 @@ else
     esac
 fi
 #------------------------------------------------------------------------
-
 if [ "$osys" = "ubuntu" ]
 then
     pam="$(pa-mute)"
@@ -115,7 +100,6 @@ else
     nv="${pv::-1}"
     res="MUTE"
 fi
-
 if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
     icon="<span font='monofur NF'  color='#BF616A' size='medium' >&#xf026; </span>"
     echo "$icon "
@@ -143,7 +127,6 @@ else
 	fi #75-99
     fi #99-100
 fi #mute 
-
 if [ "$osys" = "ubuntu" ]
 then
     printf "%s %s" "$icon" "$pav"

@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 14-02-2023
+" Ultima_modificacao: 26-02-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -32,11 +32,9 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl --insecure -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 "------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
-
 set undofile " Persistent Undoo
 if !has('nvim')
     set viminfo=<500,:100,/50,%,'50,h,f0,s512
@@ -44,7 +42,6 @@ if !has('nvim')
 else
     set viminfo+=n~/.vim/.shada
 endif
-
 set termguicolors
 set mouse=a " Enable mouse in all modes
 set cursorcolumn
@@ -71,7 +68,6 @@ set autoread
 set autowrite       " write buffers automagically when leaving them
 ""set vb              " set visual bell --
 setlocal wildmode=full
-
 "Word completion
 set dictionary+=~/.vim/c_src/tags
 set dictionary+=~/.vim/cpp_src/8/tags
@@ -105,10 +101,8 @@ set foldmethod=marker
 set foldenable " Enable folding
 set foldlevel=0 " Close all folds by default
 set foldnestmax=10
-
 set termencoding=utf-8
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
-
 " By default, without wrapping
 set nowrap
 set title
@@ -122,22 +116,18 @@ set ch=2              " Make command line two lines high
 set backspace=2       " Allow backspacing over indent, eol, and the start of an insert
 set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines from the top and 8" lines from the bottom
 set wildmenu          " Make the command-line completion better
-
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
-
 set hlsearch          " Enable search highlighting
 set incsearch         " Incrementally match the search
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
-
 " --- sane text files -------   Encoding ----"
 set encoding=utf-8
 set ttyfast
 if !has('nvim')
     set ttymouse=xterm2
 endif
-
 "------------------------------------End Global stuffs}}}
 "     BEGIN PLUGINS INSTALL  {{{
 "--------------------------------------------------------
@@ -146,7 +136,6 @@ filetype on                    "Vundle required if installed
 filetype indent on
 filetype plugin on
 filetype plugin indent on
-
 call plug#begin('~/.vim/bundle')
 Plug 'junegunn/fzf', { 'dir': '~/.vim/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-easy-align'
@@ -156,7 +145,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -165,7 +153,6 @@ else
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
 " Code Snnipets"
 if has('nvim')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -212,7 +199,6 @@ if has("nvim")
 		\ <SID>check_back_space() ? "\<TAB>" :
 		\ coc#refresh()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
     function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
@@ -238,7 +224,6 @@ if has("nvim")
     nmap <silent> gr <Plug>(coc-references)
     " Use M to show documentation in preview window.
     nnoremap <silent> M :call <SID>show_documentation()<CR>
-
     function! s:show_documentation()
 	if (index(['vim','help'], &filetype) >= 0)
 	    execute 'h '.expand('<cword>')
@@ -255,7 +240,6 @@ if has("nvim")
     " Formatting selected code.
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
-
     augroup mygroup
 	autocmd!
 	" Setup formatexpr specified filetype(s).
@@ -263,7 +247,6 @@ if has("nvim")
 	" Update signature help on jump placeholder.
 	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
-
     " Applying codeAction to the selected region.
     xmap <leader>a  <Plug>(coc-codeaction-selected)
     nmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -281,7 +264,6 @@ if has("nvim")
     omap ic <Plug>(coc-classobj-i)
     xmap ac <Plug>(coc-classobj-a)
     omap ac <Plug>(coc-classobj-a)
-
     " Remap <C-f> and <C-b> for scroll float windows/popups.
     if has('nvim-0.4.0') || has('patch-8.2.0750')
 	nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -291,7 +273,6 @@ if has("nvim")
 	vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 	vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
     endif
-
     " Use CTRL-S for selections ranges.
     " Requires 'textDocument/selectionRange' support of language server.
     nmap <silent> <C-s> <Plug>(coc-range-select)
@@ -361,12 +342,10 @@ endif
 "z  -   z+[direction] move screen on nerdtree
 "x  -   close tree root
 "m  -   menu
-
 if !has('nvim')
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
 endif
-
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
@@ -409,11 +388,9 @@ let g:airline_inactive_alt_sep=1
 let g:airline_detect_paste=1
 let g:airline_detect_crypt=1
 let g:airline_detect_spell=1
-
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-
 let g:airline_mode_map = {
 	    \ '__'     : '-',
 	    \ 'c'      : 'COMMAND',
@@ -435,7 +412,6 @@ let g:airline_mode_map = {
 	    \ '/'      : 'SEARCH',
 	    \ '^V'     : 'VISUAL BLOCK',
 	    \  }
-
 let g:airline_filetype_overrides = {
 	    \ 'coc-explorer':  [ 'CoC Explorer', '' ],
 	    \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
@@ -449,7 +425,6 @@ let g:airline_filetype_overrides = {
 	    \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
 	    \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
 	    \ }
-
 ""* enable/disable ale integration >
 let airline#extensions#ale#error_symbol = 'E:'
 let airline#extensions#ale#warning_symbol = 'W:'
@@ -458,8 +433,6 @@ let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
 let g:airline#extensions#keymap#enabled=1
 let g:airline#extensions#bookmark#enabled=1
-
-
 "powerline"
 let g:airline#extensions#tabline#right_sep  =	"\u2591\u2592\u2593"
 let g:airline#extensions#tabline#left_sep   =	"\u2593\u2592\u2591"
@@ -469,21 +442,18 @@ let g:airline_right_alt_sep =			"\u2591\u2592\u2593"
 let g:airline_left_alt_sep  =			"\u2593\u2592\u2591"
 let g:airline_left_sep	=			"\u2593\u2592\u2591"
 let g:airline_right_sep	=			"\u2593\u2592\u2591"
-
 let g:airline_symbols.branch = ''
 let g:airline_symbols.colnr = ' ℅:'
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ' :'
 let g:airline_symbols.maxlinenr = '☰ '
 let g:airline_symbols.dirty='⚡'
-
 "check :help statusline or airline
 let g:airline_section_c='%r%m%t %-0.50{CurDir()}'
 let g:airline_section_x='%y'
 let g:airline_section_z='%p%% %l Col:%c'
 let g:airline_section_error=''
 let g:airline_section_warning=''
-
 "+-------------------------------------------------------+
 "| Set advanced status line				 |
 "+-------------------------------------------------------+
@@ -494,32 +464,23 @@ fun! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir
 endfun
-
 "------------------------------------END VIM-AIRLINE }}}2
-
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
 set background=dark
-
 if (has('win32') || has('win64'))
     "let g:solarized_termcolors=256
 endif
-
-
 if has('unix')
     colorscheme molokai
 else
     silent!colorscheme base16-ateliercave
 endif
-
 " Terminals that support italics
 let s:terms_italic=[
 	    \"rxvt",
 	    \"gnome-terminal"
 	    \]
-
-
-
 ""---------------------------------END COLORSCHEME }}}2
 "                 ALE.VIM  {{{2
 "-------------------------------------------------------
@@ -527,7 +488,6 @@ set omnifunc=ale#completion#OmniFunc
 let g:ale_completion_enabled = 1
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_completion_autoimport = 1
-
 "-----------------------------------END ALE.VIM}}}2
 "             DEOPLETE{{{
 let g:python3_host_prog = "/usr/bin/python3.9"
@@ -596,7 +556,6 @@ let g:tagbar_type_markdown = {
 "               END PLUGINS CONFIG"}}}1
 "                  AUTOCMD RULES {{{
 "-------------------------------------------------------
-
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
     autocmd!
@@ -726,7 +685,6 @@ noremap <C-q> :q<cr>
 noremap <C-Q> :q!<cr>
 noremap <C-s> :wall<cr>:mkview<cr>
 inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
-
 "--------------------------------------------------------
 ""                 Abbreviations
 "--------------------------------------------------------
@@ -738,7 +696,6 @@ noremap =v :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
 noremap =V :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
 noremap <leader>v :e ~/.vimrc<CR>  " para editar o .vimrc
 noremap <leader>V :e ~/.vimrc<CR>  " para editar o .vimrc
-
 "" this shortcuts will make improve type errors
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -750,7 +707,6 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-
 "---------------------------------------------
 "           copy to system buffer
 "---------------------------------------------
@@ -776,15 +732,12 @@ inoremap <F5> <esc>:set wrap! wrap?<CR>li
 set pastetoggle=<F6>
 noremap <F7> :call ToggleFold()<cr>
 inoremap <F7> <esc>:call ToggleFold()<cr>i
-
 noremap <F8> :call OneLineAllText()<cr>v$
 inoremap <F8> <esc>:call OneLineAllText()<cr>v$
-
 "fold selected
 noremap <leader>f :call ToggleCreateFold()<cr>
 vnoremap <leader>f :call ToggleCreateFold()<cr>
 inoremap <leader>f <esc>:call ToggleCreateFold()<cr>i
- 
 " Move lines: Shift+(seta abaixo) ou (seta acima)
 " Move Block down"
 vnoremap <S-down> VdjP`[v`]
@@ -807,7 +760,6 @@ nnoremap <silent> vi` ?`<CR><space>v/`<CR><BS>
 nnoremap <silent> va" ?"<CR>v/"<CR>
 nnoremap <silent> va' ?'<CR>v/'<CR>
 nnoremap <silent> va` ?`<CR>v/`<CR>
-
 " Delete
 nnoremap <silent> di" ?"<CR><space>v/"<CR><BS>d
 nnoremap <silent> di' ?'<CR><space>v/'<CR><BS>d
@@ -815,7 +767,6 @@ nnoremap <silent> di` ?`<CR><space>v/`<CR><BS>d
 nnoremap <silent> da" ?"<CR>v/"<CR>d
 nnoremap <silent> da' ?'<CR>v/'<CR>d
 nnoremap <silent> da` ?`<CR>v/`<CR>d
-
 " Change
 nnoremap <silent> ci" ?"<CR><space>v/"<CR><BS>c
 nnoremap <silent> ci' ?'<CR><space>v/'<CR><BS>c
@@ -823,7 +774,6 @@ nnoremap <silent> ci` ?`<CR><space>v/`<CR><BS>c
 nnoremap <silent> ca" ?"<CR>v/"<CR>c
 nnoremap <silent> ca' ?'<CR>v/'<CR>c
 nnoremap <silent> ca` ?`<CR>v/`<CR>c
-
 "redo"
 nnoremap U :redo<cr>
 "select ALL"
@@ -854,7 +804,6 @@ nnoremap <leader>s bcw""<esc>P
 inoremap <leader>s <esc>bcw""<esc>Pi
 nnoremap <leader>S bcw''<esc>P
 inoremap <leader>S <esc>bcw''<esc>Pi
-
 let s:hidden_all = 1 "by @LukeSmithxyz"
 function ToggleHidden()
     if s:hidden_all == 0
@@ -894,58 +843,44 @@ endfunction
 function OneLineAllText()
     :%j
 endfunction    
-
-
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
 inoremap <S-down> <esc>ddp<esc>i
 nnoremap <S-down> <esc>ddp<esc>
 inoremap <S-up> <esc>ddkP<esc>i
 nnoremap <S-up> <esc>ddkP<esc>
-
 " terminal emulation
 nnoremap <silent> <leader>l :terminal<CR>
-
 " split window"
 nnoremap <leader>/ :split<cr>
 nnoremap <leader>- :vsplit<cr>
-
 "" Switching windows buffer(NerdTree)
 nnoremap <C-down> <C-W>j    "v
 nnoremap <C-up> <C-W>k   "^
 nnoremap <C-left> <C-W>h    "<
 nnoremap <C-right> <C-W>l    ">
-
 ""nnoremap <S-up> <C-w>w
 nnoremap <C-+> <C-W>+
 nnoremap <C--> <C-W>-
-
 "" Tabs
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
 nnoremap <S-t> :tabnew<CR>
-
 "-------------------------------------------------------
 "" Custom configs
 "-------------------------------------------------------
-
 " c
 autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
 autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
-
 " javascript
 let g:javascript_enable_domhtmlcss = 1
-
 " vim-javascript
 augroup vimrc-javascript
     autocmd!
     autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
 augroup END
-
 " for error highlight
 highlight clear SpellBad
 highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
@@ -955,5 +890,4 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
 "--------------------------------------------------------END MAPS  

@@ -1,26 +1,20 @@
 #!/usr/bin/env bash
 #script to check if exist upgrades avaliable
-
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     check="$(expr $(apt list --upgradeable | wc -l) - 1)"
     color="'orange'"
 else
     exit
 fi
-
 # $ fc-list command to list fonts
 font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
-
 font_params="<span font=$font_face"
 font_params+=" color=$color "
 font_params+=" size=$font_size ><b>"
-
 font_params_close="</b></span>"
-
 if [ "$check" -lt 1 ]; then
     exit
 else

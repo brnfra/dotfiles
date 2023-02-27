@@ -1,68 +1,50 @@
 #!/usr/bin/env bash
-
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-01-2023
+# Ultima_modificacao: 26-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #change names for standard. Ex.: 's p c' => s_p_c; and so on...
 #The changes is restrict on the folder where the script was executed
-
 #first, make some general changes, just in case(remove spaces)
 function first_check() {    #{{{ 
-
     LOCAL=$(pwd)
     FILE=$1
     #	${variable//search/replace}	
     OLD=${FILE//$LOCAL\//}
     NAME=${FILE//$LOCAL\//}
-
-    #OLD=$(echo "$FILE" | sed  "s|$LOCAL/||g")
-    #NAME=$(echo "$FILE" | sed "s|$LOCAL/||g")
     NAME=${NAME// /_}
     NAME=${NAME//'$'/_}
     NAME=$(echo "$NAME" | sed -r 's/(\s)+/_/gi')
     NAME=$(echo "$NAME" | tr '\n\r\a\b\f\v\t' '_' | sed -r 's/_$//gi')
     # coding to ascII remove latin chars
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
-
     if [[ "$NAME" != "$OLD" ]]
     then
 	mv -n "$OLD" "$NAME" &>/dev/null
-
     fi
-
 }
 #}}}
-
 function rename_file() {			#{{{
-
     FILE=$1
     OLD=$FILE
     NAME=${FILE// /_}
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
     if [[ $NAME == *"."* ]]; then 
 	#{{{
-	#remove os pontos dos nomes dos arquivos
 	#palavra da extensao ou apos simbolo .
 	EXT=${NAME##*'.'}
 	#palavra antes do ultimo ponto ou antes do simbolo .
 	NAME=${NAME%.*}
 	NAME=${NAME//[\\+]/}
-
-	# sed command recursive ; is the delimiter
 	NAME=$(echo "$NAME" | sed -r '	s/[^A-Za-z0-9_.]/_/gi; s/\s/_/g; s/_+/_/gi; s/^_//gi; s/_$//gi')
-#	s/\./_/gi;
 	if [[ $NAME == "" ]]; then 
 	      NAME="new_renamed_file"
 	fi
-
 	EXT=$(echo "$EXT" | sed -r 's/\W/_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
-	  #output file name  
 	NAME=$NAME.$EXT
-
 	  #}}} 
     else   
 	  #{{{
@@ -73,88 +55,57 @@ function rename_file() {			#{{{
 	fi
 		  #}}}
     fi
-
     if [[ "$NAME" != "$OLD" ]]
     then
-
 	mv -n "$OLD" "$NAME" &>/dev/null
-
     fi
 }
 #}}}
-
 function rename_folder() {   #{{{
-
     FOLDER=$1
-
-	#receive step by step the names  
     OLD=$FOLDER 
     NAME=$FOLDER
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
-	#in case the character has been special chenge for blank otherwise write 
     NAME=${FOLDER//[^a-z|A-Z|0-9|('/')|('_')]/}
     NAME=${NAME//[\\+]/}
     NAME=${NAME//'$'/}
-
 	#in case the first has been _ sbst ""
     NAME=${NAME/#_/} 
-
-	#remove os pontos e _ em excesso dos nomes dos arquivos
     NAME=$(echo "$NAME" | sed -r 's/\W/_/gi; s/\./_/gi; s/\s/_/g; s/_+/_/gi; s/^_//; s/_$//gi')
-
     if [[ "$NAME" != "$OLD" ]]
     then
         if [[ "$NAME" == "/" ]]
         then
 	    echo "Folder's name is empty"
-
 	else
 	    mv -n "$OLD" "$NAME" &>/dev/null
-	
 	fi
-
-   
-
     fi
 }
 #}}}
-
 function show_result() { #{{{
-
     printf "\n%s\n\n" "Local names after rename." 
     ALL_AFTER=$(find . -maxdepth 1  | sed 's|\.\/||gi' | sed '1d'| sort)
-
     all_after=( $ALL_AFTER )
     all_before=( $ALL_BEFORE )
     lenght=${#all_before[@]}
-
     for(( i=0; i < lenght; i++))
     do
 	printf "\t%s%-20s%s%10s%-20s\n" "[" "${all_before[$i]}" "]" " ----> " " [${all_after[$i]}]"
-
     done
     echo
 }
 #}}}
-
-#ALL_BEFORE=$(find . -maxdepth 1  | sed 's|\.\/||gi' | sed '1d'| sort) &> /dev/null
 ALL_BEFORE="$(pwd)"/* 
 LOCAL=$(pwd)
-    #	${variable//search/replace}	
 ALL_BEFORE=${ALL_BEFORE//$LOCAL\//}
-
-# Call fun
-#first_check 
 NAMES="$(pwd)"/* 
-
 for FILE in $NAMES 
 do
     first_check "$FILE"
 done
-# find exclude some chars
 FILES=$(find . -maxdepth 1 -type f -exec ls  {} +  | sed 's|\.\/||gi') &> /dev/null
 STFILES=$?
-
 if [[ $STFILES -eq 0 ]]
 then
     files=( $FILES )
@@ -165,12 +116,9 @@ then
     done
 else
     printf "\n\t%-20s\n" "No file founded."
-
 fi
-
 FOLDERS=$(find . -maxdepth 1 -type d -name '*' | sed 's|\.\/||gi' | sed '1d') &> /dev/null
 STFOLDERS=$?
-
 if [[ $STFOLDERS -eq 0 ]]    
 then
     folders=( $FOLDERS )
@@ -179,10 +127,7 @@ then
     do
 	rename_folder "${folders[$i]}"
     done
-
 else
     printf "\n\t%-20s\n\n\n" "No folder founded."
-
 fi
-
 show_result

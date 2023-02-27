@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-
-#Requirements: Git and Ssh
-#email="$1"
-#full_name="$2"
-
 function make_dirs(){
-
     folder_list="$HOME/.local/opt" 
     folder_list+=" $HOME/.local/share/fonts" 
     folder_list+=" $HOME/.wallpapers" 
@@ -18,9 +12,7 @@ function make_dirs(){
     folder_list+=" $HOME/.vim/bundle" 
     folder_list+=" $HOME/.vim/autoload" 
     folder_list+=" $HOME/.config-bkp" 
-
     printf "[INFO] Creating folders\r\n"
-
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ] 
@@ -31,28 +23,21 @@ function make_dirs(){
 	    printf "[INFO] Creating folders: %s created.\n" "$Folder"
 	fi
     done
-
     printf "[INFO] Creating folders: Done\n"
-
 }
-
 function config_git() {
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
     if command -v git &> /dev/null
     then
 	printf "[INFO] Add git config.\r"
-
 	git config --global user.email "$1"
 	git config --global user.name "$2"
 	printf "[INFO] Add git config: Done.\r\n"
-
     else
 	echo "[ERROR] Add git config: Git installation needed. Run apt-get install git or read output for problems"
 	exit 1
     fi
-
 }
-
 function config_ssh() {
     #setup ssh
     #by  nishanthshanmugham and lhunath  
@@ -60,28 +45,21 @@ function config_ssh() {
     if command -v ssh &> /dev/null
     then
 	printf "[INFO] Creating pub keys." 
-
-
 	if [ -f "$HOME/.ssh/id_ed25519" ] 
 	then
 	    printf "\r[INFO] Creating pub keys: ssh-agent in use.\n"
-
 	else
 	    eval ssh-keygen -t ed25519 -C "$1";  wait $!
 	    eval "$(ssh-agent -s)" ssh-add
 	    "$HOME/.ssh/id_ed25519"
 	fi
 	printf "\r[INFO] Creating pub keys: Done\n"
-
     else
 	printf "[ERROR] Creating pub keys: SSH installation needed. Install ssh or read output for problems\n"
 	exit 2 
     fi
-
 }
-
 make_dirs
 config_git "$1" "$2"
 config_ssh "$1"
-
 printf "[INFO] Enviroment installed\n"

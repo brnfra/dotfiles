@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
-
 # Arquivo: videostd
 # Autor: Bruno Franco
-# Ultima_modificacao: 06-01-2023
+# Ultima_modificacao: 26-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #to compact mp4 video files
-
 backup="Backup_"
 backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
-
 if ls ./*.mp4;
 then
     find . -maxdepth 1 -type f -name '*.mp4' |  sed 's|\.\/||gi' > mp4_files_list
@@ -21,8 +18,6 @@ else
     echo "Error. There isn't .mp4 files"
     exit 1
 fi
-
-#CREATING DESTINY FOLDER
 if mkdir -p ./$output;
 then
     echo "Folder $output created"
@@ -37,9 +32,7 @@ else
     echo "Error. Folder $output doesn't created"
     exit 2
 fi
-
 echo -e "Compacting mp4's(codec libx265) files...\n"
-
 if command -v ffmpeg &> /dev/null
 then
     for file in $mp4_files_list
@@ -48,20 +41,16 @@ then
 	#take the size
 	du -b "$file" > oldsize
 	OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
-
 	if $(ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file")
 	then
 	    wait $!
 	else
 	    continue
 	fi
-
 	du -b "./$output/$file" > newsize
 	NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
-
 	if [[ $NEWSIZE -gt $OLDSIZE ]]
 	then
-	    #BACKUP CURRENT SMALLER FILE
 	    if rm ./"$output"/"$file";
 	    then
 		wait $!
@@ -71,7 +60,6 @@ then
 		break
 	    fi
 	else
-	    #Backup FILE TO FOLDER CREATED 
 	    if mv "$file" ./"$backup";
 	    then
 		wait $!
@@ -83,17 +71,13 @@ then
 		echo "Error when copy file "$file" code error $?"
 		break
 	    fi
-
 	fi
-
     done
 fi
-
 #Clean
 rm -f newsize
 rm -f oldsize
 rm -f mp4_files_list
-
 #Is empty? yes, remove. 
 if [ -z "$(ls -A ./$output)" ]; then
     rm -rf ./$output; echo "./$output folder deleted" 
@@ -101,6 +85,4 @@ fi
 if [ -z "$(ls -A ./$backup)" ]; then
     rm -rf ./$backup; echo "./$backup folder deleted" 
 fi
-
-#END OF SCRIPT
 echo "All done. Success"

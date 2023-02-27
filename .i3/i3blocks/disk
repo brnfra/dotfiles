@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 # Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
-
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # $ fc-list command to list fonts
@@ -19,21 +16,16 @@ font_face='"monofurNF"'
 font_size='"medium"'
 color='"#2666A1"'
 color_alert='#FF0000'
-
 font_params="<span font=$font_face"
 font_params+=" color=$color "
 font_params+=" size=$font_size >"
-
 font_alert_params="<span font=$font_face"
 font_alert_params+=" color=$color_alert "
 font_alert_params+=" size=$font_size >"
-
 font_params_close="</span>"
-
 DIR="${BLOCK_INSTANCE:-$HOME}"
 ALERT_LOW="${1:-10}" # color will turn red under this value (default: 10%)
 ALERT_HIGH="${1:-90}" # color will turn red up this value (default: 90%)
-
 output=$(df -h -P -l "$DIR" | awk -v alert_low=$ALERT_LOW '
 /\/.*/ {
 	free=$4
@@ -41,47 +33,30 @@ output=$(df -h -P -l "$DIR" | awk -v alert_low=$ALERT_LOW '
 	size=$2
 	#percent
 	use=$5 
-	
-
 }
-
 END {
-
 	# full text
 	#printf "%.f%%", use; 
-	    
 	# short text
 	printf "%.f%%", use; 
-
 	# gsub(/%$/,"",use)
 	#     # color
 	# if (100 - use < alert_low) {
 	#     print "#FF0000"
 	# }
-	
 	#     # color
 	# if ( pct > 30 ) {
 	#     # short text alert color
 	#     print("#FFF600")
-	    
 	# }
-		
 	# no need to continue parsing
 	exit 0
-
-
 }
 ')
-
-
-
 out_to_int=${output//\%/)}
-
-
 if [[ $out_to_int > $ALERT_HIGH  ]]
 then
     printf "%s&#xf233; %s%%s" "$font_alert_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
 else
     printf "%s&#xf233; %s%s%s"  "$font_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
 fi
-

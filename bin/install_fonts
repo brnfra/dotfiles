@@ -1,23 +1,17 @@
-#!/usr/bin/env bash
-
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-02-2023
+# Ultima_modificacao: 26-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #Fonts
-
 local=$(pwd)
 printf "[INFO] Installing fonts.\n"
-
 cd "$HOME/.local/share/fonts" || return
-
 nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
 monofur="Monofur.zip"
-
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if  command -v unzip &>/dev/null  
 then
@@ -26,19 +20,16 @@ then
     printf "[INFO] Unpack downloaded fonts.\n"
     unzip -uo "$nerdfont"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
-
     printf "[INFO] Downloading CoeNewRoman.\n"
     curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
     printf "[INFO] Unpack downloaded fonts.\n"
     unzip -uo "$codeNewRoman"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
-
     printf "[INFO] Downloading Monofur.\n"
     curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
     printf "[INFO] Unpack downloaded fonts.\n"
     unzip -uo "$monofur"
     printf "\r[INFO] Unpack downloaded fonts: Done\n"
-
     fc-cache -f -v
     cd "$local" || return
     printf "\n[INFO] All done!\n"

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Compare original and gzipped file size {{{
 function gz() {
     local origsize=$(wc -c < "$1");
@@ -13,19 +12,15 @@ function gz() {
 # Show all the names (CNs and SANs) listed in the SSL certificate
 # for a given domain
 function getcertnames() {
-
     if [ -z "${1}" ]; then
 	echo "ERROR: No domain specified.";
 	return 1;
     fi;
-
     local domain="${1}";
     echo "Testing ${domain}…";
     echo ""; # newline
-
     local tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
 	| openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
-
     if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
 	local certText=$(echo "${tmp}" \
 	    | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
@@ -55,15 +50,11 @@ function phpserver() {
 }
 # }}}
 # GIT  {{{
-
-
 function clone ()
 { 
-
     set CLONED=$(echo "${1}"| cut -f2 -d "/")
     CLONED="${CLONED%.*}"
     set GIT="$HOME/Documents/Projects/git"
-
     if [ -d $GIT ];then
 	cd $GIT || return
 	git clone "${1}" && echo "alias $CLONED=\"cd $GIT/$CLONED\"" >> $HOME/.bash/aliases \
@@ -72,18 +63,15 @@ function clone ()
         printf "[ERROR] No %s found." "$GIT"
         cd $GIT || mkdir -p $GIT && cd $GIT || return 
     fi
-
     unset CLONED
     unset GIT
 }
-
 # }}}
 # Counters (minutes) {{{
 function countdown ()
 {
     MINS=$(($1 * 60)) 
     STARTCOUNT=$(($(date +%s) + $MINS)); 
-
     while [[ "$STARTCOUNT" -ge $(date +%s) ]]; do 
 	echo -ne "$(date -u --date @$(($STARTCOUNT - $(date +%s))) +%H:%M:%S)\r";
 	sleep 0.01
@@ -100,16 +88,13 @@ function countdown ()
 	    DELTA=$(($ENDPAUSE - $STARTPAUSE))
 	    STARTCOUNT=$(($STARTCOUNT + $DELTA))
 	fi    
-
     done
     clear
     echo "Countdown finish"
     eval 'notify-send --urgency=low "Counter" "The $1 minutes is over" | wall' 
     eval 'ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/complete.oga &> /dev/null'
 }
-
 function stopwatch () {
-
     STARTCOUNT=$(($(date +%s))); 
     while true; do 
 	echo -ne "$(date -u --date @$(($(date +%s) - STARTCOUNT)) +%H:%M:%S)\r"; 
@@ -129,6 +114,4 @@ function stopwatch () {
 	fi    
     done
 }
-
 # }}}
-

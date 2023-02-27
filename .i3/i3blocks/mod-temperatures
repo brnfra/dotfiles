@@ -1,26 +1,22 @@
 #!/usr/bin/env bash
-
 # Arquivo: mod-temperatures
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-02-2023
+# Ultima_modificacao: 26-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste arquivo.
 # depends 'jq' package
-
 # dont inject shell variables into your jq filter!
 # instead use --argjson
 temps_all=$(sensors -j | jq '.' | grep "temp[1-2]_input" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g')
 #temp_max=$(sensors -j | jq '.' | grep "temp[1-9]_max" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
 temp_crit=$(sensors -j | jq '.' | grep "temp[1-2]_crit" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
-
 cold="\"blue\""
 normal="\"green"\"
 alert="\"red"\"
 icon="&#xf2c9;"
 output=""
-
 for temp in $temps_all
 do
     if [[ $temp -lt 200 ]]
@@ -37,5 +33,4 @@ do
 	fi
     fi
 done
-
 echo "$output"

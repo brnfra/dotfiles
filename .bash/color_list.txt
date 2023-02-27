@@ -54,4 +54,3 @@ wrap_on=$(tput smam)
     bwhite=$(tput setab 15);
     byellow=$(tput setab 220);
     bbrow=$(tput setab 52);
-

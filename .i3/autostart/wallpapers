@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
-
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
-
  gen_nitrogen_cfg() {
     local bgconfig
     local nitrogen_cfg
     local nitrogen_cfg_file
     local bgconfig_file
-
     nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
     bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
-
     bgconfig="[xin_0]\n"
     bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
     bgconfig="${bgconfig}mode=0\n"
@@ -30,23 +26,19 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
     nitrogen_cfg="${nitrogen_cfg}sort=alpha\n"
     nitrogen_cfg="${nitrogen_cfg}icon_caps=false\n"
     nitrogen_cfg="${nitrogen_cfg}dirs=$wallpapers_dir;"
-
     if [ -f "$bgconfig_file" ]; then
 	printf "[ERROR] Config file already created\n" 
     else
 	printf "$bgconfig%s" > "$bgconfig_file"
 	printf "[INFO] Created %s config file\n" "$bgconfig_file"
     fi
-
     if [ -f "$nitrogen_cfg_file" ]; then
 	printf "[ERROR] Config file already created\n" 
     else
 	printf "$nitrogen_cfg%s" > "$nitrogen_cfg_file"
 	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"
     fi
-
 }
-
  render_images() {
     local delay1
     local delay2
@@ -59,15 +51,12 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
     delay1=1200
     delay2=600
     files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
-
     nitrogen --restore --head=0;
     nitrogen --restore --head=1;
-
     #monitor1
     while :
     do
 	for I in $files1; do
-
 	    nitrogen --set-scaled --head=0  "$I"
 	    sleep $delay2        
     #monitor2
@@ -85,9 +74,7 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
 	    wait $process_id
 	done
     done
-
 }
-
 if nitrogen -h
 then
     if [ -d "$nitrogen_cfg_dir" ]; then
@@ -105,4 +92,3 @@ else
     printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
     exit 1
 fi
-

@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
-
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
     #APT aliases {{{
     if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-
     #list dependencies
     alias pdeps="apt depends"
     #source edit
@@ -19,7 +16,6 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
     # clean
     alias clean='sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean'
     alias fd='fdfind'
-
  # }}}
  # {{{ pacman alias
  #
@@ -34,7 +30,6 @@ elif [ "$osys" = "manjaro" ]; then
  alias neofetch='neofetch --block_range 0 15'
  # }}}
  # List directories contents aliasesc {{{
-
 	# Long form no user group, color sort by name, directories first
 	alias l='ls -Agophv --color=always --group-directories-first'
 	# Long form with user group, color sort by name, directories first
@@ -52,14 +47,12 @@ elif [ "$osys" = "manjaro" ]; then
 	alias li='ls -AFohL --color=always | grep --regexp="^[l]"'    
 	#show directories
 	alias ld='ls -ApGoh --color=always | grep --regexp="[\/]$"'
-
 	#exa aliases
 	alias x='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
 	#alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
 	alias x.='exa -aF1 --sort name | grep "^[.]"'                                                  # exa .names
 	alias xt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
 	alias xr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
-
 	# grep
 	alias grep="grep --color=auto"
 	alias egrep='egrep --color=auto'
@@ -127,11 +120,9 @@ elif [ "$osys" = "manjaro" ]; then
 	alias doc="cd ~/Documents/"
 	alias hd='cd /media/SamsungHDD'
 	alias hd2='cd /media/WDHDD'
-
 	alias hosts='sudo vim /etc/hosts'
 	alias repo="cd ~/documents/projects/git"
 	alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
-
 	alias promptrc='nvim ~/.bash/prompt'
 	alias profilerc='nvim ~/.bash/profile'
 	alias aliasrc='nvim ~/.bash/aliases' 
@@ -143,9 +134,7 @@ elif [ "$osys" = "manjaro" ]; then
 	alias blocksrc='nvim ~/.i3/i3blocks.conf'
 	alias blocksdir='cd ~/.i3/i3blocks'
 	alias dotbash='cd ~/.bash' 
-
 	alias vifmrc='nvim ~/.config/vifm/vifmrc'
-
   # }}}
   # Apps exec {{{
   alias anki="cd ~/ && setsid ./Anki &>/dev/null"

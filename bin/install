@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Arquivo: install
 # Autor: Bruno Franco
 # Ultima_modificacao: 26-02-2023
@@ -10,7 +9,6 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-
 local=$(pwd)
 cd "$HOME" || return
 #Change for your Data
@@ -20,13 +18,10 @@ config_dir="$HOME"/.dotfiles
 branch="main"
 email="devlabbr@gmail.com"
 full_name="brnfra"
-
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
-
 function cleanbkp {
-
     folders="$HOME "
     folders+="$HOME/.bash "
     folders+="$HOME/.config/nvim "
@@ -48,16 +43,13 @@ function cleanbkp {
     folders+="$HOME/bin "
     folders+="$HOME/tests/ "
     folders+="$HOME/tests/bin/ "
-
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
 	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 }
-
 function make_env {
-
     if [ -d "$bkpdir" ]
     then
 	printf "[INFO] %s already exists.\n" "$bkpdir" 
@@ -66,51 +58,37 @@ function make_env {
 	mkdir -p "$bkpdir"
 	printf "[INFO] %s created.\n" "$bkpdir" 
     fi
-
     printf "[INFO] Install main(--bare). All done. \n"
-
     printf "[INFO] Installing Enviroment.   \n"
     "$HOME/bin/install_enviroment" "$email" "$full_name"
     printf "\r[INFO] Install Enviroment. All done. \n"
-
     printf "[INFO] Installing Fonts.\n"
     "$HOME/bin/install_fonts"
     printf "\r[INFO] Install Fonts. All done. \n"
-
     printf "[INFO] Installing I3config.\n"
     "$HOME/bin/i3_config_install" "$bkpdir"
     printf "\r[INFO] Install I3config. All done. \n"
-
 }
-
-
 if [ -d "$config_dir" ]; then
-
     printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
     exit 1
-
 else
-
     printf "[INFO] Git clone %s(--bare)." "$branch"
     git clone --branch $branch --bare $repository "$HOME/.dotfiles";
     printf "\r[INFO] Git clone %s(--bare): Done\n" "$branch"
-
     printf "[INFO] Checkout branch %s." "$branch"
-
     if config checkout
     then
 	printf "\r[INFO] Checkout branch %s: Done\n" "$branch"
 	make_env 
 	cd "$local" || return
 	exit 0
-
     else
 	printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
 	config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {}  mv {} {}.backup
 	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
 	printf "[INFO] Checkout branch: Trying again after backup\n"
 	cleanbkp
-
 	if config checkout
 	then
 	    printf "[INFO] Checkout branch: Done.\n"
@@ -126,5 +104,3 @@ else
 	fi
     fi
 fi
-
-

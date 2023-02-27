@@ -1,7 +1,5 @@
 #!/bin/bash
-
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
 # Create a new directory and enter it {{{
 function mkd() {
     mkdir -p "$@" && cd "$_";
@@ -28,7 +26,6 @@ man() {
     }
     #}}}
     # Create a SymLink {{{
-
     function symlink() {
 	#Original code from https://github.com/lewagon/dotfiles/blob/master/install.sh
 	file=$1
@@ -38,7 +35,6 @@ man() {
 	    ln -s "$file" "$link"
 	fi
     }
-
 # }}}
 # Create a backup {{{
 # Define a function which rename a `target` file to `target.backup` if the file
@@ -53,7 +49,6 @@ function backup() {
 	fi
     fi
 }
-
 # }}}
 # DIG {{{
 # Run `dig` and display the most useful info
@@ -72,8 +67,6 @@ if [ ! $(uname -s) = 'Darwin' ]; then
 	alias open='xdg-open';
     fi
 fi
-
-
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location
 function o() {
@@ -83,17 +76,14 @@ function o() {
 	open "$@";
     fi;
 }
-
 function aplay() {
     # vlc --play-and-exit --no-loop --no-repeat $1 &> /dev/null
     ffplay -nodisp -autoexit $1 &> /dev/null
 }
-
 function vplay () {
     vlc --play-and-exit --no-loop --no-repeat $1 &> /dev/null
     #ffplay -autoexit $1 &> /dev/null
 }
-
 # }}}
 # TREE {{{
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
@@ -121,7 +111,6 @@ function pcontrib ()
 # }}}
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-
 function psearch () { 
     apt-cache search ""	|  fzf +m -i -e \
 	--prompt='------> ' \
@@ -212,19 +201,15 @@ function plist () {
 # function pinfo ()
 # {
     # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
-
 # }
-
 complete -F auto_complete_pacman get
 complete -F auto_complete_pacman pdeps
 complete -F auto_complete_pacman pinfo
 complete -F auto_complete_pacman plist
 # }}}
-
 fi
 # }}}
 # FZF FUNCTIONS {{{
-
 function open_with_fzf () {
     fd -t f -H -I \
 	| fzf -m \
@@ -238,19 +223,15 @@ function cd_with_fzf () {
 # function pacs () {
 #     pcmanfm -Syy $(pcmanfm -Ssq | fzf -m --preview="pcmanfm -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
 # }
-
 # Display a man page using fzf and fd. usually /usr/share/man
 function man_find () {
     MANPATH='/usr/share/man'
     f=$(fd . $MANPATH/man${1:-1} -t f -x echo {/.} | fzf) && man $f
 }
-
 function fman () {
     man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
 }
-
 function fhistory () {
     command "$(cat < ~/.bash_history | fzf -m -i)"    
 }
-
 # }}}

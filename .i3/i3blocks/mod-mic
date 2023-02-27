@@ -7,16 +7,13 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #------------------------------------------------------------------------
-
 # The second parameter overrides the mixer selection
 # For PulseAudio users, use "pulse"
 # For Jack/Jack2 users, use "jackplug"
@@ -26,7 +23,6 @@ MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
 [ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
 MIXER="${2:-$MIXER}"
-
 # The instance option sets the control to report and configure
 # This defaults to the first control of your selected mixer
 # For a list of the available, use `amixer -D $Your_Mixer scontrols`
@@ -34,7 +30,6 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
     tail -n1
     )}"
-
 #debian ubuntu manjaro etc
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #------------------------------------------------------------------------
@@ -45,7 +40,6 @@ STEP="${1:-5%}"
 #Using pactl    {{{
 pa_source_adp="$(pactl list short sinks | grep "RUNNING" |  awk '{print $2}')"
 pa_source_mic="$(pactl list short sources | grep "RUNNING" | grep "$pa_source_adp" | awk '{print $1}')"
-
 pa-volume-mic() {
 #in
 pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
@@ -54,28 +48,21 @@ vol=${vol%\%*}
 if [[ $vol -ge 95 ]]
 then
     pactl set-source-volume "$pa_source_mic" 95%
-
 fi
-
 }
-
 pa-mute-mic() {
 #is mute?
 pactl get-source-mute "$pa_source_mic" | cut -d ":" -f 2
 }
-
 #------------------------------------------------------------------------
 #}}}
-
 capability() { # Return "Capture" if the device is a capture device
     amixer -D "$MIXER" get "$SCONTROL" |
 	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
     }
-
 volume() {
     amixer -D $MIXER get $SCONTROL $(capability)
 }
-
 format() {
     perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
     perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
@@ -84,8 +71,6 @@ format() {
     perl_filter+='"; exit}'
     perl -ne "$perl_filter"
 }
-
-
 if [ "$osys" = "ubuntu" ]
 then
     case $BLOCK_BUTTON in
@@ -101,10 +86,8 @@ else
     esac
 fi
 #------------------------------------------------------------------------
-
 if [ "$osys" = "ubuntu" ]
 then
-
     pm_mic="$(pa-mute-mic)"
     pm_mic=$(echo $pm_mic | sed 's/^\s//g;s/\s$//g')
     pv_mic="$(pa-volume-mic)"
@@ -116,7 +99,6 @@ else
     nv="${pv::-1}"
     res="MUTE"
 fi
-
 if [ "$pm_mic" = "$res" ] || [ "$pv" = "$res" ]; then
     icon="<span font='monofur NF'  color='#BF616A' size='medium' >&#xf131; </span>"
     echo "$icon"
@@ -144,8 +126,6 @@ else
 	fi #75-99
     fi #99-100
 fi #mute
-
-
 if [ "$osys" = "ubuntu" ]
 then
     echo "$icon $pv_mic"
