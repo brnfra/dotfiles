@@ -14,9 +14,9 @@
 
 _This code was provided by_ ;
 - originally by user ___StreakyCobra___ in an [Hacker News thread](https://news.ycombinator.com/item?id=11070797)
-- in a wonderful tutorial by ___[Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles)___
+- In a wonderful tutorial by ___[Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles)___
 Thank you guys for sharing :heart:
-
+- Tests by [Shunit2](https://github.com/kward/shunit2)
 <br>
 
 ## Sumary
@@ -50,9 +50,10 @@ This configuration works with **i3-wm** and **i3status**.
 ## TODO
 
 - [ ] Fix audio/mic control for Ubuntu in i3block config
-- [ ] Create test_config branch
-- [ ] Make scripts to generate configs(i3, i3blocks, etc)
-- [ ] Test and refactoring
+- [x] Create test_config branch
+- [ ] Make scripts to generate configs(i3blocks, vim,  etc)
+- [ ] Make tests to check files already created/copy
+- [ ] Testing and refactoring
 
 <br>
 
