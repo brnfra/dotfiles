@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 11-02-2023
+#  Ultima_modificacao: 26-02-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -43,12 +43,14 @@ sync_copy ()
     files+='.gitconfig '
     files+='.git-completion.bash '
     # compton
-    files+='.config/compton.conf  '
     files+='.config/compton/ '
     # tmux
     files+='.tmux.conf '
     # scripts
     files+='bin/ '
+    # test
+    files+='tests/ '
+    files+='tests/bin/ '
 
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> $bkpLog

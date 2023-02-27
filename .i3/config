@@ -175,7 +175,7 @@ bar {
     id bar-1 
     position bottom
     output primary
-    tray_output primary
+    #tray_output primary
     tray_padding 2
     separator_symbol " "
     mode dock 

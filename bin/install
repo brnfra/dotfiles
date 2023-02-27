@@ -2,7 +2,7 @@
 
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-02-2023
+# Ultima_modificacao: 26-02-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -46,6 +46,8 @@ function cleanbkp {
     folders+="$HOME/.config "
     folders+="$HOME/.config/compton "
     folders+="$HOME/bin "
+    folders+="$HOME/tests/ "
+    folders+="$HOME/tests/bin/ "
 
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
