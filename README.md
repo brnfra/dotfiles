@@ -106,7 +106,7 @@ If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
 
 1. Clone this repo in another local.(here the default is ```~/documents/projects/git/ ``` )
-2. Change to the correspondent branch by ```git switch [main/mingw32-w8/notebook-cfg]``` 
+2. Change to the correspondent branch by ```git switch [main or mingw32-w8]``` 
 3. Make the changes and push to remote repo in correspondent branch. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
