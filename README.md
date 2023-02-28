@@ -35,7 +35,7 @@ Thank you guys for sharing :heart:
 2. Pls check ```~/.i3/autostart/i3config``` . There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
-<img width="700" alt="workspace exemple image" src="exemple/Screenshot_workspace.png"></img>
+<img width="700" alt="workspace exemple image" src="example/Screenshot_workspace.png"></img>
 
 ### Mingw32(git-for-windows) config(mingw32-w8 branch)
 
