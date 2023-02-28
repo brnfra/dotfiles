@@ -7,15 +7,14 @@ bold=$(tput bold);
 red=$(tput setaf 124);
 SHUNIT_TEST_PREFIX=" Bin Scripts --> "
 SHUNIT_COLOR="always"
-testDir="./test-dir"
+testDir="./test_dir"
 testExecution() {
     cd "$testDir"
     namestd 1> /dev/null 
     assertTrue "${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 testRename_File() {
-    local=$(pwd)
-    touch "$local/123@#%456"
+    touch "123@#%456"
     namestd 1> /dev/null 
     result=$(find 123_456 -maxdepth 1 -type f)
     assertEquals \
@@ -23,9 +22,29 @@ testRename_File() {
 	"123_456" \
 	"${result}"
     }
+testRename_FileAlreadyRenamed() {
+    touch "123@#%456"
+    touch "123@+%456"
+    touch "123@!%456"
+    namestd 1> /dev/null 
+    result=$(find 123_456 -maxdepth 1 -type f)
+    result2=$(find 123_456_2 -maxdepth 1 -type f)
+    result3=$(find 123_456_3 -maxdepth 1 -type f)
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of 123@#%456' was wrong\n\n" \
+	"123_456" \
+	"${result}"
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of 123@+%456' was wrong\n\n" \
+	"123_456_2" \
+	"${result2}"
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of 123@!%456' was wrong\n\n" \
+	"123_456_3" \
+	"${result3}"
+    }
 testRename_File_DotFile() {
-    local=$(pwd)
-    touch "$local/123.@#%456"
+    touch "123.@#%456"
     namestd 1> /dev/null 
     result=$(find 123.456 -maxdepth 1 -type f)
     assertEquals \
@@ -34,8 +53,7 @@ testRename_File_DotFile() {
 	"${result}"
     }
 testRename_File_DotDotFile() {
-    local=$(pwd)
-    touch "$local/brn.123.@#%456"
+    touch "brn.123.@#%456"
     namestd 1> /dev/null 
     result=$(find "brn.123.456" -maxdepth 1 -type f)
     assertEquals \
@@ -44,54 +62,76 @@ testRename_File_DotDotFile() {
 	"${result}"
     }
 testRename_File_Bars() {
-    local=$(pwd)
-    touch "$local/5123_+_-@#%456"
+    touch "5123_+_-@#%456"
     namestd 1> /dev/null 
-    result5=$(find 5123_456 -maxdepth 1 -type f)
+    result=$(find 5123_456 -maxdepth 1 -type f)
     assertEquals \
 	"${red}${bold}[FAIL]${reset}The result5 of 5123_+_-@#%456'' was wrong\n\n" \
 	"5123_456" \
-	"${result5}"
+	"${result}"
     }
 testRename_File_Symbols() {
-    local=$(pwd)
-    touch "$local/4123<>??@#%456"
+    touch "4123<>??@#%456"
     namestd 1> /dev/null 
-    result4=$(find 4123_456 -maxdepth 1 -type f)
+    result=$(find 4123_456 -maxdepth 1 -type f)
     assertEquals \
 	"${red}${bold}[FAIL]${reset}The result4 of 4123<>??@#%45 was wrong\n\n" \
 	"4123_456" \
-	"${result4}"
+	"${result}"
     }
 testRename_File_Parentesis() {
-    local=$(pwd)
-    touch "$local/3123()())456"
+    touch "3123()())456"
     namestd 1> /dev/null 
-    result3=$(find 3123_456 -maxdepth 1 -type f)
+    result=$(find 3123_456 -maxdepth 1 -type f)
     assertEquals \
 	"${red}${bold}[FAIL]${reset}The result3 of 3123()())456 was wrong\n\n" \
 	"3123_456" \
-	"${result3}"
+	"${result}"
     }
 testRename_File_Espace() {
-    local=$(pwd)
-    touch $local/'2123   456'
+    touch '2123   456'
     namestd 1> /dev/null 
-    result2=$(find 2123_456 -maxdepth 1 -type f)
+    result=$(find 2123_456 -maxdepth 1 -type f)
     assertEquals \
 	"${red}${bold}[FAIL]${reset}The result2 of '2123   456' was wrong\n\n" \
 	"2123_456" \
-	"${result2}"
+	"${result}"
     }
 testRename_Folder() {
-    local=$(pwd)
-    mkdir -p "$local/456%++"
+    mkdir -p ./'456%++'
     namestd 1> /dev/null 
-    result6=$(find 456 -maxdepth 1 -type d |  sed 's|\.\/||gi')
+    result=$(find 456 -maxdepth 1 -type d |  sed 's|\.\/||gi')
     assertEquals \
 	"${red}${bold}[FAIL]${reset}The result of '456%++' was wrong\n\n" \
 	"456" \
-	"${result6}"
+	"${result}"
+    }
+testRename_DotFolder() {
+    mkdir -p ./'.456%++'
+    namestd 1> /dev/null 
+    result=$(find '.456' -maxdepth 1 -type d |  sed 's|\.\/||gi')
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of '456%++' was wrong\n\n" \
+	".456" \
+	"${result}"
+    }
+testRename_DotSlashFolder() {
+    mkdir -p ./'.456%++-dez-23'
+    namestd 1> /dev/null 
+    result=$(find '.456_-dez-23' -maxdepth 1 -type d |  sed 's|\.\/||gi')
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of '456%++-dez-23' was wrong\n\n" \
+	".456_-dez-23" \
+	"${result}"
+    }
+testRename_DoubleDotSlashFolder() {
+    mkdir  ./'.bril.456%++-dez-23'
+    namestd 1> /dev/null 
+    result=$(find '.bril.456_-dez-23' -maxdepth 1 -type d |  sed 's|\.\/||gi')
+    assertEquals \
+	"${red}${bold}[FAIL]${reset}The result of '.bril.456%++-dez-23' was wrong\n\n" \
+	'.bril.456_-dez-23' \
+	"${result}"
     }
 oneTimeSetUp() {
     # Load include to test.
