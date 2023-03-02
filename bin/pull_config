@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-02-2023
+# Ultima_modificacao: 02-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,6 +12,7 @@ dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
 i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
+config_dir="$HOME/.dotfiles"
 if [ -d "$bkpdir" ] 
 then
     printf "[INFO] %s already exists.\n" "$bkpdir" 
@@ -47,7 +48,7 @@ function cleanbkp {
     folders+="$HOME/tests/bin/ "
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
-	find $folder -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
+	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
     printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
 }
@@ -84,6 +85,16 @@ if [ -d "$bkpdir" ]; then
 else
     printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
 fi
+
+if [ -d "$config_dir" ]; then
+    printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
+    test=$(sh "$HOME/tests/dotfilesTest.sh" | awk '/OK/ || /FAILED/''{print "$1}')
+    if [ "$test" = "FAILED" ];then
+	sh "$HOME/tests/dotfilesTest.sh" | awk '/FAIL/''{print}'
+    fi
+    exit 1
+fi
+
 if [ -f "$i3_cfg" ]; then
     printf "[INFO] I3config: OK\n"
 elif [ -f "$i3_scpt" ]; then
@@ -93,13 +104,14 @@ elif [ -f "$i3_scpt" ]; then
 else
     printf "\r[ERROR] I3config[%s] isn't installed and I3script[%s] not found.\n" "$i3_cfg" "$i3_scpt"
 fi
+
 printf "\r[INFO] Git Pull remote dotfiles branch to %s .\n" "$dotfiles_dir"
 if [ -d "$dotfiles_dir" ];then
     cd "$dotfiles_dir" || return
     git checkout $branch
     git pull origin $branch
 else
-    printf "\r[ERROR]Can't locate %s .\n" "$dotfiles_dir"
+    printf "\r[ERROR]Can't locate %s folder.\n" "$dotfiles_dir"
 fi
-cd "$local" || return
 printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
+cd "$local" || return
