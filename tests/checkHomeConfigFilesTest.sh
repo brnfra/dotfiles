@@ -18,8 +18,8 @@ testLocalExecutionMain() {
 
 
 testLocalGitConfigFiles() {
-    assertTrue ": 21 :${red}${bold}[FAIL]${reset} .gitconfig not found.	    " "[ -f $HOME/.gitconfig ]"
-    assertTrue ": 22 :${red}${bold}[FAIL]${reset} .git-completion.bash not found. " "[ -f $HOME/.git-completion.bash ]"
+    assertTrue ": 21 :${red}${bold}[FAIL]${reset} .gitconfig not found.		    " "[ -f $HOME/.gitconfig ]"
+    assertTrue ": 22 :${red}${bold}[FAIL]${reset} .git-completion.bash not found.   " "[ -f $HOME/.git-completion.bash ]"
 
 }
 
@@ -58,7 +58,7 @@ testLocalExistVimConfig() {
 
 testLocalExistVifmConfigFiles() {
     assertTrue ": 60 :${red}${bold}[FAIL]${reset} vifmrc not found.		    " "[ -f $HOME/.config/vifm/vifmrc ]"
-    assertTrue ": 61 :${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found. " "[ -d $HOME/.config/vifm/scripts ]"
+    assertTrue ": 61 :${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found.   " "[ -d $HOME/.config/vifm/scripts ]"
 
 }
 
@@ -68,11 +68,11 @@ testLocalExistXfce4TerminalConfigFile() {
 }
 
 testLocalExistI3ConfigFiles() {
-    assertTrue ": 71 :${red}${bold}[FAIL]${reset} i3/i3-get-window-criteria not found.	    "	"[ -f $HOME/.i3/i3-get-window-criteria ]"
+    assertTrue ": 71 :${red}${bold}[FAIL]${reset} i3/i3-get-window-criteria not found.		    "	"[ -f $HOME/.i3/i3-get-window-criteria ]"
     assertTrue ": 72 :${red}${bold}[FAIL]${reset} i3/config[i3wm]  not found.			    "	"[ -f $HOME/.i3/config ]"
     assertTrue ": 73 :${red}${bold}[FAIL]${reset} i3/i3blocks.conf not found.			    "	"[ -f $HOME/.i3/i3blocks.conf ]"
-    assertTrue ": 74 :${red}${bold}[FAIL]${reset} i3/i3blocks_v.conf not found.		    "	"[ -f $HOME/.i3/i3blocks_v.conf ]"
-    assertTrue ": 75 :${red}${bold}[FAIL]${reset} i3/i3-manjaro-default-config-backup not found.  "	"[ -f $HOME/.i3/i3-manjaro-default-config-backup ]"
+    assertTrue ": 74 :${red}${bold}[FAIL]${reset} i3/i3blocks_v.conf not found.			    "	"[ -f $HOME/.i3/i3blocks_v.conf ]"
+    assertTrue ": 75 :${red}${bold}[FAIL]${reset} i3/i3-manjaro-default-config-backup not found.    "	"[ -f $HOME/.i3/i3-manjaro-default-config-backup ]"
     assertTrue ": 76 :${red}${bold}[FAIL]${reset} i3/autostart/i3config[script] not found.	    "	"[ -f $HOME/.i3/autostart/i3config ]"
     assertTrue ": 77 :${red}${bold}[FAIL]${reset} i3/autostart/wallpapers[script] not found.	    "	"[ -f $HOME/.i3/autostart/wallpapers ]"
 }
@@ -98,25 +98,26 @@ testLocalExistBinDir() {
 }
 
 testLocalExistBinFiles() {
-    assertTrue ": 101 :${red}${bold}[FAIL]${reset} install not found.		    " "[ -f $HOME/bin/install ]"
-    assertTrue ": 102 :${red}${bold}[FAIL]${reset} install_fonts not found.	    " "[ -f $HOME/bin/install_fonts ]"
-    assertTrue ": 103 :${red}${bold}[FAIL]${reset} install_enviroments not found.  " "[ -f $HOME/bin/install_enviroment ]"
-    assertTrue ": 104 :${red}${bold}[FAIL]${reset} install_pkgs_env not found.	    " "[ -f $HOME/bin/install_pkgs_enviroment ]"
-    assertTrue ": 105 :${red}${bold}[FAIL]${reset} install_virt_manager not found. " "[ -f $HOME/bin/install_virtual_manager ]"
-    assertTrue ": 106 :${red}${bold}[FAIL]${reset} i3_config_install not found.    " "[ -f $HOME/bin/i3_config_install ]"
-    assertTrue ": 107 :${red}${bold}[FAIL]${reset} push_local_config not found.    " "[ -f $HOME/bin/push_local_config ]"
-    assertTrue ": 108 :${red}${bold}[FAIL]${reset} pull_config not found.	    " "[ -f $HOME/bin/pull_config ]"
-    assertTrue ": 109 :${red}${bold}[FAIL]${reset} stage_local_config not found.   " "[ -f $HOME/bin/stage_local_config ]"
-    assertTrue ": 110 :${red}${bold}[FAIL]${reset} targz not found.		    " "[ -f $HOME/bin/targz ]"
-    assertTrue ": 111 :${red}${bold}[FAIL]${reset} namestd not found.		    " "[ -f $HOME/bin/namestd ]"
-    assertTrue ": 112 :${red}${bold}[FAIL]${reset} connection not found.	    " "[ -f $HOME/bin/connection ]"
-    assertTrue ": 113 :${red}${bold}[FAIL]${reset} videostd not found.		    " "[ -f $HOME/bin/videostd ]"
-    assertTrue ": 114 :${red}${bold}[FAIL]${reset} pdfstd not found.		    " "[ -f $HOME/bin/pdfstd ]"
-    assertTrue ": 115 :${red}${bold}[FAIL]${reset} i3-scrot not found.		    " "[ -f $HOME/bin/i3-scrot ]"
-    assertTrue ": 116 :${red}${bold}[FAIL]${reset} extract not found.		    " "[ -f $HOME/bin/extract ]"
-    assertTrue ": 117 :${red}${bold}[FAIL]${reset} foldering_media... not found.   " "[ -f $HOME/bin/foldering_media_year_month ]"
-    assertTrue ": 118 :${red}${bold}[FAIL]${reset} item_size not found.	    " "[ -f $HOME/bin/item_size ]"
-    assertTrue ": 119 :${red}${bold}[FAIL]${reset} rm_lineup not found.	    " "[ -f $HOME/bin/rm_linedup ]"
+    assertTrue ": 101 :${red}${bold}[FAIL]${reset} install not found.			" "[ -f $HOME/bin/install ]"
+    assertTrue ": 102 :${red}${bold}[FAIL]${reset} install_fonts not found.		" "[ -f $HOME/bin/install_fonts ]"
+    assertTrue ": 103 :${red}${bold}[FAIL]${reset} install_enviroments not found.	" "[ -f $HOME/bin/install_enviroment ]"
+    assertTrue ": 104 :${red}${bold}[FAIL]${reset} install_pkgs_env not found.		" "[ -f $HOME/bin/install_pkgs_enviroment ]"
+    assertTrue ": 105 :${red}${bold}[FAIL]${reset} install_virt_manager not found.	" "[ -f $HOME/bin/install_virtual_manager ]"
+    assertTrue ": 106 :${red}${bold}[FAIL]${reset} i3_config_install not found.		" "[ -f $HOME/bin/i3_config_install ]"
+    assertTrue ": 107 :${red}${bold}[FAIL]${reset} push_local_config not found.		" "[ -f $HOME/bin/push_local_config ]"
+    assertTrue ": 108 :${red}${bold}[FAIL]${reset} pull_config not found.		" "[ -f $HOME/bin/pull_config ]"
+    assertTrue ": 109 :${red}${bold}[FAIL]${reset} stage_local_config not found.	" "[ -f $HOME/bin/stage_local_config ]"
+    assertTrue ": 110 :${red}${bold}[FAIL]${reset} targz not found.			" "[ -f $HOME/bin/targz ]"
+    assertTrue ": 111 :${red}${bold}[FAIL]${reset} namestd not found.			" "[ -f $HOME/bin/namestd ]"
+    assertTrue ": 112 :${red}${bold}[FAIL]${reset} connection not found.		" "[ -f $HOME/bin/connection ]"
+    assertTrue ": 113 :${red}${bold}[FAIL]${reset} videostd not found.			" "[ -f $HOME/bin/videostd ]"
+    assertTrue ": 114 :${red}${bold}[FAIL]${reset} pdfstd not found.			" "[ -f $HOME/bin/pdfstd ]"
+    assertTrue ": 115 :${red}${bold}[FAIL]${reset} i3-scrot not found.			" "[ -f $HOME/bin/i3-scrot ]"
+    assertTrue ": 116 :${red}${bold}[FAIL]${reset} extract not found.			" "[ -f $HOME/bin/extract ]"
+    assertTrue ": 117 :${red}${bold}[FAIL]${reset} foldering media by date not found.	" "[ -f $HOME/bin/makeFolderByDate ]"
+    assertTrue ": 117 :${red}${bold}[FAIL]${reset} foldering files by type not found.   " "[ -f $HOME/bin/makeFolderByType ]"
+    assertTrue ": 118 :${red}${bold}[FAIL]${reset} item_size not found.			" "[ -f $HOME/bin/item_size ]"
+    assertTrue ": 119 :${red}${bold}[FAIL]${reset} rm_lineup not found.			" "[ -f $HOME/bin/rm_linedup ]"
 
 }
 # Load and run shUnit2.
