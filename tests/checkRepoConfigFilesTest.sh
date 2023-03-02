@@ -1,28 +1,34 @@
 #! /bin/sh
+
 #colors
 reset=$(tput sgr0);
 bold=$(tput bold);
-#italic=$(tput sitm);
-#green=$(tput setaf 34);
+italic=$(tput sitm);
+green=$(tput setaf 34);
 red=$(tput setaf 124);
-SHUNIT_TEST_PREFIX=' Check Repo --> '
+SHUNIT_TEST_PREFIX=' Chk [if exists] --> '
 SHUNIT_COLOR="always"
 dotfilesDir="$HOME/Documents/Projects/git/dotfiles"
-testGitConfigFiles() {
+
+testRepoGitConfigFiles() {
     assertTrue ": 14 :${red}${bold}[FAIL]${reset} .gitconfig not found.	    " "[ -f $dotfilesDir/.gitconfig ]"
     assertTrue ": 15 :${red}${bold}[FAIL]${reset} .git-completion.bash not found. " "[ -f $dotfilesDir/.git-completion.bash ]"
 }
-testComptonConfigFile() {
+
+testRepoComptonConfigFile() {
     assertTrue ": 19 :${red}${bold}[FAIL]${reset} .config/compton/compton.conf not found." "[ -f $dotfilesDir/.config/compton/compton.conf ]"
 }
-testWgetCurlConfigFiles() {
+
+testRepoWgetCurlConfigFiles() {
     assertTrue ": 23 :${red}${bold}[FAIL]${reset} .wgetrc not found." "[ -f $dotfilesDir/.wgetrc ]"
     assertTrue ": 24 :${red}${bold}[FAIL]${reset} .curlrc not found." "[ -f $dotfilesDir/.curlrc ]"
 }
-testExistBashDir() {
+
+testRepoExistBashDir() {
     assertTrue ": 28 :${red}${bold}[FAIL]${reset} .bash [folder] not found." "[ -d $dotfilesDir/.bash ]"
 }
-testExistBashFiles() {
+
+testRepoExistBashFiles() {
     assertTrue ": 32 :${red}${bold}[FAIL]${reset} .bash aliases not found.	"   "[ -f $dotfilesDir/.bash/aliases ]"
     assertTrue ": 33 :${red}${bold}[FAIL]${reset} .bash exports not found.	"   "[ -f $dotfilesDir/.bash/exports ]"
     assertTrue ": 34 :${red}${bold}[FAIL]${reset} .bash extras not found.	"   "[ -f $dotfilesDir/.bash/extras ]"
@@ -32,17 +38,22 @@ testExistBashFiles() {
     assertTrue ": 38 :${red}${bold}[FAIL]${reset} .bash profile not found.	"   "[ -f $dotfilesDir/.bash/profile ]"
     assertTrue ": 39 :${red}${bold}[FAIL]${reset} .bash prompt not found.	"   "[ -f $dotfilesDir/.bash/prompt ]"
 }
-testExistVimConfig() {
+
+testRepoExistVimConfig() {
     assertTrue ": 43 :${red}${bold}[FAIL]${reset} .vimrc not found." "[ -f $dotfilesDir/.vimrc ]"
 }
-testExistVifmConfigFiles() {
+
+
+testRepoExistVifmConfigFiles() {
     assertTrue ": 48 :${red}${bold}[FAIL]${reset} vifmrc not found.		    " "[ -f $dotfilesDir/.config/vifm/vifmrc ]"
     assertTrue ": 49 :${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found. " "[ -d $dotfilesDir/.config/vifm/scripts ]"
 }
-testExistXfce4TerminalConfigFile() {
+
+testRepoExistXfce4TerminalConfigFile() {
     assertTrue ": 53 :${red}${bold}[FAIL]${reset} terminalrc not found." "[ -f $dotfilesDir/.config/xfce4/terminal/terminalrc ]"
 }
-testExistI3ConfigFiles() {
+
+testRepoExistI3ConfigFiles() {
     assertTrue ": 57 :${red}${bold}[FAIL]${reset} i3/i3-get-window-criteria not found.	    "	"[ -f $dotfilesDir/.i3/i3-get-window-criteria ]"
     assertTrue ": 58 :${red}${bold}[FAIL]${reset} i3/config[i3wm]  not found.			    "	"[ -f $dotfilesDir/.i3/config ]"
     assertTrue ": 59 :${red}${bold}[FAIL]${reset} i3/i3blocks.conf not found.			    "	"[ -f $dotfilesDir/.i3/i3blocks.conf ]"
@@ -51,18 +62,23 @@ testExistI3ConfigFiles() {
     assertTrue ": 62 :${red}${bold}[FAIL]${reset} i3/autostart/i3config[script] not found.	    "	"[ -f $dotfilesDir/.i3/autostart/i3config ]"
     assertTrue ": 63 :${red}${bold}[FAIL]${reset} i3/autostart/wallpapers[script] not found.	    "	"[ -f $dotfilesDir/.i3/autostart/wallpapers ]"
 }
-testExistI3ConfigDir() {
+
+testRepoExistI3ConfigDir() {
     assertTrue ": 67 :${red}${bold}[FAIL]${reset} ..i3/blocks [folder]  not found." "[ -d $dotfilesDir/.i3/i3blocks ]"
     assertTrue ": 68 :${red}${bold}[FAIL]${reset} .i3 [folder] not found.	    " "[ -d $dotfilesDir/.i3 ]"
 }
-testExistNeoVimConfigFiles() {
+
+testRepoExistNeoVimConfigFiles() {
     assertTrue ": 72 :${red}${bold}[FAIL]${reset} init.vim[neovim] not found.	" "[ -f $dotfilesDir/.config/nvim/init.vim ]"
     assertTrue ": 73 :${red}${bold}[FAIL]${reset} coc-settings[coc] not found." "[ -f $dotfilesDir/.config/nvim/coc-settings.json ]"
 }
-testExistBinDir() {
+
+
+testRepoExistBinDir() {
     assertTrue ": 78 :${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -d $dotfilesDir/bin/ ]"
 }
-testExistBinFiles() {
+
+testRepoExistBinFiles() {
     assertTrue ": 82 :${red}${bold}[FAIL]${reset} install not found.		    " "[ -f $dotfilesDir/bin/install ]"
     assertTrue ": 83 :${red}${bold}[FAIL]${reset} install_fonts not found.	    " "[ -f $dotfilesDir/bin/install_fonts ]"
     assertTrue ": 84 :${red}${bold}[FAIL]${reset} install_enviroments not found.  " "[ -f $dotfilesDir/bin/install_enviroment ]"
@@ -82,6 +98,9 @@ testExistBinFiles() {
     assertTrue ": 98 :${red}${bold}[FAIL]${reset} foldering_media... not found.   " "[ -f $dotfilesDir/bin/foldering_media_year_month ]"
     assertTrue ": 99 :${red}${bold}[FAIL]${reset} item_size not found.	    " "[ -f $dotfilesDir/bin/item_size ]"
     assertTrue ": 100 :${red}${bold}[FAIL]${reset} rm_lineup not found.	    " "[ -f $dotfilesDir/bin/rm_linedup ]"
+
 }
 # Load and run shUnit2.
 . shunit2
+
+
