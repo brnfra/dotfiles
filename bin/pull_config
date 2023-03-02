@@ -12,7 +12,9 @@ dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
 i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
-test=$(sh "$HOME/dotfilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
+checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
+test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+
 config_dir="$HOME/.dotfiles"
 if [ -d "$bkpdir" ] 
 then
@@ -46,7 +48,6 @@ function cleanbkp {
     folders+="$HOME/.config/compton "
     folders+="$HOME/bin "
     folders+="$HOME/tests/ "
-    folders+="$HOME/tests/bin/ "
     printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
@@ -90,7 +91,7 @@ fi
 if [ -d "$config_dir" ]; then
     printf "[INFO] %s folder checked: OK\n" "$config_dir"
     if [ "$test" = "FAILED" ];then
-	sh "$HOME/dotfilesTest.sh" | awk '/FAIL/''{print}'
+	sh "$checkHome" | awk '/FAIL/''{print}'
     fi
     exit 1
 fi

@@ -18,11 +18,14 @@ config_dir="$HOME"/.dotfiles
 branch="main"
 email="devlabbr@gmail.com"
 full_name="brnfra"
+checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
+test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+
 if [ -d "$config_dir" ]; then
     printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
-    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
+    test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
     if [ "$test" = "FAILED" ];then
-	sh "$HOME/checkHomeConfigFilesTest.sh" | awk '/FAIL/''{print}'
+	sh "$checkHome" | awk '/FAIL/''{print}'
     fi
     exit 1
 fi
@@ -106,9 +109,9 @@ if ! [ -d "$config_dir" ]; then
 	    exit 0
 	else
 	    printf "\r[ERROR] Checkout branch: Exit with error.                      \n"
-	    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
+	    test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 	    if [ "$test" = "FAILED" ];then
-		sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/FAIL/''{print}'
+		sh "$checkHome" | awk '/FAIL/''{print}'
 		printf "\r[INFO] Trying fix install.		                    \n"
 		rm -rf "$HOME/.dotfile"
 		if sh "$HOME/.config-bkp/install.backup"
