@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 26-02-2023
+#  Ultima_modificacao: 02-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,8 +9,9 @@
 local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
-function git_push () 
-{
+test=$(sh "$HOME/tests/dotfilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
+
+function git_push () {
     upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
     message="$@. $upfiles"
     git add -A -v;git commit -v -m "$message";git push origin $branch   
@@ -22,12 +23,24 @@ function git_push ()
 	printf "[ERROR] A error occours. Check log.\n" 
     fi
 }
-if [ -d "$pushFrom" ];then
-    cd "$pushFrom" || return
-    stage_local_config
-    git_push "$1"
-else
-    printf "[ERROR] No %s found.\n" "$pushFrom" 
+
+if [ "$test" = "FAILED" ];then
+    sh "$HOME/tests/dotfilesTest.sh" | awk '/FAIL/''{print}'
+    cd "$local" || return
     exit 1
+else
+    if [ -d "$pushFrom" ];then
+	cd "$pushFrom" || return
+	stage_local_config
+	git_push "$1"
+    else
+	printf "[ERROR] No %s found.\n" "$pushFrom" 
+	exit 1
+    fi
+
+    cd "$local" || return
+    exit 0
 fi
+
+
 cd "$local" || return

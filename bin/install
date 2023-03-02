@@ -20,7 +20,7 @@ email="devlabbr@gmail.com"
 full_name="brnfra"
 if [ -d "$config_dir" ]; then
     printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
-    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print "$1}')
+    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
     if [ "$test" = "FAILED" ];then
 	sh "$HOME/checkHomeConfigFilesTest.sh" | awk '/FAIL/''{print}'
     fi
@@ -106,7 +106,7 @@ if ! [ -d "$config_dir" ]; then
 	    exit 0
 	else
 	    printf "\r[ERROR] Checkout branch: Exit with error.                      \n"
-	    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print "$1}')
+	    test=$(sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
 	    if [ "$test" = "FAILED" ];then
 		sh "$HOME/tests/checkHomeConfigFilesTest.sh" | awk '/FAIL/''{print}'
 		printf "\r[INFO] Trying fix install.		                    \n"

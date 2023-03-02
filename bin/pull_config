@@ -87,8 +87,8 @@ else
 fi
 
 if [ -d "$config_dir" ]; then
-    printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
-    test=$(sh "$HOME/tests/dotfilesTest.sh" | awk '/OK/ || /FAILED/''{print "$1}')
+    printf "[INFO] %s folder checked: OK\n" "$config_dir"
+    test=$(sh "$HOME/tests/dotfilesTest.sh" | awk '/OK/ || /FAILED/''{print $1}')
     if [ "$test" = "FAILED" ];then
 	sh "$HOME/tests/dotfilesTest.sh" | awk '/FAIL/''{print}'
     fi

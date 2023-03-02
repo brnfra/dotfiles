@@ -9,17 +9,17 @@ SHUNIT_TEST_PREFIX=' #Main --> '
 
 testExecutionMain() {
     printf "${cyan}${bold}[INFO]${reset} Check Git Configs Tests\n\n"
-    ./gitTest.sh
+    "$HOME/tests/gitTest.sh"
     printf "${cyan}${bold}[INFO]${reset} Check if Repo config files exists.\n\n"
-    ./checkRepoConfigFilesTest.sh
+    "$HOME/tests/checkRepoConfigFilesTest.sh"
     printf "${cyan}${bold}[INFO]${reset} Check if Local config files exists.\n\n"
-    ./checkHomeConfigFilesTest.sh
+    "$HOME/tests/checkHomeConfigFilesTest.sh"
     printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[namestd].\n\n"
-    ./binNamestdScriptTest.sh
+    "$HOME/tests/binNamestdScriptTest.sh"
     printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Date].\n\n"
-    ./binMakeFolderByDateTest.sh
+    "$HOME/tests/binMakeFolderByDateTest.sh"
     printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Type].\n\n"
-    ./binMakeFolderByTypeTest.sh
+    "$HOME/tests/binMakeFolderByTypeTest.sh"
 
 }
 

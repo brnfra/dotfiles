@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 26-02-2023
+#  Ultima_modificacao: 02-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -36,7 +36,7 @@ sync_copy ()
     files+='.config/ranger/rc.conf '
     files+='.config/ranger/scope.sh '
     # systemrc
-    files+='.wgetrc .curlrc '
+    files+='.wgetrc .curlrc dotfilesTest.sh'
     # git
     files+='.gitconfig '
     files+='.git-completion.bash '
