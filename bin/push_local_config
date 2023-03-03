@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 02-03-2023
+#  Ultima_modificacao: 03-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -11,17 +11,58 @@ pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
 checkHome="$HOME/dotfilesTest.sh"
 test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
 
 function git_push () {
     upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
     message="$@. $upfiles"
     git add -A -v;git commit -v -m "$message";git push origin $branch   
     if [ $? ];then
-	printf "[INFO] Accomplished, no errors.\n" 
 	git status -sb
+	cInfo "Git add + and push:"
+	cOk
+
     else
 	git status -sb 
-	printf "[ERROR] A error occours. Check log.\n" 
+	cError"[ERROR] A error occours. Check log."
+	printf "\n" 
     fi
 }
 
@@ -30,19 +71,22 @@ if [ "$test" = "FAILED" ];then
     cd "$local" || return
     exit 1
 else
-    printf "[INFO] Files and folders check: OK\n" 
+    cInfo "Files and folders check:" 
+    cOk
+
     if [ -d "$pushFrom" ];then
 	cd "$pushFrom" || return
 	stage_local_config
 	git_push "$1"
     else
-	printf "[ERROR] No %s found.\n" "$pushFrom" 
+	cError "[ERROR] No"
+	cItalic "$pushFrom" "found." 
+	printf "\n" 
 	exit 1
     fi
 
     cd "$local" || return
     exit 0
 fi
-
 
 cd "$local" || return

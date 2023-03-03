@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-03-2023
+# Ultima_modificacao: 03-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,9 +9,10 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-local=$(pwd)
+
 cd "$HOME" || return
-#Change for your Data
+# Change for your Data {{{ 
+local=$(pwd)
 repository="https://github.com/brnfra/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
 config_dir="$HOME"/.dotfiles
@@ -19,16 +20,46 @@ branch="main"
 email="devlabbr@gmail.com"
 full_name="brnfra"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-
-if [ -d "$config_dir" ]; then
-    printf "[ERROR] Already instaled. If you trying reinstall remove %s in order and check outputs log.\n" "$config_dir"
-    test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-    if [ "$test" = "FAILED" ];then
-	sh "$checkHome" | awk '/FAIL/''{print}'
-    fi
-    exit 1
-fi
+test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+# }}}
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
@@ -53,77 +84,143 @@ function cleanbkp {
     folders+="$HOME/.config/compton "
     folders+="$HOME/bin "
     folders+="$HOME/tests/ "
-    folders+="$HOME/tests/bin/ "
-    printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
+
+    cInfo "Moving files .backup to "
+    cItalic "$bkpdir"
+    printf "\n"
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
-    printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
+
 }
+
 function make_env {
     if [ -d "$bkpdir" ]
     then
-	printf "[INFO] %s already exists.\n" "$bkpdir" 
+	cInfo
+	cItalic  "$bkpdir" "already exists."
+	printf "\n" 
     else
-	printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
+	cError "Can't clean Backup files."
+	cItalic "$bkpdir" "no found"
+	printf "\n"
 	mkdir -p "$bkpdir"
-	printf "[INFO] %s created.\n" "$bkpdir" 
+	cInfo 
+	cItalic "$bkpdir" "created."
+	printf "\n" 
     fi
-    printf "[INFO] Install main(--bare). All done. \n"
-    printf "[INFO] Installing Enviroment.   \n"
-    "$HOME/bin/install_enviroment" "$email" "$full_name"
-    printf "\r[INFO] Install Enviroment. All done. \n"
-    printf "[INFO] Installing Fonts.\n"
-    "$HOME/bin/install_fonts"
-    printf "\r[INFO] Install Fonts. All done. \n"
-    printf "[INFO] Installing I3config.\n"
-    "$HOME/bin/i3_config_install" "$bkpdir"
-    printf "\r[INFO] Install I3config. All done. \n"
+    cInfo "Install main(--bare):"
+    cOk
+    cInfo "Installing Enviroment."
+    printf "\n"
+    if "$HOME/bin/install_enviroment" "$email" "$full_name"; then
+	cInfo "Install Enviroment."
+	cOk
+    fi
+    cInfo "Installing Fonts."
+    printf "\n"
+    if "$HOME/bin/install_fonts"; then
+	cInfo "Install Fonts:"
+	cOk
+    fi
+    cInfo "Installing I3config." 
+    printf "\n"
+    if "$HOME/bin/i3_config_install" "$bkpdir"; then
+	cInfo "Install I3config:"
+	cOk
+    fi
 }
 
-if ! [ -d "$config_dir" ]; then
+function installTest {
+    if [ -d "$config_dir" ]; then
+	cError "Already instaled. If you trying reinstall, remove" 
+	cItalic "$config_dir" "in order and check outputs log."
+	printf "\n"
+	if [ "$test" = "FAILED" ];then
+	    "$checkHome" | awk '/FAIL/''{print}'
+	fi
+	exit 1
+    fi
+}
 
-    printf "[INFO] Git clone %s(--bare)." "$branch"
-    git clone --branch $branch --bare $repository "$HOME/.dotfiles";
-    printf "\r[INFO] Git clone %s(--bare): Done\n" "$branch"
-    printf "[INFO] Checkout branch %s." "$branch"
+function cfgTests {
+    if [ "$test" = "FAILED" ];then
+	"$checkHome" | awk '/FAIL/''{print}'
+	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+	    cInfo "I3config:"
+	    cOk
+	else
+	    cError "I3config not found. Installing config file: "
+	    if ! "$i3_scpt" "$bkpdir"; then
+		cError "I3config " 
+		cItalic "$i3_cfg" " isn't installed " 
+		cItalic "$i3_scpt" "exec fail or not found."
+		printf "\n" 
+	    fi
+	    cInfo "I3config file installed."
+	    printf "\n"
+	fi
+    else
+	cInfo "Config files and folders checked:"
+	cOk
+    fi
+}
+
+
+installTest
+cInfo "Git clone %s(--bare)." 
+cItalic "$branch"
+git clone --branch $branch --bare $repository "$HOME/.dotfiles";
+
+cInfo "Git clone"
+cItalic "$branch" "(--bare):"
+cOk
+
+cInfo "Checkout branch: "
+cItalic "$branch"
+if config checkout
+then
+    cInfo "Checkout branch: "
+    cItalic "$branch"
+    cOk
+    make_env 
+    cd "$local" || return
+    exit 0
+else
+    cError "Checkout branch: backup files Template=[file_name.backup]" 
+    config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    cInfo "Checkout branch, backup files:"
+    cOk
+    cInfo "Checkout branch:Cleaning and trying again after backup"
+    cleanbkp
     if config checkout
     then
-	printf "\r[INFO] Checkout branch %s: Done\n" "$branch"
-	make_env 
+	cInfo "Checkout branch:"
+	cOk
+	config config status.showUntrackedFiles no
+	cInfo "Install main(--bare):"
+	cOk
+	make_env
 	cd "$local" || return
 	exit 0
     else
-	printf "[ERROR] Checkout branch: backup files [file_name.backup] " 
-	config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
-	printf "\r[ERROR] Checkout branch: backup Done.                      \n"
-	printf "[INFO] Checkout branch:Cleaning and trying again after backup	    \n"
-	cleanbkp
-	if config checkout
-	then
-	    printf "[INFO] Checkout branch: Done.\n"
-	    config config status.showUntrackedFiles no
-	    printf "\r[INFO] Install main(--bare). All done. Exit\n"
-	    make_env
-	    cd "$local" || return
-	    exit 0
-	else
-	    printf "\r[ERROR] Checkout branch: Exit with error.                      \n"
-	    test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-	    if [ "$test" = "FAILED" ];then
-		sh "$checkHome" | awk '/FAIL/''{print}'
-		printf "\r[INFO] Trying fix install.		                    \n"
-		rm -rf "$HOME/.dotfile"
-		if sh "$HOME/.config-bkp/install.backup"
-		then
-		    cd "$local" || return
-		    exit 0
-		else
-		    cd "$local" || return
-		    exit 1
-		fi
+	cError "Checkout branch: Exit with error."
+	test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+	if [ "$test" = "FAILED" ];then
+	    sh "$checkHome" | awk '/FAIL/''{print}'
+	    cInfo "Trying fix install. Removing"
+	    cItalic "$config_dir" "folder"
+	    rm -rf "$config_dir"
+	    cInfo "Installing again."
+	    if "$HOME/.config-bkp/install.backup"
+	    then
+		cd "$local" || return
+		exit 0
+	    else
+		cd "$local" || return
+		exit 1
 	    fi
-
 	fi
+
     fi
 fi

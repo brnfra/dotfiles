@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-03-2023
+# Ultima_modificacao: 03-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
+
+
 local=$(pwd)
 bkpdir="$HOME"/.config-bkp
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
@@ -14,19 +16,58 @@ i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
 test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-
 config_dir="$HOME/.dotfiles"
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
+
 if [ -d "$bkpdir" ] 
 then
-    printf "[INFO] %s already exists.\n" "$bkpdir" 
+    printf "${cyan}${bold}[INFO]${reset} %s already exists.\n" "$bkpdir" 
 else
     mkdir -p "$bkpdir"
-    printf "[INFO] %s created.\n" "$bkpdir" 
+    printf "${cyan}${bold}[INFO]${reset} %s created.\n" "$bkpdir" 
 fi
 cd "$HOME" || return
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
 }
+
 function cleanbkp {
     folders="$HOME "
     folders+="$HOME/.bash "
@@ -48,73 +89,114 @@ function cleanbkp {
     folders+="$HOME/.config/compton "
     folders+="$HOME/bin "
     folders+="$HOME/tests/ "
-    printf "[INFO] Moving files .backup to %s\n" "$bkpdir"
+
+    cInfo "Moving files .backup to "
+    cItalic "$bkpdir"
+    printf "\n"
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
-    printf "\r[INFO] Moving files .backup to %s: Done\n" "$bkpdir"
+
 }
-printf "[INFO] Git pull config %s(--bare):" "$branch"
-if config pull origin $branch 
-then
-    printf "\r[INFO] Git pull config %s(--bare): Done\n" "$branch"
-else
-    printf "[ERROR] Checking again and backup files: Conflict.\n"
-    config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
-    printf "\r[ERROR] Checking again and backup files: Done         \n"
-    if config pull origin $branch
-    then
-	cd "$local" || return
-	printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
+function cfgTests {
+    if [ "$test" = "FAILED" ];then
+	"$checkHome" | awk '/FAIL/''{print}'
+	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+	    cInfo "I3config:"
+	    cOk
+	else
+	    cError "I3config not found. Installing config file: "
+	    if ! "$i3_scpt" "$bkpdir"; then
+		cError "I3config " 
+		cItalic "$i3_cfg" " isn't installed " 
+		cItalic "$i3_scpt" "exec fail or not found."
+		printf "\n" 
+	    fi
+	    cInfo "I3config file installed."
+	    printf "\n"
+	fi
     else
-	if [ "$test" = "FAILED" ];then
-	    "$checkHome" | awk '/FAIL/''{print}'
-	else
-	    printf "[INFO] Config files and folders checked: OK\n" 
-	fi
-	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
-	printf "\r[INFO] Fetching origin %s.                            " "$branch"
-	config fetch origin $branch
-	printf "\r[INFO] Fetching origin %s. Done\n" "$branch"
-	printf "[INFO] Reset --hard %s." "$branch"
-	config reset --hard HEAD
-	printf "\r[INFO] Reset --hard %s. Done		\n" "$branch"
-	printf "[INFO] Merging origin %s." "$branch"
-	config merge origin '@{u}'
-	printf "\r[INFO] Merging origin %s. Done	  \n" "$branch"
-	printf "[INFO] Checking again and backup files."
-	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
-	printf "\r[INFO] Checking and backup files: Done      \n" 
-	if [ "$test" = "FAILED" ];then
-	    "$checkHome" | awk '/FAIL/''{print}'
-	else
-	    printf "[INFO] Config files and folders checked: OK\n" 
-	fi
+	cInfo "Config files and folders checked:"
+	cOk
     fi
-fi
-if [ -d "$bkpdir" ]; then
-    cleanbkp
-else
-    printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
-fi
+}
 
-if [ -f "$i3_cfg" ]; then
-    printf "[INFO] I3config: OK\n"
-elif [ -f "$i3_scpt" ]; then
-    printf "[ERROR] I3config not found. Installing config file."
-    "$HOME/bin/i3_config_install" "$bkpdir"
-    printf "\r[ERROR] I3config file installed.                    \n"
-else
-    printf "\r[ERROR] I3config[%s] isn't installed and I3script[%s] not found.\n" "$i3_cfg" "$i3_scpt"
-fi
 
-printf "\r[INFO] Git Pull remote dotfiles branch to %s .\n" "$dotfiles_dir"
-if [ -d "$dotfiles_dir" ];then
-    cd "$dotfiles_dir" || return
-    git checkout $branch
+cInfo "1:Git pull clone repository folder"
+cItalic "$branch" "in"
+cItalic "$dotfiles_dir"
+printf "\n"
+cd "$dotfiles_dir" || return
+if git checkout $branch ;then
     git pull origin $branch
 else
-    printf "\r[ERROR]Can't locate %s folder.\n" "$dotfiles_dir"
+    cError "Clone dotfiles in" 
+    cItalic "$dotfiles_dir"
 fi
-printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
+
+cInfo "1:Git pull clone repository folder:"
+cOk
+
+cInfo "1:Git pull"
+cItalic "$branch" "(--bare):"
+if config pull origin $branch 
+then
+    cfgTests
+
+    cInfo "1:Git pull"
+    cItalic "$branch" "(--bare):"
+    cOk
+
+    exit 0
+else
+    cError "2: Config pull error: Conflict."
+    printf "\n"
+    config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    cInfo "2: Checking again and backup files:"
+    cOk
+
+    cleanbkp
+    cInfo "2: Cleaning:"
+    cOk
+
+    if config pull origin $branch
+    then
+	cfgTests
+	cInfo "3: Git pull config "
+	cItalic "$branch" "(--bare) and exit:"
+	cOk
+	cd "$local" || return
+	exit 1
+    else
+	cError 	"3: Can't resolve conflicts. Trying to Fetch."
+	printf	"\n"
+
+	config fetch origin $branch
+	cInfo "4: Fetching origin:"
+	cItalic "$branch" ":"
+	cOk
+
+	config reset --hard HEAD
+	cInfo "4: Reset --hard:"
+	cItalic "$branch" ":"
+	cOk
+
+	config merge origin '@{u}'
+	cInfo "4: Mergin origin:"
+	cItalic "$branch" ":"
+	cOk
+
+	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+	cInfo "Checking again and backup files:"
+	cOk
+	cfgTests
+
+	cleanbkp
+	cInfo "Clean:"
+	cOk
+    fi
+fi
+
+cError "Can't pull anyway .Exit with errors."
 cd "$local" || return
+exit 2
