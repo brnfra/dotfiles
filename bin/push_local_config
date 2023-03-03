@@ -9,8 +9,8 @@
 local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
-checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+checkHome="$HOME/dotfilesTest.sh"
+test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 
 function git_push () {
     upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
@@ -26,10 +26,11 @@ function git_push () {
 }
 
 if [ "$test" = "FAILED" ];then
-    sh "$checkHome" | awk '/FAIL/''{print}'
+    "$checkHome" | awk '/FAIL/''{print}'
     cd "$local" || return
     exit 1
 else
+    printf "[INFO] Files and folders check: OK\n" 
     if [ -d "$pushFrom" ];then
 	cd "$pushFrom" || return
 	stage_local_config

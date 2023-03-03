@@ -1,6 +1,6 @@
 #! /bin/sh
 
-testByDateDir="./test_dir"
+testByDateDir="$HOME/tests/test_dir"
 #colors
 reset=$(tput sgr0);
 bold=$(tput bold);

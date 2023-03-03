@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Arquivo: foldering_by_date
+# Arquivo: makeFolderByDate
 # Autor: Bruno Franco
 # Ultima_modificacao: 02-03-2023
 # Download: git@github.com:brnfra
@@ -31,8 +31,10 @@ foldering_by_date() {
 	then
 	    echo "test pass arguments = ${Dir}/${yearAux}/${monthAux}"
 	    echo "test pass filename = $File"
-	    mkdir -p  "${Dir}/${yearAux}/${monthAux}" 
-	    mv -i "$File" "${Dir}/${yearAux}/${monthAux}" 
+	    if [ "$HOME" != "$Dir" ]; then
+		mkdir -p  "${Dir}/${yearAux}/${monthAux}" 
+		mv -i "$File" "${Dir}/${yearAux}/${monthAux}" 
+	    fi
 	else
 	    printf  "[INFO] %s. Nothing to do. No valid pattern like YYYYmm.\n" "$File"
 	fi
@@ -43,6 +45,6 @@ foldering_by_date "$saveIn"
 printf "[INFO] Done.\n"
 #delete empty folders crated
 printf "[INFO] Deleting empty folders...\n"
-find . -type d -empty -delete &> /dev/null
+find . -type d -empty -delete # &> /dev/null
 printf "[INFO] Done.\n"
 

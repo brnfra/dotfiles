@@ -13,7 +13,7 @@ i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-test=$(sh "$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 
 config_dir="$HOME/.dotfiles"
 if [ -d "$bkpdir" ] 
@@ -67,6 +67,11 @@ else
 	cd "$local" || return
 	printf "\r[INFO] Git pull config %s(--bare): All done. Exit\n" "$branch"
     else
+	if [ "$test" = "FAILED" ];then
+	    "$checkHome" | awk '/FAIL/''{print}'
+	else
+	    printf "[INFO] Config files and folders checked: OK\n" 
+	fi
 	printf "\r[ERROR] Can't resolve conflicts. Trying to Fecth.   \n"
 	printf "\r[INFO] Fetching origin %s.                            " "$branch"
 	config fetch origin $branch
@@ -80,20 +85,17 @@ else
 	printf "[INFO] Checking again and backup files."
 	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
 	printf "\r[INFO] Checking and backup files: Done      \n" 
+	if [ "$test" = "FAILED" ];then
+	    "$checkHome" | awk '/FAIL/''{print}'
+	else
+	    printf "[INFO] Config files and folders checked: OK\n" 
+	fi
     fi
 fi
 if [ -d "$bkpdir" ]; then
     cleanbkp
 else
     printf "\r[ERROR]Can't clean .backup files. No %s found\n" "$bkpdir"
-fi
-
-if [ -d "$config_dir" ]; then
-    printf "[INFO] %s folder checked: OK\n" "$config_dir"
-    if [ "$test" = "FAILED" ];then
-	sh "$checkHome" | awk '/FAIL/''{print}'
-    fi
-    exit 1
 fi
 
 if [ -f "$i3_cfg" ]; then

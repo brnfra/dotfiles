@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Arquivo: foldering_by_type
+# Arquivo: makeFolderByType
 # Autor: Bruno Franco
 # Ultima_modificacao: 02-03-2023
 # Download: git@github.com:brnfra
@@ -28,9 +28,12 @@ foldering_by_type() {
     if [ -s ext_list ]; then
 	for Ext in $ext_list
 	do
-	    mkdir -p -v "$Dir/$Ext"
-	    find . -type f -name "*.${Ext}" -exec mv -v -i {} "$Dir/$Ext" ';' 
+	    if [ "$HOME" != "$Dir" ]; then
+		mkdir -p -v "$Dir/$Ext"
+		find . -type f -name "*.${Ext}" -exec mv -v -i {} "$Dir/$Ext" ';' 
+	    fi
 	done
+
 
     fi
     rm ext_list
