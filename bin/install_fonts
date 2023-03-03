@@ -8,7 +8,73 @@
 #           causados pelo uso deste script.
 #Fonts
 local=$(pwd)
-printf "[INFO] Installing fonts.\n"
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function clnInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
+}
+function clnError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+function clnItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
+
+clnInfo "Installing fonts."
 cd "$HOME/.local/share/fonts" || return
 nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
@@ -16,27 +82,21 @@ monofur="Monofur.zip"
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if  command -v unzip &>/dev/null  
 then
-    printf "[INFO] Downloading Nerdfont.\n" 
     curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
-    printf "[INFO] Unpack downloaded fonts.\n"
+    clnInfo "Unpack downloaded font"
     unzip -uo "$nerdfont"
-    printf "\r[INFO] Unpack downloaded fonts: Done\n"
-    printf "[INFO] Downloading CoeNewRoman.\n"
     curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
-    printf "[INFO] Unpack downloaded fonts.\n"
+    clnInfo "Unpack downloaded fonts."
     unzip -uo "$codeNewRoman"
-    printf "\r[INFO] Unpack downloaded fonts: Done\n"
-    printf "[INFO] Downloading Monofur.\n"
     curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
-    printf "[INFO] Unpack downloaded fonts.\n"
+    clnInfo "Unpack downloaded fonts."
     unzip -uo "$monofur"
-    printf "\r[INFO] Unpack downloaded fonts: Done\n"
     fc-cache -f -v
     cd "$local" || return
-    printf "\n[INFO] All done!\n"
+    clnInfo " All done! Exit"
     exit 0
 else
-    printf "[ERROR] The package Unzip is not installed. ute apt install unzip. \n"
+    clnError "The package Unzip is not installed. Please install unzip."
     cd "$local" || return
     exit 1
 fi

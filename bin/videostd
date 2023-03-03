@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: videostd
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-02-2023
+# Ultima_modificacao: 03-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -80,9 +80,9 @@ rm -f oldsize
 rm -f mp4_files_list
 #Is empty? yes, remove. 
 if [ -z "$(ls -A ./$output)" ]; then
-    rm -rf ./$output; echo "./$output folder deleted" 
+    rm -rf ./"$output"; echo "./$output folder deleted" 
 fi
 if [ -z "$(ls -A ./$backup)" ]; then
-    rm -rf ./$backup; echo "./$backup folder deleted" 
+    rm -rf ./"$backup"; echo "./$backup folder deleted" 
 fi
 echo "All done. Success"
