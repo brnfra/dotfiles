@@ -62,6 +62,7 @@ function cItalic {
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
+
 function cleanbkp {
     folders="$HOME "
     folders+="$HOME/.bash "
@@ -90,7 +91,6 @@ function cleanbkp {
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
-
 }
 
 function make_env {
@@ -169,7 +169,6 @@ function cfgTests {
     fi
 }
 
-
 installTest
 cInfo "Git clone %s(--bare)." 
 cItalic "$branch"
@@ -191,7 +190,7 @@ then
     exit 0
 else
     cError "Checkout branch: backup files Template=[file_name.backup]" 
-    config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
     cInfo "Checkout branch, backup files:"
     cOk
     cInfo "Checkout branch:Cleaning and trying again after backup"
@@ -224,6 +223,5 @@ else
 		exit 1
 	    fi
 	fi
-
     fi
 fi

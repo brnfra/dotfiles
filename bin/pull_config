@@ -144,7 +144,7 @@ then
 else
     cError "2: Config pull error: Conflict."
     printf "\n"
-    config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+    config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
     cInfo "2: Checking again and backup files:"
     cOk
 
@@ -179,7 +179,7 @@ else
 	cItalic "$branch" ":"
 	cOk
 
-	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv {} {}.backup
+	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cInfo "Checking again and backup files:"
 	cOk
 	cfgTests
@@ -189,12 +189,12 @@ else
 	cOk
 
 	if config pull origin $branch
-	    cInfo "Git pull finished after fetch. Exit"
+	    cInfo "5: Git pull finished after fetch. Exit"
 	    printf "\n"
 	    cd "$local" || return
 	    exit 2
 	then
-	    cError "Can't pull anyway .Exit with errors."
+	    cError "5: Can't pull anyway .Exit with errors."
 	    printf "\n"
 	    cd "$local" || return
 	    exit 2
