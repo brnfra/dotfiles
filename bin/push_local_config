@@ -60,7 +60,7 @@ function git_push () {
 
     else
 	git status -sb 
-	cError"[ERROR] A error occours. Check log."
+	cError"A error occours. Check log."
 	printf "\n" 
     fi
 }
@@ -79,7 +79,7 @@ else
 	stage_local_config
 	git_push "$1"
     else
-	cError "[ERROR] No"
+	cError "No"
 	cItalic "$pushFrom" "found." 
 	printf "\n" 
 	exit 1

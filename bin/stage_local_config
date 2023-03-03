@@ -11,10 +11,76 @@ bkpdir="$HOME/.config-bkp"
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function clnInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
+}
+function clnError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+function clnItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
+
 #function for backup
 sync_copy ()
 {
-    printf "[INFO]Sync beginning at %s\n" "$DATE" > $bkpLog
+    printf "[INFO]Sync beginning at %s\n" "$DATE" > "$bkpLog"
     # bash
     files='.bashrc .bash/ '
     # vim
@@ -49,11 +115,11 @@ sync_copy ()
     # test
     files+='tests/ '
     for file in $files; do
-	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> $bkpLog
+	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$copyTo/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir=$bkpdir  $HOME/$file $copyTo/$file &>> $bkpLog
-	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> $bkpLog
+	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$copyTo"/"$file" &>> "$bkpLog"
+	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> "$bkpLog"
     done
 }
 #check folders
@@ -62,10 +128,13 @@ if [ -d "$copyTo" ] && [ -d "$bkpdir" ];then
     git pull
     sync_copy
 else
-    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$bkpdir" 
-    printf "[ERROR] No %s or/and %s found.\n" "$copyTo" "$bkpdir" &>> $bkpLog 
+    cError "Folders"
+    cItalic "$copyTo" "and" 
+    clnItalic "$bkpdir" "is required." 
+    printf "[ERROR] No %s or/and %s is required.\n" "$copyTo" "$bkpdir" &>> "$bkpLog" 
     exit 1
 fi
 cd "$local" || return
-printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> $bkpLog
-printf "[INFO] If error occured check backup log: %s ; All Done!.\n" "$bkpLog"
+printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
+cInfo "If error occured check backup log in:" 
+clnItalic "$bkpLog" "Done."
