@@ -11,7 +11,7 @@
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 
 cd "$HOME" || return
-# Change for your Data {{{ 
+# Change for your Data  
 local=$(pwd)
 repository="https://github.com/brnfra/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
@@ -20,8 +20,7 @@ branch="main"
 email="devlabbr@gmail.com"
 full_name="brnfra"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-# }}}
+# 
 # Color {{{ 
 function cInfo {
     local reset
@@ -48,7 +47,7 @@ function cOk {
     reset=$(tput sgr0);
     bold=$(tput bold);
     green=$(tput setaf 34);
-    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
 }
 function cItalic {
     local cyan
@@ -132,6 +131,8 @@ function make_env {
 }
 
 function installTest {
+    local test
+    test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
     if [ -d "$config_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove" 
 	cItalic "$config_dir" "in order and check outputs log."
@@ -144,6 +145,8 @@ function installTest {
 }
 
 function cfgTests {
+    local test
+    test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
     if [ "$test" = "FAILED" ];then
 	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then

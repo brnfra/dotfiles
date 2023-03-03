@@ -9,7 +9,7 @@
 local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
-checkHome="$HOME/dotfilesTest.sh"
+checkHome="$HOME/tests/dotfilesTest.sh"
 test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 # Color {{{ 
 function cInfo {
@@ -37,7 +37,7 @@ function cOk {
     reset=$(tput sgr0);
     bold=$(tput bold);
     green=$(tput setaf 34);
-    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
 }
 function cItalic {
     local cyan

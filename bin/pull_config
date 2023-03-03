@@ -15,7 +15,6 @@ i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 config_dir="$HOME/.dotfiles"
 # Color {{{ 
 function cInfo {
@@ -43,7 +42,7 @@ function cOk {
     reset=$(tput sgr0);
     bold=$(tput bold);
     green=$(tput setaf 34);
-    printf "%s%s OK \n %s" "$green" "$bold" "$reset" 
+    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
 }
 function cItalic {
     local cyan
@@ -58,12 +57,18 @@ function cItalic {
 
 if [ -d "$bkpdir" ] 
 then
-    printf "${cyan}${bold}[INFO]${reset} %s already exists.\n" "$bkpdir" 
+    cInfo
+    cItalic "$bkpdir" "already exists. "
+    printf "\n"
 else
     mkdir -p "$bkpdir"
-    printf "${cyan}${bold}[INFO]${reset} %s created.\n" "$bkpdir" 
+    cInfo "Folder"
+    cItalic "$bkpdir" "created"
+    printf "\n"
 fi
+
 cd "$HOME" || return
+
 function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
 }
@@ -99,6 +104,8 @@ function cleanbkp {
 
 }
 function cfgTests {
+    local test
+    test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
     if [ "$test" = "FAILED" ];then
 	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
@@ -194,9 +201,17 @@ else
 	cleanbkp
 	cInfo "Clean:"
 	cOk
+
+	if config pull origin $branch
+	    cInfo "Git pull finished after fetch. Exit"
+	    cd "$local" || return
+	    exit 2
+	then
+	    cError "Can't pull anyway .Exit with errors."
+	    printf "\n"
+	    cd "$local" || return
+	    exit 2
+	fi
     fi
 fi
 
-cError "Can't pull anyway .Exit with errors."
-cd "$local" || return
-exit 2

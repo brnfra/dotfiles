@@ -24,6 +24,11 @@ testmakeFolderByType() {
 }
 
 oneTimeSetUp() {
+    local=$(pwd)
+    if [ "$local" = "$HOME" ];then
+	exit 1
+    fi
+
     # Load include to test.
     mkdir -p $testByTypeDir
 

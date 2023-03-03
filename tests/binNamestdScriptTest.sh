@@ -13,7 +13,6 @@ dotfilesDir="/home/devlab/teste/tests/tests"
 testDir="./test-dir"
 
 testExecution() {
-
     cd "$testDir"
     namestd 1> /dev/null 
     assertTrue "${red}${bold}[FAIL]${reset} Error found\n\n" $?
@@ -160,6 +159,10 @@ testRename_Folder() {
 
 oneTimeSetUp() {
     # Load include to test.
+    local=$(pwd)
+    if [ "$local" = "$HOME" ];then
+	exit 1
+    fi
     mkdir -p $testDir
 }
 oneTimeTearDown() {
