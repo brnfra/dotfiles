@@ -51,8 +51,7 @@ function cItalic {
 # }}}
 # git push {{{  
 function git_push () {
-    upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
-    message="$@. $upfiles"
+    message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";git push origin $branch   
     if [ $? ];then
 	git status -sb
