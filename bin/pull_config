@@ -129,20 +129,6 @@ function cfgTests {
 }
 
 
-cInfo "1:Git pull clone repository folder"
-cItalic "$branch" "in"
-cItalic "$dotfiles_dir"
-printf "\n"
-cd "$dotfiles_dir" || return
-if git checkout $branch ;then
-    git pull origin $branch
-else
-    cError "Clone dotfiles in" 
-    cItalic "$dotfiles_dir"
-fi
-
-cInfo "1:Git pull clone repository folder:"
-cOk
 
 cInfo "1:Git pull"
 cItalic "$branch" "(--bare):"
@@ -204,6 +190,7 @@ else
 
 	if config pull origin $branch
 	    cInfo "Git pull finished after fetch. Exit"
+	    printf "\n"
 	    cd "$local" || return
 	    exit 2
 	then
@@ -214,4 +201,19 @@ else
 	fi
     fi
 fi
+
+cInfo "1:Git pull clone repository folder"
+cItalic "$branch" "in"
+cItalic "$dotfiles_dir"
+printf "\n"
+cd "$dotfiles_dir" || return
+if git checkout $branch ;then
+    git pull origin $branch
+else
+    cError "Clone dotfiles in" 
+    cItalic "$dotfiles_dir"
+fi
+
+cInfo "1:Git pull clone repository folder:"
+cOk
 
