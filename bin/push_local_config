@@ -10,7 +10,7 @@ local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
 checkHome="$HOME/tests/dotfilesTest.sh"
-test=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+tests=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
 # Color {{{ 
 function cInfo {
     local reset
@@ -49,7 +49,7 @@ function cItalic {
     printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
 }
 # }}}
-
+# git push {{{  
 function git_push () {
     upfiles=$(git status -sb | sed '1d;s/^\sM/ Mod\-/g;s/??/ Add\-/g;s/^\sD/ Del\-/g')
     message="$@. $upfiles"
@@ -65,8 +65,9 @@ function git_push () {
 	printf "\n" 
     fi
 }
+# }}}
 
-if [ "$test" = "FAILED" ];then
+if [ "$tests" = "FAILED" ];then
     "$checkHome" | awk '/FAIL/''{print}'
     cd "$local" || return
     exit 1

@@ -18,7 +18,8 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     acpi \
     gsimplecal \
     vim neovim vifm \
-    'unzip'
+    'unzip' \
+    shunit2
 elif [ "$osys" = "manjaro" ]; then
     sudo pacman -Syu \
     jq \

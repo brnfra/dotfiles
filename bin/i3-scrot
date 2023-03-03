@@ -1,5 +1,4 @@
-#!/bin/bash
-# /usr/bin/i3-scrot
+#!/usr/bin/env bash
 #
 # simple screenshot-script using scrot for manjaro-i3 by oberon@manjaro.org
 _conf=$HOME/.config/i3-scrot.conf
