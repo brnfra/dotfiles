@@ -10,6 +10,13 @@
 backup="Backup_"
 backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
+LOCAL=$(pwd)
+if [ "$LOCAL" = "$HOME" ]; then
+    printf "Script avoid execute in [%s] directory.\n" "$HOME"
+    printf "If you insist, comment line 12-16 in [%s] Script. You're on own risk.\n" "$0"
+    exit 1
+fi
+
 if ls ./*.pdf;
 then
     find . -maxdepth 1 -type f -name '*.pdf' |  sed 's|\.\/||gi' > pdf_files_list

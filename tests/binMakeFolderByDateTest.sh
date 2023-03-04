@@ -16,7 +16,7 @@ testmakeFolderByDate_3level() {
     touch  $testByDateDir/level1/level2/200402file5.jpg
     touch  $testByDateDir/level1/200511file6.mkv
     
-    makeFolderByDate "$testByDateDir" #> /dev/null 2> /dev/null
+    makeFolderByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
 	": 21 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2003/01/200301file4.png" \
@@ -35,7 +35,7 @@ testmakeFolderByDate() {
     touch $testByDateDir/200102file2.jpg
     touch $testByDateDir/200211file3.mkv
 
-    makeFolderByDate "$testByDateDir" #> /dev/null 2> /dev/null
+    makeFolderByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
 	": 34 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2000/01/200001file1.png" \

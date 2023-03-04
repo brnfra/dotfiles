@@ -10,7 +10,8 @@ local=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
 branch="main"
 checkHome="$HOME/tests/dotfilesTest.sh"
-tests=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
+cd "$HOME/tests" || return
+
 # Color {{{ 
 function cInfo {
     local reset
@@ -66,11 +67,8 @@ function git_push () {
 }
 # }}}
 
-if [ "$tests" = "FAILED" ];then
-    "$checkHome" | awk '/FAIL/''{print}'
-    cd "$local" || return
-    exit 1
-else
+if "$checkHome" > /dev/null;
+then
     cInfo "Files and folders check:" 
     cOk
 
@@ -87,6 +85,10 @@ else
 
     cd "$local" || return
     exit 0
+else
+    "$checkHome" | awk '/FAIL/''{print}'
+    cd "$local" || return
+    exit 1
 fi
 
 cd "$local" || return

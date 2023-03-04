@@ -4,22 +4,29 @@
 reset=$(tput sgr0);
 bold=$(tput bold);
 cyan=$(tput setaf 39);
-
+red=$(tput setaf 124);
 SHUNIT_TEST_PREFIX=' #Main --> '
 
+
 testDotfilesConfigs() {
-    printf "${cyan}${bold}[INFO]${reset} Check Git Configs Tests\n\n"
+    printf "${cyan}${bold}[INFO]${reset} Check Git Configs Tests\n"
     "$HOME/tests/gitTest.sh"
-    printf "${cyan}${bold}[INFO]${reset} Check if Repo config files exists.\n\n"
+    assertTrue ": 13 :${red}${bold}[FAIL]${reset} Error Git Configs Tests found\n" $?
+    printf "${cyan}${bold}[INFO]${reset} Check if Repo config files exists.\n"
     "$HOME/tests/checkRepoConfigFilesTest.sh"
-    printf "${cyan}${bold}[INFO]${reset} Check if Local config files exists.\n\n"
+    assertTrue ": 15 :${red}${bold}[FAIL]${reset} Error Repo config files exists Tests found\n" $? 
+    printf "${cyan}${bold}[INFO]${reset} Check if Local config files exists.\n"
     "$HOME/tests/checkHomeConfigFilesTest.sh"
-    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[namestd].\n\n"
+    assertTrue ": 17 :${red}${bold}[FAIL]${reset} Error Home config files exists Tests found.\n" $? 
+    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[namestd].\n"
     "$HOME/tests/binNamestdScriptTest.sh"
-    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Date].\n\n"
+    assertTrue ": 19 :${red}${bold}[FAIL]${reset} Error Scripts in bin works[namestd] Tests found\n" $? 
+    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Date].\n"
     "$HOME/tests/binMakeFolderByDateTest.sh"
-    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Type].\n\n"
+    assertTrue ": 21 :${red}${bold}[FAIL]${reset} Error Scripts Scripts in bin works[fold by Date]\n" $? 
+    printf "${cyan}${bold}[INFO]${reset} Check if Scripts in bin works[fold by Type].\n"
     "$HOME/tests/binMakeFolderByTypeTest.sh"
+    assertTrue ": 21 :${red}${bold}[FAIL]${reset} Error Scripts Scripts in bin works[fold by Date]\n" $? 
 
 }
 oneTimeSetUp() {

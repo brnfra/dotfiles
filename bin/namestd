@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 28-02-2023
+# Ultima_modificacao: 03-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -142,7 +142,7 @@ function show_result() { #{{{
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
-    printf "If you insist, comment line 157 in [%s] Script. You're on own risk.\n" "$HOME/bin/namestd"
+    printf "If you insist, comment line 143 in [%s] Script. You're on own risk.\n" "$HOME/bin/namestd"
     exit 1
 fi
 FOLDERS_BEFORE=$(find . -maxdepth 1 -type d | sed 's|\.\/||gi' | sed '1d'| sort)

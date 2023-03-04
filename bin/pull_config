@@ -6,8 +6,6 @@
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-
-
 local=$(pwd)
 bkpdir="$HOME"/.config-bkp
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
@@ -15,7 +13,6 @@ i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="main"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-#config_dir="$HOME/.dotfiles"
 # Color {{{ 
 function cInfo {
     local reset
@@ -35,6 +32,24 @@ function cError {
     red=$(tput setaf 124);
     printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
 }
+function clnInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
+}
+function clnError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
+}
 function cOk {
     local reset
     local bold
@@ -52,6 +67,15 @@ function cItalic {
     italic=$(tput sitm);
     reset=$(tput sgr0);
     printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+function clnItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
 }
 # }}}
 # bkpdir test {{{ 
@@ -103,12 +127,11 @@ function cleanbkp {
 # }}}
 # general test {{{ 
 function cfgTests {
-    local tests
-    tests=$("$checkHome" | awk '/OK/ || /FAILED/''{print $1}')
-    if [ "$tests" = "FAILED" ];then
-	"$checkHome" | awk '/FAIL/''{print}'
+    if "$checkHome" > /dev/null;
+    then
+    	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    cInfo "I3config:"
+	    cInfo "I3config and i3 script:"
 	    cOk
 	else
 	    cError "I3config not found. Installing config file: "
@@ -131,6 +154,7 @@ function config {
     git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
 }
 
+cd "$HOME" || return
 cInfo "1:Git pull"
 cItalic "$branch" "(--bare):"
 if config pull origin $branch 
@@ -140,8 +164,6 @@ then
     cInfo "1:Git pull"
     cItalic "$branch" "(--bare):"
     cOk
-
-    exit 0
 else
     cError "2: Config pull error: Conflict."
     printf "\n"
@@ -157,10 +179,8 @@ else
     then
 	cfgTests
 	cInfo "3: Git pull config "
-	cItalic "$branch" "(--bare) and exit:"
+	cItalic "$branch" "(--bare):"
 	cOk
-	cd "$local" || return
-	exit 1
     else
 	cError 	"3: Can't resolve conflicts. Trying to Fetch."
 	printf	"\n"
@@ -190,30 +210,27 @@ else
 	cOk
 
 	if config pull origin $branch
-	    cInfo "5: Git pull finished after fetch. Exit"
-	    printf "\n"
-	    cd "$local" || return
-	    exit 2
+	    clnInfo "5: Git pull finished after fetch. Exit"
 	then
-	    cError "5: Can't pull anyway .Exit with errors."
-	    printf "\n"
-	    cd "$local" || return
-	    exit 2
+	    clnError "5: Can't pull anyway .Exit with errors."
 	fi
     fi
 fi
 
 cInfo "1:Git pull clone repository folder"
 cItalic "$branch" "in"
-cItalic "$dotfiles_dir"
-printf "\n"
+clnItalic "$dotfiles_dir"
 cd "$dotfiles_dir" || return
 if git checkout $branch ;then
     git pull origin $branch
 else
     cError "Clone dotfiles in" 
-    cItalic "$dotfiles_dir"
+    clnItalic "$dotfiles_dir"
 fi
 
 cInfo "1:Git pull clone repository folder:"
 cOk
+cd "$local" || return
+
+
+
