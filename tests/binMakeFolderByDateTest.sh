@@ -29,6 +29,7 @@ testmakeFolderByDate_3level() {
 	"[ -f "$testByDateDir/2005/11/200511file6.mkv" ]"
 
 }
+
 testmakeFolderByDate() {
     
     touch $testByDateDir/200001file1.png

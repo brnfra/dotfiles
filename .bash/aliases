@@ -6,7 +6,7 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
     alias pdeps="apt depends"
     #source edit
     alias src="sudo apt edit-sources"
-    # update and upgrade 
+    # update and upgrade
     alias up='sudo apt-get update'
     alias upgl='apt list -a --upgradable 2>/dev/null'
     alias upg='sudo apt-get upgrade -y'
@@ -20,7 +20,7 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
  # {{{ pacman alias
  #
 elif [ "$osys" = "manjaro" ]; then
-    # update and upgrade 
+    # update and upgrade
     alias up='sudo pacman -Syu'
     alias get='sudo pacman -Syu'
     alias remove='sudo pacman -R'
@@ -42,9 +42,9 @@ elif [ "$osys" = "manjaro" ]; then
 	alias lx='ls -Agxoph | grep -e "[^\/]$"'
 	# some more ls aliases
 	#show hiddens only
-	alias l.='ls -ApGv --group-directories-first | grep --regexp="^[.]"'                 
+	alias l.='ls -ApGv --group-directories-first | grep --regexp="^[.]"'
 	#show links only
-	alias li='ls -AFohL --color=always | grep --regexp="^[l]"'    
+	alias li='ls -AFohL --color=always | grep --regexp="^[l]"'
 	#show directories
 	alias ld='ls -ApGoh --color=always | grep --regexp="[\/]$"'
 	#exa aliases
@@ -56,7 +56,7 @@ elif [ "$osys" = "manjaro" ]; then
 	# grep
 	alias grep="grep --color=auto"
 	alias egrep='egrep --color=auto'
-	#alias to nav directories 
+	#alias to nav directories
 	alias ..="cd .."
 	alias ...="cd ../.."
 	alias ....="cd ../../.."
@@ -79,7 +79,7 @@ elif [ "$osys" = "manjaro" ]; then
 	alias g='git status '
 	alias glog="git log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar. %s ;'"
 	#git diff
-	alias gdiff="git diff"    
+	alias gdiff="git diff"
 	#add and rm
 	alias ga='git add -A'
 	alias gr='git restore '
@@ -125,15 +125,15 @@ elif [ "$osys" = "manjaro" ]; then
 	alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
 	alias promptrc='nvim ~/.bash/prompt'
 	alias profilerc='nvim ~/.bash/profile'
-	alias aliasrc='nvim ~/.bash/aliases' 
-	alias funcrc='nvim ~/.bash/functions' 
-	alias pathrc='nvim ~/.bash/exports' 
-	alias bashrc='nvim ~/.bashrc' 
+	alias aliasrc='nvim ~/.bash/aliases'
+	alias funcrc='nvim ~/.bash/functions'
+	alias pathrc='nvim ~/.bash/exports'
+	alias bashrc='nvim ~/.bashrc'
 	alias vimrc='vim ~/.vimrc'
 	alias i3rc='nvim ~/.i3/config'
 	alias blocksrc='nvim ~/.i3/i3blocks.conf'
 	alias blocksdir='cd ~/.i3/i3blocks'
-	alias dotbash='cd ~/.bash' 
+	alias dotbash='cd ~/.bash'
 	alias vifmrc='nvim ~/.config/vifm/vifmrc'
   # }}}
   # Apps exec {{{

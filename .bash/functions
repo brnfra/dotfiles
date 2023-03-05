@@ -5,7 +5,7 @@ function mkd() {
     mkdir -p "$@" && cd "$_";
 }
 # }}}
-# Colorized man pages{{{ 
+# Colorized man pages{{{
 #from: http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
 man() {
     env \
@@ -98,20 +98,20 @@ function tre() {
 #
 # }}}
 #search for non-free installed packages {{{
-function pnonfree () 
-{ 
-    dpkg-query -W -f='${Section}\t{Package}\n' | sort -u; 
+function pnonfree ()
+{
+    dpkg-query -W -f='${Section}\t{Package}\n' | sort -u;
 }
 # }}}
 #search for contrib installed packages {{{
-function pcontrib () 
-{ 
-    dpkg-query -W -f='${Section}\t{Package}\n' | grep ^contrib; 
+function pcontrib ()
+{
+    dpkg-query -W -f='${Section}\t{Package}\n' | grep ^contrib;
 }
 # }}}
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-function psearch () { 
+function psearch () {
     apt-cache search ""	|  fzf +m -i -e \
 	--prompt='------> ' \
 	--header='Pkg-Name - Description:' \
@@ -122,11 +122,11 @@ function psearch () {
 	--preview-window=wrap \
 	--bind="tab:toggle-preview" \
 	| cut -d " " -f 1 \
-	| xargs -ro sudo apt-get install 
+	| xargs -ro sudo apt-get install
 }
 # }}}
 # Show installed packages {{{
-function plist () { 
+function plist () {
     apt list --installed \
 	| awk '{print $1}' \
 	| cut -f1 -d '/' \
@@ -136,7 +136,7 @@ function plist () {
 	--hscroll-off=800 \
 	--preview="apt-cache show {1}" \
 	--preview-window=wrap \
-	--bind="tab:toggle-preview" ; 
+	--bind="tab:toggle-preview" ;
 }
 # }}}
 # autocomplete {{{
@@ -150,7 +150,7 @@ function auto_complete_apt() {
     complete -F auto_complete_apt pdeps
     # }}}
 #package info dependencies  {{{
-function depends() { 
+function depends() {
     apt list --installed \
 	| awk '{print $1}' \
 	| cut -f1 -d '/' \
@@ -160,7 +160,7 @@ function depends() {
 	--hscroll-off=800 \
 	--preview="aptitude why {1} " \
 	--preview-window=wrap \
-	--bind="tab:toggle-preview" ; 
+	--bind="tab:toggle-preview" ;
 }
 # }}}
 # {{{ pacman alias
@@ -183,7 +183,7 @@ function fremove () {
 	| fzf \
 	--multi \
 	--preview 'pacman -Qi {1}' \
-	| xargs -ro sudo pacman -Rns 
+	| xargs -ro sudo pacman -Rns
 }
 # }}}
 # autocomplete {{{
@@ -229,13 +229,33 @@ function cd_with_fzf () {
 # Display a man page using fzf and fd. usually /usr/share/man
 function man_find () {
     MANPATH='/usr/share/man'
-    f=$(fd . $MANPATH/man${1:-1} -t f -x echo {/.} | fzf) && man $f
+    fd . $MANPATH/man${1:-1} -t f -x echo {/.} \
+	| fzf \
+	--multi \
+	--prompt="Man${1:-1}" \
+	--preview 'man {1}' \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" \
+	| man
 }
 function fman () {
-    man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
+    man -k . \
+	| fzf \
+	--multi \
+	--prompt='Man> ' \
+	--preview 'man {1}' \
+	--height=80% \
+	--border \
+	--hscroll-off=800 \
+	--preview-window=wrap \
+	--bind="tab:toggle-preview" \
+	| awk '{print $1}' | xargs -r man
 }
 function fhistory () {
-    command "$(cat < ~/.bash_history | fzf -m -i)"    
+    command "$(cat < ~/.bash_history | fzf -m -i)"
 }
 # }}}
 

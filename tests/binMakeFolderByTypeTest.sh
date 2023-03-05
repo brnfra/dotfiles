@@ -112,12 +112,10 @@ oneTimeSetUp() {
     if [ "$(pwd)" = "$HOME" ];then
 	exit 1
     fi
-
     # Load include to test.
     mkdir -p "$(pwd)/${testByTypeDir}/level1/level2/level3"
     cp "$0" "$(pwd)/${testByTypeDir}"
     cd "$testByTypeDir" || return
-
 }
 oneTimeTearDown() {
     cd .. || return
