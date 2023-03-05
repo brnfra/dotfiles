@@ -19,7 +19,7 @@ function git_push () {
     git add -A -v;git commit -v -m "$message";git push origin $branch   
     if [ $? ];then
 	git status -sb
-	cmOK "Git add + and push:"
+	cmOk "Git add + and push:"
     else
 	git status -sb 
 	clnError "A error occours. Check log."
