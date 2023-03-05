@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 05-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -98,7 +98,7 @@ function rename_folder() {   #{{{
     NAME=${NAME//'$'/}
     #in case the first has been _ sbst ""
     NAME=${NAME/#_/}
-    NAME=$(echo "$NAME" | sed -r 's/[\s%]/_/g; ')
+    NAME=$(echo "$NAME" | sed -r 's/[[:space:]]/_/g; ')
     NAME=$(echo "$NAME" | sed -r 's/[^.^\w^\-^[0-9]]/_/gi')
     NAME=$(echo "$NAME" | sed -r 's/_+/_/gi')
     NAME=$(echo "$NAME" | sed -r 's/^_//gi')

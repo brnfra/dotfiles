@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: makeFolderByType
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 05-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -17,7 +17,6 @@ today_year=$(date +%Y)
 today_year=$((today_year + 1))
 saveIn=${1:-'.'}
 
-#create and move to folders
 foldering_by_type() {
     local Dir="$1"
 
@@ -26,25 +25,22 @@ foldering_by_type() {
 	echo "${File##*'.'}" | sed 's/sh//gi' >> ext_list
     done
     ext_list=$(sort -u < ext_list)
+    echo $ext_list
     if [ -s ext_list ]; then
 	for Ext in $ext_list
 	do
 	    if [ "$HOME" != "$Dir" ]; then
 		mkdir -p -v "$Dir/$Ext"
-		find . -type f -name "*.${Ext}" -exec mv -v -i {} "$Dir/$Ext" ';' 
+		find . -maxdepth 1 -type f -name "*.${Ext}" -exec mv -v -i {} "$Dir/$Ext" ';' 
+	    else
+		clnError "Can't execute in home folder.'"
 	    fi
 	done
-
-
     fi
     rm ext_list
 }
 
 foldering_by_type "$saveIn"
-cInfo "Foldering by type:"
-cOk
-#delete empty folders crated
-find . -type d -empty -delete # &> /dev/null
-cInfo "Cleaning empty folders:"
-cOk
-
+cmOk "Foldering by type:"
+find . -maxdepth 1 -type d -empty -delete # &> /dev/null
+cmOk "Cleaning empty folders:"

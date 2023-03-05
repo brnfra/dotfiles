@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: makeFolderByDate
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 05-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -16,16 +16,13 @@ files=$(find . -type f -name '[0-9]*' | sed 's|\.\/||gi')
 today_year=$( date +%Y )
 today_year=$(( today_year + 1 ))
 saveIn=${1:-'.'}
-#create and move to folders
-cInfo "Creating folders and moving files."
-printf "\n"
+clnInfo "Creating folders and moving files."
 
 foldering_by_date() {
     local Dir="$1"
     for File in $files
     do
 	file_name=${File##*/}
-	#file_path=${File%/*}
 	yearAux=$(echo "$file_name" | sed -r 's/(.{3}.).*/\1/gi')
 	monthAux=$(echo "$file_name" | sed -r 's/(.{5}.).*/\1/gi; s/.*(.{2})/\1/gi')
 	monthAux=${monthAux##*0}
@@ -40,17 +37,12 @@ foldering_by_date() {
 	    fi
 	else
 	    cInfo
-	    cItalic "$File" "Nothing to do. No valid pattern like YYYYmm."
-	    printf "\n"
-	    
+	    clnItalic "$File" "Nothing to do. No valid pattern like YYYYmm."
 	fi
     done
 }
 
 foldering_by_date "$saveIn"
-cInfo "Foldering by date:"
-cOk
-#delete empty folders crated
+cmOk "Foldering by date:"
 find . -type d -empty -delete # &> /dev/null
-cInfo "Cleaning empty folders:"
-cOk
+cmOk "Cleaning empty folders:"

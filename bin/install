@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 05-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -67,25 +67,21 @@ function make_env {
 	cItalic "$bkpdir" "created."
 	printf "\n" 
     fi
-    cInfo "Install main(--bare):"
-    cOk
+    cmOk "Install main(--bare):"
     cInfo "Installing Enviroment."
     printf "\n"
     if "$HOME/bin/install_enviroment" "$email" "$user_name"; then
-	cInfo "Install Enviroment."
-	cOk
+	cmOk "Install Enviroment."
     fi
     cInfo "Installing Fonts."
     printf "\n"
     if "$HOME/bin/install_fonts"; then
-	cInfo "Install Fonts:"
-	cOk
+	cmOk "Install Fonts:"
     fi
     cInfo "Installing I3config." 
     printf "\n"
     if "$HOME/bin/i3_config_install" "$bkpdir"; then
-	cInfo "Install I3config:"
-	cOk
+	cmOk "Install I3config:"
     fi
 }
 # }}}
@@ -93,8 +89,7 @@ function make_env {
 function installTest {
     if [ -d "$config_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
-	cItalic "$config_dir" "in order and check outputs log."
-	printf "\n"
+	clnItalic "$config_dir" "in order and check outputs log."
 	
 	if "$checkHome" > /dev/null;
 	then
@@ -118,21 +113,17 @@ function cfgTests {
 	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
 	    cInfo "I3config and i3 scripts:"
-	    cOk
 	else
 	    cError "I3config not found. Installing config file: "
 	    if ! "$i3_scpt" "$bkpdir"; then
 		cError "I3config " 
 		cItalic "$i3_cfg" " isn't installed " 
-		cItalic "$i3_scpt" "exec fail or not found."
-		printf "\n" 
+		clnItalic "$i3_scpt" "exec fail or not found."
 	    fi
-	    cInfo "I3config file installed."
-	    printf "\n"
+	    clnInfo "I3config file installed."
 	fi
     else
-	cInfo "Config files and folders checked:"
-	cOk
+	cmOk "Config files and folders checked:"
     fi
 }
 #}}}
@@ -155,7 +146,7 @@ cItalic "$branch"
 if config checkout
 then
     cInfo "Checkout branch: "
-    cItalic "$branch"
+    cItalic "$branch" ":"
     cOk
     make_env 
     cd "$nowIn" || return
@@ -163,17 +154,14 @@ then
 else
     cError "Checkout branch: backup files Template=[file_name.backup]" 
     config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    cInfo "Checkout branch, backup files:"
-    cOk
-    cInfo "Checkout branch:Cleaning and trying again after backup"
+    cmOk "Checkout branch, backup files:"
+    clnInfo "Checkout branch:Cleaning and trying again after backup"
     cleanbkp
     if config checkout
     then
-	cInfo "Checkout branch:"
-	cOk
+	cmOk "Checkout branch:"
 	config config status.showUntrackedFiles no
-	cInfo "Install main(--bare):"
-	cOk
+	cmOk "Install main(--bare):"
 	make_env
 	cd "$nowIn" || return
 	exit 0

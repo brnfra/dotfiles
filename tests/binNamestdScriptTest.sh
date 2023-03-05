@@ -10,7 +10,7 @@ red=$(tput setaf 124);
 SHUNIT_TEST_PREFIX=" Standard names --> "
 SHUNIT_COLOR="always"
 dotfilesDir="/home/devlab/teste/tests/tests"
-testDir="./test-dir"
+testDir="$HOME/tests/test_dir"
 
 testExecution() {
     cd "$testDir"
@@ -19,142 +19,139 @@ testExecution() {
 
 }
 
-testRename_File() {
-
-    local=$(pwd)
-    touch "$local/123@#%456"
-
+testRenameSpaceAndSymbols_File() {
+    var='file4123<@#>     ??@#%symbols'
+    expect='file4123_symbols'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result=$(find 123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result of 123@#%456' was wrong\n\n" \
-	"123_456" \
-	"${result}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+ }
 
 testRename_File() {
-
-    local=$(pwd)
-    touch "$local/123%@#%456"
-
+    var='123%@#%456'
+    expect='123_456'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result=$(find 123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result of 123@#%456' was wrong\n\n" \
-	"123_456" \
-	"${result}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+}
 
 testRename_File_DotFile() {
-
-    local=$(pwd)
-    touch "$local/123.@#%456"
-
+    var='dot.file'
+    expect='dot.file'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result=$(find 123.456 -maxdepth 1 -type f)
-    assertEquals \
-	"${_ASSERT_EQUALS_} ${red}${bold}[FAIL]${reset}The result of 123.@#%456' was wrong\n\n" \
-	"123.456" \
-	"${result}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+   }
 
 testRename_File_DotDotFile() {
-
-    local=$(pwd)
-    touch "$local/brn.123.@#%456"
-
+    var='name.dot.file'
+    expect='name.dot.file'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result=$(find "brn.123.456" -maxdepth 1 -type f)
-    assertEquals \
-	"${_ASSERT_EQUALS_} ${red}${bold}[FAIL]${reset}The result of brn.123.@#%456' was wrong\n\n" \
-	"brn.123.456" \
-	"${result}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+}
 
 testRename_File_Bars() {
-
-
-    local=$(pwd)
-    touch "$local/5123_+_-@#%456"
-
+    var='name_+_-@#%symbols'
+    expect='name_symbols'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result5=$(find 5123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result5 of 5123_+_-@#%456'' was wrong\n\n" \
-	"5123_456" \
-	"${result5}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+}
 
 testRename_File_Symbols() {
-
-    local=$(pwd)
-    touch "$local/4123<>??@#%456"
-
+    var='name4123<>??@#%symbols2'
+    expect='name4123_symbols2'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result4=$(find 4123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result4 of 4123<>??@#%45 was wrong\n\n" \
-	"4123_456" \
-	"${result4}"
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+ }
 
 testRename_File_Parentesis() {
-
-    local=$(pwd)
-    touch "$local/3123()())456"
-
+    var='parentesys()(0)space'
+    expect='parentesys_0_space'
+    
+    list='find . -maxdepth 1 -type f'
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-
-    result3=$(find 3123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result3 of 3123()())456 was wrong\n\n" \
-	"3123_456" \
-	"${result3}"
-
-    }
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
+}
 
 testRename_File_Espace() {
-
-    local=$(pwd)
-    touch $local/'2123   456'
-
-
+    var='file   space'
+    expect='file_space'
+    
+    list='find . -maxdepth 1 -type f '
+    touch "$testDir/$var"
     namestd 1> /dev/null 
-
-    result2=$(find 2123_456 -maxdepth 1 -type f)
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result2 of '2123   456' was wrong\n\n" \
-	"2123_456" \
-	"${result2}"
-
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -f $testDir/$expect ]"
     }
 
 testRename_Folder() {
-
-    local=$(pwd)
-    mkdir -p "$local/456%++"
-
+    var='percent_plus%++'
+    expect='percent_plus'
+    
+    list='find . -maxdepth 1 -type d '
+    mkdir -p "$testDir/$var"
     namestd 1> /dev/null 
-
-    result6=$(find 456 -maxdepth 1 -type d |  sed 's|\.\/||gi')
-    assertEquals \
-	"${red}${bold}[FAIL]${reset}The result of '456%++' was wrong\n\n" \
-	"456" \
-	"${result6}"
-
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -d $testDir/$expect ]"
     }
+
+testRenameUnderline_Folder() {
+
+    var='underln_dir'
+    expect='underln_dir'
+    
+    list='find . -maxdepth 1 -type d '
+    mkdir -p "$testDir/$var"
+    namestd 1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -d $testDir/$expect ]"
+    }
+
+testRenameHashtag_Folder() {
+
+    var='hashtag_dir#'
+    expect='hashtag_dir'
+
+    list='find . -maxdepth 1 -type d '
+    mkdir -p "$testDir/$var"
+    namestd 1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}We not found correct name for $var was wrong.$($list)\n" \
+        "[ -d $testDir/$expect ]"
+   }
 
 
 oneTimeSetUp() {
@@ -163,11 +160,11 @@ oneTimeSetUp() {
     if [ "$local" = "$HOME" ];then
 	exit 1
     fi
-    mkdir -p $testDir
+    mkdir -p "$testDir"
 }
 oneTimeTearDown() {
     cd ..
-    rm -rf $testDir
+    rm -rf "$testDir"
 }
 
 # Load and run shUnit2.

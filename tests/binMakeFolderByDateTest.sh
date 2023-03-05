@@ -55,7 +55,6 @@ oneTimeSetUp() {
 	exit 1
     fi
     # Load include to test.
-    mkdir -p "$testByDateDir"
     mkdir -p "$testByDateDir/level1/level2/level3"
 }
 oneTimeTearDown() {
