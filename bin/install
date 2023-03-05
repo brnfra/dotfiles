@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-03-2023
+# Ultima_modificacao: 04-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,10 +9,10 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-
+source "$HOME/bin/color-printf"
 cd "$HOME" || return
 # Change for your Data  
-local=$(pwd)
+nowIn=$(pwd)
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
@@ -20,44 +20,6 @@ config_dir="$HOME"/.dotfiles
 branch="main"
 email="devlabbr@gmail.com"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-# Color {{{ 
-function cInfo {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
-}
-function cError {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
-}
-function cOk {
-    local reset
-    local bold
-    local green
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    green=$(tput setaf 34);
-    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
-}
-function cItalic {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
-}
-# }}}
 # Clean *.backup {{{ 
 function cleanbkp {
     folders="$HOME "
@@ -130,7 +92,7 @@ function make_env {
 # test if is installed {{{  
 function installTest {
     if [ -d "$config_dir" ]; then
-	cError "Already instaled. If you trying reinstall, remove" 
+	cError "Already instaled. If you trying reinstall, remove"
 	cItalic "$config_dir" "in order and check outputs log."
 	printf "\n"
 	
@@ -196,7 +158,7 @@ then
     cItalic "$branch"
     cOk
     make_env 
-    cd "$local" || return
+    cd "$nowIn" || return
     exit 0
 else
     cError "Checkout branch: backup files Template=[file_name.backup]" 
@@ -213,7 +175,7 @@ else
 	cInfo "Install main(--bare):"
 	cOk
 	make_env
-	cd "$local" || return
+	cd "$nowIn" || return
 	exit 0
     else
 	cError "Checkout branch: Exit with error."
@@ -227,10 +189,10 @@ else
 	    cInfo "Installing again."
 	    if "$HOME/.config-bkp/install.backup"
 	    then
-		cd "$local" || return
+		cd "$nowIn" || return
 		exit 0
 	    else
-		cd "$local" || return
+		cd "$nowIn" || return
 		exit 1
 	    fi
 	fi

@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# Color {{{ 
+function cInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+}
+function cError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+}
+function cItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+function cOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
+}
+function cmOk {
+    local reset
+    local bold
+    local green
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    green=$(tput setaf 34);
+    printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
+}
+function clnInfo {
+    local reset
+    local bold
+    local cyan
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    cyan=$(tput setaf 39);
+    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
+}
+function clnError {
+    local reset
+    local bold
+    local red
+    reset=$(tput sgr0);
+    bold=$(tput bold);
+    red=$(tput setaf 124);
+    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
+}
+function clnItalic {
+    local cyan
+    local italic
+    local reset
+    cyan=$(tput setaf 39);
+    italic=$(tput sitm);
+    reset=$(tput sgr0);
+    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
+}
+# }}}
+
+

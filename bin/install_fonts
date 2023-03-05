@@ -1,81 +1,16 @@
 #!/usr/bin/env bash
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-03-2023
+# Ultima_modificacao: 04-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #Fonts
-local=$(pwd)
-# Color {{{ 
-function cInfo {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
-}
-function cError {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
-}
-function clnInfo {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
-}
-function clnError {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
-}
-function cOk {
-    local reset
-    local bold
-    local green
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    green=$(tput setaf 34);
-    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
-}
-function cItalic {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
-}
-function clnItalic {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
-}
-# }}}
-
+source "$HOME/bin/color-printf"
+nowIn=$(pwd)
 clnInfo "Installing fonts."
-cd "$HOME/.local/share/fonts" || return
+cd "$HOME/.nowIn/share/fonts" || return
 nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
 monofur="Monofur.zip"
@@ -92,11 +27,11 @@ then
     clnInfo "Unpack downloaded fonts."
     unzip -uo "$monofur"
     fc-cache -f -v
-    cd "$local" || return
+    cd "$nowIn" || return
     clnInfo " All done! Exit"
     exit 0
 else
     clnError "The package Unzip is not installed. Please install unzip."
-    cd "$local" || return
+    cd "$nowIn" || return
     exit 1
 fi

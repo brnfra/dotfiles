@@ -1,81 +1,17 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 03-03-2023
+#  Ultima_modificacao: 04-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-local=$(pwd)
+source "$HOME/bin/color-printf"
+nowIn=$(pwd)
 bkpdir="$HOME/.config-bkp"
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
-# Color {{{ 
-function cInfo {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
-}
-function cError {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
-}
-function clnInfo {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
-}
-function clnError {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
-}
-function cOk {
-    local reset
-    local bold
-    local green
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    green=$(tput setaf 34);
-    printf "%s%s OK \n%s" "$green" "$bold" "$reset" 
-}
-function cItalic {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
-}
-function clnItalic {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
-}
-# }}}
 
 #function for backup
 sync_copy ()
@@ -134,7 +70,7 @@ else
     printf "[ERROR] No %s or/and %s is required.\n" "$copyTo" "$bkpdir" &>> "$bkpLog" 
     exit 1
 fi
-cd "$local" || return
+cd "$nowIn" || return
 printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
 cInfo "If error occured check backup log in:" 
 clnItalic "$bkpLog" "Done."

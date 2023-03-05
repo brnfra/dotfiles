@@ -1,7 +1,10 @@
+#!/usr/bin/env bash
+
 get_branch="\$(git_branch)";
 get_branch_length=${#get_branch};
 #https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x405.html
 #https://wiki.archlinux.org/title/Bash/Prompt_customization
+
 # Color
 tput sgr0; # reset colors
 bold=$(tput bold);

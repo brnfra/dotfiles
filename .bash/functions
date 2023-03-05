@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 # Create a new directory and enter it {{{
 function mkd() {
@@ -138,6 +138,7 @@ function plist () {
 	--preview-window=wrap \
 	--bind="tab:toggle-preview" ; 
 }
+# }}}
 # autocomplete {{{
 function auto_complete_apt() {
     mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
@@ -161,6 +162,7 @@ function depends() {
 	--preview-window=wrap \
 	--bind="tab:toggle-preview" ; 
 }
+# }}}
 # {{{ pacman alias
     #
 elif [ "$osys" = "manjaro" ]; then
@@ -183,6 +185,7 @@ function fremove () {
 	--preview 'pacman -Qi {1}' \
 	| xargs -ro sudo pacman -Rns 
 }
+# }}}
 # autocomplete {{{
 function auto_complete_pacman() {
     mapfile -t COMPREPLY < <(pacman -Si  "$2");
@@ -206,7 +209,7 @@ complete -F auto_complete_pacman get
 complete -F auto_complete_pacman pdeps
 complete -F auto_complete_pacman pinfo
 complete -F auto_complete_pacman plist
-# }}}
+
 fi
 # }}}
 # FZF FUNCTIONS {{{
@@ -235,3 +238,4 @@ function fhistory () {
     command "$(cat < ~/.bash_history | fzf -m -i)"    
 }
 # }}}
+
