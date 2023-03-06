@@ -27,7 +27,7 @@ set $ico_video    <span font='Font Awesome'>&#xf008;</span>
 set $ico_volume   <span font='Font Awesome'>&#xf028;</span>
 set $ico_whatsapp <span font='Font Awesome'>&#xf232;</span>
 set $ico_window   <span font='Font Awesome'>&#xf2d0;</span>
-set $ico_calibre   <span font='Font Awesome'>&#xf02d;</span>
+set $ico_calibre   <span font='Font Awesome'>&#xf212;</span>
 set $Terminal xfce4-terminal
 set $binaries $HOME/bin
 bindsym $mod+Return exec $Terminal
@@ -115,6 +115,7 @@ bindsym $mod+Shift+b workspace back_and_forth
 for_window [class="^.*"] border pixel 2
 assign [class="Firefox-esr"] Firefox $ico_firefox
 assign [class="calibre"] Calibre $ico_calibre
+assign [class="okular"] Okular $ico_pdf
 for_window [class="mpv"] floating enable
 for_window [class="gnome-calculator"] floating enable
 for_window [window_role="pop-up"] floating enable
