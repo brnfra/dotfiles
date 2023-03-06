@@ -55,11 +55,14 @@ testLocalExistVimConfig() {
     assertTrue ": 55 :${red}${bold}[FAIL]${reset} .vimrc not found." "[ -f $HOME/.vimrc ]"
 }
 
-
 testLocalExistVifmConfigFiles() {
     assertTrue ": 60 :${red}${bold}[FAIL]${reset} vifmrc not found.		    " "[ -f $HOME/.config/vifm/vifmrc ]"
     assertTrue ": 61 :${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found.   " "[ -d $HOME/.config/vifm/scripts ]"
 
+}
+
+testLocalExistGsimplecalConfigFile() {
+    assertTrue ": 60 :${red}${bold}[FAIL]${reset} Gsimplecal config  not found.		    " "[ -f $HOME/.config/gsimplecal/config ]"
 }
 
 testLocalExistXfce4TerminalConfigFile() {

@@ -43,6 +43,9 @@ testRepoExistVimConfig() {
     assertTrue ": 43 :${red}${bold}[FAIL]${reset} .vimrc not found." "[ -f $dotfilesDir/.vimrc ]"
 }
 
+testRepoExistGsimplecalConfigFile() {
+    assertTrue ": 60 :${red}${bold}[FAIL]${reset} Gsimplecal config  not found.		    " "[ -f $dotfilesDir/.config/gsimplecal/config ]"
+}
 
 testRepoExistVifmConfigFiles() {
     assertTrue ": 48 :${red}${bold}[FAIL]${reset} vifmrc not found.		    " "[ -f $dotfilesDir/.config/vifm/vifmrc ]"
