@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config_install
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-02-2023
+# Ultima_modificacao: 06-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -84,6 +84,7 @@ options="${options}set \$ico_video    <span font='Font Awesome'>&#xf008;</span>\
 options="${options}set \$ico_volume   <span font='Font Awesome'>&#xf028;</span>\n"
 options="${options}set \$ico_whatsapp <span font='Font Awesome'>&#xf232;</span>\n"
 options="${options}set \$ico_window   <span font='Font Awesome'>&#xf2d0;</span>\n"
+options="${options}set \$ico_calibre   <span font='Font Awesome'>&#xf02d;</span>\n"
 #terminal
 options="${options}set \$Terminal $terminal\n"
 #options="${options}set \$Terminim $terminal --minimize\n"
@@ -206,7 +207,8 @@ fi
 # Open specific applications in floating mode
 # Disable title bars.
 options="${options}for_window [class=\"^.*\"] border pixel 2\n"
-options="${options}assign [class=\"firefox\"] \$ico_firefox\n"
+options="${options}assign [class=\"Firefox-esr\"] Firefox \$ico_firefox\n"
+options="${options}assign [class=\"calibre\"] Calibre \$ico_calibre\n"
 # Assign to floating by default.
 options="${options}for_window [class=\"mpv\"] floating enable\n"
 options="${options}for_window [class=\"gnome-calculator\"] floating enable\n"
@@ -217,14 +219,14 @@ options="${options}for_window [window_role=\"task_dialog\"] floating enable\n"
 options="${options}for_window [window_role=\"Preferences\"] floating enable\n"
 options="${options}for_window [window_type=\"dialog\"] floating enable\n"
 options="${options}for_window [window_type=\"menu\"] floating enable\n"
-options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 600 600\n"
+options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 800 800\n"
 options="${options}for_window [title=\"File Transfer*\"] floating enable\n"
-options="${options}for_window [class=\"knotes\"] floating enable resize set 300 500\n"
+options="${options}for_window [class=\"knotes\"] floating enable resize set 500 500\n"
 # options="${options}for_window [class=\"Gsimplecal\"] floating enable move absolute position 1500px 820px\n"
-options="${options}for_window [class=\"GParted\"] floating enable border normal\n"
+options="${options}for_window [class=\"GParted\"] floating enable border normal set 800 800\n"
 options="${options}for_window [title=\"Calculator\"] floating enable move position center\n"
 #virtual machines
-options="${options}assign [class=\"Virt-manager\"] 3 \$ico_monitor\n"
+options="${options}assign [class=\"Virt-manager\"] VManager \$ico_monitor\n"
 options="${options}for_window [class=\"Virt-manager\"] fullscreen enable\n" 
 # Jump to the latest "urgent" window.
 options="${options}bindsym \$mod+Ctrl+u [urgent=latest] focus\n"
