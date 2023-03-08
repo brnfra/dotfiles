@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 08-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -65,7 +65,7 @@ function cfgTests {
     then
     	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    cmOk "I3config and i3 script:"
+	    cmOk "I3config and i3 script"
 	    
 	else
 	    cError "I3config not found. Installing config file: "
@@ -79,7 +79,7 @@ function cfgTests {
 	    
 	fi
     else
-	cmOk "Config files and folders checked:"
+	cmOk "Config files and folders checked"
     fi
 }
 #}}}
@@ -101,10 +101,10 @@ else
     cError "2: Config pull error: Conflict."
     printf "\n"
     config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    cmOk "2: Checking again and backup files:"
+    cmOk "2: Checking again and backup files"
 
     cleanbkp
-    cmOk "2: Cleaning:"
+    cmOk "2: Cleaning"
 
     if config pull origin $branch
     then
@@ -131,11 +131,11 @@ else
 	cOk
 
 	config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checking again and backup files:"
+	cmOk "Checking again and backup files"
 	cfgTests
 
 	cleanbkp
-	cmOk "Clean:"
+	cmOk "Clean"
 
 	if config pull origin $branch
 	    clnInfo "5: Git pull finished after fetch. Exit"
@@ -156,7 +156,7 @@ else
     clnItalic "$dotfiles_dir"
 fi
 
-cmOk "1:Git pull clone repository folder:"
+cmOk "1:Git pull clone repository folder"
 cd "$nowIn" || return
 
 
