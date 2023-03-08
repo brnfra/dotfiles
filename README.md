@@ -85,6 +85,11 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_N
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install)";
 ```
 
+>If testing, copy/paste in terminal;
+```bash
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/install)";
+```
+
 >If Mingw for Windows, copy/paste in terminal;
 ```bash
  bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg)"; bash ~/bin/install_enviroment

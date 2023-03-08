@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-03-2023
+# Ultima_modificacao: 08-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -17,7 +17,7 @@ user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
 config_dir="$HOME"/.dotfiles
-branch="main"
+branch="testing"
 email="devlabbr@gmail.com"
 checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
 # Clean *.backup {{{ 

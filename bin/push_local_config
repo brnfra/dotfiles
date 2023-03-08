@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 04-03-2023
+#  Ultima_modificacao: 08-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,7 +9,7 @@
 source "$HOME/bin/color-printf"
 nowIn=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
-branch="main"
+branch="testing"
 checkHome="$HOME/tests/dotfilesTest.sh"
 cd "$HOME/tests" || return
 
