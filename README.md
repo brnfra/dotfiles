@@ -52,7 +52,8 @@ This configuration works with **i3-wm** and **i3status**.
 - [ ] Fix audio/mic control for Ubuntu in i3block config
 - [x] Create test_config branch
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
-- [ ] Make tests to check files already created/copy
+- [x] Make tests to check files already created/copy
+- [ ] Create file with params and defs
 - [ ] Testing and refactoring
 
 <br>

@@ -10,6 +10,7 @@ source "$HOME/bin/color-printf"
 nowIn=$(pwd)
 bkpdir="$HOME"/.config-bkp
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
+config_dir="$HOME"/.dotfiles-test
 i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
 branch="testing"
@@ -84,7 +85,7 @@ function cfgTests {
 }
 #}}}
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@" ; 
+    git --git-dir="$config_dir" --work-tree="$HOME" "$@" ; 
 }
 
 cd "$HOME" || return
