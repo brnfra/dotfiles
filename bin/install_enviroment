@@ -14,7 +14,7 @@ function make_dirs(){
     folder_list+=" $HOME/.vim/bundle" 
     folder_list+=" $HOME/.vim/autoload" 
     folder_list+=" $HOME/.config-bkp" 
-    cInfo "Creating folders\r\n"
+    clnInfo "Creating folders"
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ] 
@@ -27,7 +27,7 @@ function make_dirs(){
 	    clnItalic "$Folder" "Folders created." 
 	fi
     done
-    printf "[INFO] Creating folders: Done\n"
+    cmOk "Creating folders: "
 }
 function config_git() {
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
@@ -35,8 +35,7 @@ function config_git() {
     then
 	git config --global user.email "$1"
 	git config --global user.name "$2"
-	cInfo "Add git config:"
-	cOk
+	cmOk "Add git config_git"
     else
 	clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
 	exit 1

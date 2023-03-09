@@ -19,7 +19,7 @@ function git_push () {
     git add -A -v;git commit -v -m "$message";git push origin $branch   
     if [ $? ];then
 	git status -sb
-	cmOk "Git add + and push:"
+	cmOk "Git add + and push"
     else
 	git status -sb 
 	clnError "A error occours. Check log."
@@ -29,8 +29,7 @@ function git_push () {
 
 if "$checkHome" > /dev/null;
 then
-    cmOk "Files and folders check:" 
-
+    cmOk "Files and folders check" 
     if [ -d "$pushFrom" ];then
 	cd "$pushFrom" || return
 	stage_local_config
@@ -40,7 +39,6 @@ then
 	clnItalic "$pushFrom" "found." 
 	exit 1
     fi
-
     cd "$nowIn" || return
     exit 0
 else

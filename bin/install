@@ -10,9 +10,9 @@
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 source "$HOME/bin/color-printf"
+nowIn=$(pwd)
 cd "$HOME" || return
 # Change for your Data  
-nowIn=$(pwd)
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 bkpdir="$HOME"/.config-bkp
@@ -44,8 +44,8 @@ function cleanbkp {
     folders+="$HOME/tests/ "
 
     cInfo "Moving files .backup to "
-    cItalic "$bkpdir"
-    printf "\n"
+    clnItalic "$bkpdir"
+    
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
@@ -56,32 +56,26 @@ function make_env {
     if [ -d "$bkpdir" ]
     then
 	cInfo
-	cItalic  "$bkpdir" "already exists."
-	printf "\n" 
+	clnItalic  "$bkpdir" "already exists."
     else
 	cError "Can't clean Backup files."
-	cItalic "$bkpdir" "no found"
-	printf "\n"
+	clnItalic "$bkpdir" "no found"
 	mkdir -p "$bkpdir"
 	cInfo 
-	cItalic "$bkpdir" "created."
-	printf "\n" 
+	clnItalic "$bkpdir" "created."
     fi
-    cmOk "Install main(--bare):"
-    cInfo "Installing Enviroment."
-    printf "\n"
+    cmOk "Install main(--bare)"
+    clnInfo "Installing Enviroment."
     if "$HOME/bin/install_enviroment" "$email" "$user_name"; then
 	cmOk "Install Enviroment."
     fi
-    cInfo "Installing Fonts."
-    printf "\n"
+    clnInfo "Installing Fonts."
     if "$HOME/bin/install_fonts"; then
-	cmOk "Install Fonts:"
+	cmOk "Install Fonts"
     fi
-    cInfo "Installing I3config." 
-    printf "\n"
+    clnInfo "Installing I3config." 
     if "$HOME/bin/i3_config_install" "$bkpdir"; then
-	cmOk "Install I3config:"
+	cmOk "Install I3config"
     fi
 }
 # }}}
@@ -112,9 +106,9 @@ function cfgTests {
 
 	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    cInfo "I3config and i3 scripts:"
+	    cInfo "I3config and i3 scripts"
 	else
-	    cError "I3config not found. Installing config file: "
+	    cError "I3config not found. Installing config file "
 	    if ! "$i3_scpt" "$bkpdir"; then
 		cError "I3config " 
 		cItalic "$i3_cfg" " isn't installed " 
@@ -123,12 +117,12 @@ function cfgTests {
 	    clnInfo "I3config file installed."
 	fi
     else
-	cmOk "Config files and folders checked:"
+	cmOk "Config files and folders checked"
     fi
 }
 #}}}
 function config {
-    git --git-dir="$config_dir" --work-tree="$HOME" "$@";
+    git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
 }
 
 cd "$HOME" || return
@@ -138,14 +132,14 @@ cItalic "$branch"
 git clone --branch $branch --bare $repository "$HOME/.dotfiles";
 
 cInfo "Git clone"
-cItalic "$branch" "(--bare):"
+cItalic "$branch" "(--bare)"
 cOk
 
-cInfo "Checkout branch: "
+cInfo "Checkout branch "
 cItalic "$branch"
 if config checkout
 then
-    cInfo "Checkout branch: "
+    cInfo "Checkout branch "
     cItalic "$branch" ":"
     cOk
     make_env 
@@ -154,14 +148,14 @@ then
 else
     cError "Checkout branch: backup files Template=[file_name.backup]" 
     config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    cmOk "Checkout branch, backup files:"
+    cmOk "Checkout branch, backup files"
     clnInfo "Checkout branch:Cleaning and trying again after backup"
     cleanbkp
     if config checkout
     then
-	cmOk "Checkout branch:"
+	cmOk "Checkout branch"
 	config config status.showUntrackedFiles no
-	cmOk "Install main(--bare):"
+	cmOk "Install main(--bare)"
 	make_env
 	cd "$nowIn" || return
 	exit 0

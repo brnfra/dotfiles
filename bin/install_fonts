@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 04-03-2023
+# Ultima_modificacao: 08-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,8 +9,9 @@
 #Fonts
 source "$HOME/bin/color-printf"
 nowIn=$(pwd)
+fonts_path="$HOME/.local/share/fonts"
 clnInfo "Installing fonts."
-cd "$HOME/.nowIn/share/fonts" || return
+cd "$fonts_path" || return
 nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
 monofur="Monofur.zip"
