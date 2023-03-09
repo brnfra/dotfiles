@@ -1,11 +1,5 @@
 #! /bin/sh
-
-#colors
-reset=$(tput sgr0);
-bold=$(tput bold);
-italic=$(tput sitm);
-green=$(tput setaf 34);
-red=$(tput setaf 124);
+. ../bin/dotfiles_env
 
 SHUNIT_TEST_PREFIX=" Standard names --> "
 SHUNIT_COLOR="always"
@@ -16,7 +10,6 @@ testExecution() {
     cd "$testDir"
     namestd 1> /dev/null 
     assertTrue "${red}${bold}[FAIL]${reset} Error found\n\n" $?
-
 }
 
 testRenameSpaceAndSymbols_File() {

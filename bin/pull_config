@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
 nowIn=$(pwd)
-bkpdir="$HOME"/.config-bkp
-dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
-config_dir="$HOME"/.dotfiles
-i3_cfg="$HOME/.i3/config"
-i3_scpt="$HOME/bin/i3_config_install"
-branch="testing"
-checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
+
 # bkpdir test {{{ 
 
 if [ -d "$bkpdir" ] 
@@ -85,7 +79,7 @@ function cfgTests {
 }
 #}}}
 function config {
-    git --git-dir="$config_dir" --work-tree="$HOME" "$@" ; 
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@" ; 
 }
 
 cd "$HOME" || return

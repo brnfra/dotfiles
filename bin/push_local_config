@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 08-03-2023
+#  Ultima_modificacao: 09-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
 nowIn=$(pwd)
-pushFrom="$HOME/Documents/Projects/git/dotfiles"
-branch="testing"
-checkHome="$HOME/tests/dotfilesTest.sh"
-cd "$HOME/tests" || return
 
 # git push {{{  
 function git_push () {
@@ -26,24 +22,25 @@ function git_push () {
     fi
 }
 # }}}
+cd "$HOME/tests" || return
 
-if "$checkHome" > /dev/null;
+if "$checkAll" > /dev/null;
 then
     cmOk "Files and folders check" 
 
-    if [ -d "$pushFrom" ];then
-	cd "$pushFrom" || return
+    if [ -d "$dotfiles_dir" ];then
+	cd "$dotfiles_dir" || return
 	stage_local_config
 	git_push "$1"
     else
 	cError "No"
-	clnItalic "$pushFrom" "found." 
+	clnItalic "$dotfiles_dir" "found." 
 	exit 1
     fi
     cd "$nowIn" || return
     exit 0
 else
-    "$checkHome" | awk '/FAIL/''{print}'
+    "$checkAll" | awk '/FAIL/''{print}'
     cd "$nowIn" || return
     exit 1
 fi

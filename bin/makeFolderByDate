@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: makeFolderByDate
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -11,7 +11,7 @@
 #   dd para digito do dia
 #   cria pasta no padrão ./AAAA/mm e insere os arquivos
 #   não se aplica a pastas ou nomes diferentes do padrão
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
 files=$(find . -type f -name '[0-9]*' | sed 's|\.\/||gi')
 today_year=$( date +%Y )
 today_year=$(( today_year + 1 ))
@@ -32,7 +32,7 @@ foldering_by_date() {
 		mkdir -p  "${Dir}/${yearAux}/${monthAux}" 
 		mv -i "$File" "${Dir}/${yearAux}/${monthAux}"
 	    else
-		cError "Scripts don't run in Home folder."
+		cError "This script don't run in Home folder."
 		exit 2
 	    fi
 	else

@@ -1,10 +1,7 @@
 #! /bin/sh
+. ../bin/dotfiles_env
 
 testByDateDir="$HOME/tests/test_dir"
-#colors
-reset=$(tput sgr0);
-bold=$(tput bold);
-red=$(tput setaf 124);
 SHUNIT_TEST_PREFIX=' F. by Date --> '
 
 testExecutionMain() {

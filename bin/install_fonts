@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Arquivo: install_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #Fonts
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
+
 nowIn=$(pwd)
-fonts_path="$HOME/.local/share/fonts"
-clnInfo "Installing fonts."
+clnInfo "Getting fonts."
 cd "$fonts_path" || return
 nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
@@ -18,21 +18,30 @@ monofur="Monofur.zip"
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
 if  command -v unzip &>/dev/null  
 then
-    curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
-    clnInfo "Unpack downloaded font"
-    unzip -uo "$nerdfont"
-    curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
-    clnInfo "Unpack downloaded fonts."
-    unzip -uo "$codeNewRoman"
-    curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
-    clnInfo "Unpack downloaded fonts."
-    unzip -uo "$monofur"
-    fc-cache -f -v
-    cd "$nowIn" || return
-    clnInfo " All done! Exit"
-    exit 0
+    if [ "$(pwd)" = "$fonts_path" ]
+    then
+	curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
+	clnInfo "Unpack downloaded font"
+	unzip -uo "$nerdfont"
+	curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
+	clnInfo "Unpack downloaded fonts."
+	unzip -uo "$codeNewRoman"
+	curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
+	clnInfo "Unpack downloaded fonts."
+	unzip -uo "$monofur"
+	fc-cache -f -v
+	cd "$nowIn" || return
+	clnInfo " All done! Exit"
+	exit 0
+    else
+	clnError "Wrong local installation."
+	cItalic "$(pwd)" "now. "
+	clnItalic "$fonts_path" "the correct"
+	exit 2
+    fi
 else
     clnError "The package Unzip is not installed. Please install unzip."
     cd "$nowIn" || return
     exit 1
 fi
+

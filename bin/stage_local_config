@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 06-03-2023
+#  Ultima_modificacao: 09-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
 nowIn=$(pwd)
-bkpdir="$HOME/.config-bkp"
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
-copyTo="$HOME/Documents/Projects/git/dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 
 #function for backup
@@ -54,22 +52,22 @@ sync_copy ()
     files+='tests/ '
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
-	newDir=$copyTo/$file
+	newDir=$dotfiles_dir/$file
 	mkdir -p "$(echo ${newDir%/*})" 
-	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$copyTo"/"$file" &>> "$bkpLog"
+	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$dotfiles_dir"/"$file" &>> "$bkpLog"
 	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> "$bkpLog"
     done
 }
 #check folders
-if [ -d "$copyTo" ] && [ -d "$bkpdir" ];then
-    cd "$copyTo" || return
+if [ -d "$dotfiles_dir" ] && [ -d "$bkpdir" ];then
+    cd "$dotfiles_dir" || return
     git pull
     sync_copy
 else
     cError "Folders"
-    cItalic "$copyTo" "and" 
+    cItalic "$dotfiles_dir" "and" 
     clnItalic "$bkpdir" "is required." 
-    printf "[ERROR] No %s or/and %s is required.\n" "$copyTo" "$bkpdir" &>> "$bkpLog" 
+    printf "[ERROR] No %s or/and %s is required.\n" "$dotfiles_dir" "$bkpdir" &>> "$bkpLog" 
     exit 1
 fi
 cd "$nowIn" || return

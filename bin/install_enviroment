@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source "$HOME/bin/color-printf"
+. ./dotfiles_env
 
 function make_dirs(){
     folder_list="$HOME/.local/opt" 
