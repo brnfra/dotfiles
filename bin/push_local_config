@@ -9,7 +9,7 @@
 source "$HOME/bin/color-printf"
 nowIn=$(pwd)
 pushFrom="$HOME/Documents/Projects/git/dotfiles"
-branch="testing"
+branch="main"
 checkHome="$HOME/tests/dotfilesTest.sh"
 cd "$HOME/tests" || return
 
