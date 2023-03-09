@@ -13,13 +13,10 @@ if [ -f "$HOME/dotfiles_env" ]
 then
 # shellcheck source=~/dotfiles_env
 . dotfiles_env
-elif curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
-then
+else
+curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
 # shellcheck source=~/dotfiles_env
 . dotfiles_env
-else
-    printf "[ERROR] Can't install. dotfiles_env not found"
-    exit 1
 fi
 
 
