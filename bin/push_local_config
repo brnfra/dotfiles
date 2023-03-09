@@ -30,6 +30,7 @@ function git_push () {
 if "$checkHome" > /dev/null;
 then
     cmOk "Files and folders check" 
+
     if [ -d "$pushFrom" ];then
 	cd "$pushFrom" || return
 	stage_local_config
