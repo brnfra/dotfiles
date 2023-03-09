@@ -228,6 +228,7 @@ $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
 $exe $HOME/bin/pull_config
+$exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
