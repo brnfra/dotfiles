@@ -11,16 +11,16 @@
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 if [ -f "$HOME/dotfiles_env" ]
 then
-# shellcheck source=~/dotfiles_env
-. dotfiles_env
+    # shellcheck source=~/dotfiles_env
+    . dotfiles_env
 else
-curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
-# shellcheck source=~/dotfiles_env
-. dotfiles_env
+    curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
+    # shellcheck source=~/dotfiles_env
+    . dotfiles_env
 fi
 
 
-    nowIn=$(pwd)
+nowIn=$(pwd)
 
 # Clean *.backup {{{ 
 function cleanbkp {
@@ -47,7 +47,7 @@ function cleanbkp {
 
     cInfo "Moving files .backup to "
     clnItalic "$bkpdir"
-    
+
     for folder in $folders; do
 	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     done
@@ -86,7 +86,7 @@ function installTest {
     if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
 	clnItalic "$install_dir" "in order and check outputs log."
-	
+
 	if "$checkHome" > /dev/null;
 	then
 	    "$checkHome" | awk '/FAIL/''{print}'
@@ -130,13 +130,17 @@ function config {
 cd "$HOME" || return
 installTest
 cInfo "Git clone %s(--bare)." 
-cItalic "$branch"
-git clone --branch "$branch" --bare "$repository" "$install_dir";
+clnItalic "$branch"
 
-cInfo "Git clone"
-cItalic "$branch" "(--bare)"
-cOk
-
+if git clone --branch "$branch" --bare "$repository" "$install_dir";
+then
+    cInfo "Git clone"
+    cItalic "$branch" "(--bare)"
+    cOk
+else
+    clnError "Can't clone repository"
+    exit 1
+fi
 cInfo "Checkout branch "
 cItalic "$branch"
 if config checkout

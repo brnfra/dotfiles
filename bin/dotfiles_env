@@ -1,27 +1,30 @@
 #!/usr/bin/env bash
 
-bkpLog="$HOME/.config-bkp/stage-bkp.log"
-bkpdir="$HOME"/.config-bkp
+#git
 branch="testing"
-checkAll="$HOME/tests/dotfilesTest.sh"
-checkHome="$HOME/tests/testHomeConfigFiles.sh"
+user_name="brnfra"
+repository="https://github.com/$user_name/dotfiles.git"
+pushFrom="$HOME/Documents/Projects/git/dotfiles"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
 email="devlabbr@gmail.com"
+install_dir="$HOME"/.dotfiles
+#backup
+bkpLog="$HOME/.config-bkp/stage-bkp.log"
+bkpdir="$HOME"/.config-bkp
+#tests
+checkAll="$HOME/tests/dotfilesTest.sh"
+checkHome="$HOME/tests/testHomeConfigFiles.sh"
+# enviroment
 fonts_path="$HOME/.local/share/fonts"
 i3_cfg="$HOME/.i3/config"
 i3_scpt="$HOME/bin/i3_config_install"
-install_dir="$HOME"/.dotfiles
-pushFrom="$HOME/Documents/Projects/git/dotfiles"
-repository="https://github.com/$user_name/dotfiles.git"
-user_name="brnfra"
-#colors
+# Color {{{ 
 reset=$(tput sgr0);
 bold=$(tput bold);
 red=$(tput setaf 124);
 italic=$(tput sitm);
 green=$(tput setaf 34);
 cyan=$(tput setaf 39);
-# Color {{{ 
 cInfo() {
     local reset
     local bold
