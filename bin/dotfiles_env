@@ -22,7 +22,7 @@ italic=$(tput sitm);
 green=$(tput setaf 34);
 cyan=$(tput setaf 39);
 # Color {{{ 
-function cInfo {
+cInfo() {
     local reset
     local bold
     local cyan
@@ -31,7 +31,7 @@ function cInfo {
     cyan=$(tput setaf 39);
     printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
 }
-function cError {
+cError() {
     local reset
     local bold
     local red
@@ -40,7 +40,7 @@ function cError {
     red=$(tput setaf 124);
     printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
 }
-function cItalic {
+cItalic() {
     local cyan
     local italic
     local reset
@@ -49,7 +49,7 @@ function cItalic {
     reset=$(tput sgr0);
     printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
 }
-function cOk {
+cOk() {
     local reset
     local bold
     local green
@@ -58,7 +58,7 @@ function cOk {
     green=$(tput setaf 34);
     printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
 }
-function cmOk {
+cmOk() {
     local reset
     local bold
     local green
@@ -67,7 +67,7 @@ function cmOk {
     green=$(tput setaf 34);
     printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
 }
-function clnInfo {
+clnInfo() {
     local reset
     local bold
     local cyan
@@ -76,7 +76,7 @@ function clnInfo {
     cyan=$(tput setaf 39);
     printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
 }
-function clnError {
+clnError() {
     local reset
     local bold
     local red
@@ -85,7 +85,7 @@ function clnError {
     red=$(tput setaf 124);
     printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
 }
-function clnItalic {
+clnItalic() {
     local cyan
     local italic
     local reset
