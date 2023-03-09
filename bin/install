@@ -131,7 +131,7 @@ cd "$HOME" || return
 installTest
 cInfo "Git clone %s(--bare)." 
 cItalic "$branch"
-git clone --branch $branch --bare $repository "$install_dir";
+git clone --branch "$branch" --bare "$repository" "$install_dir";
 
 cInfo "Git clone"
 cItalic "$branch" "(--bare)"
