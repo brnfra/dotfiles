@@ -59,20 +59,20 @@ function cleanbkp {
 function cfgTests {
     if "$checkHome" > /dev/null;
     then
-    	"$checkHome" | awk '/FAIL/''{print}'
+	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
 	    cmOk "I3config and i3 script"
-	    
+
 	else
 	    cError "I3config not found. Installing config file: "
 	    if ! "$i3_scpt" "$bkpdir"; then
 		cError "I3config " 
 		cItalic "$i3_cfg" " isn't installed " 
 		clnItalic "$i3_scpt" "exec fail or not found."
-		 
+
 	    fi
 	    clnInfo "I3config file installed."
-	    
+
 	fi
     else
 	cmOk "Config files and folders checked"
@@ -141,18 +141,26 @@ else
     fi
 fi
 
-cInfo "1:Git pull clone repository folder"
+cInfo "1:Git pull in repository folder. Branch:"
 cItalic "$branch" "in"
 clnItalic "$dotfiles_dir"
-cd "$dotfiles_dir" || return
-if git checkout $branch ;then
-    git pull origin $branch
+if [ -d "$dotfiles_dir" ]
+then
+    cd "$dotfiles_dir" || return
+    if git checkout "$branch" ;then
+	git pull origin "$branch"
+	cmOk "1:Git pull clone repository folder"
+    else
+	cError "Clone dotfiles in" 
+	clnItalic "$dotfiles_dir"
+    fi
 else
-    cError "Clone dotfiles in" 
+    clnError "No such directory to pull in"
+    cInfo "2:Clone repository first. Branch:"
+    cItalic "$branch" "in"
     clnItalic "$dotfiles_dir"
 fi
 
-cmOk "1:Git pull clone repository folder"
 cd "$nowIn" || return
 
 
