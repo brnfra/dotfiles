@@ -6,7 +6,9 @@
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 nowIn=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 bkpLog="$HOME/.config-bkp/stage-bkp.log"

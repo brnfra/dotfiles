@@ -11,7 +11,9 @@
 #   dd para digito do dia
 #   cria pasta no padrão ./AAAA/mm e insere os arquivos
 #   não se aplica a pastas ou nomes diferentes do padrão
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 files=$(find . -type f -name '[0-9]*' | sed 's|\.\/||gi')
 today_year=$( date +%Y )
 today_year=$(( today_year + 1 ))

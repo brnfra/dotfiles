@@ -7,7 +7,8 @@
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #Fonts
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
 nowIn=$(pwd)
 clnInfo "Getting fonts."

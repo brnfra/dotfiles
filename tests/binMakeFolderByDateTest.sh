@@ -1,5 +1,6 @@
 #! /bin/sh
-. ../bin/dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
 testByDateDir="$HOME/tests/test_dir"
 SHUNIT_TEST_PREFIX=' F. by Date --> '

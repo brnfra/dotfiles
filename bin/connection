@@ -8,7 +8,9 @@
 #           causados pelo uso deste script.
 # https://askubuntu.com/questions/522505/script-to-monitor-internet-connection-stability
 #site list
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 site_list='https://www.google.com/' 
 site_list+=' https://www.netflix.com/br-en/' 
 site_list+=' https://www.amazon.com.br/'

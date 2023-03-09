@@ -1,5 +1,6 @@
 #! /bin/sh
-. ../bin/dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
 SHUNIT_TEST_PREFIX=' #Main --> '
 

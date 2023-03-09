@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
 function make_dirs(){
     folder_list="$HOME/.local/opt" 

@@ -6,7 +6,8 @@
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-. ./dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 nowIn=$(pwd)
 
 # bkpdir test {{{ 
