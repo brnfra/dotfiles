@@ -1,20 +1,31 @@
 #!/usr/bin/env bash
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
- gen_nitrogen_cfg() {
+gen_nitrogen_cfg() {
     local bgconfig
     local nitrogen_cfg
     local nitrogen_cfg_file
     local bgconfig_file
+    local nxin 
+    nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
     nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
     bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
-    bgconfig="[xin_0]\n"
-    bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
-    bgconfig="${bgconfig}mode=0\n"
-    bgconfig="${bgconfig}bgcolor=#000000\n\n"
-    bgconfig="[xin_1]\n"
-    bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
-    bgconfig="${bgconfig}mode=0\n"
-    bgconfig="${bgconfig}bgcolor=#000000"
+    if [[ nxin -gt 1 ]]
+    then
+	bgconfig="[xin_0]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000\n\n"
+	bgconfig="[xin_1]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000"
+    else
+	bgconfig="[xin_0]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000\n\n"
+
+    fi
     nitrogen_cfg="[geometry]\n"
     nitrogen_cfg="${nitrogen_cfg}posx=640\n"
     nitrogen_cfg="${nitrogen_cfg}posy=0\n"
@@ -39,7 +50,7 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
 	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"
     fi
 }
- render_images() {
+render_images() {
     local delay1
     local delay2
     local files1
@@ -59,7 +70,7 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
 	for I in $files1; do
 	    nitrogen --set-scaled --head=0  "$I"
 	    sleep $delay2        
-    #monitor2
+	    #monitor2
 	    files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
 	    for J in $files2; do
 		if [ "$I" == "$J" ]; then
