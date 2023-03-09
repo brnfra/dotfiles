@@ -49,12 +49,13 @@ This configuration works with **i3-wm** and **i3status**.
 
 ## TODO
 
-- [ ] Fix audio/mic control for Ubuntu in i3block config
-- [x] Create test_config branch
+- [ ] Create uninstall script to back original config
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
-- [x] Make tests to check files already created/copy
-- [ ] Create file with params and defs
+- [ ] Fix audio/mic control for Ubuntu in i3block config
 - [ ] Testing and refactoring
+- [x] Create file with params and defs
+- [x] Make tests to check files already created/copy
+- [x] Create test_config branch
 
 <br>
 
