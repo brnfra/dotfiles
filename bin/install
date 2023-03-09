@@ -13,7 +13,7 @@ if [ -f "$HOME/dotfiles_env" ]
 then
 # shellcheck source=~/dotfiles_env
 . dotfiles_env
-elif curl -s --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
+elif curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env" 
 then
 # shellcheck source=~/dotfiles_env
 . dotfiles_env
