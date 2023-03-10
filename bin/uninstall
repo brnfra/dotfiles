@@ -37,7 +37,6 @@ restaure_bkp() {
 # clean
 rem_dirs() {
     folder_list="$HOME/.wallpapers"
-    folder_list+=" $HOME/Documents/Projects/git"
     folder_list+=" $HOME/.config-bkp"
     folder_list+=" $HOME/.dotfiles"
     folder_list+=" $HOME/example"
