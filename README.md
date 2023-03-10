@@ -25,7 +25,7 @@ Thank you guys for sharing :heart:
 - [Install](https://github.com/brnfra/dotfiles#how-to-install)
 - [Pull state from remote after installation](https://github.com/brnfra/dotfiles#pull-state-from-remote-to-local-config)
 - [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
-- [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-configi)
+- [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-config)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 
 ## Using git to manage config files.
@@ -35,8 +35,6 @@ Thank you guys for sharing :heart:
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
 2. Pls check ```~/.i3/autostart/i3config``` . There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
-
-<img width="700" alt="workspace exemple image" src="example/Screenshot_workspace.png"></img>
 
 ### Mingw32(git-for-windows) config(mingw32-w8 branch)
 
@@ -100,8 +98,10 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 
 <br>
 
-Check the script ```/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run it.
-*Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
+- Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run it.
+
+- *Read and edit it first for your purpose*, it will create some folders and copy config files, recomend fork/clone this repo and coment that line.
+
 Attention on ssh-key problems, just in case, check your email and user, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
 
@@ -117,12 +117,14 @@ If I change configuration and like it, *How can I update for this change?*
 
 Run ```$ push_local_config "COMMIT MESSAGE" ``` gonna make copy my edited config files to
 **dotfiles** folder created in ```enviroment script``` and push to your remote repository[auto].
+- Will push only if tests are passed.
 
 Run ```$ stage-local-config``` gonna only make copy, without push, the edited config files to
-**dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes.
+**dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes[manual].
+- No tests here.
 
 ```
-$ git push origin [main/mingw32-w8]
+$ git push origin [main/testing/mingw32-w8]
 ```
 Now, Git gonna **update snapshot** from local to remote. Your other machines just run pull_config(or add in init) to get it.
 
@@ -141,7 +143,7 @@ or
 $ bash ~/bin/pull_config 
 ```
 
-Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
+Now, Git gonna **update snapshot** (pull)from remote repo to your $HOME folder.
 
 ## Uninstall and back config
 
@@ -156,7 +158,7 @@ $ bash ~/bin/uninstall
 ## Dependencies
 
 Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**.
-For some functionalities some packages are necessary;
+For some features depends some packages, if get some error related, this list maybe help;
 
 - i3blocks
 - nm-applet(tool to show network icon)
