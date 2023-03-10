@@ -17,11 +17,11 @@ nerdfont="3270.zip"
 codeNewRoman="CodeNewRoman.zip"
 monofur="Monofur.zip"
 #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
-if  command -v unzip &>/dev/null  
+if  command -v unzip &>/dev/null
 then
     if [ "$(pwd)" = "$fonts_path" ]
     then
-	curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip" 
+	curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip"
 	clnInfo "Unpack downloaded font"
 	unzip -uo "$nerdfont"
 	curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"

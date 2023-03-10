@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 nowIn=$(pwd)
 if [ -f "$1" ]
-then 
+then
     echo "Removing dup-lines in $1"
     cat "$1" | sort -u | uniq > /tmp/"$1"
     cp -f /tmp/"$1" "$nowIn"

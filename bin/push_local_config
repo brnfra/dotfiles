@@ -11,15 +11,15 @@
 
 nowIn=$(pwd)
 
-# git push {{{  
+# git push {{{
 function git_push () {
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git add -A -v;git commit -v -m "$message";git push origin $branch   
+    git add -A -v;git commit -v -m "$message";git push origin $branch
     if [ $? ];then
 	git status -sb
 	cmOk "Git add + and push"
     else
-	git status -sb 
+	git status -sb
 	clnError "A error occours. Check log."
     fi
 }
@@ -28,7 +28,7 @@ cd "$HOME/tests" || return
 
 if "$checkAll" > /dev/null;
 then
-    cmOk "Files and folders check" 
+    cmOk "Files and folders check"
 
     if [ -d "$dotfiles_dir" ];then
 	cd "$dotfiles_dir" || return
@@ -36,7 +36,7 @@ then
 	git_push "$1"
     else
 	cError "No"
-	clnItalic "$dotfiles_dir" "found." 
+	clnItalic "$dotfiles_dir" "found."
 	exit 1
     fi
     cd "$nowIn" || return

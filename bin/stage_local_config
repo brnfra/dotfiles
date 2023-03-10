@@ -22,11 +22,11 @@ sync_copy ()
     # vim
     files+='.vimrc .config/nvim/ '
     # vifm
-    files+='.config/vifm/vifmrc  ' 
-    files+='.config/vifm/scripts/ ' 
-    files+='.config/vifm/colors/ ' 
+    files+='.config/vifm/vifmrc  '
+    files+='.config/vifm/scripts/ '
+    files+='.config/vifm/colors/ '
     # terminalrc=
-    files+='.config/xfce4/terminal/terminalrc ' 
+    files+='.config/xfce4/terminal/terminalrc '
     # i3
     files+='.i3/ '
     files+='.i3/autostart/ '
@@ -55,7 +55,7 @@ sync_copy ()
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$file
-	mkdir -p "$(echo ${newDir%/*})" 
+	mkdir -p "$(echo ${newDir%/*})"
 	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$dotfiles_dir"/"$file" &>> "$bkpLog"
 	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> "$bkpLog"
     done
@@ -67,12 +67,12 @@ if [ -d "$dotfiles_dir" ] && [ -d "$bkpdir" ];then
     sync_copy
 else
     cError "Folders"
-    cItalic "$dotfiles_dir" "and" 
-    clnItalic "$bkpdir" "is required." 
-    printf "[ERROR] No %s or/and %s is required.\n" "$dotfiles_dir" "$bkpdir" &>> "$bkpLog" 
+    cItalic "$dotfiles_dir" "and"
+    clnItalic "$bkpdir" "is required."
+    printf "[ERROR] No %s or/and %s is required.\n" "$dotfiles_dir" "$bkpdir" &>> "$bkpLog"
     exit 1
 fi
 cd "$nowIn" || return
 printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
-cInfo "If error occured check backup log in:" 
+cInfo "If error occured check backup log in:"
 clnItalic "$bkpLog" "Done."
