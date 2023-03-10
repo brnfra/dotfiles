@@ -1,30 +1,31 @@
 #!/usr/bin/env bash
-source "$HOME/bin/color-printf"
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
 function make_dirs(){
-    folder_list="$HOME/.local/opt" 
-    folder_list+=" $HOME/.local/share/fonts" 
-    folder_list+=" $HOME/.wallpapers" 
-    folder_list+=" $HOME/.ssh" 
-    folder_list+=" $HOME/.cache" 
-    folder_list+=" $HOME/Documents/Projects/git" 
-    folder_list+=" $HOME/.vim/backups" 
-    folder_list+=" $HOME/.vim/backups/swaps" 
-    folder_list+=" $HOME/.vim/backups/undo" 
-    folder_list+=" $HOME/.vim/bundle" 
-    folder_list+=" $HOME/.vim/autoload" 
-    folder_list+=" $HOME/.config-bkp" 
+    folder_list="$HOME/.local/opt"
+    folder_list+=" $HOME/.local/share/fonts"
+    folder_list+=" $HOME/.wallpapers"
+    folder_list+=" $HOME/.ssh"
+    folder_list+=" $HOME/.cache"
+    folder_list+=" $HOME/Documents/Projects/git"
+    folder_list+=" $HOME/.vim/backups"
+    folder_list+=" $HOME/.vim/backups/swaps"
+    folder_list+=" $HOME/.vim/backups/undo"
+    folder_list+=" $HOME/.vim/bundle"
+    folder_list+=" $HOME/.vim/autoload"
+    folder_list+=" $HOME/.config-bkp"
     clnInfo "Creating folders"
     for Folder in $folder_list
     do
-	if [ -d "$Folder" ] 
+	if [ -d "$Folder" ]
 	then
 	    cInfo
 	    clnItalic "$Folder" "Already exists."
 	else
 	    mkdir -p "$Folder"
 	    cInfo
-	    clnItalic "$Folder" "Folders created." 
+	    clnItalic "$Folder" "Folders created."
 	fi
     done
     cmOk "Creating folders: "
@@ -43,12 +44,12 @@ function config_git() {
 }
 function config_ssh() {
     #setup ssh
-    #by  nishanthshanmugham and lhunath  
+    #by  nishanthshanmugham and lhunath
     #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
     if command -v ssh &> /dev/null
     then
-	 
-	if [ -f "$HOME/.ssh/id_ed25519" ] 
+
+	if [ -f "$HOME/.ssh/id_ed25519" ]
 	then
 	    clnInfo "Creating pub keys: ssh-agent in use."
 	else
@@ -59,7 +60,7 @@ function config_ssh() {
 	cOk
     else
 	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
-	exit 2 
+	exit 2
     fi
 }
 make_dirs

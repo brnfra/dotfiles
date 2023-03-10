@@ -1,23 +1,17 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-source "$HOME/bin/color-printf"
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 nowIn=$(pwd)
-bkpdir="$HOME"/.config-bkp
-dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
-config_dir="$HOME"/.dotfiles
-i3_cfg="$HOME/.i3/config"
-i3_scpt="$HOME/bin/i3_config_install"
-branch="main"
-checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-# bkpdir test {{{ 
+# bkpdir test {{{
 
-if [ -d "$bkpdir" ] 
+if [ -d "$bkpdir" ]
 then
     cInfo
     clnItalic "$bkpdir" "already exists. "
@@ -29,55 +23,64 @@ fi
 
 cd "$HOME" || return
 #}}}
-# Clean *.backup {{{ 
+# Clean *.backup {{{
 function cleanbkp {
-    folders="$HOME "
-    folders+="$HOME/.bash "
-    folders+="$HOME/.config/nvim "
-    folders+="$HOME/.config/vifm "
-    folders+="$HOME/.config/vifm/scripts "
-    folders+="$HOME/.config/vifm/colors "
-    folders+="$HOME/.config/xfce4/terminal "
-    folders+="$HOME/.i3 "
-    folders+="$HOME/.i3/autostart  "
-    folders+="$HOME/.i3/i3blocks "
-    folders+="$HOME/.config/rofi "
-    folders+="$HOME/.config/rofi/themes "
-    folders+="$HOME/.config/ranger "
-    folders+="$HOME/.config/ranger/rc.conf "
-    folders+="$HOME/.config/ranger/scope.sh "
-    folders+="$HOME/.config/ranger/devicons.py "
-    folders+="$HOME/.config "
-    folders+="$HOME/.config/compton "
-    folders+="$HOME/bin "
-    folders+="$HOME/tests/ "
+    folders=".bash "
+    folders+=".config/nvim "
+    folders+=".config/vifm "
+    folders+=".config/vifm/scripts "
+    folders+=".config/vifm/colors "
+    folders+=".config/xfce4/terminal "
+    folders+=".i3 "
+    folders+=".i3/autostart  "
+    folders+=".i3/i3blocks "
+    folders+=".config/rofi "
+    folders+=".config/rofi/themes "
+    folders+=".config/ranger "
+    folders+=".config/compton "
+    folders+="bin "
+    folders+="tests "
+    clnInfo "Creating bkp folders."
+    for Folder in $folders
+    do
+	if [ -d "$bkpdir/$Folder" ]
+	then
+	    cInfo
+	    clnItalic "$bkpdir/$Folder" "Already exists."
+	else
+	    mkdir -p "$bkpdir/$Folder"
+	    cInfo
+	    clnItalic "$bkpdir/$Folder" "Folders created."
+	fi
+    done
+    cmOk "Creating folders: "
 
     cInfo "Moving files .backup to "
-    cItalic "$bkpdir"
-    printf "\n"
-    for folder in $folders; do
-	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
+    clnItalic "$bkpdir"
+
+    for Folder in $folders; do
+	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
     done
 }
 # }}}
-# general test {{{ 
+# general test {{{
 function cfgTests {
     if "$checkHome" > /dev/null;
     then
-    	"$checkHome" | awk '/FAIL/''{print}'
+	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
 	    cmOk "I3config and i3 script"
-	    
+
 	else
 	    cError "I3config not found. Installing config file: "
 	    if ! "$i3_scpt" "$bkpdir"; then
-		cError "I3config " 
-		cItalic "$i3_cfg" " isn't installed " 
+		cError "I3config "
+		cItalic "$i3_cfg" " isn't installed "
 		clnItalic "$i3_scpt" "exec fail or not found."
-		 
+
 	    fi
 	    clnInfo "I3config file installed."
-	    
+
 	fi
     else
 	cmOk "Config files and folders checked"
@@ -85,13 +88,13 @@ function cfgTests {
 }
 #}}}
 function config {
-    git --git-dir="$config_dir" --work-tree="$HOME" "$@" ; 
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@" ;
 }
 
 cd "$HOME" || return
 cInfo "1:Git pull"
 cItalic "$branch" "(--bare):"
-if config pull origin $branch 
+if config pull origin $branch
 then
     cfgTests
 
@@ -146,18 +149,26 @@ else
     fi
 fi
 
-cInfo "1:Git pull clone repository folder"
+cInfo "1:Git pull in repository folder. Branch:"
 cItalic "$branch" "in"
 clnItalic "$dotfiles_dir"
-cd "$dotfiles_dir" || return
-if git checkout $branch ;then
-    git pull origin $branch
+if [ -d "$dotfiles_dir" ]
+then
+    cd "$dotfiles_dir" || return
+    if git checkout "$branch" ;then
+	git pull origin "$branch"
+	cmOk "1:Git pull clone repository folder"
+    else
+	cError "Clone dotfiles in"
+	clnItalic "$dotfiles_dir"
+    fi
 else
-    cError "Clone dotfiles in" 
+    clnError "No such directory to pull in"
+    cInfo "2:Clone repository first. Branch:"
+    cItalic "$branch" "in"
     clnItalic "$dotfiles_dir"
 fi
 
-cmOk "1:Git pull clone repository folder"
 cd "$nowIn" || return
 
 

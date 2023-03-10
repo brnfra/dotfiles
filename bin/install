@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,49 +9,59 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-source "$HOME/bin/color-printf"
+if [ -f "$HOME/dotfiles_env" ]
+then
+    # shellcheck source=~/dotfiles_env
+    . dotfiles_env
+else
+    curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+    # shellcheck source=~/dotfiles_env
+    . dotfiles_env
+fi
+
 nowIn=$(pwd)
-cd "$HOME" || return
-# Change for your Data  
-user_name="brnfra"
-repository="https://github.com/$user_name/dotfiles.git"
-bkpdir="$HOME"/.config-bkp
-config_dir="$HOME"/.dotfiles
-branch="main"
-email="devlabbr@gmail.com"
-checkHome="$HOME/tests/checkHomeConfigFilesTest.sh"
-# Clean *.backup {{{ 
+
+# Clean *.backup {{{
 function cleanbkp {
-    folders="$HOME "
-    folders+="$HOME/.bash "
-    folders+="$HOME/.config/nvim "
-    folders+="$HOME/.config/vifm "
-    folders+="$HOME/.config/vifm/scripts "
-    folders+="$HOME/.config/vifm/colors "
-    folders+="$HOME/.config/xfce4/terminal "
-    folders+="$HOME/.i3 "
-    folders+="$HOME/.i3/autostart  "
-    folders+="$HOME/.i3/i3blocks "
-    folders+="$HOME/.config/rofi "
-    folders+="$HOME/.config/rofi/themes "
-    folders+="$HOME/.config/ranger "
-    folders+="$HOME/.config/ranger/rc.conf "
-    folders+="$HOME/.config/ranger/scope.sh "
-    folders+="$HOME/.config/ranger/devicons.py "
-    folders+="$HOME/.config "
-    folders+="$HOME/.config/compton "
-    folders+="$HOME/bin "
-    folders+="$HOME/tests/ "
+    folders=".bash "
+    folders+=".config/nvim "
+    folders+=".config/vifm "
+    folders+=".config/vifm/scripts "
+    folders+=".config/vifm/colors "
+    folders+=".config/xfce4/terminal "
+    folders+=".i3 "
+    folders+=".i3/autostart  "
+    folders+=".i3/i3blocks "
+    folders+=".config/rofi "
+    folders+=".config/rofi/themes "
+    folders+=".config/ranger "
+    folders+=".config/compton "
+    folders+="bin "
+    folders+="tests "
+    clnInfo "Creating bkp folders."
+    for Folder in $folders
+    do
+	if [ -d "$bkpdir/$Folder" ]
+	then
+	    cInfo
+	    clnItalic "$bkpdir/$Folder" "Already exists."
+	else
+	    mkdir -p "$bkpdir/$Folder"
+	    cInfo
+	    clnItalic "$bkpdir/$Folder" "Folders created."
+	fi
+    done
+    cmOk "Creating folders: "
 
     cInfo "Moving files .backup to "
     clnItalic "$bkpdir"
-    
-    for folder in $folders; do
-	find "$folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
+
+    for Folder in $folders; do
+	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
     done
 }
 # }}}
-# Run env scripts {{{ 
+# Run env scripts {{{
 function make_env {
     if [ -d "$bkpdir" ]
     then
@@ -61,7 +71,7 @@ function make_env {
 	cError "Can't clean Backup files."
 	clnItalic "$bkpdir" "no found"
 	mkdir -p "$bkpdir"
-	cInfo 
+	cInfo
 	clnItalic "$bkpdir" "created."
     fi
     cmOk "Install main(--bare)"
@@ -73,18 +83,18 @@ function make_env {
     if "$HOME/bin/install_fonts"; then
 	cmOk "Install Fonts"
     fi
-    clnInfo "Installing I3config." 
+    clnInfo "Installing I3config."
     if "$HOME/bin/i3_config_install" "$bkpdir"; then
 	cmOk "Install I3config"
     fi
 }
 # }}}
-# test if is installed {{{  
+# test if is installed {{{
 function installTest {
-    if [ -d "$config_dir" ]; then
+    if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
-	clnItalic "$config_dir" "in order and check outputs log."
-	
+	clnItalic "$install_dir" "in order and check outputs log."
+
 	if "$checkHome" > /dev/null;
 	then
 	    "$checkHome" | awk '/FAIL/''{print}'
@@ -93,7 +103,7 @@ function installTest {
     fi
 }
 #}}}
-# general test {{{ 
+# general test {{{
 function cfgTests {
     local i3_cfg="$HOME/.i3/config"
     local i3_scpt="$HOME/bin/i3_config_install"
@@ -110,8 +120,8 @@ function cfgTests {
 	else
 	    cError "I3config not found. Installing config file "
 	    if ! "$i3_scpt" "$bkpdir"; then
-		cError "I3config " 
-		cItalic "$i3_cfg" " isn't installed " 
+		cError "I3config "
+		cItalic "$i3_cfg" " isn't installed "
 		clnItalic "$i3_scpt" "exec fail or not found."
 	    fi
 	    clnInfo "I3config file installed."
@@ -122,19 +132,23 @@ function cfgTests {
 }
 #}}}
 function config {
-    git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@";
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
 
 cd "$HOME" || return
 installTest
-cInfo "Git clone %s(--bare)." 
-cItalic "$branch"
-git clone --branch $branch --bare $repository "$HOME/.dotfiles";
+cInfo "Git clone %s(--bare)."
+clnItalic "$branch"
 
-cInfo "Git clone"
-cItalic "$branch" "(--bare)"
-cOk
-
+if git clone --branch "$branch" --bare "$repository" "$install_dir";
+then
+    cInfo "Git clone"
+    cItalic "$branch" "(--bare)"
+    cOk
+else
+    clnError "Can't clone repository"
+    exit 1
+fi
 cInfo "Checkout branch "
 cItalic "$branch"
 if config checkout
@@ -142,11 +156,12 @@ then
     cInfo "Checkout branch "
     cItalic "$branch" ":"
     cOk
-    make_env 
+    make_env
+    rm dotfiles_env
     cd "$nowIn" || return
     exit 0
 else
-    cError "Checkout branch: backup files Template=[file_name.backup]" 
+    cError "Checkout branch: backup files Template=[file_name.backup]"
     config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
     cmOk "Checkout branch, backup files"
     clnInfo "Checkout branch:Cleaning and trying again after backup"
@@ -157,6 +172,7 @@ else
 	config config status.showUntrackedFiles no
 	cmOk "Install main(--bare)"
 	make_env
+	rm dotfiles_env
 	cd "$nowIn" || return
 	exit 0
     else
@@ -166,14 +182,16 @@ else
 	then
 	    "$checkHome" | awk '/FAIL/''{print}'
 	    cInfo "Trying fix install. Removing"
-	    cItalic "$config_dir" "folder"
-	    rm -rf "$config_dir"
+	    cItalic "$install_dir" "folder"
+	    rm -rf "$install_dir"
 	    cInfo "Installing again."
 	    if "$HOME/.config-bkp/install.backup"
 	    then
+		rm dotfiles_env
 		cd "$nowIn" || return
 		exit 0
 	    else
+		rm dotfiles_env
 		cd "$nowIn" || return
 		exit 1
 	    fi

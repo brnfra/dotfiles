@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 # https://askubuntu.com/questions/522505/script-to-monitor-internet-connection-stability
 #site list
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 site_list='https://www.google.com/' 
 site_list+=' https://www.netflix.com/br-en/' 
 site_list+=' https://www.amazon.com.br/'

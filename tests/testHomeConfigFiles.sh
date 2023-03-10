@@ -1,11 +1,7 @@
 #! /bin/sh
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
 
-#colors
-reset=$(tput sgr0);
-bold=$(tput bold);
-italic=$(tput sitm);
-green=$(tput setaf 34);
-red=$(tput setaf 124);
 SHUNIT_TEST_PREFIX=' Chk [if exists] --> '
 SHUNIT_COLOR="always"
 

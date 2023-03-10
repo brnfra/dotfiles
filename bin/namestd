@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 06-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,10 +9,10 @@
 #change names for standard. Ex.: 's p c' => s_p_c; and so on...
 #The changes is restrict on the folder where the script was executed
 #first, make some general changes, just in case(remove spaces)
-function first_check() {    #{{{ 
+function first_check() {    #{{{
     LOCAL=$(pwd)
     FILE=$1
-    #	${variable//search/replace}	
+    #	${variable//search/replace}
     OLD=${FILE//$LOCAL\//}
     NAME=${FILE//$LOCAL\//}
     NAME=${NAME// /_}
@@ -22,8 +22,8 @@ function first_check() {    #{{{
     # coding to ascII remove latin chars
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
     if [ -f "$NAME" ] && [ -f "$OLD" ] && [ "$NAME" != "$OLD" ]; then
-	echo "antes1 =  $OLD" 
-	echo "depois1 = $NAME" 
+	echo "antes1 =  $OLD"
+	echo "depois1 = $NAME"
     fi
     if [[ "$NAME" != "$OLD" ]]
     then
@@ -36,7 +36,7 @@ function rename_file() {			#{{{
     OLD=$FILE
     NAME=${FILE// /_}
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
-    if [[ $NAME == *"."* ]]; then 
+    if [[ $NAME == *"."* ]]; then
 	#{{{
 	#get after dot.
 	EXT=${NAME##*'.'}
@@ -48,7 +48,7 @@ function rename_file() {			#{{{
 	NAME=$(echo "$NAME" | sed -r 's/_+/_/gi')
 	NAME=$(echo "$NAME" | sed -r 's/^_//gi')
 	NAME=$(echo "$NAME" | sed -r 's/_$//gi')
-	if [[ $NAME == "" ]]; then 
+	if [[ $NAME == "" ]]; then
 	    NAME="new_renamed_file"
 	fi
 	EXT=$(echo "$EXT" | sed -r 's/\W/_/gi')
@@ -57,8 +57,8 @@ function rename_file() {			#{{{
 	EXT=$(echo "$EXT" | sed -r 's/^_//gi')
 	EXT=$(echo "$EXT" | sed -r 's/_$//gi')
 	NAME=$NAME.$EXT
-	#}}} 
-    else   
+	#}}}
+    else
 	#{{{
 	NAME=${NAME//[\\+]/}
 	NAME=$(echo "$NAME" | sed -r 's/\W/_/gi')
@@ -66,7 +66,7 @@ function rename_file() {			#{{{
 	NAME=$(echo "$NAME" | sed -r 's/(_+)+/_/gi')
 	NAME=$(echo "$NAME" | sed -r 's/^_//gi')
 	NAME=$(echo "$NAME" | sed -r 's/_$//gi')
-	if [[ $NAME == "" ]]; then 
+	if [[ $NAME == "" ]]; then
 	    NAME="new_renamed_file"
 	fi
 	#}}}
@@ -91,7 +91,7 @@ function rename_file() {			#{{{
 #}}}
 function rename_folder() {   #{{{
     FOLDER=$1
-    OLD=$FOLDER 
+    OLD=$FOLDER
     NAME=$FOLDER
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
     NAME=${NAME//[\\+]/}
@@ -116,7 +116,7 @@ function rename_folder() {   #{{{
 }
 #}}}
 function show_result() { #{{{
-    printf "\n%s\n\n" "Changes table" 
+    printf "\n%s\n\n" "Changes table"
     FOLDERS_AFTER=$(find . -maxdepth 1 -type d | sed 's|\.\/||gi' | sed '1d'| sort)
     FILES_AFTER=$(find . -maxdepth 1 -type f | sed 's|\.\/||gi' | sed '1d'| sort)
     FOLDERS_AFTER=${FOLDERS_AFTER//$LOCAL\//}
@@ -142,15 +142,14 @@ function show_result() { #{{{
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
-    printf "If you insist, comment line 143 in [%s] Script. You're on own risk.\n" "$HOME/bin/namestd"
     exit 1
 fi
 FOLDERS_BEFORE=$(find . -maxdepth 1 -type d | sed 's|\.\/||gi' | sed '1d'| sort)
 FILES_BEFORE=$(find . -maxdepth 1 -type f | sed 's|\.\/||gi' | sed '1d'| sort)
 FOLDERS_BEFORE=${FOLDERS_BEFORE//$LOCAL\//}
 FILES_BEFORE=${FILES_BEFORE//$LOCAL\//}
-NAMES="$(pwd)"/* 
-for FILE in $NAMES 
+NAMES="$(pwd)"/*
+for FILE in $NAMES
 do
     first_check "$FILE"
 done
@@ -159,12 +158,12 @@ STFILES=$?
 if [[ $STFILES -eq 0 ]]
 then
     DEFAULT_IFS=$IFS
-    IFS=$'\n' 
+    IFS=$'\n'
     files=( $FILES )
     IFS=$DEFAULT_IFS
 
     lenght=${#files[@]}
-    for(( i=0; i < lenght; i++)) 
+    for(( i=0; i < lenght; i++))
     do
 	rename_file "${files[$i]}"
     done
@@ -173,14 +172,14 @@ else
 fi
 FOLDERS="$(find . -maxdepth 1 -type d -name '*' | sed 's|\.\/||gi' | sed '1d')" &> /dev/null
 STFOLDERS=$?
-if [[ $STFOLDERS -eq 0 ]]    
+if [[ $STFOLDERS -eq 0 ]]
 then
     DEFAULT_IFS=$IFS
-    IFS=$'\n' 
+    IFS=$'\n'
     folders=( $FOLDERS )
     IFS=$DEFAULT_IFS
     lenght=${#folders[@]}
-    for(( i=0; i < lenght; i++)) 
+    for(( i=0; i < lenght; i++))
     do
 	rename_folder "${folders[$i]}"
     done

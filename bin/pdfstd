@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pdfstd
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-03-2023
+# Ultima_modificacao: 09-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -13,7 +13,6 @@ output="Output"
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
-    printf "If you insist, comment line 12-16 in [%s] Script. You're on own risk.\n" "$0"
     exit 1
 fi
 

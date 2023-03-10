@@ -1,17 +1,13 @@
 #! /bin/sh
-#colors
-reset=$(tput sgr0);
-bold=$(tput bold);
-italic=$(tput sitm);
-green=$(tput setaf 34);
-red=$(tput setaf 124);
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 SHUNIT_TEST_PREFIX=' Git Test --> '
 SHUNIT_COLOR="always"
-dotfilesDir="$HOME/Documents/Projects/git/dotfiles"
 testInstallRepoBranchCheck() {
-    cd $dotfilesDir
+    cd $dotfiles_dir
     git checkout main &> /dev/null
-    BranchTest="$(cat $dotfilesDir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
+    BranchTest="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     assertEquals \
 	": 30 : ${red}${bold}[FAIL]${reset} The result of ${BranchTest} was wrong\n\n" \
@@ -19,9 +15,9 @@ testInstallRepoBranchCheck() {
 	"${result}"
     }
 testPullConfigRepoBranchCheck() {
-    cd $dotfilesDir
+    cd $dotfiles_dir
     git checkout main &> /dev/null
-    BranchTest="$(cat $dotfilesDir/bin/pull_config | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
+    BranchTest="$(cat $dotfiles_dir/bin/pull_config | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     assertEquals \
 	"${red}${bold}[FAIL]${reset} The result of ${BranchTest} was wrong\n\n" \
