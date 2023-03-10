@@ -102,6 +102,8 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 
 - *Read and edit it first for your purpose*, it will create some folders and copy config files, recomend fork/clone this repo and coment that line.
 
+- You can change branch in home, after install, run ```$ config checkout testing ```, for example.
+
 Attention on ssh-key problems, just in case, check your email and user, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
 
@@ -190,5 +192,7 @@ after install or trying update your local configs, try this;
 2. Re-run the command curl for install again.
 
 For other problems, again, check your name and email in install_enviroment or comment.
+
+
 
 [Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
