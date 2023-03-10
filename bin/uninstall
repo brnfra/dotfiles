@@ -20,8 +20,8 @@ restaure_bkp() {
     folders+="bin "
     folders+="tests "
 
-    clnInfo "Creating bkp folders."
-    clnInfo "Undone configs installation"
+    printf "[INFO] Creating bkp folders.\n"
+    printf "[INFO] Undone configs installation\n"
 
     for Folder in $folders; do
 	find "$bkpdir/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
@@ -40,6 +40,7 @@ rem_dirs() {
     folder_list+=" $HOME/Documents/Projects/git"
     folder_list+=" $HOME/.config-bkp"
     folder_list+=" $HOME/.dotfiles"
+    folder_list+=" $HOME/example"
     folder_list+=" $HOME/bin"
     folder_list+=" $HOME/tests"
     printf "Uninstalling dotfiles"
@@ -49,8 +50,7 @@ rem_dirs() {
 	then
 	    rm -rf "$Folder"
 	else
-	    printf "%s not found." "$Folder"
-	    iInfo
+	    printf "%s not found.\n" "$Folder"
 	fi
     done
 }
