@@ -20,7 +20,6 @@ restaure_bkp() {
     folders+="bin "
     folders+="tests "
 
-    printf "[INFO] Creating bkp folders.\n"
     printf "[INFO] Undone configs installation\n"
 
     for Folder in $folders; do
@@ -43,7 +42,7 @@ rem_dirs() {
     folder_list+=" $HOME/example"
     folder_list+=" $HOME/bin"
     folder_list+=" $HOME/tests"
-    printf "Uninstalling dotfiles"
+    printf "[INFO] Uninstalling dotfiles\n"
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ]
@@ -57,3 +56,5 @@ rem_dirs() {
 
 restaure_bkp
 rem_dirs
+printf "[INFO] Done.\n"
+cd "$HOME" || return
