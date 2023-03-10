@@ -4,7 +4,8 @@ bkpdir="$HOME"/.config-bkp
 
 # restaure *.backup
 restaure_bkp() {
-    folders=".bash "
+    folders="$HOME "
+    folders+=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "

@@ -25,6 +25,7 @@ Thank you guys for sharing :heart:
 - [Install](https://github.com/brnfra/dotfiles#how-to-install)
 - [Pull state from remote after installation](https://github.com/brnfra/dotfiles#pull-state-from-remote-to-local-config)
 - [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
+- [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-configi)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 
 ## Using git to manage config files.
@@ -49,10 +50,10 @@ This configuration works with **i3-wm** and **i3status**.
 
 ## TODO
 
-- [ ] Create uninstall script to back original config
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
 - [ ] Fix audio/mic control for Ubuntu in i3block config
 - [ ] Testing and refactoring
+- [x] Create uninstall script to back original config
 - [x] Create file with params and defs
 - [x] Make tests to check files already created/copy
 - [x] Create test_config branch
@@ -99,13 +100,10 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 
 <br>
 
-Check the script ```/bin/install_enviroment``` get username and email from ```/bin/install```. Configure your definitions **before** run it.
+Check the script ```/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run it.
 *Read and edit it first for your purpose*, it will create some folders and copy config files, you can fork this repo and coment that line.
 Attention on ssh-key problems, just in case, check your email and user, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
-
-- [**Optional**] If you'll create enviroment to Java, Spring and React the script ___java_spring_react.sh___ gonna install *Heroku CLI*, *Postman*, *VSCode* and *Spring Tool Suite* in folder ```~/.local/opt/``` and add the **PATH** to **.bash_exports**.
-In the ``` ~/bin```  folder there are scripts for each case.
 
 ## Update remote state from local to remote 
 
@@ -126,7 +124,7 @@ Run ```$ stage-local-config``` gonna only make copy, without push, the edited co
 ```
 $ git push origin [main/mingw32-w8]
 ```
-Now, Git gonna **update snapshot** from local to remote.
+Now, Git gonna **update snapshot** from local to remote. Your other machines just run pull_config(or add in init) to get it.
 
 ## Pull state from remote to local config
 
@@ -145,32 +143,37 @@ $ bash ~/bin/pull_config
 
 Now, Git gonna **update snapshot** from remote repo to your $HOME folder.
 
+## Uninstall and back config
+
+```
+$ uninstall
+
+or
+
+$ bash ~/bin/uninstall
+```
 
 ## Dependencies
 
-Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**, in files.
+Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**.
+For some functionalities some packages are necessary;
 
 - i3blocks
 - nm-applet(tool to show network icon)
 - diodon(tool to show transfer area icon)
-- gnome-screenshot(printscreen)
+- scrot(print screen)
 - compton(composer)
 - nitrogen(wallpaper)
 - fzf
 - fdfind
 - exa
-
-Some functions require some aplications and packages like xorg,fzf,fdfind for example.
-If you want full functions here will required, for some functions, the previous installation of some packages like;
-
-- I3wm
-- I3blocks 
-- Compton
-- Vim
-- NeoVim
-- Vifm
+- rsync
+- jq
+- acpi(temperatures and battery)
+- gsimplecal(tiny calendar i3blocks)
+- shunit2(tests)
+- sysstat(cpu info)
 - Xfce4-terminal
-- fzf
 
 ## Problems
 
