@@ -4,8 +4,7 @@ bkpdir="$HOME"/.config-bkp
 
 # restaure *.backup
 restaure_bkp() {
-    folders="$HOME "
-    folders+=".bash "
+    folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "
@@ -23,6 +22,7 @@ restaure_bkp() {
 
     printf "[INFO] Undone configs installation\n"
 
+    find "$bkpdir" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME"
     for Folder in $folders; do
 	find "$bkpdir/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
     done
@@ -32,6 +32,11 @@ restaure_bkp() {
 	    name=${File%.backup}
 	    mv "$File" "$name"
 	done
+    done
+    files=$(find "$HOME" -maxdepth 1 -name "*.backup" -type f)
+    for File in $files; do
+	name=${File%.backup}
+	mv "$File" "$name"
     done
 }
 # clean

@@ -12,8 +12,7 @@
 nowIn=$(pwd)
 # Clean *.backup {{{
 cleanbkp() {
-    folders="$HOME "
-    folders+=".bash "
+    folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "
@@ -46,6 +45,7 @@ cleanbkp() {
     cInfo "Moving files .backup to "
     clnItalic "$bkpdir"
 
+    find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     for Folder in $folders; do
 	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
     done

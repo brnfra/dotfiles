@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-03-2023
+# Ultima_modificacao: 11-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -25,8 +25,7 @@ cd "$HOME" || return
 #}}}
 # Clean *.backup {{{
 cleanbkp() {
-    folders="$HOME "
-    folders+=".bash "
+    folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "
@@ -58,7 +57,8 @@ cleanbkp() {
 
     cInfo "Moving files .backup to "
     clnItalic "$bkpdir"
-
+    
+    find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     for Folder in $folders; do
 	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
     done
