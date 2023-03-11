@@ -9,7 +9,7 @@ testInstallRepoBranchCheck() {
     BranchTest="$(cat $dotfiles_dir/bin/dotfiles_env | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     assertEquals \
-	clnError ": 30 : The result of ${BranchTest} was wrong" \
+	": 30 : The result of ${BranchTest} was wrong" \
 	"${BranchTest}" \
 	"${result}"
     }
@@ -18,7 +18,7 @@ testInstallHomeBranchCheck() {
     BranchTest="$(cat $HOME/bin/dotfiles_env | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     assertEquals \
-	clnError ": 30 : The result of ${BranchTest} was wrong" \
+	": 30 : The result of ${BranchTest} was wrong" \
 	"${BranchTest}" \
 	"${result}"
     }
