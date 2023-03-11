@@ -4,13 +4,12 @@
 branch="testing"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
-pushFrom="$HOME/Documents/Projects/git/dotfiles"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
 email="devlabbr@gmail.com"
-install_dir="$HOME"/.dotfiles
+install_dir="$HOME/.dotfiles"
 #backup
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
-bkpdir="$HOME"/.config-bkp
+bkpdir="$HOME/.config-bkp"
 #tests
 checkAll="$HOME/tests/dotfilesTest.sh"
 checkHome="$HOME/tests/testHomeConfigFiles.sh"

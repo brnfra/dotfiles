@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 11-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,21 +9,11 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-if [ -f "$HOME/dotfiles_env" ]
-then
-    # shellcheck source=~/dotfiles_env
-    . dotfiles_env
-else
-    curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
-    # shellcheck source=~/dotfiles_env
-    . dotfiles_env
-fi
-
 nowIn=$(pwd)
-
 # Clean *.backup {{{
-function cleanbkp {
-    folders=".bash "
+cleanbkp() {
+    folders="$HOME "
+    folders+=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "
@@ -62,7 +52,7 @@ function cleanbkp {
 }
 # }}}
 # Run env scripts {{{
-function make_env {
+make_env() {
     if [ -d "$bkpdir" ]
     then
 	cInfo
@@ -90,7 +80,22 @@ function make_env {
 }
 # }}}
 # test if is installed {{{
-function installTest {
+installTest() {
+    if [ -f "$HOME/bin/dotfiles_env" ]
+    then
+	# shellcheck source=~/bin/dotfiles_env
+	. dotfiles_env
+    else
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+	then
+	    mv dotfiles_env "$HOME/bin"
+	    # shellcheck source=~/bin/dotfiles_env
+	    . dotfiles_env
+	else
+	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository. Exiting\n"
+	    exit 1
+	fi
+    fi
     if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
 	clnItalic "$install_dir" "in order and check outputs log."
@@ -104,7 +109,7 @@ function installTest {
 }
 #}}}
 # general test {{{
-function cfgTests {
+cfgTests() {
     local i3_cfg="$HOME/.i3/config"
     local i3_scpt="$HOME/bin/i3_config_install"
 
@@ -131,7 +136,7 @@ function cfgTests {
     fi
 }
 #}}}
-function config {
+config() {
     git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
 
@@ -157,7 +162,6 @@ then
     cItalic "$branch" ":"
     cOk
     make_env
-    rm dotfiles_env
     cd "$nowIn" || return
     exit 0
 else
@@ -172,7 +176,6 @@ else
 	config config status.showUntrackedFiles no
 	cmOk "Install main(--bare)"
 	make_env
-	rm dotfiles_env
 	cd "$nowIn" || return
 	exit 0
     else
@@ -187,11 +190,9 @@ else
 	    cInfo "Installing again."
 	    if "$HOME/.config-bkp/install.backup"
 	    then
-		rm dotfiles_env
 		cd "$nowIn" || return
 		exit 0
 	    else
-		rm dotfiles_env
 		cd "$nowIn" || return
 		exit 1
 	    fi

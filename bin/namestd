@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 10-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,7 +9,7 @@
 #change names for standard. Ex.: 's p c' => s_p_c; and so on...
 #The changes is restrict on the folder where the script was executed
 #first, make some general changes, just in case(remove spaces)
-function first_check() {    #{{{
+first_check() {    #{{{
     LOCAL=$(pwd)
     FILE=$1
     #	${variable//search/replace}
@@ -31,7 +31,7 @@ function first_check() {    #{{{
     fi
 }
 #}}}
-function rename_file() {			#{{{
+rename_file() {			#{{{
     FILE=$1
     OLD=$FILE
     NAME=${FILE// /_}
@@ -89,7 +89,7 @@ function rename_file() {			#{{{
     fi
 }
 #}}}
-function rename_folder() {   #{{{
+rename_folder() {   #{{{
     FOLDER=$1
     OLD=$FOLDER
     NAME=$FOLDER
@@ -115,7 +115,7 @@ function rename_folder() {   #{{{
     fi
 }
 #}}}
-function show_result() { #{{{
+show_result() { #{{{
     printf "\n%s\n\n" "Changes table"
     FOLDERS_AFTER=$(find . -maxdepth 1 -type d | sed 's|\.\/||gi' | sed '1d'| sort)
     FILES_AFTER=$(find . -maxdepth 1 -type f | sed 's|\.\/||gi' | sed '1d'| sort)

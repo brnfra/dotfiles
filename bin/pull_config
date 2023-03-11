@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 10-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -24,8 +24,9 @@ fi
 cd "$HOME" || return
 #}}}
 # Clean *.backup {{{
-function cleanbkp {
-    folders=".bash "
+cleanbkp() {
+    folders="$HOME "
+    folders+=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
     folders+=".config/vifm/scripts "
@@ -64,7 +65,7 @@ function cleanbkp {
 }
 # }}}
 # general test {{{
-function cfgTests {
+cfgTests() {
     if "$checkHome" > /dev/null;
     then
 	"$checkHome" | awk '/FAIL/''{print}'
@@ -87,7 +88,7 @@ function cfgTests {
     fi
 }
 #}}}
-function config {
+config() {
     git --git-dir="$install_dir" --work-tree="$HOME" "$@" ;
 }
 

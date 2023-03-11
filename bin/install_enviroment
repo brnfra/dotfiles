@@ -2,7 +2,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-function make_dirs(){
+make_dirs() {
     folder_list="$HOME/.local/opt"
     folder_list+=" $HOME/.local/share/fonts"
     folder_list+=" $HOME/.wallpapers"
@@ -30,7 +30,7 @@ function make_dirs(){
     done
     cmOk "Creating folders: "
 }
-function config_git() {
+config_git() {
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
     if command -v git &> /dev/null
     then
@@ -42,7 +42,7 @@ function config_git() {
 	exit 1
     fi
 }
-function config_ssh() {
+config_ssh() {
     #setup ssh
     #by  nishanthshanmugham and lhunath
     #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
