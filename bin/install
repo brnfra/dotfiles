@@ -19,6 +19,8 @@ install_check() {
     else
 	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
 	then
+	    mkdir "$HOME/bin"
+	    mv dotfiles_env "$HOME/bin"
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
 	else
@@ -41,7 +43,6 @@ clnItalic "$branch"
 
 if git clone --branch "$branch" --bare "$repository" "$install_dir";
 then
-    rm dotfiles_env 
     cInfo "Git clone"
     cItalic "$branch" "(--bare)"
     cOk
@@ -50,7 +51,6 @@ then
 
     bare_repo_checkout
 else
-    rm dotfiles_env 
     clnError "Can't clone repository"
     exit 1
 fi
