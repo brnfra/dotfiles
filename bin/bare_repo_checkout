@@ -12,7 +12,7 @@ for file in ~/bin/{bkp_cfg_files,config_check,git_config,dotfiles_env,install_ch
 done;
 unset file;
 
-clone_bare_repo() {
+bare_repo_checkout() {
 backto=$(pwd)
 cd "$HOME" || return
 
