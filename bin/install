@@ -11,7 +11,6 @@
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 backto=$(pwd)
 
-# install_check {{{
 install_check() {
     if [ -f "$HOME/bin/dotfiles_env" ]
     then
@@ -20,7 +19,6 @@ install_check() {
     else
 	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
 	then
-	    mv dotfiles_env "$HOME/bin"
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
 	else
@@ -33,10 +31,6 @@ install_check() {
 	clnItalic "$install_dir" "in order and check outputs log."
 
 	exit 1
-	# 	if "$checkHome" > /dev/null;
-	# 	then
-	# 	    "$checkHome" | awk '/FAIL/''{print}'
-	# 	fi
     fi
 }
 
@@ -47,6 +41,7 @@ clnItalic "$branch"
 
 if git clone --branch "$branch" --bare "$repository" "$install_dir";
 then
+    rm dotfiles_env 
     cInfo "Git clone"
     cItalic "$branch" "(--bare)"
     cOk
@@ -55,6 +50,7 @@ then
 
     bare_repo_checkout
 else
+    rm dotfiles_env 
     clnError "Can't clone repository"
     exit 1
 fi
