@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Arquivo: make_dirs
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+make_dirs() {
+    folder_list="$HOME/.local/opt"
+    folder_list+=" $HOME/.local/share/fonts"
+    folder_list+=" $HOME/.wallpapers"
+    folder_list+=" $HOME/.ssh"
+    folder_list+=" $HOME/.cache"
+    folder_list+=" $HOME/Documents/Projects/git"
+    folder_list+=" $HOME/.vim/backups"
+    folder_list+=" $HOME/.vim/backups/swaps"
+    folder_list+=" $HOME/.vim/backups/undo"
+    folder_list+=" $HOME/.vim/bundle"
+    folder_list+=" $HOME/.vim/autoload"
+    folder_list+=" $HOME/.config-bkp"
+
+    clnInfo "Creating folders"
+    for Folder in $folder_list
+    do
+	if [ -d "$Folder" ]
+	then
+	    cInfo
+	    clnItalic "$Folder" "Already exists."
+	else
+	    mkdir -p "$Folder"
+	    cInfo
+	    clnItalic "$Folder" "Folders created."
+	fi
+    done
+}
+

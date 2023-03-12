@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# Arquivo: bare_repo_pull
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+for file in ~/bin/{bkp_cfg_files,config_check,git_config,dotfiles_env,config_check,make_env}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+bare_repo_pull() {
+    backto=$(pwd)
+    cd "$HOME" || return
+    cInfo "1:Git pull"
+    clnItalic "$branch" "(--bare)"
+    if git_config pull origin $branch
+    then
+	config_check
+
+	cInfo "1:Git pull"
+	cItalic "$branch" "(--bare):"
+	cOk
+    else
+	clnError "2: Config pull error: Conflict."
+	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+	cmOk "2: Checking again and backup files"
+
+	bkp_cfg_files
+	cmOk "2: Cleaning"
+
+	if git_config pull origin $branch
+	then
+	    config_check
+	    cInfo "3: Git pull config "
+	    cItalic "$branch" "(--bare):"
+	    cOk
+	else
+	    clnError "3: Can't resolve conflicts. Trying to Fetch."
+
+	    git_config fetch origin $branch
+	    cInfo "4: Fetching origin:"
+	    cItalic "$branch" ":"
+	    cOk
+
+	    git_config reset --hard HEAD
+	    cInfo "4: Reset --hard:"
+	    cItalic "$branch" ":"
+	    cOk
+
+	    git_config merge origin '@{u}'
+	    cInfo "4: Mergin origin:"
+	    cItalic "$branch" ":"
+	    cOk
+
+	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+	    cmOk "Checking again and backup files"
+	    config_check
+
+	    bkp_cfg_files
+	    cmOk "Clean"
+
+	    if git_config pull origin $branch
+		clnInfo "5: Git pull finished after fetch. Exit"
+	    then
+		clnError "5: Can't pull anyway .Exit with errors."
+	    fi
+	fi
+    fi
+    cd "$backto" || return
+}
+
+

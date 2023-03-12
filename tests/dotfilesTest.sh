@@ -3,6 +3,7 @@
 . dotfiles_env
 
 SHUNIT_TEST_PREFIX=' #Main --> '
+SHUNIT_COLOR="always"
 
 testDotfilesConfigs() {
     clnInfo "Check Git Configs Tests"

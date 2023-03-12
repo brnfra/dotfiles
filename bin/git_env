@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Arquivo: git_env
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+config_git() {
+    #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
+    if command -v git &> /dev/null
+    then
+	git config --global user.email "$email"
+	git config --global user.name "$user_name"
+	cmOk "Add git config_git"
+    else
+	clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
+	exit 1
+    fi
+}
+

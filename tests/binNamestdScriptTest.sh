@@ -2,9 +2,8 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-SHUNIT_TEST_PREFIX=" Standard names --> "
+SHUNIT_TEST_PREFIX=" Standarize names --> "
 SHUNIT_COLOR="always"
-dotfilesDir="/home/devlab/teste/tests/tests"
 testDir="$HOME/tests/test_dir"
 
 testExecution() {

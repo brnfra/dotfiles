@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 10-03-2023
+#  Ultima_modificacao: 12-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -17,7 +17,7 @@ git_push() {
     git add -A -v;git commit -v -m "$message";git push origin $branch
     if [ $? ];then
 	git status -sb
-	cmOk "Git add + and push"
+	cmOk "Git add and push"
     else
 	git status -sb
 	clnError "A error occours. Check log."
