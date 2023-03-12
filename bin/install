@@ -66,8 +66,8 @@ make_dirs() {
 }
 
 cd "$HOME" || return
-make_dirs
 install_check
+make_dirs
 cInfo "Git clone %s(--bare):"
 clnItalic "$branch"
 
