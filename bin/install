@@ -20,7 +20,7 @@ install_check() {
 	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
 	then
 	    mkdir "$HOME/bin"
-	    mv dotfiles_env "$HOME/bin"
+	    mv "$HOME/dotfiles_env" "$HOME/bin/"
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
 	else
