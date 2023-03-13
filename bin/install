@@ -57,6 +57,7 @@ bare_repo_checkout() {
 	clnInfo "Checkout branch:Cleaning and trying again after backup"
 	if git_config checkout
 	then
+	   source ~/bin/bkp_cfg_files
 	    cmOk "Checkout branch"
 	    git_config config status.showUntrackedFiles no
 	    cmOk "Install main(--bare)"
