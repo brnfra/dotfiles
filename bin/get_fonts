@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Arquivo: install_fonts
+# Arquivo: get_fonts
 # Autor: Bruno Franco
 # Ultima_modificacao: 12-03-2023
 # Download: git@github.com:brnfra
@@ -34,17 +34,14 @@ get_fonts() {
 	    fc-cache -f -v
 	    cd "$nowIn" || return
 	    clnInfo " All done! Exit"
-	    exit 0
 	else
 	    clnError "Wrong local installation."
 	    cItalic "$(pwd)" "now. "
 	    clnItalic "$fonts_path" "the correct"
-	    exit 2
 	fi
     else
 	clnError "The package Unzip is not installed. Please install unzip."
 	cd "$nowIn" || return
-	exit 1
     fi
 }
 

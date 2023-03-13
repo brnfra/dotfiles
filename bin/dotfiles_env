@@ -71,7 +71,7 @@ cmOk() {
     reset=$(tput sgr0);
     bold=$(tput bold);
     green=$(tput setaf 34);
-    printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
+    printf "%s%s[INFO]%s:%s %s%s\tOK\n%s" "$cyan" "$bold" "$1" "$reset" "$green" "$bold" "$reset" 
 }
 clnInfo() {
     local reset

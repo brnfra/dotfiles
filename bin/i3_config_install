@@ -427,7 +427,7 @@ options="${options}\$exe_always xrdb -load ~/.Xresources\n"
 fi
 printf "$options%s" > "$i3_cfg"
 if [ -f "$i3_cfg" ]; then
-    echo "Created i3 config file"
+    cmOk "i3 config file"
 else
-    echo "Could not write config file"
+    clnError "Could not write config file"
 fi
