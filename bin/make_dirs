@@ -23,7 +23,7 @@ make_dirs() {
     folder_list+=" $HOME/.vim/autoload"
     folder_list+=" $HOME/.config-bkp"
 
-    clnInfo "Creating folders"
+    clnInfo "Make directories"
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ]

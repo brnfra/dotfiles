@@ -6,15 +6,17 @@
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-for file in ~/bin/{dotfiles_env,make_dirs,get_fonts,git_env,ssh_env}; do
-    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+for file in ~/bin/{dotfiles_env,make_dirs,git_env,ssh_env,get_fonts}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
 clnInfo "Installing Enviroment."
 make_dirs
-config_git
-config_ssh
+git_env
+ssh_env
 get_fonts
 i3_config_install
 

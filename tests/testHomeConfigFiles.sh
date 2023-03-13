@@ -98,12 +98,12 @@ testLocalExistBinDir() {
 
 testLocalExistBinFiles() {
     assertTrue ": 101 :${red}${bold}[FAIL]${reset} install not found.			" "[ -f $HOME/bin/install ]"
-    assertTrue ": 102 :${red}${bold}[FAIL]${reset} install_fonts not found.		" "[ -f $HOME/bin/install_fonts ]"
-    assertTrue ": 103 :${red}${bold}[FAIL]${reset} install_enviroments not found.	" "[ -f $HOME/bin/install_enviroment ]"
+    assertTrue ": 102 :${red}${bold}[FAIL]${reset} get fonts not found.			" "[ -f $HOME/bin/get_fonts ]"
+    assertTrue ": 103 :${red}${bold}[FAIL]${reset} make enviroment not found.		" "[ -f $HOME/bin/make_env ]"
     assertTrue ": 104 :${red}${bold}[FAIL]${reset} install_pkgs_env not found.		" "[ -f $HOME/bin/install_pkgs_enviroment ]"
     assertTrue ": 105 :${red}${bold}[FAIL]${reset} install_virt_manager not found.	" "[ -f $HOME/bin/install_virtual_manager ]"
     assertTrue ": 106 :${red}${bold}[FAIL]${reset} i3_config_install not found.		" "[ -f $HOME/bin/i3_config_install ]"
-    assertTrue ": 107 :${red}${bold}[FAIL]${reset} push_local_config not found.		" "[ -f $HOME/bin/push_local_config ]"
+    assertTrue ": 107 :${red}${bold}[FAIL]${reset} push_config not found.		" "[ -f $HOME/bin/push_config ]"
     assertTrue ": 108 :${red}${bold}[FAIL]${reset} pull_config not found.		" "[ -f $HOME/bin/pull_config ]"
     assertTrue ": 109 :${red}${bold}[FAIL]${reset} stage_local_config not found.	" "[ -f $HOME/bin/stage_local_config ]"
     assertTrue ": 110 :${red}${bold}[FAIL]${reset} targz not found.			" "[ -f $HOME/bin/targz ]"
@@ -117,6 +117,9 @@ testLocalExistBinFiles() {
     assertTrue ": 117 :${red}${bold}[FAIL]${reset} foldering files by type not found.   " "[ -f $HOME/bin/makeFolderByType ]"
     assertTrue ": 118 :${red}${bold}[FAIL]${reset} item_size not found.			" "[ -f $HOME/bin/item_size ]"
     assertTrue ": 119 :${red}${bold}[FAIL]${reset} rm_lineup not found.			" "[ -f $HOME/bin/rm_linedup ]"
+    assertTrue ": 120 :${red}${bold}[FAIL]${reset} bare repo checkout not found.	" "[ -f $HOME/bin/bare_repo_checkout ]"
+    assertTrue ": 121 :${red}${bold}[FAIL]${reset} bare repo pull not found.		" "[ -f $HOME/bin/bare_repo_pull ]"
+
 
 }
 # Load and run shUnit2.

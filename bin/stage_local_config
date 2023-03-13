@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_local_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 09-03-2023
+#  Ultima_modificacao: 12-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -9,7 +9,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-nowIn=$(pwd)
+backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 
@@ -72,7 +72,7 @@ else
     printf "[ERROR] No %s or/and %s is required.\n" "$dotfiles_dir" "$bkpdir" &>> "$bkpLog"
     exit 1
 fi
-cd "$nowIn" || return
+cd "$backto" || return
 printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
 cInfo "If error occured check backup log in:"
 clnItalic "$bkpLog" "Done."

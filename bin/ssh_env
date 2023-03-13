@@ -6,11 +6,10 @@
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
-
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-config_ssh() {
+ssh_env() {
     #setup ssh
     #by  nishanthshanmugham and lhunath
     #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
@@ -24,7 +23,7 @@ config_ssh() {
 	    eval ssh-keygen -t ed25519 -C "$email";  wait $!
 	    eval "$(ssh-agent -s)" ssh-add "$HOME/.ssh/id_ed25519"
 	fi
-	cmOk "Create pub keys"
+	cmOk "Edit ssh enviroments. keygen and agent."
     else
 	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
 	exit 2

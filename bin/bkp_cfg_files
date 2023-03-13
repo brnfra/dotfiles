@@ -25,7 +25,7 @@ bkp_cfg_files() {
     folders+=".config/compton "
     folders+="bin "
     folders+="tests "
-    clnInfo "Creating bkp folders."
+    clnInfo "Creating backup folders."
     for Folder in $folders
     do
 	if [ -d "$bkpdir/$Folder" ]
@@ -38,7 +38,7 @@ bkp_cfg_files() {
 	    clnItalic "$bkpdir/$Folder" "Folders created."
 	fi
     done
-    cmOk "Creating folders: "
+    cmOk "Creating folders"
 
     cInfo "Moving files .backup to "
     clnItalic "$bkpdir"

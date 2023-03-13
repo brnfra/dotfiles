@@ -78,12 +78,12 @@ testRepoExistBinDir() {
 
 testRepoExistBinFiles() {
     assertTrue ": 82 :${red}${bold}[FAIL]${reset} install not found.		    " "[ -f $dotfiles_dir/bin/install ]"
-    assertTrue ": 83 :${red}${bold}[FAIL]${reset} install_fonts not found.	    " "[ -f $dotfiles_dir/bin/install_fonts ]"
-    assertTrue ": 84 :${red}${bold}[FAIL]${reset} install_enviroments not found.    " "[ -f $dotfiles_dir/bin/install_enviroment ]"
+    assertTrue ": 83 :${red}${bold}[FAIL]${reset} get fonts not found.	    	    " "[ -f $dotfiles_dir/bin/get_fonts ]"
+    assertTrue ": 84 :${red}${bold}[FAIL]${reset} make enviroments not found.	    " "[ -f $dotfiles_dir/bin/make_env ]"
     assertTrue ": 85 :${red}${bold}[FAIL]${reset} install_pkgs_env not found.	    " "[ -f $dotfiles_dir/bin/install_pkgs_enviroment ]"
     assertTrue ": 86 :${red}${bold}[FAIL]${reset} install_virt_manager not found.   " "[ -f $dotfiles_dir/bin/install_virtual_manager ]"
     assertTrue ": 87 :${red}${bold}[FAIL]${reset} i3_config_install not found.	    " "[ -f $dotfiles_dir/bin/i3_config_install ]"
-    assertTrue ": 88 :${red}${bold}[FAIL]${reset} push_local_config not found.	    " "[ -f $dotfiles_dir/bin/push_local_config ]"
+    assertTrue ": 88 :${red}${bold}[FAIL]${reset} push_config not found.	    " "[ -f $dotfiles_dir/bin/push_config ]"
     assertTrue ": 89 :${red}${bold}[FAIL]${reset} pull_config not found.	    " "[ -f $dotfiles_dir/bin/pull_config ]"
     assertTrue ": 90 :${red}${bold}[FAIL]${reset} stage_local_config not found.	    " "[ -f $dotfiles_dir/bin/stage_local_config ]"
     assertTrue ": 91 :${red}${bold}[FAIL]${reset} targz not found.		    " "[ -f $dotfiles_dir/bin/targz ]"
@@ -97,6 +97,8 @@ testRepoExistBinFiles() {
     assertTrue ": 117 :${red}${bold}[FAIL]${reset} foldering files by type not found.   " "[ -f $dotfiles_dir/bin/makeFolderByType ]"
     assertTrue ": 99 :${red}${bold}[FAIL]${reset} item_size not found.		    " "[ -f $dotfiles_dir/bin/item_size ]"
     assertTrue ": 100 :${red}${bold}[FAIL]${reset} rm_lineup not found.		    " "[ -f $dotfiles_dir/bin/rm_linedup ]"
+    assertTrue ": 100 :${red}${bold}[FAIL]${reset} bare repo checkout not found.    " "[ -f $dotfiles_dir/bin/bare_repo_checkout ]"
+    assertTrue ": 100 :${red}${bold}[FAIL]${reset} bare repo pull not found.	    " "[ -f $dotfiles_dir/bin/bare_repo_pull ]"
 
 }
 # Load and run shUnit2.

@@ -22,6 +22,7 @@ get_fonts() {
     then
 	if [ "$(pwd)" = "$fonts_path" ]
 	then
+	    clnInfo "Getting fonts"
 	    curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip"
 	    clnInfo "Unpack downloaded font"
 	    unzip -uo "$nerdfont"
@@ -33,7 +34,7 @@ get_fonts() {
 	    unzip -uo "$monofur"
 	    fc-cache -f -v
 	    cd "$nowIn" || return
-	    clnInfo " All done! Exit"
+	    clnInfo "All done! Exit"
 	else
 	    clnError "Wrong local installation."
 	    cItalic "$(pwd)" "now. "

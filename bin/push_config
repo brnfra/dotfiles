@@ -9,7 +9,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-nowIn=$(pwd)
+backto=$(pwd)
 
 # git push {{{
 git_push() {
@@ -39,12 +39,12 @@ then
 	clnItalic "$dotfiles_dir" "found."
 	exit 1
     fi
-    cd "$nowIn" || return
+    cd "$backto" || return
     exit 0
 else
     "$checkAll" | awk '/FAIL/''{print}'
-    cd "$nowIn" || return
+    cd "$backto" || return
     exit 1
 fi
 
-cd "$nowIn" || return
+cd "$backto" || return
