@@ -13,11 +13,8 @@ unset file;
 
 clnInfo "Installing Enviroment."
 make_dirs
-git_env
-ssh_env
+config_git
+config_ssh
 get_fonts
-clnInfo "Installing I3config."
-if "$HOME/bin/i3_config_install"; then
-    cmOk "Install I3config"
-fi
+i3_config_install
 
