@@ -14,9 +14,9 @@ config_check() {
     then
 	"$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    cInfo "I3config and i3 scripts"
+	    clnInfo "I3config and i3 scripts"
 	else
-	    cError "I3config not found. Installing config file "
+	    clnError "I3config not found. Installing config file "
 	    if ! "$i3_scpt" "$bkpdir"; then
 		cError "I3config "
 		cItalic "$i3_cfg" " isn't installed "
