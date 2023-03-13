@@ -36,35 +36,6 @@ install_check() {
     fi
 }
 
-make_dirs() {
-    folder_list="$HOME/.local/opt"
-    folder_list+=" $HOME/.local/share/fonts"
-    folder_list+=" $HOME/.wallpapers"
-    folder_list+=" $HOME/.ssh"
-    folder_list+=" $HOME/.cache"
-    folder_list+=" $HOME/Documents/Projects/git"
-    folder_list+=" $HOME/.vim/backups"
-    folder_list+=" $HOME/.vim/backups/swaps"
-    folder_list+=" $HOME/.vim/backups/undo"
-    folder_list+=" $HOME/.vim/bundle"
-    folder_list+=" $HOME/.vim/autoload"
-    folder_list+=" $HOME/.config-bkp"
-
-    clnInfo "Creating folders"
-    for Folder in $folder_list
-    do
-	if [ -d "$Folder" ]
-	then
-	    cInfo
-	    clnItalic "$Folder" "Already exists."
-	else
-	    mkdir -p "$Folder"
-	    cInfo
-	    clnItalic "$Folder" "Folders created."
-	fi
-    done
-}
-
 bare_repo_checkout() {
 backto=$(pwd)
 cd "$HOME" || return
@@ -118,10 +89,13 @@ cd "$backto" || return
 
 }
 
+git_config() {
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
+}
+
 
 cd "$HOME" || return
 install_check
-make_dirs
 cInfo "Git clone %s(--bare):"
 clnItalic "$branch"
 
@@ -131,11 +105,11 @@ then
     cItalic "$branch" "(--bare)"
     cOk
     bare_repo_checkout
-    # # shellcheck source=~/bin/bare_repo_checkout
-    #. bare_repo_checkout
-
-   # bare_repo_checkout
 else
     clnError "Can't clone repository"
     exit 1
 fi
+
+
+
+
