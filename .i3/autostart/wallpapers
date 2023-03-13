@@ -1,22 +1,29 @@
 #!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 ##TODO
 #- make tests to is there wallp files
 #- configs
 #- dirs
 #- if installed pkgs
 
-nitrogen_cfg_dir="$HOME/.config/nitrogen"
 gen_nitrogen_cfg() {
     local bgconfig
     local nitrogen_cfg
     local nitrogen_cfg_file
     local bgconfig_file
     local nxin 
+    nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
+    bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
     nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
-    nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
-    bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
-    if [[ nxin -gt 1 ]]
+    if [ "$nxin" = "1" ]
     then
+	bgconfig="[xin_0]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000\n\n"
+    else
 	bgconfig="[xin_0]\n"
 	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
 	bgconfig="${bgconfig}mode=0\n"
@@ -25,12 +32,6 @@ gen_nitrogen_cfg() {
 	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
 	bgconfig="${bgconfig}mode=0\n"
 	bgconfig="${bgconfig}bgcolor=#000000"
-    else
-	bgconfig="[xin_0]\n"
-	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
-	bgconfig="${bgconfig}mode=0\n"
-	bgconfig="${bgconfig}bgcolor=#000000\n\n"
-
     fi
     nitrogen_cfg="[geometry]\n"
     nitrogen_cfg="${nitrogen_cfg}posx=640\n"
@@ -62,30 +63,26 @@ render_images() {
     local files1
     local files2
     local process_id
-    local wallpapers_dir
     local nxin 
-    wallpapers_dir="$HOME/.wallpapers"
     nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
-    nitrogen_cfg_file="$HOME/.config/nitrogen/nitrogen.cfg"
-    bgconfig_file="$HOME/.config/nitrogen/bg-saved.cfg"
-    if find "$wallpapers_dir" -type d -empty
+    nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
+    bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
+    if [ "$(find "$wallpapers_dir" -type d -empty | wc -l)" = "1" ]
     then
 	printf "[ERROR] There'nt wallpapers to render. Exiting\n"
 	exit 1
     fi
-
     cd "$wallpapers_dir" || return
     delay1=1200
     delay2=600
     files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
-    if [[ nxin -gt 1 ]]
+     if [ "$nxin" = "1" ]
     then
 	nitrogen --restore --head=0;
-	nitrogen --restore --head=1;
     else
 	nitrogen --restore --head=0;
+	nitrogen --restore --head=1;
     fi
-
 
     #monitor1
     while :

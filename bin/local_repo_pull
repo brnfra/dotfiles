@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Arquivo: local_repo_pull
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+local_repo_pull() {
+    backto=$(pwd)
+    cInfo "1:Git pull in repository folder. Branch:"
+    cItalic "$branch" "in"
+    clnItalic "$dotfiles_dir"
+    if [ -d "$dotfiles_dir" ]
+    then
+	cd "$dotfiles_dir" || return
+	if git checkout "$branch" ;then
+	    git pull origin "$branch"
+	    cmOk "1:Git pull clone repository folder"
+	else
+	    cError "Clone dotfiles in"
+	    clnItalic "$dotfiles_dir"
+	fi
+    else
+	clnError "No such directory to pull in"
+	cInfo "2:Clone repository first. Branch:"
+	cItalic "$branch" "in"
+	clnItalic "$dotfiles_dir"
+    fi
+    cd "$backto" || return
+}

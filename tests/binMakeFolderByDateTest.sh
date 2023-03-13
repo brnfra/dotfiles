@@ -4,7 +4,7 @@
 
 testByDateDir="$HOME/tests/test_dir"
 SHUNIT_TEST_PREFIX=' F. by Date --> '
-
+SHUNIT_COLOR="always"
 testExecutionMain() {
     assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Arquivo: config_check
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+config_check() {
+    if "$checkHome" > /dev/null;
+    then
+	"$checkHome" | awk '/FAIL/''{print}'
+	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+	    clnInfo "I3config and i3 scripts"
+	else
+	    clnError "I3config not found. Installing config file "
+	    if ! "$i3_scpt" "$bkpdir"; then
+		cError "I3config "
+		cItalic "$i3_cfg" " isn't installed "
+		clnItalic "$i3_scpt" "exec fail or not found."
+	    fi
+	    clnInfo "I3config file installed."
+	fi
+    else
+	cmOk "Config files and folders checked"
+    fi
+}
+

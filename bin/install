@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 13-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,135 +9,88 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
-if [ -f "$HOME/dotfiles_env" ]
-then
-    # shellcheck source=~/dotfiles_env
-    . dotfiles_env
-else
-    curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
-    # shellcheck source=~/dotfiles_env
-    . dotfiles_env
-fi
+backto=$(pwd)
 
-nowIn=$(pwd)
-
-# Clean *.backup {{{
-function cleanbkp {
-    folders=".bash "
-    folders+=".config/nvim "
-    folders+=".config/vifm "
-    folders+=".config/vifm/scripts "
-    folders+=".config/vifm/colors "
-    folders+=".config/xfce4/terminal "
-    folders+=".i3 "
-    folders+=".i3/autostart  "
-    folders+=".i3/i3blocks "
-    folders+=".config/rofi "
-    folders+=".config/rofi/themes "
-    folders+=".config/ranger "
-    folders+=".config/compton "
-    folders+="bin "
-    folders+="tests "
-    clnInfo "Creating bkp folders."
-    for Folder in $folders
-    do
-	if [ -d "$bkpdir/$Folder" ]
-	then
-	    cInfo
-	    clnItalic "$bkpdir/$Folder" "Already exists."
-	else
-	    mkdir -p "$bkpdir/$Folder"
-	    cInfo
-	    clnItalic "$bkpdir/$Folder" "Folders created."
-	fi
-    done
-    cmOk "Creating folders: "
-
-    cInfo "Moving files .backup to "
-    clnItalic "$bkpdir"
-
-    for Folder in $folders; do
-	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
-    done
+git_config() {
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
-# }}}
-# Run env scripts {{{
-function make_env {
-    if [ -d "$bkpdir" ]
+install_check() {
+    if [ -f "$HOME/bin/dotfiles_env" ]
     then
-	cInfo
-	clnItalic  "$bkpdir" "already exists."
+	# shellcheck source=~/bin/dotfiles_env
+	. dotfiles_env
     else
-	cError "Can't clean Backup files."
-	clnItalic "$bkpdir" "no found"
-	mkdir -p "$bkpdir"
-	cInfo
-	clnItalic "$bkpdir" "created."
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+	then
+	    mkdir "$HOME/bin"
+	    mv "$HOME/dotfiles_env" "$HOME/bin/"
+	    # shellcheck source=~/bin/dotfiles_env
+	    . dotfiles_env
+	else
+	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository. Exiting\n"
+	    exit 1
+	fi
     fi
-    cmOk "Install main(--bare)"
-    clnInfo "Installing Enviroment."
-    if "$HOME/bin/install_enviroment" "$email" "$user_name"; then
-	cmOk "Install Enviroment."
-    fi
-    clnInfo "Installing Fonts."
-    if "$HOME/bin/install_fonts"; then
-	cmOk "Install Fonts"
-    fi
-    clnInfo "Installing I3config."
-    if "$HOME/bin/i3_config_install" "$bkpdir"; then
-	cmOk "Install I3config"
-    fi
-}
-# }}}
-# test if is installed {{{
-function installTest {
     if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
 	clnItalic "$install_dir" "in order and check outputs log."
 
-	if "$checkHome" > /dev/null;
-	then
-	    "$checkHome" | awk '/FAIL/''{print}'
-	fi
 	exit 1
     fi
 }
-#}}}
-# general test {{{
-function cfgTests {
-    local i3_cfg="$HOME/.i3/config"
-    local i3_scpt="$HOME/bin/i3_config_install"
 
-    i3_cfg="$HOME/.i3/config"
-    i3_scpt="$HOME/bin/i3_config_install"
-
-    if "$checkHome" > /dev/null;
+bare_repo_checkout() {
+    cInfo "Git checkout"
+    clnItalic "$branch"
+    if git_config checkout
     then
-
-	"$checkHome" | awk '/FAIL/''{print}'
-	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    cInfo "I3config and i3 scripts"
-	else
-	    cError "I3config not found. Installing config file "
-	    if ! "$i3_scpt" "$bkpdir"; then
-		cError "I3config "
-		cItalic "$i3_cfg" " isn't installed "
-		clnItalic "$i3_scpt" "exec fail or not found."
-	    fi
-	    clnInfo "I3config file installed."
-	fi
+	cInfo "Checkout branch "
+	cItalic "$branch" ":"
+	cOk
+	make_env
+	cd "$backto" || return
+	exit 0
     else
-	cmOk "Config files and folders checked"
+	cError "Checkout branch: backup files Template=[file_name.backup]"
+	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+	cmOk "Checkout branch, backup files"
+	clnInfo "Checkout branch:Cleaning and trying again after backup"
+	if git_config checkout
+	then
+	   source ~/bin/bkp_cfg_files
+	    cmOk "Checkout branch"
+	    git_config config status.showUntrackedFiles no
+	    cmOk "Install main(--bare)"
+	    make_env
+	    bkp_cfg_files
+	    cd "$backto" || return
+	    exit 0
+	else
+	    cError "Checkout branch: Exit with error."
+
+	    if "$checkHome" > /dev/null;
+	    then
+		"$checkHome" | awk '/FAIL/''{print}'
+		cInfo "Trying fix install. Removing"
+		cItalic "$install_dir" "folder"
+		rm -rf "$install_dir"
+		cInfo "Installing again."
+		if "$HOME/.config-bkp/install.backup"
+		then
+		    cd "$backto" || return
+		    exit 0
+		else
+		    cd "$backto" || return
+		    exit 1
+		fi
+	    fi
+	fi
     fi
-}
-#}}}
-function config {
-    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
 
 cd "$HOME" || return
-installTest
-cInfo "Git clone %s(--bare)."
+install_check
+cInfo "Git clone (--bare):"
 clnItalic "$branch"
 
 if git clone --branch "$branch" --bare "$repository" "$install_dir";
@@ -145,56 +98,12 @@ then
     cInfo "Git clone"
     cItalic "$branch" "(--bare)"
     cOk
+    bare_repo_checkout
 else
     clnError "Can't clone repository"
     exit 1
 fi
-cInfo "Checkout branch "
-cItalic "$branch"
-if config checkout
-then
-    cInfo "Checkout branch "
-    cItalic "$branch" ":"
-    cOk
-    make_env
-    rm dotfiles_env
-    cd "$nowIn" || return
-    exit 0
-else
-    cError "Checkout branch: backup files Template=[file_name.backup]"
-    config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    cmOk "Checkout branch, backup files"
-    clnInfo "Checkout branch:Cleaning and trying again after backup"
-    cleanbkp
-    if config checkout
-    then
-	cmOk "Checkout branch"
-	config config status.showUntrackedFiles no
-	cmOk "Install main(--bare)"
-	make_env
-	rm dotfiles_env
-	cd "$nowIn" || return
-	exit 0
-    else
-	cError "Checkout branch: Exit with error."
 
-	if "$checkHome" > /dev/null;
-	then
-	    "$checkHome" | awk '/FAIL/''{print}'
-	    cInfo "Trying fix install. Removing"
-	    cItalic "$install_dir" "folder"
-	    rm -rf "$install_dir"
-	    cInfo "Installing again."
-	    if "$HOME/.config-bkp/install.backup"
-	    then
-		rm dotfiles_env
-		cd "$nowIn" || return
-		exit 0
-	    else
-		rm dotfiles_env
-		cd "$nowIn" || return
-		exit 1
-	    fi
-	fi
-    fi
-fi
+
+
+

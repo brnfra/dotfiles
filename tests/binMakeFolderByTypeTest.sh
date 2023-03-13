@@ -4,6 +4,7 @@
 
 testByTypeDir="test_dir"
 SHUNIT_TEST_PREFIX=' F. by Type --> '
+SHUNIT_COLOR="always"
 error_msg="Not Found:  "
 testExecutionMain() {
     assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?

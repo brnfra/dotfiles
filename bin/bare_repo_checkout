@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Arquivo: bare_repo_checkout
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+bare_repo_checkout() {
+    backto=$(pwd)
+    cd "$HOME" || return
+    cInfo "Git checkout"
+    clnItalic "$branch"
+
+    if git_config checkout
+    then
+	cInfo "Checkout branch "
+	cItalic "$branch" ":"
+	cOk
+	make_env
+	cd "$backto" || return
+	exit 0
+    else
+	cError "Checkout branch: backup files Template=[file_name.backup]"
+	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+	cmOk "Checkout branch, backup files"
+	clnInfo "Checkout branch:Cleaning and trying again after backup"
+	bkp_cfg_files
+	if git_config checkout
+	then
+	    cmOk "Checkout branch"
+	    git_config config status.showUntrackedFiles no
+	    cmOk "Install main(--bare)"
+	    make_env
+	    cd "$backto" || return
+	    exit 0
+	else
+	    cError "Checkout branch: Exit with error."
+
+	    if "$checkHome" > /dev/null;
+	    then
+		"$checkHome" | awk '/FAIL/''{print}'
+		cInfo "Trying fix install. Removing"
+		cItalic "$install_dir" "folder"
+		rm -rf "$install_dir"
+		cInfo "Installing again."
+		if "$HOME/.config-bkp/install.backup"
+		then
+		    cd "$backto" || return
+		    exit 0
+		else
+		    cd "$backto" || return
+		    exit 1
+		fi
+	    fi
+	fi
+    fi
+cd "$backto" || return
+
+}
+
+
