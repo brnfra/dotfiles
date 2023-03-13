@@ -13,11 +13,11 @@ done;
 unset file;
 
 bare_repo_checkout() {
-backto=$(pwd)
-cd "$HOME" || return
+    backto=$(pwd)
+    cd "$HOME" || return
+    cInfo "Git checkout"
+    clnItalic "$branch"
 
-    cItalic "$branch"
-    cInfo "Checkout branch "
     if git_config checkout
     then
 	cInfo "Checkout branch "

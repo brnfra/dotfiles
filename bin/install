@@ -80,11 +80,8 @@ bkp_cfg_files() {
 }
 
 bare_repo_checkout() {
-backto=$(pwd)
-cd "$HOME" || return
-
-    cItalic "$branch"
-    cInfo "Checkout branch "
+    cInfo "Git checkout"
+    clnItalic "$branch"
     if git_config checkout
     then
 	cInfo "Checkout branch "
@@ -98,12 +95,12 @@ cd "$HOME" || return
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Checkout branch, backup files"
 	clnInfo "Checkout branch:Cleaning and trying again after backup"
-	bkp_cfg_files
 	if git_config checkout
 	then
 	    cmOk "Checkout branch"
 	    git_config config status.showUntrackedFiles no
 	    cmOk "Install main(--bare)"
+	    bkp_cfg_files
 	    make_env
 	    cd "$backto" || return
 	    exit 0
@@ -128,15 +125,11 @@ cd "$HOME" || return
 	    fi
 	fi
     fi
-cd "$backto" || return
-
 }
-
-
 
 cd "$HOME" || return
 install_check
-cInfo "Git clone %s(--bare):"
+cInfo "Git clone (--bare):"
 clnItalic "$branch"
 
 if git clone --branch "$branch" --bare "$repository" "$install_dir";
