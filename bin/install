@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 12-03-2023
+# Ultima_modificacao: 13-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -60,8 +60,8 @@ bare_repo_checkout() {
 	    cmOk "Checkout branch"
 	    git_config config status.showUntrackedFiles no
 	    cmOk "Install main(--bare)"
-	    bkp_cfg_files
 	    make_env
+	    bkp_cfg_files
 	    cd "$backto" || return
 	    exit 0
 	else
