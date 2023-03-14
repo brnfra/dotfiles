@@ -16,7 +16,7 @@ checkHome="$HOME/tests/testHomeConfigFiles.sh"
 # enviroment
 fonts_path="$HOME/.local/share/fonts"
 i3_cfg="$HOME/.i3/config"
-i3_scpt="$HOME/bin/i3_install"
+i3_scpt="$HOME/bin/i3_config"
 # wallpaper
 wallpapers_dir="$HOME/.wallpapers"
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
