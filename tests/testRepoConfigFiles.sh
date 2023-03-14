@@ -78,7 +78,6 @@ testRepoExistBinDir() {
 
 testRepoExistBinFiles() {
     assertTrue ": 82 :${red}${bold}[FAIL]${reset} install not found.		    " "[ -f $dotfiles_dir/bin/install ]"
-    assertTrue ": 84 :${red}${bold}[FAIL]${reset} make enviroments not found.	    " "[ -f $dotfiles_dir/bin/make_env ]"
     assertTrue ": 100 :${red}${bold}[FAIL]${reset} rm_lineup not found.		    " "[ -f $dotfiles_dir/bin/rm_linedup ]"
     assertTrue ": 99 :${red}${bold}[FAIL]${reset} item_size not found.		    " "[ -f $dotfiles_dir/bin/item_size ]"
     assertTrue ": 88 :${red}${bold}[FAIL]${reset} push_config not found.	    " "[ -f $dotfiles_dir/bin/push_config ]"
