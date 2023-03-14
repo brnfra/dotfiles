@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 12-03-2023
+# Ultima_modificacao: 13-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-for file in ~/bin/{dotfiles_env,git_config,config_check,make_dirs,git_env,ssh_env,get_fonts,bkp_cfg_files}; do
+for file in ~/bin/{dotfiles_env,config_check,dirs_config,git_config,ssh_config,get_fonts,bkp_cfg_files}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;

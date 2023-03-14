@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 13-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -18,11 +18,7 @@ site_list+=' http://ftp.us.debian.org/debian'
 site_list+=' http://deb.debian.org/debian'
 site_list+=' http://security.debian.org/debian-security'
 #colors
-reset=$(tput sgr0);
-bold=$(tput bold);
-italic=$(tput sitm);
-green=$(tput setaf 34);
-red=$(tput setaf 124);
+
 for Site in $site_list; do
     if curl -I -s "$Site" &> /dev/null; then
 	echo "$Site :$bold$italic$green Reached. $reset"
