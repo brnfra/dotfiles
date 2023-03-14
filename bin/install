@@ -47,43 +47,33 @@ bare_repo_checkout() {
 	cInfo "Checkout branch "
 	cItalic "$branch" ":"
 	cOk
-	make_env
+	enviroment_config
+	config_check
 	cd "$backto" || return
 	exit 0
     else
-	cError "Checkout branch: backup files Template=[file_name.backup]"
+	cError "Checkout branch:"
+	clnItalic "$branch" "and backup files."
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checkout branch, backup files"
-	clnInfo "Checkout branch:Cleaning and trying again after backup"
+	cmOk "Checkout branch"
+	cmOk "Backup files"
+	clnInfo "Checking branch"
 	if git_config checkout
 	then
-	   source ~/bin/bkp_cfg_files
-	    cmOk "Checkout branch"
+	    cmOk "Checking branch"
+	    clnInfo "Installing enviroment_config and backup config files"
+	    source ~/bin/bkp_cfg_files
 	    git_config config status.showUntrackedFiles no
-	    cmOk "Install main(--bare)"
-	    make_env
+	    enviroment_config
 	    bkp_cfg_files
+	    clnInfo "Installation scripts done"
+	    config_check
 	    cd "$backto" || return
 	    exit 0
 	else
-	    cError "Checkout branch: Exit with error."
-
-	    if "$checkHome" > /dev/null;
-	    then
-		"$checkHome" | awk '/FAIL/''{print}'
-		cInfo "Trying fix install. Removing"
-		cItalic "$install_dir" "folder"
-		rm -rf "$install_dir"
-		cInfo "Installing again."
-		if "$HOME/.config-bkp/install.backup"
-		then
-		    cd "$backto" || return
-		    exit 0
-		else
-		    cd "$backto" || return
-		    exit 1
-		fi
-	    fi
+	    cError "Checkout branch"
+	    clnItalic "$branch" "Exit with error."
+	    exit 1
 	fi
     fi
 }

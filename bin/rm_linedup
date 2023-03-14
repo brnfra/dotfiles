@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-nowIn=$(pwd)
+backto=$(pwd)
 if [ -f "$1" ]
 then
     echo "Removing dup-lines in $1"
     cat "$1" | sort -u | uniq > /tmp/"$1"
-    cp -f /tmp/"$1" "$nowIn"
+    cp -f /tmp/"$1" "$backto"
 fi

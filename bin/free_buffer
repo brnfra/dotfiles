@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Need execs with privileges
+# Font: TECMINT Blog 
+# https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/
+
+sync;echo "echo 1 > /proc/sys/vm/drop_caches";
+printf "\r%s\n" "echo 1 executed               ";
+
+printf "%s" "Clean swap. 30 seg."
+swapoff -a && sleep 30 && swapon -a;
+printf "\r%s\n" "Clean swap. Done."
+

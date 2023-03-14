@@ -66,7 +66,7 @@ bindsym $mod+Shift+t layout tabbed
 bindsym $mod+Shift+e layout toggle split
 bindsym $mod+f floating toggle
 bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parenti
+bindsym $mod+a focus parent
 workspace_auto_back_and_forth yes
 set $ws1  "1"
 set $ws2  "2"
@@ -227,8 +227,8 @@ $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
-$exe $HOME/bin/pull_config
 $exe $HOME/bin/rm_linedup ~/.bash_history
+exec $Terminal -x $HOME/bin/pull_config
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"

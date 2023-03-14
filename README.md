@@ -27,6 +27,7 @@ Thank you guys for sharing :heart:
 - [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
 - [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-config)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
+- [Keybindings](https://github.com/brnfra/dotfiles#keybindings)
 
 ## Using git to manage config files.
 
@@ -178,6 +179,107 @@ For some features depends some packages, if get some error related, this list ma
 - shunit2(tests)
 - sysstat(cpu info)
 - Xfce4-terminal
+
+## Keybindings
+
+<details open>
+  <summary><strong> I3 window manager </strong></summary>
+
+  | Key | Details |
+  | :-  | :-  |
+  | <kbd>Mod</kbd> + <kbd>d</kbd>			    | fzf D-menu to find applications
+  | <kbd>Mod</kbd> + <kbd>Esc</kdb>			    | Exit menu(shutdown, restart, logout)
+  | <kbd>Mod</kbd> + <kbd>e</kdb>			    | Exit menu(logout)
+  | <kbd>Mod</kbd> + <kbd>Enter</kbd>                       | Open Xfce4 terminal
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>l</kdb>	    | Resize window
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>b</kbd>         | Put window in last workspace
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>[1-9]</kbd>	    | Put window in workspace #number without go to workspace
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>[1-9]</kbd>    | Put window in workspace #number and go to workspace
+  | <kbd>Mod</kbd> + <kbd>[1-9]</kbd>			    | Go to workspace #number
+  | <kbd>Mod</kbd> + <kbd>Tab</kbd>			    | Toggle workspaces
+  | <kbd>Mod</kbd> + <kbd>Arrows</kbd>			    | Workspace focus direction
+  | <kbd>Mod</kbd> + <kbd>[yjui]</kbd>			    | Workspace focus direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>Arrows</kbd>   | Workspace move direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>[yjui]</kbd>   | Workspace move direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>f</kbd>	    | Toggle fullscreen
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>s</kbd>	    | Layout stacking
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>t</kbd>	    | Layout tabbed
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>e</kbd>	    | Layout toggle
+  | <kbd>Mod</kbd> + <kbd>v</kbd>			    | Split window direction(horizontally)
+  | <kbd>Mod</kbd> + <kbd>h</kbd>			    | Split window direction(vertically)
+  | <kbd>Mod</kbd> + <kbd>x</kbd>			    | Split window mode toggle
+  | <kbd>Mod</kbd> + <kbd>f</kbd>			    | Window floating toggle
+  | <kbd>Mod</kbd> + <kbd>Space</kbd>			    | Focus mode toggle
+  | <kbd>Mod</kbd> + <kbd>a</kbd>			    | Focus parent 
+  | <kbd>Ctrl</kbd> + <kbd>1</kbd>			    | Open firefox
+  | <kbd>Ctrl</kbd> + <kbd>0</kbd>			    | Open i3 config(vim)
+
+</details>
+
+<details>
+  <summary><strong> Xfce4 Terminal </strong></summary>
+
+  | Key | Details |
+  | :-  | :-  |
+  | <kbd>Ctrl</kbd> + <kbd>f</kbd>			    | fzf find
+  | <kbd>Ctrl</kbd> + <kbd>o</kdb>			    | fzf open
+  | <kbd>Ctrl</kbd> + <kbd>v</kdb>			    | Neo vim
+
+</details>
+
+<details>
+  <summary><strong> Vim </strong></summary>
+
+  | Mode | Key | Details |
+  | :-  | :-  | :-  |
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>q</kbd>	    | quit
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>Q</kdb>	    | force quit
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>s</kdb>	    | save all
+  | Normal  | <kbd>Ctrl</kbd> , <kbd>c</kdb>	    | copy selection to xclip
+  | Normal  | <kbd>0</kbd> , <kbd>v</kdb>	    | reload vimrc
+  | Normal  | <kbd>=</kbd> , <kbd>v</kdb>	    | reload vimrc and redraw
+  | Normal  | <kbd>F3</kbd>			    | toggle show nerdtree
+  | Normal  | <kbd>F4</kbd>			    | easy indent file
+  | Normal  | <kbd>F5</kbd>			    | toggle wrap
+  | Normal  | <kbd>F6</kbd>			    | set paste toggle
+  | Normal  | <kbd>F7</kbd>			    | toggle fold
+  | Normal  | <kbd>F8</kbd>			    | One line text( u to undo )
+  | Normal  | <kbd>leader</kbd> + <kbd>f</kdb>	    | create fold
+  | Normal  | <kbd>leader</kbd> + <kbd>d</kdb>	    | delete blank spaces
+  | Normal  | <kbd>leader</kbd> + <kbd>D</kdb>	    | delete blank lines
+  | Normal  | <kbd>leader</kbd> + <kbd>M</kdb>	    | MAN entry
+  | Normal  | <kbd>leader</kbd> + <kbd>l</kdb>	    | open terminal
+  | Normal  | <kbd>leader</kbd> + <kbd>/</kdb>	    | split window open 
+  | Normal  | <kbd>leader</kbd> + <kbd>-</kdb>	    | split window open
+  | Normal  | <kbd>+</kbd> + <kbd>l</kdb>	    | add line
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>a</kdb>	    | select all
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>+</kdb>	    | font size up
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>-</kdb>	    | font size down
+  | Normal  | <kbd>Ctrl</kbd> + <kbd>Arrows</kdb>   | switching window buffer(nerdtree too)
+  | Normal  | <kbd>Shift</kbd> + <kbd>Tab</kdb>	    | tabs toggle r
+  | Normal  | <kbd>Tab</kbd>			    | tabs toggle l
+  | Normal  | <kbd>U</kbd>			    | redo
+  | Normal  | <kbd>Shift</kbd> + <kbd>up</kdb>	    | move line up
+  | Normal  | <kbd>Shift</kbd> + <kbd>down</kdb>    | move line down
+  | Insert  | <kbd>leader</kbd> + <kbd>v</kdb>	    | edit vimrc
+  | Insert  | <kbd>F3</kbd>			    | toggle show line numbers
+  | Insert  | <kbd>F4</kbd>			    | easy indent file
+  | Insert  | <kbd>F5</kbd>			    | toggle wrap
+  | Insert  | <kbd>F7</kbd>			    | toggle fold
+  | Insert  | <kbd>F8</kbd>			    | one line text( u to undo )
+  | Insert  | <kbd>leader</kbd> + <kbd>f</kdb>	    | create fold
+  | Insert  | <kbd>leader</kbd> + <kbd>/</kdb>	    | close tags
+  | Insert  | <kbd>leader</kbd> + <kbd>M</kdb>	    | MAN entry
+  | Insert  | <kbd>Ctrl</kbd> + <kbd>arrows</kdb>   | move fast
+  | Insert  | <kbd>Ctrl</kbd> + <kbd>d</kdb>	    | duplicate block
+  | Insert  | <kbd>Ctrl</kbd> + <kbd>d</kdb>	    | duplicate block
+  | Insert  | <kbd>Shift</kbd> + <kbd>up</kdb>	    | move line up
+  | Insert  | <kbd>Shift</kbd> + <kbd>down</kdb>    | move line down
+  | Visual  | <kbd>Ctrl</kbd> + <kbd>up</kdb>	    | move block up
+  | Visual  | <kbd>Ctrl</kbd> + <kbd>down</kdb>	    | move block down
+  | Visual  | <kbd>Ctrl</kbd> + <kbd>d</kdb>	    | duplicate block
+
+</details>
 
 ## Problems
 

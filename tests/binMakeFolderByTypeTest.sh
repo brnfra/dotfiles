@@ -10,14 +10,14 @@ testExecutionMain() {
     assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
-testMakeFolderByType() {
+testfilesByType() {
     ext='ext1'
     var='file1name.'"$ext"
     expect="$ext/$var"
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -28,7 +28,7 @@ testMakeFolderByType() {
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -39,21 +39,21 @@ testMakeFolderByType() {
     
     list='find .  -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
 }
 
-testTwiceMakeFolderByType() {
+testTwicefilesByType() {
     ext='sme1'
     var='fileSME1.'"$ext"
     expect="$ext/$var"
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -64,7 +64,7 @@ testTwiceMakeFolderByType() {
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -79,7 +79,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch ./"$var"
-    makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -90,7 +90,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -101,7 +101,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch "./$var"
-    makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -124,39 +124,4 @@ oneTimeTearDown() {
 # Load and run shUnit2.
 . shunit2
 
-# feature removed for incompatibility(maybe fix in future)
-# testInsideOfFolders_3level() {
-#     ext='ext1'
-#     var='200301file4.'"$ext"
-#     expect="$ext/$var"
-    
-#     list='find . -type f'
-#     touch ./level1/level2/level3/"$var"
-#     makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
-#     assertTrue \
-# 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
-#         "[ -f $testByTypeDir/$expect ]"
 
-#     ext='ext2'
-#     var='200402file5.'"$ext"
-#     expect="$ext/$var"
-    
-#     list='find . -type f'
-#     touch ./level1/level2/"$var"
-#     makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
-#     assertTrue \
-# 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
-#         "[ -f $testByTypeDir/$expect ]"
-
-#     ext='ext3'
-#     var='200511file6.'"$ext"
-#     expect="$ext/$var"
-    
-#     list='find . -type f'
-#     touch ./level1/"$var"
-#     makeFolderByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
-#     assertTrue \
-# 	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
-#         "[ -f $testByTypeDir/$expect ]"
-
-# }

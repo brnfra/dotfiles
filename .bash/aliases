@@ -135,6 +135,7 @@ elif [ "$osys" = "manjaro" ]; then
 	alias blocksdir='cd ~/.i3/i3blocks'
 	alias dotbash='cd ~/.bash'
 	alias vifmrc='nvim ~/.config/vifm/vifmrc'
+	alias cp='rsync -ah --info=progress2'
   # }}}
   # Apps exec {{{
   alias anki="cd ~/ && setsid ./Anki &>/dev/null"

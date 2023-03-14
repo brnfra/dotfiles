@@ -9,12 +9,12 @@ testExecutionMain() {
     assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
-testmakeFolderByDate_3level() {
+testFilesByDate_3level() {
     touch  $testByDateDir/level1/level2/level3/200301file4.png
     touch  $testByDateDir/level1/level2/200402file5.jpg
     touch  $testByDateDir/level1/200511file6.mkv
     
-    makeFolderByDate "$testByDateDir" > /dev/null 2> /dev/null
+    filesByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
 	": 21 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2003/01/200301file4.png" \
@@ -28,13 +28,13 @@ testmakeFolderByDate_3level() {
 
 }
 
-testmakeFolderByDate() {
+testFilesByDate() {
     
     touch $testByDateDir/200001file1.png
     touch $testByDateDir/200102file2.jpg
     touch $testByDateDir/200211file3.mkv
 
-    makeFolderByDate "$testByDateDir" > /dev/null 2> /dev/null
+    filesByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
 	": 34 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2000/01/200001file1.png" \
