@@ -27,6 +27,7 @@ Thank you guys for sharing :heart:
 - [Update my dotfiles after installation](https://github.com/brnfra/dotfiles#update-remote-state-from-local-to-remote)
 - [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-config)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
+- [Keybindings](https://github.com/brnfra/dotfiles#keybindings)
 
 ## Using git to manage config files.
 
@@ -178,6 +179,42 @@ For some features depends some packages, if get some error related, this list ma
 - shunit2(tests)
 - sysstat(cpu info)
 - Xfce4-terminal
+
+## Keybindings
+
+<details open>
+  <summary><strong> I3 window manager </strong></summary>
+
+  | Key | Details |
+  | :-  | :-  |
+  | <kbd>Mod</kbd> + <kbd>d</kbd>			    | fzf D-menu to find applications
+  | <kbd>Mod</kbd> + <kbd>Esc</kdb>			    | Exit menu(shutdown, restart, logout)
+  | <kbd>Mod</kbd> + <kbd>e</kdb>			    | Exit menu(logout)
+  | <kbd>Mod</kbd> + <kbd>Enter</kbd>                       | Open Xfce4 terminal
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>l</kdb>	    | Resize window
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>b</kbd>         | Put window in last workspace
+  | <kbd>Mod</kbd> + <kbd>Ctrl</kbd> + <kbd>[1-9]</kbd>	    | Put window in workspace #number without go to workspace
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>[1-9]</kbd>    | Put window in workspace #number and go to workspace
+  | <kbd>Mod</kbd> + <kbd>[1-9]</kbd>			    | Go to workspace #number
+  | <kbd>Mod</kbd> + <kbd>Tab</kbd>			    | Toggle workspaces
+  | <kbd>Mod</kbd> + <kbd>Arrows</kbd>			    | Workspace focus direction
+  | <kbd>Mod</kbd> + <kbd>[yjui]</kbd>			    | Workspace focus direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>Arrows</kbd>   | Workspace move direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>[yjui]</kbd>   | Workspace move direction
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>f</kbd>	    | Toggle fullscreen
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>s</kbd>	    | Layout stacking
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>t</kbd>	    | Layout tabbed
+  | <kbd>Mod</kbd> + <kbd>Shift</kbd> + <kbd>e</kbd>	    | Layout toggle
+  | <kbd>Mod</kbd> + <kbd>v</kbd>			    | Split window direction(horizontally)
+  | <kbd>Mod</kbd> + <kbd>h</kbd>			    | Split window direction(vertically)
+  | <kbd>Mod</kbd> + <kbd>x</kbd>			    | Split window mode toggle
+  | <kbd>Mod</kbd> + <kbd>f</kbd>			    | Window floating toggle
+  | <kbd>Mod</kbd> + <kbd>Space</kbd>			    | Focus mode toggle
+  | <kbd>Mod</kbd> + <kbd>a</kbd>			    | Focus parent 
+  | <kbd>Ctrl</kbd> + <kbd>1</kbd>			    | Open firefox
+  | <kbd>Ctrl</kbd> + <kbd>0</kbd>			    | Open i3 config(vim)
+
+<details open>
 
 ## Problems
 
