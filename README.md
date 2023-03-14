@@ -214,9 +214,9 @@ For some features depends some packages, if get some error related, this list ma
   | <kbd>Ctrl</kbd> + <kbd>1</kbd>			    | Open firefox
   | <kbd>Ctrl</kbd> + <kbd>0</kbd>			    | Open i3 config(vim)
 
-</details open>
+</details>
 
-<details open>
+<details>
   <summary><strong> Xfce4 Terminal </strong></summary>
 
   | Key | Details |
@@ -225,9 +225,9 @@ For some features depends some packages, if get some error related, this list ma
   | <kbd>Ctrl</kbd> + <kbd>o</kdb>			    | fzf open
   | <kbd>Ctrl</kbd> + <kbd>v</kdb>			    | Neo vim
 
-</details open>
+</details>
 
-<details open>
+<details>
   <summary><strong> Vim </strong></summary>
 
   | Mode | Key | Details |
@@ -279,7 +279,7 @@ For some features depends some packages, if get some error related, this list ma
   | Visual  | <kbd>Ctrl</kbd> + <kbd>down</kdb>	    | move block down
   | Visual  | <kbd>Ctrl</kbd> + <kbd>d</kdb>	    | duplicate block
 
-</details open>
+</details>
 
 ## Problems
 
