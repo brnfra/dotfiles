@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
@@ -9,7 +9,7 @@ testDir="$HOME/tests/test_dir"
 testExecution() {
     cd "$testDir"
     namestd 1> /dev/null 
-    assertTrue "${red}${bold}[FAIL]${reset} Error found\n\n" $?
+    assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:Error found\n\n" $?
 }
 
 testRenameSpaceAndSymbols_File() {
@@ -20,7 +20,7 @@ testRenameSpaceAndSymbols_File() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
  }
 
@@ -32,7 +32,7 @@ testRename_File() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
 }
 
@@ -44,7 +44,7 @@ testRename_File_DotFile() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
    }
 
@@ -56,7 +56,7 @@ testRename_File_DotDotFile() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
 }
 
@@ -68,7 +68,7 @@ testRename_File_Bars() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
 }
 
@@ -80,7 +80,7 @@ testRename_File_Symbols() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
  }
 
@@ -92,7 +92,7 @@ testRename_File_Parentesis() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
 }
 
@@ -104,7 +104,7 @@ testRename_File_Espace() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
     }
 
@@ -116,7 +116,7 @@ testRename_File_EspaceDot() {
     touch "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $testDir/$expect ]"
     }
 testRename_WithSpaceInPath_File() {
@@ -129,7 +129,7 @@ testRename_WithSpaceInPath_File() {
     cd "$pathTo" || return
     namestd  1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}./$pathTo/$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}./$pathTo/$expect${reset}]. File list:\n$($list)\n" \
         "[ -f $expect ]"
     cd .. || return
    }
@@ -142,7 +142,7 @@ testRename_Folder() {
     mkdir -p "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -d $testDir/$expect ]"
     }
 
@@ -155,7 +155,7 @@ testRenameUnderline_Folder() {
     mkdir -p "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -d $testDir/$expect ]"
     }
 
@@ -168,7 +168,7 @@ testRenameHashtag_Folder() {
     mkdir -p "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -d $testDir/$expect ]"
    }
 
@@ -181,7 +181,7 @@ testRenameSpaceInName_Folder() {
     mkdir -p "$testDir/$var"
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}$expect${reset}]. File list:\n$($list)\n" \
         "[ -d $testDir/$expect ]"
    }
 
@@ -198,7 +198,7 @@ testRename_WithSpaceInFolderName() {
 
     namestd 1> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}The results was not expected. We expected [${green}./$pathTo/$expect${reset}]. File list:\n$($list)\n" \
+	"${red}${bold}[FAIL]${reset}${LINENO}:The results was not expected. We expected [${green}./$pathTo/$expect${reset}]. File list:\n$($list)\n" \
         "[ -d $expect ]"
 
     cd .. || return

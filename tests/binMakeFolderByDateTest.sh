@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
@@ -6,7 +6,7 @@ testByDateDir="$HOME/tests/test_dir"
 SHUNIT_TEST_PREFIX=' F. by Date --> '
 SHUNIT_COLOR="always"
 testExecutionMain() {
-    assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
 testFilesByDate_3level() {
@@ -17,13 +17,13 @@ testFilesByDate_3level() {
     filesByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
-	": 21 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2003/01/200301file4.png" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2003/01/200301file4.png" \
 	"[ -f "$testByDateDir/2003/1/200301file4.png" ]"
     assertTrue \
-	": 22 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2004/02/200402file5.jpg" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2004/02/200402file5.jpg" \
 	"[ -f "$testByDateDir/2004/2/200402file5.jpg" ]"
     assertTrue \
-	": 23 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2005/11/200511file6.mkv" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2005/11/200511file6.mkv" \
 	"[ -f "$testByDateDir/2005/11/200511file6.mkv" ]"
 
 }
@@ -37,13 +37,13 @@ testFilesByDate() {
     filesByDate "$testByDateDir" > /dev/null 2> /dev/null
     
     assertTrue \
-	": 34 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2000/01/200001file1.png" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2000/01/200001file1.png" \
 	"[ -f "$testByDateDir/2000/1/200001file1.png" ]"
     assertTrue \
-	": 37 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2001/02/200102file2.jpg" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2001/02/200102file2.jpg" \
 	"[ -f "$testByDateDir/2001/2/200102file2.jpg" ]"
     assertTrue \
-	": 40 :${red}${bold}[FAIL]${reset} Not found $testByDateDir/2002/11/200211file3.mkv" \
+	"${LINENO}:${red}${bold}[FAIL]${reset} Not found $testByDateDir/2002/11/200211file3.mkv" \
 	"[ -f "$testByDateDir/2002/11/200211file3.mkv" ]"
 }
 

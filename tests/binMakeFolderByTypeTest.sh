@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
@@ -7,7 +7,7 @@ SHUNIT_TEST_PREFIX=' F. by Type --> '
 SHUNIT_COLOR="always"
 error_msg="Not Found:  "
 testExecutionMain() {
-    assertTrue ": 16 :${red}${bold}[FAIL]${reset} Error found\n\n" $?
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
 testfilesByType() {
@@ -19,7 +19,7 @@ testfilesByType() {
     touch "./$var"
     filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
     ext='ext2'
@@ -30,7 +30,7 @@ testfilesByType() {
     touch "./$var"
     filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
     ext='ext3'
@@ -41,7 +41,7 @@ testfilesByType() {
     touch "./$var"
     filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
 }
@@ -55,7 +55,7 @@ testTwicefilesByType() {
     touch "./$var"
     filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
     ext='sme1'
@@ -66,7 +66,7 @@ testTwicefilesByType() {
     touch "./$var"
     filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
 }
@@ -81,7 +81,7 @@ testFilesWithDots() {
     touch ./"$var"
     filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
     ext='ext5'
@@ -92,7 +92,7 @@ testFilesWithDots() {
     touch "./$var"
     filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
     ext='ext6'
@@ -103,7 +103,7 @@ testFilesWithDots() {
     touch "./$var"
     filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
-	"${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
+	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
 
