@@ -1,50 +1,45 @@
 #!/usr/bin/env bash
 # Arquivo: pdfstd
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-03-2023
+# Ultima_modificacao: 15-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #To compact pdf files using ghostscript
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 backup="Backup_"
+# get name from parent folder
 backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
 LOCAL=$(pwd)
+num_pdf=$(find . -maxdepth 1 -type f -name '*.pdf' | wc -l )
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
     exit 1
 fi
 
-if ls ./*.pdf;
+if [ "$num_pdf" = "0" ]
 then
+    clnError "${LINENO}:There isn't .pdf files"
+    exit 1
+else
     find . -maxdepth 1 -type f -name '*.pdf' |  sed 's|\.\/||gi' > pdf_files_list
     pdf_files_list=$(cat pdf_files_list)
-else
-    echo "Error. There isn't .pdf files"
-    exit 1
+    mkdir -p "$output";
+    mkdir -p "$backup";
 fi
-if mkdir -p ./$output;
-then
-    echo "Folder $output created"
-    if mkdir -p ./$backup;
-    then
-	echo "Folder $backup created"
-    else
-        echo "Error. Folder $backup doesn't created"
-	exit 3
-    fi
-else
-    echo "Error. Folder $output doesn't created"
-    exit 2
-fi
-echo -e "Compacting pdf's files..."
+
+clnInfo "Compacting pdf's files"
 for file in $pdf_files_list
 do
     #take the size
     du -b "$file" > oldsize
     OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
-    echo -e "\n[ $file ]"
+    cInfo
+    clnItalic "$file" "is the next:"
     gs \
 	-sDEVICE=pdfwrite \
 	`# font settings` \
@@ -69,39 +64,42 @@ do
 	-dUCRandBGInfo=/Remove \
 	-dNOPAUSE -dQUIET -dBATCH \
 	-sOutputFile=./"$output"/"$file" "$file"
-    echo -e "Done\n"
+    
+    cInfo 
+    clnItalic "$output/$file" "created."
     du -b "./$output/$file" > newsize
     NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
     if [[ $NEWSIZE -gt $OLDSIZE ]]
     then
 	if rm ./"$output"/"$file";
 	then
-	    echo "./$output/$file deleted."
+	    cInfo
+	    clnItalic "./$output/$file" "deleted"
 	else
-	    echo "Error. Discart file "$file" code error $?"
+	    cError "${LINENO}:Discart file"
+	    clnItalic "$file" 
 	    break
 	fi
     else
         if mv "$file" ./"$backup";
         then
-            echo "$file copied to $backup/ folder"
+	    cInfo
+            cItalic "$file" "copied to"
+	    clnItalic "$backup/" "folder"
 	    mv ./"$output"/"$file" ./"$file"
-	    echo "New file substituted old file"
+	    clnInfo "New file substituted old file"
         else
-            echo "Error when copy file "$file" code error $?"
+            cError "${LINENO}:Error when copy file" 
+	    clnItalic "$file" 
             break
         fi
     fi
+    echo
 done
 #Clean
 rm -f newsize
 rm -f oldsize
 rm -f pdf_files_list
-#Is empty? yes, remove. 
-if [ -z "$(ls -A ./$output)" ]; then
-    rm -rf ./"$output"; echo "./$output folder deleted" 
-fi
-if [ -z "$(ls -A ./"$backup")" ]; then
-    rm -rf ./"$backup"; echo "./$backup folder deleted" 
-fi
-echo "All done. Success"
+find . -type d -empty -delete
+
+clnInfo "Finish."

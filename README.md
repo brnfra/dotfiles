@@ -77,22 +77,22 @@ Install config tracking in your **$HOME** following the comand;
 3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
 
 
->If Desktop/Virtual/Notebooks, copy/paste in terminal;
+If Desktop/Virtual/Notebooks, copy/paste in terminal;
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
 
->If Desktop/Virtual/Notebooks, copy/paste in terminal(MY DEFAULT);
+If Desktop/Virtual/Notebooks, copy/paste in terminal(*DEFAULT*);
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install)";
 ```
 
->If testing, copy/paste in terminal;
+If _testing_, copy/paste in terminal(*DEFAULT*);
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/install)";
 ```
 
->If Mingw for Windows, copy/paste in terminal;
+If _Mingw_ for Windows, copy/paste in terminal;
 ```bash
  bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg)"; bash ~/bin/install_enviroment
 ```
@@ -126,9 +126,12 @@ Run ```$ stage-local-config``` gonna only make copy, without push, the edited co
 **dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes[manual].
 - No tests here.
 
-```
+```bash
+
 $ git push origin [main/testing/mingw32-w8]
+
 ```
+
 Now, Git gonna **update snapshot** from local to remote. Your other machines just run pull_config(or add in init) to get it.
 
 ## Pull state from remote to local config
@@ -136,26 +139,34 @@ Now, Git gonna **update snapshot** from local to remote. Your other machines jus
 After install, if remote has changed you can pull config to sync local, *How can I sync local for this change?*
 - You can pull to your local repository run the script below. 
 
-In the folder ```~/bin``` there is a script named ```pull_config``` such make a "**pull request**" like a normal git repo. Just run;
+In the folder ```~/bin``` there is a script named ```pull_config``` such make a "**pull request**" like a normal git repo. 
 
-```
+Just run;
+
+```bash
+
 $ pull_config
 
 or
 
 $ bash ~/bin/pull_config 
+
 ```
 
 Now, Git gonna **update snapshot** (pull)from remote repo to your $HOME folder.
 
 ## Uninstall and back config
 
-```
-$ uninstall
+Run in terminal 
 
-or
+```bash
 
-$ bash ~/bin/uninstall
+$ uninstall_bare_cfg
+
+# or
+
+$ bash ~/bin/uninstall_bare_cfg
+
 ```
 
 ## Dependencies
