@@ -50,8 +50,8 @@ This configuration works with **i3-wm** and **i3status**.
 ## TODO
 
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
-- [ ] Fix audio/mic control for Ubuntu in i3block config
 - [ ] Testing and refactoring
+- [x] Fix audio/mic control for Ubuntu in i3block config
 - [x] Create uninstall script to back original config
 - [x] Create file with params and defs
 - [x] Make tests to check files already created/copy
