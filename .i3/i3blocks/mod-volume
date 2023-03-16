@@ -24,12 +24,8 @@ font_face="'monofurNF'"
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size="'medium'"
 
-color=''
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
-
-font_params="<span font=$font_face color=$color size=$font_size >"
-font_params_close="</span>"
 
 icon_mute='&#xf026;  ╳        '
 icon95='&#xf028;  🭶'
@@ -128,21 +124,21 @@ if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
 fi
 
 if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
     printf "%s %s%%" "$show" "$1"
     exit 0
 elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
     printf "0%s %s%%" "$show" "$1"
     exit 0
 fi 
 
 if [[ $pav -le 25 ]] && [[ ${#pav} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
     printf "%s %s%%" "$show" "$1"
     exit 0
 elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
     printf "%s %s%%" "$show" "$1"
     exit 0
 fi
@@ -178,7 +174,7 @@ if [ "$osys" = "ubuntu" ]
 then
     get_block "$pav"
 else
-    get_block "$pv"
+    get_block "$nv"
 fi
 
 
