@@ -13,6 +13,27 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# $ fc-list command to list fonts
+font_face="'monofurNF'"
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size="'medium'"
+
+color=''
+color_on="'#2666A1'"
+color_mute="'#BF616A'"
+
+font_params="<span font=$font_face color=$color size=$font_size >"
+font_params_close="</span>"
+
+icon_mute='&#xf130;  ╳        '
+icon95='&#xf130;  🭶'
+icon75='&#xf130;  🭷'
+icon50='&#xf130;  🭸'
+icon25='&#xf130;  🭹'
+icon_low='&#xf130;  🭺'
+icon_zero='&#xf130;  🭻'
+
+
 #------------------------------------------------------------------------
 # The second parameter overrides the mixer selection
 # For PulseAudio users, use "pulse"
@@ -38,8 +59,8 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl    {{{
-pa_source_adp="$(pactl list short sinks | grep "RUNNING" |  awk '{print $2}')"
-pa_source_mic="$(pactl list short sources | grep "RUNNING" | grep "$pa_source_adp" | awk '{print $1}')"
+pa_source_adp="$(pactl list short sinks |   awk '{print $2}')"
+pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
 pa-volume-mic() {
 #in
 pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
@@ -99,36 +120,66 @@ else
     nv="${pv::-1}"
     res="MUTE"
 fi
+
+get_block() {
 if [ "$pm_mic" = "$res" ] || [ "$pv" = "$res" ]; then
-    icon="<span font='monofur NF'  color='#BF616A' size='medium' >&#xf131; </span>"
-    echo "$icon"
-    exit
-else
-    if [[ $nv_mic -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; █</span>"
-    else 
-	if [[ $nv_mic -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▇</span>"
-	else
-	    if [[ $nv_mic -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▅</span>"
-	    else
-		if [[ $nv_mic -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf130; ▃</span>"
-		else
-		    if [[ $nv_mic -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='monofur NF'   color='#2666A1' size='medium'>&#xf130; ▁</span>"
-		    else
-			icon="<span font='monofur NF'  color='#2666A1' size='medium'>&#xf130;   </span>"
-		    fi #0-25
-		fi #25-50
-	    fi #50-75
-	fi #75-99
-    fi #99-100
-fi #mute
+    show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
+    printf "%s\n" "$show"
+    exit 0
+fi
+
+if [[ $nv_mic -le 0 ]] && [[  ${#nv_mic} -gt 0 ]] ; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+    printf "0%s %s" "$show" "$1"
+    exit 0
+fi 
+
+if [[ $nv_mic -le 25 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+fi
+
+if [[ $nv_mic -lt 50 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+fi
+
+if [[ $nv_mic -lt 75 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+fi
+
+if [[ $nv_mic -lt 101 ]] || [[ $nv -lt 101 ]]; then
+    show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
+    printf "%s %s" "$show" "$1"
+    exit 0
+fi
+}
+
 if [ "$osys" = "ubuntu" ]
 then
-    echo "$icon $pv_mic"
+    get_block "$pv_mic"
 else
-    echo "$icon $pv"
+    get_block "$nv"
 fi
+
+
