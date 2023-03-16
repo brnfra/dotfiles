@@ -25,7 +25,7 @@ else
 	| awk /"video\/"/'{print}' \
 	| cut -d ':' -f 1 )
 fi
-num_vid=$(echo "$video_list" | wc -l )
+num_vid=${#video_list}
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
