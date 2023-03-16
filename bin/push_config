@@ -10,9 +10,11 @@
 . dotfiles_env
 
 backto=$(pwd)
-
-# git push {{{
+# git_push {{{
 git_push() {
+    #test and copy
+    stage_config
+    #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";git push origin $branch
     if [ $? ];then
@@ -24,27 +26,12 @@ git_push() {
     fi
 }
 # }}}
-cd "$HOME/tests" || return
-
-if "$checkAll" > /dev/null;
-then
-    cmOk "Files,scripts test and folders check"
-
-    if [ -d "$dotfiles_dir" ];then
-	cd "$dotfiles_dir" || return
-	stage_config
-	git_push "$1"
-    else
-	cError "No"
-	clnItalic "$dotfiles_dir" "found."
-	exit 1
-    fi
-    cd "$backto" || return
-    exit 0
+if [ -d "$dotfiles_dir" ];then
+    cd "$dotfiles_dir" || return
+    git_push "$1"
 else
-    "$checkAll" | awk '/FAIL/''{print}'
-    cd "$backto" || return
+    cError "No"
+    clnItalic "$dotfiles_dir" "found."
     exit 1
 fi
-
 cd "$backto" || return
