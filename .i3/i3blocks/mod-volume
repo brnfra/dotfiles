@@ -22,7 +22,7 @@
 # $ fc-list command to list fonts
 font_face="'monofurNF'"
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_size="'medium'"
+font_size="'large'"
 
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
@@ -33,7 +33,7 @@ icon75='&#xf028; 𝍣'
 icon50='&#xf028; 𝍢'
 icon25='&#xf027; 𝍡'
 icon_low='&#xf027; 𝍠'
-icon_zero='&#xf026; '
+icon_zero='&#xf026;  '
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -133,11 +133,11 @@ get_block() {
 
     if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s%s" "$show" 
 	exit 0
     elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s%s" "$show" 
 	exit 0
     fi 
     if [[ $pav -le 10 ]] && [[  ${#pav} -gt 0 ]] ; then
