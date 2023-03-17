@@ -22,12 +22,12 @@ color_on="'#2666A1'"
 color_mute="'#BF616A'"
 
 icon_mute='&#xf130; ╳'
-icon95='&#xf130; |🭶|'
-icon75='&#xf130; |🭷|'
-icon50='&#xf130; |🭸|'
-icon25='&#xf130; |🭹|'
-icon_low='&#xf130; |🭺|'
-icon_zero='&#xf130; |🭻|'
+icon95='&#xf130; 𝍤'
+icon75='&#xf130; 𝍣'
+icon50='&#xf130; 𝍢'
+icon25='&#xf130; 𝍡'
+icon_low='&#xf130; 𝍠'
+icon_zero='&#xf130; '
 
 #------------------------------------------------------------------------
 # The second parameter overrides the mixer selection
@@ -129,40 +129,50 @@ capability() { # Return "Capture" if the device is a capture device
 	fi
 
 	if [[ $nv_mic -le 0 ]] && [[  ${#nv_mic} -gt 0 ]] ; then
-	    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
 	elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	fi 
+
+	if [[ $nv_mic -le 10 ]] && [[  ${#nv_mic} -gt 0 ]] ; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	elif [[ $nv -le 10 ]] && [[ ${#nv} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
 	fi 
 
-	if [[ $nv_mic -le 25 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	if [[ $nv_mic -le 35 ]] && [[ ${#nv_mic} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
-	elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
+	elif [[ $nv -le 35 ]] && [[ ${#nv} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
 	    printf "%s %s%%" "$show" "$1"
 	    exit 0
 	fi
 
-	if [[ $nv_mic -lt 50 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	if [[ $nv_mic -lt 60 ]] && [[ ${#nv_mic} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
-	elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
+	elif [[ $nv -le 60 ]] && [[ ${#nv} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
 	fi
 
-	if [[ $nv_mic -lt 75 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	if [[ $nv_mic -lt 85 ]] && [[ ${#nv_mic} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
-	elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
+	elif [[ $nv -le 85 ]] && [[ ${#nv} -gt 0 ]]; then
 	    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
 	    printf "%s%s%%" "$show" "$1"
 	    exit 0
