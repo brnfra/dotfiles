@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-02-2023
+# Ultima_modificacao: 17-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -31,16 +31,16 @@ then
     chrg_icon+="font=$font_face "
     chrg_icon+="color='#f44336' "
     chrg_icon+="font-weight=$font_weight "
-    chrg_icon+="size=$font_size > "
-    chrg_icon+='&#xf103; '
+    chrg_icon+="size=$font_size >"
+    chrg_icon+='&#xf103;'
     chrg_icon+="</span>"
 else
     chrg_icon="<span "
     chrg_icon+="font=$font_face "
     chrg_icon+="color='green' "
     chrg_icon+="font-weight=$font_weight "
-    chrg_icon+="size=$font_size > "
-    chrg_icon+='&#xf102; '
+    chrg_icon+="size=$font_size >"
+    chrg_icon+='&#xf102;'
     chrg_icon+="</span>"
 fi
 # 0-5
@@ -98,4 +98,4 @@ then
     btry_icon+="$bat_percent"
     btry_icon+="</span>"
 fi
-echo "$btry_icon" "$chrg_icon""($timeto)"
+printf "%s%s%s" "$chrg_icon" "$btry_icon" "($timeto)"
