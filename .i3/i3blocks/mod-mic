@@ -16,7 +16,7 @@
 # $ fc-list command to list fonts
 font_face="'monofurNF'"
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_size="'large'"
+font_size="'medium'"
 
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
