@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 14-03-2023
+#  Ultima_modificacao: 15-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -60,19 +60,22 @@ sync_copy ()
 	printf "[INFO] Files to stage: (%s), Done!\n" "$file" &>> "$bkpLog"
     done
 }
-#check folders
-if [ -d "$dotfiles_dir" ] && [ -d "$bkpdir" ];then
+
+cd "$HOME/tests" || return
+if "$checkAll" > /dev/null;
+then
+    cmOk "Files,scripts test and folders check"
     cd "$dotfiles_dir" || return
     git pull origin "$branch"
     sync_copy
+    printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
+    cd "$backto" || return
+    exit 0
 else
-    cError "Folders"
-    cItalic "$dotfiles_dir" "and"
-    clnItalic "$bkpdir" "is required."
-    printf "[ERROR] No %s or/and %s is required.\n" "$dotfiles_dir" "$bkpdir" &>> "$bkpLog"
+    "$checkAll" | awk '/FAIL/''{print}' &>> "$bkpLog"
+    cInfo "If error occured check backup log in:"
+    clnItalic "$bkpLog" "Done."
+
+    cd "$backto" || return
     exit 1
 fi
-cd "$backto" || return
-printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
-cInfo "If error occured check backup log in:"
-clnItalic "$bkpLog" "Done."

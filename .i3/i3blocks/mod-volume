@@ -18,6 +18,23 @@
 # For Jack/Jack2 users, use "jackplug"
 # For ALSA users, you may use "default" for your primary card
 # or you may use hw:# where # is the number of the card desired
+
+# $ fc-list command to list fonts
+font_face="'monofurNF'"
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size="'medium'"
+
+color_on="'#2666A1'"
+color_mute="'#BF616A'"
+
+icon_mute='&#xf026; ╳'
+icon95='&#xf028; |🭶|'
+icon75='&#xf028; |🭷|'
+icon50='&#xf028; |🭸|'
+icon25='&#xf027; |🭹|'
+icon_low='&#xf027; |🭺|'
+icon_zero='&#xf026; |🭻|'
+
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
 [ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
@@ -29,26 +46,34 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
     head -n1
     )}"
-#debian ubuntu manjaro etc
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-#------------------------------------------------------------------------
-# The first parameter sets the step to change the volume by (and units to display)
-# This may be in in % or dB (eg. 5% or 3dB)
-STEP="${1:-5%}"
-#------------------------------------------------------------------------
-#Using pactl  {{{
-pa_sink="$(pactl list short sinks | grep "RUNNING" |  awk '{print $1}' | sed '1q; s/\s//g')"
-pa_adpt="$(pactl list short sinks | grep "RUNNING" |  awk '{print $2}')"
-#pa_sink="${pa_sink:0:1}"
-pa-volume() {
-#out
-pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
-vol=$(pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}')
-vol=${vol%\%*}
-if [[ $vol -ge 95 ]]
-then
-    pactl set-sink-volume "$pa_sink" 95%
-fi
+    #debian ubuntu manjaro etc
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    #------------------------------------------------------------------------
+    # The first parameter sets the step to change the volume by (and units to display)
+    # This may be in in % or dB (eg. 5% or 3dB)
+    STEP="${1:-5%}"
+    #------------------------------------------------------------------------
+    #Using pactl  {{{
+    nsinks=$(pactl list short sinks | wc -l)
+    if [[ $nsinks -gt 1 ]];then
+	#bluez
+	pa_sink="$(pactl list short sinks | sed -n '2p' | awk '{print $1}')"
+	pa_adpt="$(pactl list short sinks | sed -n '2p' | awk '{print $2}')"
+    else
+	pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
+	pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
+    fi
+
+    #pa_sink="${pa_sink:0:1}"
+    pa-volume() {
+    #out
+    pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
+    if [[ $vol -ge 95 ]]
+    then
+	pactl set-sink-volume "$pa_sink" 95%
+    fi
 }
 pa-mute() {
 #is mute?
@@ -57,9 +82,8 @@ pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
 #}}}
 #------------------------------------------------------------------------
 capability() { # Return "Capture" if the device is a capture device
-    amixer -D $MIXER get $SCONTROL |
-	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
-    }
+    amixer -D $MIXER get $SCONTROL | sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
+}
 volume() {
     amixer -D $MIXER get $SCONTROL $(capability)
 }
@@ -93,43 +117,73 @@ then
     pam=$(echo $pam| sed 's/^\s//g;s/\s$//g')
     pav="$(pa-volume)"
     pav=$(echo $pav| sed 's/^\s//g;s/\s$//g')
-    nav="${pv::-1}"
+    pav="${pav::-1}"
     res="yes"
 else
     pv="$(volume | format)"
     nv="${pv::-1}"
     res="MUTE"
 fi
-if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
-    icon="<span font='monofur NF'  color='#BF616A' size='medium' >&#xf026; </span>"
-    echo "$icon "
-    exit 0
-else
-    if [[ $nav -gt 95 ]] || [[ $nv -gt 95 ]]; then
-	icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf028; </span><span color='#2666A1' size='medium'> █</span>"
-    else 
-	if [[ $nav -gt 75 ]] || [[ $nv -gt 75 ]]; then
-	    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf028; </span><span color='#2666A1' size='medium'> ▇</span>"
-	else
-	    if [[ $nav -gt 50 ]] || [[ $nv -gt 50 ]]; then
-		icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▅</span>"
-	    else
-		if [[ $nav -gt 25 ]] || [[ $nv -gt 25 ]]; then
-		    icon="<span font='monofur NF' color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▃</span>"
-		else
-		    if [[ $nav -gt 0 ]] || [[ $nv -gt 0 ]]; then
-			icon="<span font='monofur NF'   color='#2666A1' size='medium'>&#xf027; </span><span color='#2666A1' size='medium'> ▁</span>"
-		    else
-			icon="<span font='monofur NF'  color='#2666A1' size='medium'>&#xf026;  </span><span> </span>"
-		    fi #0-25
-		fi #25-50
-	    fi #50-75
-	fi #75-99
-    fi #99-100
-fi #mute 
+get_block() {
+    if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
+	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
+	printf "%s\n" "$show"
+	exit 0
+    fi
+
+    if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi 
+
+    if [[ $pav -le 25 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
+
+    if [[ $pav -lt 50 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
+
+    if [[ $pav -lt 75 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
+
+    if [[ $pav -lt 101 ]] || [[ $nv -lt 101 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
+}
+
 if [ "$osys" = "ubuntu" ]
 then
-    printf "%s %s" "$icon" "$pav"
+    get_block "$pav"
 else
-    printf "%s %s" "$icon" "$pv"
+    get_block "$nv"
 fi
+
+
+

@@ -1,95 +1,99 @@
 #!/usr/bin/env bash
 # Arquivo: videostd
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-03-2023
+# Ultima_modificacao: 15-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #to compact mp4 video files
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 backup="Backup_"
 backup+=$(pwd | awk -F / '{print $NF}')
 output="Output"
+osys=$(echo /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+    video_list=$(find . -maxdepth 1 -type f -print0 \
+	| xargs -0 file --mime-type \
+	| awk /"video\/"/'{print}' \
+	| cut -d ':' -f 1 )
+else
+    video_list=$(find . -maxdepth 1 -type f -print0 \
+	| xargs -0 file --media-type \
+	| awk /"video\/"/'{print}' \
+	| cut -d ':' -f 1 )
+fi
+num_vid=${#video_list}
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
     printf "Script avoid execute in [%s] directory.\n" "$HOME"
-    printf "If you insist, comment line 14-18 in [%s] Script. You're on own risk.\n" "$0"
     exit 1
+fi
+if [ "$num_vid" = "0" ]
+then
+    clnError "${LINENO}:There isn't video file."
+    exit 1
+else
+    mkdir -p "$output";
+    mkdir -p "$backup";
 fi
 
-if ls ./*.mp4;
-then
-    find . -maxdepth 1 -type f -name '*.mp4' |  sed 's|\.\/||gi' > mp4_files_list
-    mp4_files_list=$(cat mp4_files_list)
-else
-    echo "Error. There isn't .mp4 files"
-    exit 1
-fi
-if mkdir -p ./$output;
-then
-    echo "Folder $output created"
-    if mkdir -p ./$backup;
-    then
-	echo "Folder $backup created"
-    else
-	echo "Error. Folder $backup doesn't created"
-	exit 3
-    fi
-else
-    echo "Error. Folder $output doesn't created"
-    exit 2
-fi
-echo -e "Compacting mp4's(codec libx265) files...\n"
+clnInfo "Compacting mp4's(codec libx265) files"
 if command -v ffmpeg &> /dev/null
 then
-    for file in $mp4_files_list
+    for file in $video_list
     do
-	echo -e "[ $file ]\n"
+	cInfo
+	clnItalic "$file" "is the next:"
 	#take the size
 	du -b "$file" > oldsize
-	OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
-	if $(ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file")
+	OLDSIZE=$(echo oldsize | sed -e 's/[^0-9]//gi')
+	if ffmpeg -i "$file" -c:v libx265 -crf 32 ./"$output"/"$file"
 	then
 	    wait $!
 	else
 	    continue
 	fi
+	cInfo 
+	clnItalic "$output/$file" "created."
+
 	du -b "./$output/$file" > newsize
-	NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
+	NEWSIZE=$(echo newsize | sed -e 's/[^0-9]//gi')
 	if [[ $NEWSIZE -gt $OLDSIZE ]]
 	then
 	    if rm ./"$output"/"$file";
 	    then
 		wait $!
-		echo "New output ./$output/$file deleted."
+		cInfo
+		clnItalic "./$output/$file" "deleted"
 	    else
-		echo "Error. Discart file "$file" code error $?"
+		cError "${LINENO}:Discart file"
+		clnItalic "$file" 
 		break
 	    fi
 	else
 	    if mv "$file" ./"$backup";
 	    then
 		wait $!
-		echo "$file moved to $backup/ folder"
+		cInfo
+		cItalic "$file" "copied to"
+		clnItalic "$backup/" "folder"
 		mv ./"$output"/"$file" ./"$file"
-		wait $!
-		echo "New file substituted old file"
+		clnInfo "New file substituted old file"
 	    else
-		echo "Error when copy file "$file" code error $?"
+		cError "${LINENO}:Error when copy file" 
+		clnItalic "$file" 
 		break
 	    fi
 	fi
+	echo
     done
 fi
 #Clean
 rm -f newsize
 rm -f oldsize
-rm -f mp4_files_list
-#Is empty? yes, remove. 
-if [ -z "$(ls -A ./$output)" ]; then
-    rm -rf ./"$output"; echo "./$output folder deleted" 
-fi
-if [ -z "$(ls -A ./$backup)" ]; then
-    rm -rf ./"$backup"; echo "./$backup folder deleted" 
-fi
-echo "All done. Success"
+find . -type d -empty -delete
+clnInfo "Finish."
+
