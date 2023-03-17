@@ -27,13 +27,13 @@ font_size="'medium'"
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
 
-icon_mute='&#xf026;  ╳        '
-icon95='&#xf028;  🭶'
-icon75='&#xf028;  🭷'
-icon50='&#xf028;  🭸'
-icon25='&#xf027;  🭹'
-icon_low='&#xf027;  🭺'
-icon_zero='&#xf026;  🭻'
+icon_mute='&#xf026; ╳'
+icon95='&#xf028; |🭶|'
+icon75='&#xf028; |🭷|'
+icon50='&#xf028; |🭸|'
+icon25='&#xf027; |🭹|'
+icon_low='&#xf027; |🭺|'
+icon_zero='&#xf026; |🭻|'
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -54,8 +54,16 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     STEP="${1:-5%}"
     #------------------------------------------------------------------------
     #Using pactl  {{{
-    pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
-    pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
+    nsinks=$(pactl list short sinks | wc -l)
+    if [[ $nsinks -gt 1 ]];then
+	#bluez
+	pa_sink="$(pactl list short sinks | sed -n '2p' | awk '{print $1}')"
+	pa_adpt="$(pactl list short sinks | sed -n '2p' | awk '{print $2}')"
+    else
+	pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
+	pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
+    fi
+
     #pa_sink="${pa_sink:0:1}"
     pa-volume() {
     #out
@@ -117,57 +125,57 @@ else
     res="MUTE"
 fi
 get_block() {
-if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
-    show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
-    printf "%s\n" "$show"
-    exit 0
-fi
+    if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
+	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
+	printf "%s\n" "$show"
+	exit 0
+    fi
 
-if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-    printf "0%s %s%%" "$show" "$1"
-    exit 0
-fi 
+    if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi 
 
-if [[ $pav -le 25 ]] && [[ ${#pav} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+    if [[ $pav -le 25 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
 
-if [[ $pav -lt 50 ]] && [[ ${#pav} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+    if [[ $pav -lt 50 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
 
-if [[ $pav -lt 75 ]] && [[ ${#pav} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+    if [[ $pav -lt 75 ]] && [[ ${#pav} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
 
-if [[ $pav -lt 101 ]] || [[ $nv -lt 101 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+    if [[ $pav -lt 101 ]] || [[ $nv -lt 101 ]]; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
+	printf "%s%s%%" "$show" "$1"
+	exit 0
+    fi
 }
 
 if [ "$osys" = "ubuntu" ]

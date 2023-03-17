@@ -21,13 +21,13 @@ font_size="'medium'"
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
 
-icon_mute='&#xf130;  ╳        '
-icon95='&#xf130;  🭶'
-icon75='&#xf130;  🭷'
-icon50='&#xf130;  🭸'
-icon25='&#xf130;  🭹'
-icon_low='&#xf130;  🭺'
-icon_zero='&#xf130;  🭻'
+icon_mute='&#xf130; ╳'
+icon95='&#xf130; |🭶|'
+icon75='&#xf130; |🭷|'
+icon50='&#xf130; |🭸|'
+icon25='&#xf130; |🭹|'
+icon_low='&#xf130; |🭺|'
+icon_zero='&#xf130; |🭻|'
 
 #------------------------------------------------------------------------
 # The second parameter overrides the mixer selection
@@ -46,25 +46,31 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
     tail -n1
     )}"
-#debian ubuntu manjaro etc
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-#------------------------------------------------------------------------
-# The first parameter sets the step to change the volume by (and units to display)
-# This may be in in % or dB (eg. 5% or 3dB)
-STEP="${1:-5%}"
-#------------------------------------------------------------------------
-#Using pactl    {{{
-pa_source_adp="$(pactl list short sinks |   awk '{print $2}')"
-pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
-pa-volume-mic() {
-#in
-pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
-vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
-vol=${vol%\%*}
-if [[ $vol -ge 95 ]]
-then
-    pactl set-source-volume "$pa_source_mic" 95%
-fi
+    #debian ubuntu manjaro etc
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    #------------------------------------------------------------------------
+    # The first parameter sets the step to change the volume by (and units to display)
+    # This may be in in % or dB (eg. 5% or 3dB)
+    STEP="${1:-5%}"
+    #------------------------------------------------------------------------
+    #Using pactl    {{{
+    nsinks=$(pactl list short sinks | wc -l)
+    if [[ $nsinks -gt 1 ]];then
+	pa_source_adp="$(pactl list short sinks | sed -n '2p' | awk '{print $2}')"
+	pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
+    else
+	pa_source_adp="$(pactl list short sinks | awk '{print $2}')"
+	pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
+    fi
+    pa-volume-mic() {
+    #in
+    pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
+    if [[ $vol -ge 95 ]]
+    then
+	pactl set-source-volume "$pa_source_mic" 95%
+    fi
 }
 pa-mute-mic() {
 #is mute?
@@ -76,105 +82,104 @@ capability() { # Return "Capture" if the device is a capture device
     amixer -D "$MIXER" get "$SCONTROL" |
 	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
     }
-volume() {
-    amixer -D $MIXER get $SCONTROL $(capability)
-}
-format() {
-    perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
-    perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
-    # If dB was selected, print that instead
-    perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
-    perl_filter+='"; exit}'
-    perl -ne "$perl_filter"
-}
-if [ "$osys" = "ubuntu" ]
-then
-    case $BLOCK_BUTTON in
-	3) pactl set-source-mute $pa_source_mic toggle ;;  # right click, mute/unmute
-	4) pactl set-source-volume $pa_source_mic  +${STEP}  ;; # scroll up, increase
-	5) pactl set-source-volume $pa_source_mic  -${STEP}  ;; # scroll down, decrease
-    esac
-else
-    case $BLOCK_BUTTON in
-	3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
-	4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
-	5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
-    esac
-fi
-#------------------------------------------------------------------------
-if [ "$osys" = "ubuntu" ]
-then
-    pm_mic="$(pa-mute-mic)"
-    pm_mic=$(echo $pm_mic | sed 's/^\s//g;s/\s$//g')
-    pv_mic="$(pa-volume-mic)"
-    pv_mic=$(echo $pv_mic | sed 's/^\s//g;s/\s$//g')
-    nv_mic="${pv_mic::-1}"
-    res="yes"
-else
-    pv="$(volume | format)"
-    nv="${pv::-1}"
-    res="MUTE"
-fi
+    volume() {
+	amixer -D $MIXER get $SCONTROL $(capability)
+    }
+    format() {
+	perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
+	perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
+	# If dB was selected, print that instead
+	perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+	perl_filter+='"; exit}'
+	perl -ne "$perl_filter"
+    }
+    if [ "$osys" = "ubuntu" ]
+    then
+	case $BLOCK_BUTTON in
+	    3) pactl set-source-mute $pa_source_mic toggle ;;  # right click, mute/unmute
+	    4) pactl set-source-volume $pa_source_mic  +${STEP}  ;; # scroll up, increase
+	    5) pactl set-source-volume $pa_source_mic  -${STEP}  ;; # scroll down, decrease
+	esac
+    else
+	case $BLOCK_BUTTON in
+	    3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
+	    4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
+	    5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
+	esac
+    fi
+    #------------------------------------------------------------------------
+    if [ "$osys" = "ubuntu" ]
+    then
+	pm_mic="$(pa-mute-mic)"
+	pm_mic=$(echo $pm_mic | sed 's/^\s//g;s/\s$//g')
+	pv_mic="$(pa-volume-mic)"
+	pv_mic=$(echo $pv_mic | sed 's/^\s//g;s/\s$//g')
+	nv_mic="${pv_mic::-1}"
+	res="yes"
+    else
+	pv="$(volume | format)"
+	nv="${pv::-1}"
+	res="MUTE"
+    fi
+    get_block() {
+	if [ "$pm_mic" = "$res" ] || [ "$pv" = "$res" ]; then
+	    show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
+	    printf "%s\n" "$show"
+	    exit 0
+	fi
 
-get_block() {
-if [ "$pm_mic" = "$res" ] || [ "$pv" = "$res" ]; then
-    show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
-    printf "%s\n" "$show"
-    exit 0
-fi
+	if [[ $nv_mic -le 0 ]] && [[  ${#nv_mic} -gt 0 ]] ; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	fi 
 
-if [[ $nv_mic -le 0 ]] && [[  ${#nv_mic} -gt 0 ]] ; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi 
+	if [[ $nv_mic -le 25 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	    printf "%s %s%%" "$show" "$1"
+	    exit 0
+	fi
 
-if [[ $nv_mic -le 25 ]] && [[ ${#nv_mic} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 25 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+	if [[ $nv_mic -lt 50 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	fi
 
-if [[ $nv_mic -lt 50 ]] && [[ ${#nv_mic} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 50 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+	if [[ $nv_mic -lt 75 ]] && [[ ${#nv_mic} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	fi
 
-if [[ $nv_mic -lt 75 ]] && [[ ${#nv_mic} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-elif [[ $nv -le 75 ]] && [[ ${#nv} -gt 0 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
+	if [[ $nv_mic -lt 101 ]] || [[ $nv -lt 101 ]]; then
+	    show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
+	    printf "%s%s%%" "$show" "$1"
+	    exit 0
+	fi
+    }
 
-if [[ $nv_mic -lt 101 ]] || [[ $nv -lt 101 ]]; then
-    show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
-    printf "%s %s%%" "$show" "$1"
-    exit 0
-fi
-}
-
-if [ "$osys" = "ubuntu" ]
-then
-    get_block "$nv_mic"
-else
-    get_block "$nv"
-fi
+    if [ "$osys" = "ubuntu" ]
+    then
+	get_block "$nv_mic"
+    else
+	get_block "$nv"
+    fi
 
 
