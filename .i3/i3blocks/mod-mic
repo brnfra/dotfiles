@@ -121,38 +121,31 @@ capability() { # Return "Capture" if the device is a capture device
 	volume="${vmute::-1}"
 	res="MUTE"
     fi
-    get_block() {
+  get_block() {
     if [ "$vmute" = "$res" ]; then
 	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
 	printf "%s\n" "$show"
 	exit 0
-    fi
-
-    if (( volume >= 0 )) && (( volume <= 4 )) ; then
+    elif (( volume >= 0 )) && (( volume <= 4 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
 	printf "%s%s" "$show" 
 	exit 0
-    fi 
-    if (( volume >= 5 )) && (( volume <= 15 )) ; then
+    elif (( volume >= 5 )) && (( volume <= 15 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    fi 
-    if (( volume >= 16 )) && (( volume <= 35 )) ; then
+    elif (( volume >= 16 )) && (( volume <= 35 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
 	printf "%s%s%%" "$show" "$1"
-    fi
-    if (( volume >= 36 )) && (( volume <= 65 )) ; then
+    elif (( volume >= 36 )) && (( volume <= 65 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    fi
-    if (( volume >= 66 )) && (( volume <= 85 )) ; then
+    elif (( volume >= 66 )) && (( volume <= 85 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    fi
-    if (( volume >= 86 )); then
+    elif (( volume >= 86 )); then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0

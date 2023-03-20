@@ -11,9 +11,7 @@ fi
 font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
-font_params="<span font=$font_face"
-font_params+=" color=$color "
-font_params+=" size=$font_size ><b>"
+font_params="<span font=$font_face  color=$color size=$font_size ><b>"
 font_params_close="</b></span>"
 if [ "$check" -lt 1 ]; then
     exit

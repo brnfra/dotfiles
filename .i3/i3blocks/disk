@@ -16,13 +16,9 @@ font_face='"monofurNF"'
 font_size='"medium"'
 color='"#2666A1"'
 color_alert='#FF0000'
-font_params="<span font=$font_face"
-font_params+=" color=$color "
-font_params+=" size=$font_size >"
-font_alert_params="<span font=$font_face"
-font_alert_params+=" color=$color_alert "
-font_alert_params+=" size=$font_size >"
-font_params_close="</span>"
+icon="&#xf233;"
+font_params="<span font=$font_face color=$color size=$font_size >$icon</span>"
+font_alert_params="<span font=$font_face color=$color_alert size=$font_size >$icon</span>"
 DIR="${BLOCK_INSTANCE:-$HOME}"
 ALERT_LOW="${1:-10}" # color will turn red under this value (default: 10%)
 ALERT_HIGH="${1:-90}" # color will turn red up this value (default: 90%)
@@ -56,7 +52,7 @@ END {
 out_to_int=${output//\%/)}
 if [[ $out_to_int > $ALERT_HIGH  ]]
 then
-    printf "%s&#xf233; %s%%s" "$font_alert_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
+    printf "%s  %s%s" "$font_alert_params" "$output" "$BLOCK_INSTANCE" 
 else
-    printf "%s&#xf233; %s%s%s"  "$font_params" "$output" "$BLOCK_INSTANCE" "$font_params_close"
+    printf "%s  %s%s"  "$font_params" "$output" "$BLOCK_INSTANCE" 
 fi

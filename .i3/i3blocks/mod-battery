@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 17-03-2023
+# Ultima_modificacao: 20-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -11,6 +11,13 @@ font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 font_weight='"bold"'
+icon_disch="&#xf103;"
+icon_ch="&#xf102;"
+icon_low="&#xf244;"
+icon25="&#xf243;"
+icon50="&#xf242;"
+icon75="&#xf241;"
+icon90="&#xf240;"
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
     exit 1
@@ -25,77 +32,29 @@ bat_percent=${bat_percent%,*}
 timeto=$(acpi -b | grep "Battery $bat_number" | awk '{print $5}' )
 timeto=${timeto%:*}
 bat_percent_int=${bat_percent%\%*}
+
 if [ "$status" = 'Discharging' ]
 then
-    chrg_icon="<span "
-    chrg_icon+="font=$font_face "
-    chrg_icon+="color='#f44336' "
-    chrg_icon+="font-weight=$font_weight "
-    chrg_icon+="size=$font_size >"
-    chrg_icon+='&#xf103;'
-    chrg_icon+="</span>"
+    chrg_icon="<span font=$font_face color='#f44336' font-weight=$font_weight size=$font_size >$icon_disch</span>"
 else
-    chrg_icon="<span "
-    chrg_icon+="font=$font_face "
-    chrg_icon+="color='green' "
-    chrg_icon+="font-weight=$font_weight "
-    chrg_icon+="size=$font_size >"
-    chrg_icon+='&#xf102;'
-    chrg_icon+="</span>"
+    chrg_icon="<span font=$font_face color='green' font-weight=$font_weight size=$font_size >$icon_ch</span>"
 fi
-# 0-5
-if [[ 5 -ge bat_percent_int ]]
+
+if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 5 ))
 then
-    btry_icon="<span "
-    btry_icon+="font=$font_face "
-    btry_icon+="color='red' "
-    btry_icon+="size=$font_size > "
-    btry_icon+='&#xf244; '
-    btry_icon+="$bat_percent"
-    btry_icon+="</span>"
-fi
-#35-6
-if [[ 35 -ge bat_percent_int ]]
+    btry_icon="<span font=$font_face color='red' size=$font_size >$icon_low $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 6 )) && (( bat_percent_int <= 35 ))
 then
-    btry_icon="<span "
-    btry_icon+="font=$font_face "
-    btry_icon+="color='orange' "
-    btry_icon+="size=$font_size > "
-    btry_icon+='&#xf243; '
-    btry_icon+="$bat_percent"
-    btry_icon+="</span>"
-fi
-#60-36
-if [[ 60 -ge bat_percent_int ]] && [[ bat_percent_int -ge 36 ]]
+    btry_icon="<span font=$font_face color='orange' size=$font_size >$icon25 $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 36 )) && (( bat_percent_int <= 60 ))
 then
-    btry_icon="<span "
-    btry_icon+="font=$font_face "
-    btry_icon+="color='green' "
-    btry_icon+="size=$font_size > "
-    btry_icon+='&#xf242; '
-    btry_icon+="$bat_percent"
-    btry_icon+="</span>"
-fi
-#90-61
-if [[ 90 -ge bat_percent_int ]] && [[ bat_percent_int -ge 61 ]]
+    btry_icon="<span font=$font_face color='darkgreen' size=$font_size >$icon50 $bat_percent  [$timeto]</span>"
+elif (( bat_percent_int >= 61 )) && (( bat_percent_int <= 85 ))
 then
-    btry_icon="<span "
-    btry_icon+="font=$font_face "
-    btry_icon+="color='blue' "
-    btry_icon+="size=$font_size > "
-    btry_icon+='&#xf241; '
-    btry_icon+="$bat_percent"
-    btry_icon+="</span>"
-fi
-#100-91
-if [[ 101 -ge bat_percent_int ]] && [[ bat_percent_int -ge 91 ]]
+    btry_icon="<span font=$font_face color='green' size=$font_size >$icon75 $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 86 )) 
 then
-    btry_icon="<span "
-    btry_icon+="font=$font_face "
-    btry_icon+="color='#2666A1'"
-    btry_icon+="size=$font_size > "
-    btry_icon+='&#xf240; '
-    btry_icon+="$bat_percent"
-    btry_icon+="</span>"
+    btry_icon="<span font=$font_face color='#2666A1' size=$font_size >$icon90 $bat_percent [$timeto]</span>"
 fi
-printf "%s%s%s" "$chrg_icon" "$btry_icon" "($timeto)"
+
+printf "%s %s%s" "$chrg_icon" "$btry_icon" 
