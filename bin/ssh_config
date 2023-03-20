@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: ssh_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 13-03-2023
+#  Ultima_modificacao: 19-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -28,5 +28,19 @@ ssh_env() {
 	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
 	exit 2
     fi
+}
+ssh_connect() {
+  ssh -T git@github.com 
+
+  if [ $? == 1 ]; then
+    # user is authenticated, but fails to open a shell with GitHub 
+    return 0
+  elif [ $? == 255 ]; then
+    clnError "user is not authenticated"
+    return 1
+  else
+    clnError "unknown exit code in attempt to ssh into git@github.com"
+  fi
+  return 2
 }
 

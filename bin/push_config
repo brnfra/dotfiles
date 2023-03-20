@@ -1,31 +1,41 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 15-03-2023
+#  Ultima_modificacao: 19-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
 # shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
+for file in ~/bin/{dotfiles_env,ssh_config}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
 backto=$(pwd)
-# git_push {{{
+
 git_push() {
     #test and copy
     stage_config
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git add -A -v;git commit -v -m "$message";git push origin $branch
-    if [ $? ];then
+    git add -A -v;git commit -v -m "$message";
+    if git push origin "$branch"; then
 	git status -sb
 	cmOk "Git add and push"
     else
 	git status -sb
-	clnError "A error occours. Check log."
+	clnError "$?:error check connection, ssh and git logs to find out."
     fi
 }
-# }}}
+
+if ! ssh -T 'git@github.com' ;then 
+    clnError "Check logs(ssh or connection)."
+    exit 1
+fi
+# check ssh_config 
+ssh_connect
+
 if [ -d "$dotfiles_dir" ];then
     cd "$dotfiles_dir" || return
     git_push "$1"

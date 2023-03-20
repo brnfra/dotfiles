@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 13-03-2023
+# Ultima_modificacao: 20-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -11,18 +11,20 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-site_list='https://www.google.com/' 
-site_list+=' https://www.netflix.com/br-en/' 
-site_list+=' https://www.amazon.com.br/'
-site_list+=' http://ftp.us.debian.org/debian'
-site_list+=' http://deb.debian.org/debian'
-site_list+=' http://security.debian.org/debian-security'
-#colors
-
+site_list='google.com' 
+site_list+=' github.com' 
+site_list+=' www.amazon.com.br'
+site_list+=' deb.debian.org'
+#site_list+=' www.debian.org/security'
+# by Adam Katz (stackoverflow)
 for Site in $site_list; do
-    if curl -I -s "$Site" &> /dev/null; then
-	echo "$Site :$bold$italic$green Reached. $reset"
+    if nc -z -w 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
+	$1 == "SSL" && $2 == "handshake" { handshake = 1 }
+	handshake && $1 == "Verification:" { ok = $2; exit }
+	END { exit ok != "OK" }'
+    then
+	cmOk "$Site" "Reached"
     else
-	echo "$Site :$bold$italic$red Can't reach. $reset"
+	clnError "Can't reach: $Site"
     fi
 done

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 15-03-2023
+#  Ultima_modificacao: 19-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -33,10 +33,6 @@ sync_copy ()
     files+='.i3/i3blocks/ '
     # rofi
     files+='.config/rofi/ .config/rofi/themes/ '
-    # ranger
-    files+='.config/ranger/devicons.py '
-    files+='.config/ranger/rc.conf '
-    files+='.config/ranger/scope.sh '
     # gsimplecal
     files+='.config/gsimplecal/config '
     # systemrc
