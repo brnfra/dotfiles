@@ -23,3 +23,5 @@ xmonad.hi
 xmonad.op
 .config/ranger/plugins
 .config/ranger/__pycache__
+.bash/color_list.txt
+
