@@ -1,9 +1,14 @@
+
+[core]
+    filemode	    = true
+    editor	    = vim
+    pager	    = less -FRX
+    excludesfile    = ~/.gitignore
 [user]
-	name = brnfra
-	email = devlabbr@gmail.com
-	timestampResolution = 4000 nanoseconds
-	minRacyThreshold = 7440 microseconds
-# push/pull/diff/options {{{
+    name		= brnfra
+    email		= devlabbr@gmail.com
+    timestampResolution = 4000 nanoseconds
+    minRacyThreshold	= 7440 microseconds
 [push]
     default = current
 [pull]
@@ -15,6 +20,130 @@
     autosetuprebase = always
 [apply]
     whitespace = nowarn
+[merge]
+    conflictStyle = diff3
+[mergetool]
+    prompt	= false
+    keepBackup	= false
+[branch "main"]
+    remote  = origin
+    merge   = refs/heads/main
+[log]
+    decorate = short
 
-#}}}
+[blame]
+    coloring = repeatedLines
+[color]
+    diff    = auto
+    status  = auto
+    branch  = auto
+    ui	    = auto
+[color "diff"]
+    new		= green
+    old		= red
+    meta	= blue
+    frag	= magenta bold
+    plain       = white
+    whitespace  = yellow reverse
+    func        = yellow
+[color "status"]
+    added	= green
+    changed	= yellow
+    untracked	= cyan
+    branch	= magenta blink
+    nobranch	= red blink
+[color "branch"]
+    current     = green ul
+    local       = yellow
+    remote      = red        # default
+    plain       = white
+[color "blame"]
+    repeatedLines = gray
+[color "interactive"]
+    help = brightmagenta
+[advice]
+    statusHints		= false
+    detachedHead	= false
+    addEmptyPathspec	= false
+    pushUpdateRejected	= false
+[color "grep"]
+    context     = white
+    filename    = cyan
+    function    = yellow
+    linenumber  = white
+    match       = white magenta
+    selected    = green
+    separator   = white
 
+[alias]
+    # how to use commands inside git aliases
+    age		= for-each-ref --format '%(authordate:iso) %(refname:short)' --sort=-authordate refs/remotes refs/heads
+    am		= commit --amend --no-edit
+    ama		= commit --amend --no-edit -a
+    b		= branch
+    ba		= branch -a
+    bav		= branch -a -vvv
+    br		= branch
+    branches	= branch -a
+    ci		= commit
+    cia		= commit --amend
+    cim		= commit -m
+    civ		= commit -v
+    co		= checkout
+    config-to-push-all-branches = config --add remote.origin.push '+refs/heads/*:refs/heads/*'
+    config-to-push-all-tags	= config --add remote.origin.push '+refs/tags/*:refs/tags/*'
+    cp		= cherry-pick
+    dc		= diff --cached
+    df		= diff
+    email	= config --get user.email
+    forkup	= pull --rebase upstream
+    h		= stash
+    hs		= stash save
+    # Show files ignored by git:
+    ign		= ls-files -o -i --exclude-standard
+    ignored	= !git clean -ndX | sed -e 's/^Would remove //' | sed 's/^Would skip repository //'
+    in		= log HEAD..FETCH_HEAD
+    ind		= diff HEAD..FETCH_HEAD
+    inp		= log -p HEAD..FETCH_HEAD
+    last	= log -1 HEAD
+    latest	= for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'
+    lg		= log -p
+    lol		= log --graph --decorate --pretty=oneline --abbrev-commit
+    lola	= log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ls		= ls-files
+    name	= config --get user.name
+    newb	= checkout -b
+    out		= log FETCH_HEAD..HEAD
+    outd	= diff FETCH_HEAD..HEAD
+    outp	= log -p FETCH_HEAD..HEAD
+    p		= push
+    # avoid diff-so-fancy so we can create patches
+    patch	= !git --no-pager diff --no-color
+    prune-branches  = ! git remote prune origin && git branch -vv | cut -c 3- | awk '$4 ~ /gone\\]/ {print $1}' | xargs git branch -d
+    quicklog	    = log --oneline --decorate -10 --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
+    quicklog-long   = log --oneline --decorate --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
+    r		= remote
+    rb		= rebase
+    rem		= remote -v
+    rewind-one	= reset --hard HEAD^
+    rl		= reflog
+    root	= rev-parse --show-toplevel
+    st		= status
+    sta		= stash
+    stq		= !git_foreach_repo.sh git status | grep --color=no -e "=======" -e branch -e GitHub
+    svnci	= svn dcommit
+    svnprep	= rebase -i git-svn
+    svnup	= svn rebase
+    t		= tag
+    tags	= tag -l
+    today	= diff --stat 'HEAD@{midnight}'
+    tree	= log --graph --oneline --all
+    undo	= reset --mixed HEAD^
+    undoamend	= reset --soft HEAD@{1}
+    unstage	= reset HEAD --
+    untracked	= ls-files --others --exclude-standard
+    up		= pull --rebase origin
+    visual	= !gitk
+    who		= !git config -l | grep -E '^user\\.(name|email)'
+    whoami	= who
+    yesterday	= diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'

@@ -33,7 +33,7 @@ icon75='&#xf028; 𝍣'
 icon50='&#xf028; 𝍢'
 icon25='&#xf027; 𝍡'
 icon_low='&#xf027; 𝍠'
-icon_zero='&#xf026; '
+icon_zero='&#xf026;  '
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -113,86 +113,46 @@ fi
 #------------------------------------------------------------------------
 if [ "$osys" = "ubuntu" ]
 then
-    pam="$(pa-mute)"
-    pam=$(echo $pam| sed 's/^\s//g;s/\s$//g')
-    pav="$(pa-volume)"
-    pav=$(echo $pav| sed 's/^\s//g;s/\s$//g')
-    pav="${pav::-1}"
+    vmute="$(pa-mute)"
+    vmute=$(echo $vmute| sed 's/^\s//g;s/\s$//g')
+    volume="$(pa-volume)"
+    volume=$(echo $volume| sed 's/^\s//g;s/\s$//g')
+    volume="${volume::-1}"
     res="yes"
 else
-    pv="$(volume | format)"
-    nv="${pv::-1}"
+    vmute="$(volume | format)"
+    volume="${vmute::-1}"
     res="MUTE"
 fi
 get_block() {
-    if [ "$pam" = "$res" ] || [ "$pv" = "$res" ]; then
+    if [ "$vmute" = "$res" ]; then
 	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
 	printf "%s\n" "$show"
 	exit 0
-    fi
-
-    if [[ $pav -le 0 ]] && [[  ${#pav} -gt 0 ]] ; then
+    elif (( volume >= 0 )) && (( volume <= 4 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s%s" "$show" 
 	exit 0
-    elif [[ $nv -le 0 ]] && [[ ${#nv} -gt 0 ]]; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s%s%%" "$show" "$1"
-	exit 0
-    fi 
-    if [[ $pav -le 10 ]] && [[  ${#pav} -gt 0 ]] ; then
+    elif (( volume >= 5 )) && (( volume <= 15 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    elif [[ $nv -le 10 ]] && [[ ${#nv} -gt 0 ]]; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-	printf "%s%s%%" "$show" "$1"
-	exit 0
-    fi 
-
-    if [[ $pav -le 35 ]] && [[ ${#pav} -gt 0 ]]; then
+    elif (( volume >= 16 )) && (( volume <= 35 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
 	printf "%s%s%%" "$show" "$1"
-	exit 0
-    elif [[ $nv -le 35 ]] && [[ ${#nv} -gt 0 ]]; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-	printf "%s%s%%" "$show" "$1"
-	exit 0
-    fi
-
-    if [[ $pav -lt 60 ]] && [[ ${#pav} -gt 0 ]]; then
+    elif (( volume >= 36 )) && (( volume <= 65 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    elif [[ $nv -le 60 ]] && [[ ${#nv} -gt 0 ]]; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-	printf "%s%s%%" "$show" "$1"
-	exit 0
-    fi
-
-    if [[ $pav -lt 85 ]] && [[ ${#pav} -gt 0 ]]; then
+    elif (( volume >= 66 )) && (( volume <= 85 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
-    elif [[ $nv -le 85 ]] && [[ ${#nv} -gt 0 ]]; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-	printf "%s%s%%" "$show" "$1"
-	exit 0
-    fi
-
-    if [[ $pav -lt 101 ]] || [[ $nv -lt 101 ]]; then
+    elif (( volume >= 86 )); then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
 	printf "%s%s%%" "$show" "$1"
 	exit 0
     fi
 }
 
-if [ "$osys" = "ubuntu" ]
-then
-    get_block "$pav"
-else
-    get_block "$nv"
-fi
-
-
-
+get_block "$volume"

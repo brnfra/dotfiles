@@ -17,9 +17,7 @@ font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 color='"#2666A1"'
-font_params="<span font=$font_face"
-font_params+=" color=$color "
-font_params+=" size=$font_size >"
+font_params="<span font=$font_face color=$color size=$font_size >"
 font_params_close="</span>"
 # Use the provided interface, otherwise the device used for the default route.
 if [[ -n $BLOCK_INSTANCE ]]; then

@@ -35,33 +35,29 @@ git_branch() {
 			s+='Refs++';
 		    fi;
 		    [ -n "${s}" ] && s="[${s}]";
-		    printf "%-*s" ${#branchName} "${1}▛▔ [${branchName}] ▁▟${2}▛▔ ${s} ▁▟";
+		    printf "%-*b" ${#branchName} "${1}▛▔[${branchName}]▁▟${2}▛▔${s}▁▟";
 		else
 		    [ -n "${s}" ] && s="[${s}]";
-		    printf "%-*s" ${#branchName} "${1}▛▔ [${branchName}] ▁▟${2}▛▔ ${s} ▁▟";
+		    printf "%-*b" ${#branchName} "${1}▛▔[${branchName}]▁▟${2}▛▔${s}▁▟";
     fi
 }
 # }}}
 # Set Colors {{{
 # Color
-bold=$(tput bold);
-italic=$(tput sitm);
-blink=$(tput blink);
-inverted=$(tput rev);
-#movement
-pos_save=$(tput sc);
-pos_reset=$(tput rc);
-# removing
-reset=$(tput sgr0);
-# Solarized colors, taken from http://git.io/solarized-colors.
-cyan=$(tput setaf 39);
-violet=$(tput setaf 99);
-white=$(tput setaf 15);
-yellow=$(tput setaf 220);
-red=$(tput setaf 124);
-lgray=$(tput setaf 7);
-# Set a background color
-bdgrey=$(tput setab 8);
+E='\e['
+
+italic="${E}3m"
+reset="${E}0m"
+blink="${E}5m"
+inverted="${E}7m"
+bold="${E}1m"
+# Set foreground colors
+cyan="${E}96m"
+violet="${E}95m"
+white="${E}99m"
+yellow="${E}93m"
+red="${E}91m"
+lgray="${E}37m"
 # Highlight the user name when logged in as root.
 if [[ "${USER}" == "root" ]]; then
     userStyle="${red}";
@@ -76,31 +72,20 @@ else
     hostStyle="${yellow}";
 fi;
 build_prompt() {
-    DATE=$(date +"%A, %d %b %Y %T ");
-    POS=$((COLUMNS - ${#DATE}));
-    PS1="\[${bold}\]\[${cyan}\]Ctrl+a\[${reset}\] - Start of the line	|";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+e\[${reset}\] - End of the line		\n";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+u\[${reset}\] - Clear line		|";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+l\[${reset}\] - Clear\n";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+r\[${reset}\] - List history cmd	|";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+k\[${reset}\] - Cut from cursor->Fim\n";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+w\[${reset}\] - Cut from Begin->cursor	|";
-    PS1+="\[${bold}\]\[${cyan}\]Ctrl+y\[${reset}\] - Paste cuted\n";
-    PS1+="\[${inverted}\]";
+   
+    PS1="\[${inverted}\]";
     PS1+="\[${italic}\]";
-    PS1+="\[${lgray}\]▛▔ \u@\h  ▁▟\[${cyan}\]▛▔\[${bold}\]\w ▁▟";	# working directory full path
+    PS1+="\[${lgray}\]▛▔\u@\h▁▟\[${cyan}\]▛▔\[${bold}\]\w▁▟";	
     PS1+="\[${bold}\]";
     PS1+='$(git_branch $yellow $violet)';
     PS1+="\[${reset}\]";
     PS1+="\[${white}\]";
     PS1+="\n\$\[${blink}\]\[${bold}\] → ";
-    PS1+="\[${reset}\]";	# (reset color)
-    PS1+="\[${pos_save}\]";
-    PS1+="\[$(tput cup 0 $((POS)))";
-    PS1+="\[${bdgrey}\]\[${white}\]\[$(tput sitm)\]";
-    PS1+="\[${DATE}\]\[${pos_reset}\]";
+    PS1+="\[${reset}\]";	    
+
     PS2="\[${yellow}\] → \[${reset}\]";
     PS2+=" \u@\h \W \\$";
+
 }
 PROMPT_COMMAND=build_prompt
 # }}}

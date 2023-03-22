@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+# Check if ImageMagick is installed
+if ! command -v convert &> /dev/null
+then
+    clnError "ImageMagick is not installed. Please install it and try again."
+    exit
+fi
+
+# Create the output directory if it doesn't exist
+if [ ! -d "compressed" ]
+then
+    mkdir compressed
+fi
+
+# Loop through all JPEG and PNG files in the current directory
+for file in *.jpg *.jpeg *.png
+do
+    # Check if the file is an image
+    if [ -f "$file" ] && file "$file" | grep -q "image"
+    then
+        # Set the output file name
+        output="compressed/${file%.*}_compressed.${file##*.}"
+        
+        # Compress the image
+        convert "$file" -quality 25% "$output"
+        
+        # Print success message
+        cInfo "Image compressed and saved as"
+	clnItalic "$output."
+    fi
+done

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+# Check if ImageMagick is installed
+if ! command -v convert &> /dev/null
+then
+    clnError "ImageMagick is not installed. Please install it and try again."
+    exit
+fi
+
+# Check if the input file exists
+if [ ! -f "$1" ]
+then
+    clnError "Input file not found. Please provide a valid input file."
+    exit
+fi
+
+# Set the output file name
+output="${1%.*}_compressed.${1##*.}"
+
+# Compress the image
+convert "$1" -quality 25% "$output"
+
+# Print success message
+cInfo "Image compressed and saved as"
+clnItalic "$output."

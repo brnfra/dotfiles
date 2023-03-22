@@ -22,83 +22,49 @@ wallpapers_dir="$HOME/.wallpapers"
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
 
 # Color {{{ 
-reset=$(tput sgr0);
-bold=$(tput bold);
-red=$(tput setaf 124);
-italic=$(tput sitm);
-green=$(tput setaf 34);
-cyan=$(tput setaf 39);
+# escape
+E='\e['
+italic="${E}3m"
+reset="${E}0m"
+bold="${E}1m"
+# Set foreground colors
+red="${E}31m"
+green="${E}32m"
+cyan="${E}36m"
+grey="${E}2m"
+
 cInfo() {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s" "$cyan" "$bold" "$reset" "$1" 
+    printf "%b%s%b" "$grey" "[INFO]" "$reset " 
+    printf "%s" "$1" 
 }
 cError() {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s" "$red" "$bold" "$reset" "$1" 
+    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
+    printf "%s" "$1" 
 }
 cItalic() {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s" "$cyan" "$italic" "$1" "$reset" "$2"
+    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%s" "$2"
 }
 cOk() {
-    local reset
-    local bold
-    local green
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    green=$(tput setaf 34);
-    printf "%s: %s%s\tOK\n%s" "$1" "$green" "$bold" "$reset" 
+    printf "%s" "$1"
+    printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
 }
 cmOk() {
-    local reset
-    local bold
-    local green
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    green=$(tput setaf 34);
-    printf "%s%s[INFO]%s %s: %s%s\tOK\n%s" "$cyan" "$bold" "$reset" "$1" "$green" "$bold" "$reset" 
+    printf "%b%s%-b " "$grey" "[INFO]" "$reset" 
+    printf "%20s" "$1" 
+    printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
 }
 clnInfo() {
-    local reset
-    local bold
-    local cyan
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    cyan=$(tput setaf 39);
-    printf "%s%s[INFO] %s %s\n" "$cyan" "$bold" "$reset" "$1" 
+    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
+    printf "%s\n" "$1" 
 }
 clnError() {
-    local reset
-    local bold
-    local red
-    reset=$(tput sgr0);
-    bold=$(tput bold);
-    red=$(tput setaf 124);
-    printf "%s%s[ERROR] %s %s\n" "$red" "$bold" "$reset" "$1" 
+    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
+    printf "%s\n" "$1" 
 }
 clnItalic() {
-    local cyan
-    local italic
-    local reset
-    cyan=$(tput setaf 39);
-    italic=$(tput sitm);
-    reset=$(tput sgr0);
-    printf "%s%s %s %s %s\n" "$cyan" "$italic" "$1" "$reset" "$2"
+    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%s\n" "$2"
 }
 # }}}
 
