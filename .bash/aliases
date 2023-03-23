@@ -66,8 +66,8 @@ elif [ "$osys" = "manjaro" ]; then
 	# }}}
 	#Command aliases {{{
 	alias svim='sudo nvim'
-	alias cim="nvim"
-	alias VIM="nvim"
+	alias cim="vim"
+	alias VIM="vim"
 	alias EXIT="exit"
 	alias cp='cp -i'
 	alias mv='mv -i'
@@ -123,18 +123,18 @@ elif [ "$osys" = "manjaro" ]; then
 	alias hosts='sudo vim /etc/hosts'
 	alias repo="cd ~/documents/projects/git"
 	alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
-	alias promptrc='nvim ~/.bash/prompt'
-	alias profilerc='nvim ~/.bash/profile'
-	alias aliasrc='nvim ~/.bash/aliases'
-	alias funcrc='nvim ~/.bash/functions'
-	alias pathrc='nvim ~/.bash/exports'
-	alias bashrc='nvim ~/.bashrc'
+	alias promptrc='vim ~/.bash/prompt'
+	alias profilerc='vim ~/.bash/profile'
+	alias aliasrc='vim ~/.bash/aliases'
+	alias funcrc='vim ~/.bash/functions'
+	alias pathrc='vim ~/.bash/exports'
+	alias bashrc='vim ~/.bashrc'
 	alias vimrc='vim ~/.vimrc'
-	alias i3rc='nvim ~/.i3/config'
-	alias blocksrc='nvim ~/.i3/i3blocks.conf'
+	alias i3rc='vim ~/.i3/config'
+	alias blocksrc='vim ~/.i3/i3blocks.conf'
 	alias blocksdir='cd ~/.i3/i3blocks'
 	alias dotbash='cd ~/.bash'
-	alias vifmrc='nvim ~/.config/vifm/vifmrc'
+	alias vifmrc='vim ~/.config/vifm/vifmrc'
 	alias cp='rsync -ah --info=progress2'
   # }}}
   # Apps exec {{{

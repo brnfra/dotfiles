@@ -46,46 +46,33 @@ git_branch() {
 # Color
 E='\e['
 
-italic="${E}3m"
-reset="${E}0m"
-blink="${E}5m"
-inverted="${E}7m"
-bold="${E}1m"
+italic="\[${E}3m\]"
+reset="\[${E}0m\]"
+blink="\[${E}5m\]"
+inverted="\[${E}7m\]"
+bold="\[${E}1m\]"
 # Set foreground colors
-cyan="${E}96m"
-violet="${E}95m"
-white="${E}99m"
-yellow="${E}93m"
-red="${E}91m"
-lgray="${E}37m"
-# Highlight the user name when logged in as root.
-if [[ "${USER}" == "root" ]]; then
-    userStyle="${red}";
-else
-    userStyle="${italic}";
-fi;
-# }}}
+cyan="\[${E}96m\]"
+violet="\[${E}95m\]"
+white="\[${E}99m\]"
+yellow="\[${E}93m\]"
+red="\[${E}91m\]"
+lgray="\[${E}37m\]"
+
+build_prompt() {
+   
+    PS1="${inverted}${italic}${lgray}▛▔\u@\h▁▟${cyan}▛▔${bold}\w▁▟";	
+    PS1+="$(git_branch $yellow $violet)"
+    PS1+="${reset}${white}\n${blink}${bold} → ${reset}";	    
+
+    PS2="${yellow}\u@\h \W → ${reset}";
+}
 #   {{{
 if [[ "${SSH_TTY}" ]]; then
     hostStyle="${bold}${red}";
 else
     hostStyle="${yellow}";
 fi;
-build_prompt() {
-   
-    PS1="\[${inverted}\]";
-    PS1+="\[${italic}\]";
-    PS1+="\[${lgray}\]▛▔\u@\h▁▟\[${cyan}\]▛▔\[${bold}\]\w▁▟";	
-    PS1+="\[${bold}\]";
-    PS1+='$(git_branch $yellow $violet)';
-    PS1+="\[${reset}\]";
-    PS1+="\[${white}\]";
-    PS1+="\n\$\[${blink}\]\[${bold}\] → ";
-    PS1+="\[${reset}\]";	    
-
-    PS2="\[${yellow}\] → \[${reset}\]";
-    PS2+=" \u@\h \W \\$";
-
-}
+# }}}
 PROMPT_COMMAND=build_prompt
 # }}}
