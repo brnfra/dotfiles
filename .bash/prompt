@@ -69,9 +69,9 @@ build_prompt() {
 }
 #   {{{
 if [[ "${SSH_TTY}" ]]; then
-    hostStyle="${bold}${red}";
+    PS1+="${bold}${red}";
 else
-    hostStyle="${yellow}";
+    PS1+="${yellow}";
 fi;
 # }}}
 PROMPT_COMMAND=build_prompt

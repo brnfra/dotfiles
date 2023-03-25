@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 19-03-2023
+#  Ultima_modificacao: 24-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -29,10 +29,7 @@ git_push() {
     fi
 }
 
-if ! ssh -T 'git@github.com' ;then 
-    clnError "Check logs(ssh or connection)."
-    exit 1
-fi
+
 # check ssh_config 
 ssh_connect
 

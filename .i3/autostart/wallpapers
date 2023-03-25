@@ -67,7 +67,7 @@ render_images() {
     nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
     nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
     bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
-    if [ "$(find "$wallpapers_dir" -type d -empty | wc -l)" = "1" ]
+    if [ -d "$wallpapers_dir" ] && ! [ "$(ls -A "$wallpapers_dir")" ]
     then
 	printf "[ERROR] There'nt wallpapers to render. Exiting\n"
 	exit 1
