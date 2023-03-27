@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 25-03-2023
+# Ultima_modificacao: 27-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -405,7 +405,6 @@ options="${options}\$exe nm-applet --indicator\n"
 options="${options}\$exe $cfg_dir/autostart/i3config\n"
 options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
 options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
-options="${options}exec \$Terminal -x $binaries/pull_config\n"
 #Apps autoexec on start
 options="${options}\$exe goldendict\n"
 options="${options}\$exe blueman-applet\n"
