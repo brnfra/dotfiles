@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-03-2023
+# Ultima_modificacao: 27-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -17,14 +17,12 @@ first_check() {    #{{{
     NAME=${FILE//$LOCAL\//}
     NAME=${NAME// /_}
     NAME=${NAME//'$'/_}
-    NAME=$(echo "$NAME" | sed -r 's/(\s)+/_/gi')
-    NAME=$(echo "$NAME" | tr '\n\r\a\b\f\v\t' '_' | sed -r 's/_$//gi')
+    NAME=$(echo "$NAME" | tr -d '[:cntrl:]')
+    NAME=$(echo "$NAME" | tr -c '[=.=][:alnum:]' '_')
+    NAME=$(echo "$NAME" | tr -s '_' '_' )
+    NAME=$(echo "$NAME" | sed -r 's/^_//gi; s/_$//gi')
     # coding to ascII remove latin chars
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
-    if [ -f "$NAME" ] && [ -f "$OLD" ] && [ "$NAME" != "$OLD" ]; then
-	echo "antes1 =  $OLD"
-	echo "depois1 = $NAME"
-    fi
     if [[ "$NAME" != "$OLD" ]]
     then
 	mv -n "$OLD" "$NAME" &>/dev/null
