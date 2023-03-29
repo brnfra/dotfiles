@@ -10,6 +10,6 @@ sync;echo "echo 1 > /proc/sys/vm/drop_caches";
 clnInfo "echo 1 executed"
 
 clnInfo "Clean swap. 30 seg."
-swapoff -a && sleep 30 && swapon -a;
+sudo swapoff -a && sleep 30 && sudo swapon -a;
 clnInfo "Clean swap. Done."
 

@@ -50,9 +50,9 @@ cOk() {
     printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
 }
 cmOk() {
-    printf "%b%s%-b " "$grey" "[INFO]" "$reset" 
-    printf "%20s" "$1" 
-    printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
+    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
+    printf "%s" "$1" 
+    printf "%b%b %5s%b\n" "$green" "$bold" "OK" "$reset" 
 }
 clnInfo() {
     printf "%b%s%b " "$grey" "[INFO]" "$reset" 

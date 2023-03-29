@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 14-03-2023
+# Ultima_modificacao: 27-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -16,20 +16,20 @@
 gaps_inner=10
 gaps_outer=0
 #colors
-darker="#080910"
+i3darker="#080910"
 dark="#181920"
-black="#2C323E"
+i3black="#2C323E"
 #darkgray="#3B4252"
-gray="#E7E8EB"
-white="#F5F6F7"
-red="#F74336"
-orange="#FF6600"
-orangedark="#FFA366"
-yellow="#FFFF00"
-green="#00FF00"
+i3gray="#E7E8EB"
+i3white="#F5F6F7"
+i3red="#F74336"
+#orange="#FF6600"
+#orangedark="#FFA366"
+i3yellow="#FFFF00"
+i3green="#00FF00"
 #cyan="#00FFFF"
-blue="#0066FF"
-purple="#9800FE"
+i3blue="#0066FF"
+i3purple="#9800FE"
 #Paths
 status_command="i3blocks -c \$HOME/.i3/i3blocks.conf"
 status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
@@ -286,10 +286,10 @@ if [ "$system_id" = "manjaro" ]; then
 fi
 #Color appearance -----------------------------------------------------------------
 		    # class                 border      backgr. text    indicator child_border
-options="${options}client.focused          $green      $black  $white  $purple   $green\n"
-options="${options}client.focused_inactive $dark       $dark   $white  $yellow   $dark\n"
-options="${options}client.unfocused        $dark       $dark   $white  $purple   $dark\n"
-options="${options}client.urgent           $red        $dark   $white  $red      $red\n"
+options="${options}client.focused          $i3green      $i3black  $i3white  $i3purple   $i3green\n"
+options="${options}client.focused_inactive $dark       $dark   $i3white  $i3yellow   $dark\n"
+options="${options}client.unfocused        $dark       $dark   $i3white  $i3purple   $dark\n"
+options="${options}client.urgent           $i3red        $dark   $i3white  $i3red      $i3red\n"
 options="${options}client.background       $dark\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     # Place workspace.
@@ -306,14 +306,14 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
-    options="${options}        background $white\n"
-    options="${options}        statusline $darker\n"
-    #options="${options}        separator  $purple\n"
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+    #options="${options}        separator  $i3purple\n"
 			       #                    border     backgr    text
-    options="${options}        focused_workspace    $blue      $green    $dark\n"
-    options="${options}        active_workspace	    $dark      $blue     $white\n"
-    options="${options}        inactive_workspace   $dark      $gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $yellow   $dark\n"
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
     options="${options}bar {\n"
@@ -327,14 +327,14 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}        background $white\n"
-    options="${options}        statusline $darker\n"
-    #options="${options}        separator  $purple\n"
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+    #options="${options}        separator  $i3purple\n"
 			       #                    border     backgr    text
-    options="${options}        focused_workspace    $blue      $green    $dark\n"
-    options="${options}        active_workspace	    $dark      $blue     $white\n"
-    options="${options}        inactive_workspace   $dark      $gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $yellow   $dark\n"
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
 elif [ "$system_id" = "manjaro" ]; then
@@ -349,14 +349,14 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
-    options="${options}        background $white\n"
-    options="${options}        statusline $darker\n"
-    #options="${options}        separator  $purple\n"
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+    #options="${options}        separator  $i3purple\n"
 			       #                    border     backgr    text
-    options="${options}        focused_workspace    $blue      $green    $dark\n"
-    options="${options}        active_workspace	    $dark      $blue     $white\n"
-    options="${options}        inactive_workspace   $dark      $gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $yellow   $dark\n"
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
     options="${options}bar {\n"
@@ -370,14 +370,14 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}        background $white\n"
-    options="${options}        statusline $darker\n"
-#    options="${options}        separator  $purple\n"
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+#    options="${options}        separator  $i3purple\n"
 			       #                    border     backgr    text
-    options="${options}        focused_workspace    $blue      $green    $dark\n"
-    options="${options}        active_workspace	    $dark      $blue     $white\n"
-    options="${options}        inactive_workspace   $dark      $gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $yellow   $dark\n"
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
 fi
@@ -405,7 +405,6 @@ options="${options}\$exe nm-applet --indicator\n"
 options="${options}\$exe $cfg_dir/autostart/i3config\n"
 options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
 options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
-options="${options}exec \$Terminal -x $binaries/pull_config\n"
 #Apps autoexec on start
 options="${options}\$exe goldendict\n"
 options="${options}\$exe blueman-applet\n"

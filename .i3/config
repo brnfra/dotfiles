@@ -201,7 +201,7 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur 10
+    font pango: Monofur 12
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks_v.conf
     colors {
         background #F5F6F7
@@ -228,7 +228,6 @@ $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
 $exe $HOME/bin/rm_linedup ~/.bash_history
-exec $Terminal -x $HOME/bin/pull_config
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"

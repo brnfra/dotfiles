@@ -21,12 +21,12 @@ font_size="'medium'"
 color_on="'#2666A1'"
 color_mute="'#BF616A'"
 
-icon_mute='&#xf130; ╳'
-icon95='&#xf130; 𝍤'
-icon75='&#xf130; 𝍣'
-icon50='&#xf130; 𝍢'
-icon25='&#xf130; 𝍡'
-icon_low='&#xf130; 𝍠'
+icon_mute='&#xf130; X'
+icon95='&#xf130; &#x1D11a;'
+icon75='&#xf130; &#x1D119;'
+icon50='&#xf130; &#x1D118;'
+icon25='&#xf130; &#x1D117;'
+icon_low='&#xf130; &#x1D116;'
 icon_zero='&#xf130;  '
 
 #------------------------------------------------------------------------
@@ -128,26 +128,26 @@ capability() { # Return "Capture" if the device is a capture device
 	exit 0
     elif (( volume >= 0 )) && (( volume <= 4 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s%s" "$show" 
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 5 )) && (( volume <= 15 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 16 )) && (( volume <= 35 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
     elif (( volume >= 36 )) && (( volume <= 65 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 66 )) && (( volume <= 85 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 86 )); then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
-	printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
 	exit 0
     fi
 }
