@@ -308,8 +308,9 @@ Suggestions/improvements
 
 ## Author
 
-| :---: | 
-|[<img src="https://avatars.githubusercontent.com/brnfra" width=115 > <br> <sub> Bruno Franco </sub>](https://github.com/brnfra) |
+| <img src="https://avatars.githubusercontent.com/brnfra" width=115 > |
+| --- |
+| [Bruno Franco](https://github.com/brnfra) |
 
 ## Thanks to…
 
@@ -327,7 +328,6 @@ Suggestions/improvements
 * [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles repository](https://github.com/necolas/dotfiles)
 * [Sindre Sorhus](https://sindresorhus.com/)
 * [Tom Ryder](https://sanctum.geek.nz/) and his [dotfiles repository](https://sanctum.geek.nz/cgit/dotfiles.git/about)
-* [Kevin Suttle](http://kevinsuttle.com/) and his [dotfiles repository](https://github.com/kevinSuttle/dotfiles) and [macOS-Defaults project](https://github.com/kevinSuttle/macOS-Defaults), which aims to provide better documentation for [`~/.macos`](https://mths.be/macos)
 * [Haralan Dobrev](https://hkdobrev.com/)
 * For anyone that a make a copy and don't make a mension, tell me and I'll give the credit, my thank you.
 
