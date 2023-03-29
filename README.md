@@ -301,6 +301,39 @@ after install or trying update your local configs, try this;
 
 For other problems, again, check your name and email in install_enviroment or comment.
 
+## Feedback
+
+Suggestions/improvements
+[welcome](https://github.com/brnfra/dotfiles/issues)!
+
+## Author
+
+| :---: | 
+|[<img src="https://avatars.githubusercontent.com/brnfra" width=115 > <br> <sub> Bruno Franco </sub>](https://github.com/brnfra) |
+
+## Thanks to…
+
+* [Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles) make your own bare repo dotfiles tutorial
+* [@StreakyCobra](https://news.ycombinator.com/item?id=11070797) Hacker News threat
+* [Mathias Bynens](https://github.com/mathiasbynens) and his [dotfiles repository](https://github.com/mathiasbynens/dotfiles)
+* [Ben Alman](http://benalman.com/) and his [dotfiles repository](https://github.com/cowboy/dotfiles)
+* [Luke Smith](https://lukesmith.xyz/) and his [dotfiles repository](https://github.com/LukeSmithxyz/voidrice)
+* [Le Wagon dotfiles](https://github.com/LukeSmithxyz/voidrice)
+* [Cătălin Mariș](https://github.com/alrra) and his [dotfiles repository](https://github.com/alrra/dotfiles)
+* [Gianni Chiappetta](https://butt.zone/) for sharing his [amazing collection of dotfiles](https://github.com/gf3/dotfiles)
+* [Jan Moesen](http://jan.moesen.nu/) and his [ancient `.bash_profile`](https://gist.github.com/1156154) + [shiny _tilde_ repository](https://github.com/janmoesen/tilde)
+* Lauri ‘Lri’ Ranta for sharing [loads of hidden preferences](https://web.archive.org/web/20161104144204/http://osxnotes.net/defaults.html)
+* [Matijs Brinkhuis](https://matijs.brinkhu.is/) and his [dotfiles repository](https://github.com/matijs/dotfiles)
+* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles repository](https://github.com/necolas/dotfiles)
+* [Sindre Sorhus](https://sindresorhus.com/)
+* [Tom Ryder](https://sanctum.geek.nz/) and his [dotfiles repository](https://sanctum.geek.nz/cgit/dotfiles.git/about)
+* [Kevin Suttle](http://kevinsuttle.com/) and his [dotfiles repository](https://github.com/kevinSuttle/dotfiles) and [macOS-Defaults project](https://github.com/kevinSuttle/macOS-Defaults), which aims to provide better documentation for [`~/.macos`](https://mths.be/macos)
+* [Haralan Dobrev](https://hkdobrev.com/)
+* For anyone that a make a copy and don't make a mension, tell me and I'll give the credit, my thank you.
+
+### License 
+
+The [MIT License]() (MIT)
 
 
-[Back](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
+[Back to Top](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)

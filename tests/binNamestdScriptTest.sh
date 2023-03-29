@@ -13,12 +13,12 @@ testExecution() {
 }
 
 testRenameSpaceAndSymbols_File() {
-    var='@file4123<@#>     ??@#%symbols_#'
+    var='@file4123<@#> !~`´¨";:<>,?\|= ()  ++  ??@#%symbols_#'
     expect='file4123_symbols'
     
     list='find . -type f'
     touch "$testDir/$var"
-    namestd 1> /dev/null 
+    namestd  1> /dev/null 
     assertTrue \
 	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
         "[ -f $testDir/$expect ]"
