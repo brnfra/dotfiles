@@ -72,6 +72,18 @@ testRename_File_DotDotFile() {
         "[ -f $testDir/$expect ]"
 }
 
+testRename_DotFile_DotDotFile() {
+    var='.name.dot.file2'
+    expect='.name.dot.file2'
+    
+    list='find . -type f'
+    touch "$testDir/$var"
+    namestd 1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
+        "[ -f $testDir/$expect ]"
+}
+
 testRename_File_Bars() {
     var='name_+_-[]@#%symbols'
     expect='name_symbols'
@@ -150,6 +162,28 @@ testRename_Folder() {
     var='percent !~`´¨";:<>,?\|= ()[%^]plus%++'
     expect='percent_plus'
     
+    list='find . -type d '
+    mkdir -p "$testDir/$var"
+    namestd  1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
+        "[ -d $testDir/$expect ]"
+    }
+
+testRename_BeginDotFolder() {
+    var='. n(am3'
+    expect='._n_am3'
+    list='find . -type d '
+    mkdir -p "$testDir/$var"
+    namestd  1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
+        "[ -d $testDir/$expect ]"
+    }
+
+testRename_DotsInFolder() {
+    var='. n(am3. folder'
+    expect='._n_am3._folder'
     list='find . -type d '
     mkdir -p "$testDir/$var"
     namestd  1> /dev/null 

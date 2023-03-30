@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 20-03-2023
+# Ultima_modificacao: 30-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -15,7 +15,7 @@ site_list='google.com'
 site_list+=' github.com' 
 site_list+=' www.amazon.com.br'
 site_list+=' deb.debian.org'
-#site_list+=' www.debian.org/security'
+errorCnt=$(( 0 ))
 # by Adam Katz (stackoverflow)
 for Site in $site_list; do
     if nc -z -w 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
@@ -26,5 +26,13 @@ for Site in $site_list; do
 	cmOk "$Site" "Reached"
     else
 	clnError "Can't reach: $Site"
+	errorCnt=$(( errorCnt + 1))
+	if [[ errorCnt -gt 3 ]]; then
+	    exit 1
+	fi
     fi
 done
+if [[ errorCnt -lt 2 ]]; then
+    exit 0
+fi
+

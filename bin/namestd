@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 29-03-2023
+# Ultima_modificacao: 30-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -45,7 +45,7 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
-first_check() {    #{{{
+stdnames() {    #{{{
     #	${variable//search/replace}
     local OLD=$1
     local NAME=$1
@@ -63,6 +63,7 @@ first_check() {    #{{{
     # coding to ascII remove latin chars
     if [[ "$NAME" != "$OLD" ]]
     then
+	eval "cp -r $OLD $HOME/.local/share/Trash/files"  &>/dev/null
 	eval "mv -n $OLD $NAME"  &>/dev/null
     fi
 }
@@ -73,11 +74,11 @@ show_result() { #{{{
     printf "%s" "---->" 
     printf "[ ${green}${bold}%s${reset} ]\n" "After"
     if [[ "$1" == "-a" ]]; then
-	FILES_AFTER=$(find . -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
-	FOLDERS_AFTER=$(find . -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+	FILES_AFTER=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
+	FOLDERS_AFTER=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
     else
-	FILES_AFTER=$(find . -maxdepth 1 -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
-	FOLDERS_AFTER=$(find . -maxdepth 0 -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+	FILES_AFTER=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
+	FOLDERS_AFTER=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
     fi
 
     DEFAULT_IFS=$IFS
@@ -116,19 +117,20 @@ if [ "$LOCAL" = "$HOME" ]; then
 fi
 
 if [[ "$1" == "-a" ]]; then
-    FILES_BEFORE=$(find . -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
-    FOLDERS_BEFORE=$(find . -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+    FILES_BEFORE=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
+    FOLDERS_BEFORE=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 
-    NAMES=$(find . -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
+    NAMES=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
     NAMES+=$'\n'
-    NAMES+=$(find . -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
+    NAMES+=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
 else
-    FILES_BEFORE=$(find . -maxdepth 1 -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
-    FOLDERS_BEFORE=$(find . -maxdepth 0 -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+    FILES_BEFORE=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
+    FOLDERS_BEFORE=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 
-    NAMES=$(find . -maxdepth 1 -type f -exec ls -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
+    NAMES=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
     NAMES+=$'\n'
-    NAMES+=$(find . -maxdepth 0 -type d -exec ls -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
+    NAMES+=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
+
 fi
 
 DEFAULT_IFS=$IFS
@@ -139,7 +141,7 @@ IFS=$DEFAULT_IFS
 lenght=${#names[@]}
 for(( i=0; i < lenght; i++))
 do
-    first_check "${names[$i]}"
+    stdnames "${names[$i]}"
 done
 
 show_result "$1"
