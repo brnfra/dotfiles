@@ -7,12 +7,12 @@ function mkd() {
 # }}}
 # Safe mv and rm cmd {{{
 del() {
-    cp "$@" "$HOME"'/.local/share/Trash/files'
+    cp -r "$@" "$HOME"'/.local/share/Trash/files'
     rm -rf "$@" 
 }
 
 move() {
-    cp "$@" "$HOME"'/.local/share/Trash/files'
+    cp -r "$@" "$HOME"'/.local/share/Trash/files'
     mv -i "$@" "$2"
 }
 

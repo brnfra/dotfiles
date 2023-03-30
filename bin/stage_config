@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 19-03-2023
+#  Ultima_modificacao: 30-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-# shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
+for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
@@ -58,15 +60,36 @@ sync_copy ()
 }
 
 cd "$HOME/tests" || return
-if "$checkAll" > /dev/null;
-then
-    cmOk "Files,scripts test and folders check"
-    cd "$dotfiles_dir" || return
-    git pull origin "$branch"
-    sync_copy
-    printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
-    cd "$backto" || return
-    exit 0
+cInfo "Files,scripts tests and folders checking"
+printf "\r"
+
+if "$checkAll" &> /dev/null; then
+    cmOk "Files,scripts tests and folders check"
+
+    if connection &> /dev/null && ssh_connect ;then
+	#pull from remote to local before make changes
+	local_repo_pull
+	sync_copy
+
+	printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
+	cd "$backto" || return
+	exit 0
+
+    elif connection &> /dev/null; then
+	cmOk "Connection"
+	clnError "Check your ssh-agent."
+	exit 2
+
+    elif ssh_connect ;then
+	cmOk "ssh-agent"
+	clnError "Check your connection."
+	exit 3
+
+    else
+	clnError "Check your connection and your ssh-agent."
+	exit 4
+    fi
+
 else
     "$checkAll" | awk '/FAIL/''{print}' &>> "$bkpLog"
     cInfo "If error occured check backup log in:"
