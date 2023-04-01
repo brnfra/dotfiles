@@ -36,6 +36,20 @@ testRenameDollarSymbols_File() {
         "[ -f $testDir/$expect ]"
  }
 
+testRenameIFS_File() {
+    var='file  
+    next line'
+    expect='file_n_next_line'
+    
+    list='find . -type f'
+    touch "$testDir/$var"
+    namestd 1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
+        "[ -f $testDir/$expect ]"
+ }
+
+
 testRenameLatinSigns_File() {
     var='123%(\)´¨"!^&~`?|#%456'
     expect='123_456'
@@ -169,6 +183,19 @@ testRename_Folder() {
 	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
         "[ -d $testDir/$expect ]"
     }
+
+testRenameIFS_Folder() {
+    var='folder  
+    next line'
+    expect='folder_n_next_line'
+    
+    list='find . -type d'
+    mkdir -p "$testDir/$var"
+    namestd 1> /dev/null 
+    assertTrue \
+	"${red}${bold}[FAIL]${reset}${LINENO}:${fail_msg}${green}$expect${reset}\n$($list)\n" \
+        "[ -d $testDir/$expect ]"
+ }
 
 testRename_BeginDotFolder() {
     var='. n(am3'

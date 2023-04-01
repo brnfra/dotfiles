@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-03-2023
+# Ultima_modificacao: 31-03-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -21,22 +21,23 @@ NAME
     namestd - standarize names 
 
 SYNOPSIS
-    namestd [-ah] --help
+    namestd [-aAh] --help
 
 DESCRIPTION
     Change names for standard. Ex.: 's p c' => s_p_c; and so on...
 
-Exammples: 
+Examples: 
     To rename all files and folders on current path
 	$(basename "$0")	
     To rename all files and folders recursively inside folders
 	$(basename "$0") -a	
+	$(basename "$0") -A	
 
 OPTIONS    
-    -a	
+    -a, -A	
 	Rename all files and folders recursively inside folders
 
-    -h,--help
+    -h, --help
 	Print help informations
 
 See the README for documentation.
@@ -73,7 +74,8 @@ show_result() { #{{{
     printf "[ ${red}%s${reset} ]" "Before" 
     printf "%s" "---->" 
     printf "[ ${green}${bold}%s${reset} ]\n" "After"
-    if [[ "$1" == "-a" ]]; then
+
+    if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
 	FILES_AFTER=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
 	FOLDERS_AFTER=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
     else
@@ -116,7 +118,7 @@ if [ "$LOCAL" = "$HOME" ]; then
     exit 1
 fi
 
-if [[ "$1" == "-a" ]]; then
+if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     FILES_BEFORE=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
     FOLDERS_BEFORE=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 

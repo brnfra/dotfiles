@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#  Arquivo: ssh_config
-#  Autor: Bruno Franco
-#  Ultima_modificacao: 25-03-2023
-#  Download: git@github.com:brnfra
-#  Licence:Este arquivo é de domínio público
-#  Garantia: O autor não se responsabiliza por eventuais danos
+# Arquivo: ssh_config
+# Autor: Bruno Franco
+# Ultima_modificacao: 30-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
