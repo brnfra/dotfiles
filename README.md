@@ -67,7 +67,7 @@ Install config tracking in your **$HOME** following the comand;
 
 1. Fork this repository.
 
-2. Edit ```/bin/install``` file to put your repository url, branch name, email and name.
+2. Edit ```~/bin/dotfiles_env``` file to put your repository url, branch name, email and name.
 
 3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
 
