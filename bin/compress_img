@@ -1,6 +1,44 @@
 #!/usr/bin/env bash
+# Arquivo: compress_img
+# Autor: Bruno Franco
+# Ultima_modificacao: 31-03-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
+
+clnInfo "Compress images trying save resolution"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+compress_img
+
+NAME
+    compress_img - compress images sizes 
+SYNOPSIS
+    compress_img [-ah] --help
+DESCRIPTION
+    Compress images size.
+Examples: 
+    To compress specific image
+	$(basename "$0") file_name
+	output: ./file_name_compressed.img
+    To compress all images in current folder
+	$(basename "$0") -a
+	Will create a folder compressed and and set output there.
+	output: ./compressed/file_name_compressed.img
+OPTIONS    
+    -a,A	
+	To compress all images in current folder
+    -h,--help
+	Print help informations
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
 
 # Check if ImageMagick is installed
 if ! command -v convert &> /dev/null
@@ -9,19 +47,46 @@ then
     exit
 fi
 
-# Check if the input file exists
-if [ ! -f "$1" ]
-then
-    clnError "Input file not found. Please provide a valid input file."
-    exit
+if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
+    # Create the output directory if it doesn't exist
+    if [ ! -d "compressed" ]
+    then
+	mkdir compressed
+    fi
+
+    # Loop through all JPEG and PNG files in the current directory
+    for file in *.jpg *.jpeg *.png
+    do
+	# Check if the file is an image
+	if [ -f "$file" ] && file "$file" | grep -q "image"
+	then
+	    # Set the output file name
+	    output="compressed/${file%.*}_compressed.${file##*.}"
+
+	# Compress the image
+	convert "$file" -quality 25% "$output"
+
+	# Print success message
+	cInfo "Image compressed and saved as"
+	clnItalic "$output."
+	fi
+    done
+else
+    # Check if the input file exists
+    if [ ! -f "$1" ]
+    then
+	clnError "Input file not found. Please provide a valid input file."
+	exit
+    fi
+
+    # Set the output file name
+    output="${1%.*}_compressed.${1##*.}"
+
+    # Compress the image
+    convert "$1" -quality 25% "$output"
+
+    # Print success message
+    cInfo "Image compressed and saved as"
+    clnItalic "$output."
+
 fi
-
-# Set the output file name
-output="${1%.*}_compressed.${1##*.}"
-
-# Compress the image
-convert "$1" -quality 25% "$output"
-
-# Print success message
-cInfo "Image compressed and saved as"
-clnItalic "$output."
