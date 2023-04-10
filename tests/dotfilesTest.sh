@@ -20,10 +20,12 @@ testDotfilesConfigs() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts in bin works[namestd] Tests found\n" $? 
     clnInfo "Check if Scripts in bin works[fold by Date]."
     "$HOME/tests/binMakeFolderByDateTest.sh"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts Scripts in bin works[fold by Date]\n" $? 
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts in bin works[fold by Date]\n" $? 
     clnInfo "Check if Scripts in bin works[fold by Type]."
     "$HOME/tests/binMakeFolderByTypeTest.sh"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts Scripts in bin works[fold by Date]\n" $? 
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts in bin works[fold by Type]\n" $? 
+    "$HOME/tests/testPkgInstalled.sh"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error some packages are not installed\n" $? 
 
 }
 oneTimeSetUp() {
