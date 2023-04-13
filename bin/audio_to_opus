@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# Arquivo: mp3_to_ogg
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-04-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+clnInfo "Convert mp3 to opus audio files"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+mp3_to_opus
+
+NAME
+    mp3_to_opus - convert mp3 to opus
+
+SYNOPSIS
+    mp3_to_opus [-aAh] --help
+
+DESCRIPTION
+    Convert mp3 audio files to opus audio file.
+
+Examples:
+    To convert specific audio format
+	$(basename "$0") file_name.mp3
+	output: ./file_name.opus
+    To compress all images in current folder
+	$(basename "$0") -a
+	Will create a folder compressed and and set output there.
+	output: ./opus/file_name.opus
+
+OPTIONS
+    -a,A
+	To convert all mp3 audio files in current folder to opus
+    -h,--help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+saveDir='./opus'
+ffmpeg_opus='-b:a 34k -acodec libopus'
+
+if ! command -v ffmpeg &> /dev/null
+then
+    clnError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    exit 3
+fi
+
+if [[ "$1" == "" ]]; then
+    clnError "No file selected."
+    mp3_to_opus -h
+    exit 4
+
+fi
+
+namestd 1> /dev/null
+if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
+    # Create the output directory if it doesn't exist
+    if [ ! -d "$saveDir" ]
+    then
+	mkdir -p "$saveDir"
+    fi
+    find . -maxdepth 1 -type f -name '*.mp3' | sed 's|\.\/||gi' > files_list
+    if [ -s files_list ]
+    then
+	files=$(cat files_list)
+	for file in $files
+	do
+	    name="$file"
+	    name=${name%.*}
+	    if [ -d "$saveDir" ] && [ -e "$file" ] && [ -s "$file" ]; then
+		eval ffmpeg -i "$file" "$ffmpeg_opus" "${saveDir}/${name}.opus"
+	    elif [ -e "$file" ] && [ -s "$file" ]; then
+		eval ffmpeg -i "$file" "$ffmpeg_opus" "${name}.opus"
+	    fi
+	done
+	rm files_list
+	exit 1
+    else
+	rm files_list
+	printf "No mp3 files.\n"
+	exit 1
+    fi
+
+else
+    find . -maxdepth 1 -type f -name "$1" | sed 's|\.\/||gi'
+    name="$1"
+    name=${name%.*}
+    if [ -e "$1" ] && [ -s "$1" ]; then
+	eval ffmpeg -i "$1" "$ffmpeg_opus" "${name}.opus"
+    else
+	clnError "$1 is not a valid mp3 file."
+	exit 1
+    fi
+
+fi
+
+
+
+
+
+

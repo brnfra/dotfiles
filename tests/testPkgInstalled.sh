@@ -45,6 +45,7 @@ testPkgsInstalledCheck() {
     pkges+=" fzf"
     pkges+=" nm-applet"
     pkges+=" rsync"
+    pkges+=" ffmpeg"
     if [ "$osys" = "ubuntu" ]
     then
 	pkges+=" pactl"
