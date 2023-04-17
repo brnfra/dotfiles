@@ -21,8 +21,11 @@ font_size='"medium"'
 font_params_ok="<span font=$font_face color=$color_ok size=$font_size ><b>"
 font_params_fail="<span font=$font_face color=$color_fail size=$font_size ><b>"
 font_params_close="</b></span>"
-site1="google.com"
-site2="github.com"
+site_list='google.com' 
+site_list+=' github.com' 
+site_list+=' www.amazon.com.br'
+site_list+=' deb.debian.org'
+errorCnt=$(( 0 ))
 # resp1=$(curl -m 3 -I -s "$site1"  | awk '/HTTP/ { print $2 }')
 # resp2=$(curl -m 3 -I -s "$site2"  | awk '/HTTP/ { print $2 }')
 # Use the provided interface, otherwise the device used for the default route.
@@ -57,28 +60,22 @@ case $BLOCK_BUTTON in
 esac
 #------------------------------------------------------------------------
 # by Adam Katz (stackoverflow)
-if nc -z -w 1 $site1 443 && echo |openssl s_client -connect $site1:443 2>&1 |awk '
-    $1 == "SSL" && $2 == "handshake" { handshake = 1 }
-    handshake && $1 == "Verification:" { ok = $2; exit }
-    END { exit ok != "OK" }'
-then
-    resp1="200"
-else
-    resp1="404"
-fi
-if nc -z -w 1 $siter2 443 && echo |openssl s_client -connect $site2:443 2>&1 |awk '
-    $1 == "SSL" && $2 == "handshake" { handshake = 1 }
-    handshake && $1 == "Verification:" { ok = $2; exit }
-    END { exit ok != "OK" }'
-then
-    resp2="200"
-else
-    resp2="404"
-fi
+for Site in $site_list; do
+    if nc -z -w 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
+	$1 == "SSL" && $2 == "handshake" { handshake = 1 }
+	handshake && $1 == "Verification:" { ok = $2; exit }
+	END { exit ok != "OK" }'
+    then
+	#cmOk "$Site" "Reached"
+	iface_out=$(printf "%s%s%s" "$font_params_ok" "<i>$IPADDR</i>" "$font_params_close")
+    else
+	#clnError "Can't reach: $Site"
+	errorCnt=$(( errorCnt + 1))
+	if [[ errorCnt -gt 3 ]]; then
+	    iface_out=$(printf "%s%s%s" "$font_params_fail" "$IPADDR" "$font_params_close")
+	fi
+    fi
+done
 
-if [ "${resp1}" = 200 ] || [ "${resp2}" = 200 ]
-then
-    printf "%s%s%s" "$font_params_ok" "<i>$IPADDR</i>" "$font_params_close"
-else
-    printf "%s%s%s" "$font_params_fail" "$IPADDR" "$font_params_close"
-fi
+echo "$iface_out"
+
