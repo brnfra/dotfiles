@@ -161,7 +161,7 @@ mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] re
 	bindsym Escape mode default
 }
 bindsym Ctrl+0 exec $Terminal -x vim $HOME/.i3/config
-bindsym Ctrl+1 exec firefox
+bindsym Ctrl+1 exec firefox-esr
 bindsym Ctrl+2 exec $Terminal -x ranger
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+F2 exec $Terminal -x alsamixer
@@ -221,13 +221,13 @@ bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_si
 bindsym XF86HomePage         $exe pavucontrol
 $exe_always compton --config ~/.config/compton.conf
 $exe_always xset b off
+$exe $HOME/.i3/autostart/i3config > $HOME/i3config.log
+$exe $HOME/.i3/autostart/wallpapers
+$exe $HOME/bin/rm_linedup ~/.bash_history
 $exe numlockx on
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 $exe nm-applet --indicator
-$exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
-$exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"

@@ -12,29 +12,29 @@ KEYB='setxkbmap -model pc104 -layout us_intl'
 KEYB_ABNT2_BR='setxkbmap -model abnt2 -layout br'
 LOC="$(hostname)"
 if [ "$LOC" = "debian-tablet" ]; then
-     "$KEYB_ABNT2_BR"
+     $KEYB_ABNT2_BR
      xrandr --newmode 1360x768_60 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
      xrandr --addmode "$SCR" 1360x768_60
      xrandr --output "$SCR" --mode 1360x768_60
     exit 0
 fi
 if [ "$LOC" = "ubuntu-ideapad3" ]; then
-     "$KEYB_ABNT2_BR"
+     $KEYB_ABNT2_BR
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
      xrandr --addmode "$SCR" 1920x1080_60
      xrandr --output "$SCR" --mode 1920x1080_60
     exit 0
 fi
 if [ "$LOC" = "debian-r5-desktop" ] || [ "$LOC" = "manjaro-r5-desktop" ]; then
-     "$KEYB_US"
+     $KEYB
     #set primary
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
      xrandr --addmode "$SCR1" 1920x1080_60
      xrandr --output "$SCR1" --mode 1920x1080_60
     #M2
-     xrandr --newmode 1080x1920_60.00  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR2" 1080x1920_60.00
-     xrandr --output "$SCR2" --mode 1080_1920_60.00
+     xrandr --newmode 1080x1920_60  176.50  1080 1168 1280 1480  1920 1923 1933 1989 -hsync +vsync
+     xrandr --addmode "$SCR2" 1080x1920_60
+     xrandr --output "$SCR2" --mode 1080x1920_60
     #set position
      xrandr --output "$SCR1" --primary
     #turn left and put right of rotate the screen of your preference here SCR1 e SCR2
@@ -42,7 +42,7 @@ if [ "$LOC" = "debian-r5-desktop" ] || [ "$LOC" = "manjaro-r5-desktop" ]; then
     exit 0
 fi
 if [ "$LOC" = "virtual" ]; then
-     $KEYB
+     "$KEYB"
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
      xrandr --addmode "$SCR1" 1920x1080_60
      xrandr --output "$SCR1" --mode 1920x1080_60
