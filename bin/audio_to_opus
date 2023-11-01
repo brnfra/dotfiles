@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Arquivo: mp3_to_ogg
+# Arquivo: audio_to_opus
 # Autor: Bruno Franco
-# Ultima_modificacao: 12-04-2023
+# Ultima_modificacao: 20-10-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -13,18 +13,18 @@
 clnInfo "Convert mp3 to opus audio files"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-mp3_to_opus
+audio_to_opus
 
 NAME
-    mp3_to_opus - convert mp3 to opus
+    audio_to_opus - convert files(audio or video) to opus
 
 SYNOPSIS
-    mp3_to_opus [-aAh] --help
+    audio_to_opus [-aAh] --help
 
 DESCRIPTION
-    Convert mp3 audio files to opus audio file.
+    Convert files to opus audio file using FFmpeg. From audio format files and some videos format files accepet in Opus encoder 
+    codec. The bitrate is 34k. For more info: http://ffmpeg.org/ffmpeg-codecs.html#libopus-1
 
-Examples:
     To convert specific audio format
 	$(basename "$0") file_name.mp3
 	output: ./file_name.opus
@@ -56,7 +56,7 @@ fi
 
 if [[ "$1" == "" ]]; then
     clnError "No file selected."
-    mp3_to_opus -h
+    audio_to_opus -h
     exit 4
 
 fi
@@ -68,7 +68,25 @@ if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     then
 	mkdir -p "$saveDir"
     fi
-    find . -maxdepth 1 -type f -name '*.mp3' | sed 's|\.\/||gi' > files_list
+    FILES_LIST=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
+
+    DEFAULT_IFS=$IFS
+    IFS=$'\n'
+    files_list=( $FILES_LIST )
+    IFS=$DEFAULT_IFS
+
+    lenght=${#files_list[@]}
+    FORMAT=''
+    # is audio or video
+    for(( i=0; i < lenght; i++))
+    do
+	FORMAT=$(file -b --mime-type "${files_list[$i]}" | cut -d '/' -f1 )
+	if [[ "$FORMAT" == "audio" ]] || [[ "$FORMAT" == "video" ]]
+	then
+	    echo "${files_list[$i]}">>files_list
+	fi
+    done
+    #    find . -maxdepth 1 -type f -name '*.wma' | sed 's|\.\/||gi' >> files_list
     if [ -s files_list ]
     then
 	files=$(cat files_list)
@@ -86,7 +104,7 @@ if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
 	exit 1
     else
 	rm files_list
-	printf "No mp3 files.\n"
+	printf "No valid files.\n"
 	exit 1
     fi
 
@@ -97,7 +115,7 @@ else
     if [ -e "$1" ] && [ -s "$1" ]; then
 	eval ffmpeg -i "$1" "$ffmpeg_opus" "${name}.opus"
     else
-	clnError "$1 is not a valid mp3 file."
+	clnError "$1 is not a valid file."
 	exit 1
     fi
 
