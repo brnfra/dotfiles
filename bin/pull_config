@@ -1,11 +1,36 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
+printf "Get config from remote repo and update local config files.\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Get config from remote repo and update local config files.
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to get config from remote repo and update local config files. Becareful, if you made some 
+    local modifications it'll ovewrite with remote config.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
 for file in ~/bin/{bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;

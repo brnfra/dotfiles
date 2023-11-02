@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,6 +10,30 @@
 #site list
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
+
+sname="${0##*/}"
+clnInfo "Checking connectivity status!"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Check connectivity status
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    A simple script to try connect using nc and openssl to reach sites like google.com and amazon.com and return if OK or can´t reach.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
 
 site_list='google.com' 
 site_list+=' github.com' 
@@ -33,6 +57,7 @@ for Site in $site_list; do
     fi
 done
 if [[ errorCnt -lt 2 ]]; then
+    echo
     exit 0
 fi
 

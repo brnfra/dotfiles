@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 31-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -15,23 +15,23 @@
 printf "Normalizing files and folders names\n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-namestd 
+${0##*/}
 
 NAME
-    namestd - standarize names 
+    ${0##*/}  - standarize names 
 
 SYNOPSIS
-    namestd [-aAh] --help
+    ${0##*/} {[-aAh] | --help}
 
 DESCRIPTION
     Change names for standard. Ex.: 's p c' => s_p_c; and so on...
 
 Examples: 
     To rename all files and folders on current path
-	$(basename "$0")	
+	${0##*/}	
     To rename all files and folders recursively inside folders
-	$(basename "$0") -a	
-	$(basename "$0") -A	
+	${0##*/} -a	
+	${0##*/} -A	
 
 OPTIONS    
     -a, -A	

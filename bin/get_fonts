@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: get_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 12-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,6 +9,29 @@
 #Fonts
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
+printf "Get roboto, codenewroman and nerdfont\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Get roboto, codenewroman and nerdfont
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to get roboto, codenewroman and nerdfont.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
 
 get_fonts() {
     nowIn=$(pwd)

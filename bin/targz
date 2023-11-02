@@ -1,5 +1,44 @@
 #!/usr/bin/env bash
-# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+# Arquivo: targz
+# Autor: Bruno Franco
+# Ultima_modificacao: 02-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#   Tem o proposito de organizar os arquivos que tem nome padrão começando com
+#   o template AAAAmmdd, sendo AAAA para digito do ano, mm para digitos do mes,
+#   dd para digito do dia
+#   cria pasta no padrão ./AAAA/mm e insere os arquivos
+#   não se aplica a pastas ou nomes diferentes do padrão
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+sname="targz"
+printf "Compress file/folder \n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Compress files or folders 
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    Move files or folder  in current folder using zopfli, pigz or gzip.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
 tmpFile="${@%/}.tar";
 tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
 size=$(
@@ -17,10 +56,10 @@ else
 	cmd="gzip";
     fi;
 fi;
-echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
+clnInfo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
 "${cmd}" -v "${tmpFile}" || return 1;
 [ -f "${tmpFile}" ] && rm "${tmpFile}";
 zippedSize=$(stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # macOS `stat`
 stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
 );
-echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+clnInfo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
