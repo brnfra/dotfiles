@@ -311,26 +311,26 @@ Get some help before execute scripts ```[script-name] -h```.
 
   | Script Name | Description |
   | :-  | :-  |
-  | **audio_to_opus**			| Compact audio to opus format
+  | **audio_to_opus**			   | Compact audio to opus format
   | **compress_img**			    | Compress img
   | **config_check**			    | Check if config is fine(make tests too)
-  | **connection**			    | Simple test to check connectivity
-  | **date_fold**			    | Fold files for date(name pattern required)
-  | **extract**		    			| Extract compact files in current folder
-  | **free_buffer**			    | Clear swap and ram buffer
-  | **i3-scrot**			    		| Print screen(nice with i3 key bindings)
-  | **i3_config**			    | Generate my i3 config files
-  | **item_size**			    | Show size(file/folder)
-  | **namestd**				    | Rename all files in folder(remove special chars)
-  | **pdfstd**				    | Compact and normalize pdf files(extra larges)
-  | **pull_config**				| Get config from remote repo and update local config files.
-  | **push_config**				| Push config files from local to remote repo.
-  | **rm_linedup**				| Remove dupe lines in file
-  | **targz**					| Compact file/folder	
-  | **type_fold**				| Fold files for type
-  | **uninstall_bare_cfg**		| Uninstall this config and restore previous files
-  | **videos_merge**				| Merge videos files in current folder
-  | **videostd**					| Compact and normalize video files(extra larges)
+  | **connection**			      | Simple test to check connectivity
+  | **date_fold**			       | Fold files for date(name pattern required)
+  | **extract**		    			   | Extract compact files in current folder
+  | **free_buffer**			     | Clear swap and ram buffer
+  | **i3-scrot**			    		  | Print screen(nice with i3 key bindings)
+  | **i3_config**			       | Generate my i3 config files
+  | **item_size**			       | Show size(file/folder)
+  | **namestd**				        | Rename all files in folder(remove special chars)
+  | **pdfstd**				         | Compact and normalize pdf files(extra larges)
+  | **pull_config**				    | Get config from remote repo and update local config files.
+  | **push_config**				    | Push config files from local to remote repo.
+  | **rm_linedup**				     | Remove dupe lines in file
+  | **targz**					         | Compact file/folder	
+  | **type_fold**				      | Fold files for type
+  | **uninstall_bare_cfg**	| Uninstall this config and restore previous files
+  | **videos_merge**				   | Merge videos files in current folder
+  | **videostd**					      | Compact and normalize video files(extra larges)
 
 </details>
 
@@ -383,4 +383,4 @@ Suggestions/improvements
 The [MIT License]() (MIT)
 
 
-[Back to Top](https://github.com/brnfra/dotfiles#my-dotfiles-repository-)
+[Back to Top](https://github.com/brnfra/dotfiles/tree/testing#dotfiles-repository-)
