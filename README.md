@@ -28,6 +28,10 @@ Thank you guys for sharing :heart:
 - [Uninstalling](https://github.com/brnfra/dotfiles#uninstall-and-back-config)
 - [Dependencies(check your pkgs)](https://github.com/brnfra/dotfiles#dependencies)
 - [Keybindings](https://github.com/brnfra/dotfiles#keybindings)
+- [Scripts](https://github.com/brnfra/dotfiles#scripts)
+- [Problems](https://github.com/brnfra/dotfiles#problems)
+- [Feedback](https://github.com/brnfra/dotfiles#feedback)
+- [Thanks](https://github.com/brnfra/dotfiles#thanks-to)
 
 ## Using git to manage config files.
 
@@ -63,7 +67,7 @@ This configuration works with **i3-wm** and **i3status**.
 ## How to install
  
 This method consist to use git to track your config files. **You don't have to install extra tool**, only need git, ssh(coreutils) and curl.
-Install config tracking in your **$HOME** following the comand;
+Install config tracking in your **$HOME** following the command;
 
 1. Fork this repository.
 
@@ -169,22 +173,33 @@ $ bash ~/bin/uninstall_bare_cfg
 Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**.
 For some features depends some packages, if get some error related, this list maybe help;
 
-- i3blocks
-- nm-applet(tool to show network icon)
-- diodon(tool to show transfer area icon)
-- scrot(print screen)
-- compton(composer)
-- nitrogen(wallpaper)
-- fzf
-- fdfind
+- acpi (temperatures and battery)
+- alsautils or pulseaudio(ubuntu)
+- compton (composer)
+- curl
+- diodon (tool to show transfer area icon)
 - exa
+- fdfind
+- ffmpeg
+- fzf
+- ghostscript (pdf language previewer)
+- git
+- gsimplecal (tiny calendar i3blocks)
+- i3blocks
+- imagemagick
+- jq (Comand line JSON processor)
+- nc (TCP and UDP listen)
+- nitrogen (wallpaper)
+- nm-applet (show network icon)
+- openssl 
 - rsync
-- jq
-- acpi(temperatures and battery)
-- gsimplecal(tiny calendar i3blocks)
-- shunit2(tests)
-- sysstat(cpu info)
-- Xfce4-terminal
+- scrot (print screen)
+- shunit2 (tests)
+- ssh
+- sysstat (cpu info)
+- vim
+- xfce4-terminal
+
 
 ## Keybindings
 
@@ -287,6 +302,38 @@ For some features depends some packages, if get some error related, this list ma
 
 </details>
 
+## Scripts
+
+Get some help before execute scripts ```[script-name] -h```.
+
+<details>
+  <summary><strong> Scripts List </strong></summary>
+
+  | Script Name | Description |
+  | :-  | :-  |
+  | **audio_to_opus**			| Compact audio to opus format
+  | **compress_img**			    | Compress img
+  | **config_check**			    | Check if config is fine(make tests too)
+  | **connection**			    | Simple test to check connectivity
+  | **date_fold**			    | Fold files for date(name pattern required)
+  | **extract**		    			| Extract compact files in current folder
+  | **free_buffer**			    | Clear swap and ram buffer
+  | **i3-scrot**			    		| Print screen(nice with i3 key bindings)
+  | **i3_config**			    | Generate my i3 config files
+  | **item_size**			    | Show size(file/folder)
+  | **namestd**				    | Rename all files in folder(remove special chars)
+  | **pdfstd**				    | Compact and normalize pdf files(extra larges)
+  | **pull_config**				| Get config from remote repo and update local config files.
+  | **push_config**				| Push config files from local to remote repo.
+  | **rm_linedup**				| Remove dupe lines in file
+  | **targz**					| Compact file/folder	
+  | **type_fold**				| Fold files for type
+  | **uninstall_bare_cfg**		| Uninstall this config and restore previous files
+  | **videos_merge**				| Merge videos files in current folder
+  | **videostd**					| Compact and normalize video files(extra larges)
+
+</details>
+
 ## Problems
 
 If you get the error message 
@@ -312,7 +359,7 @@ Suggestions/improvements
 | --- |
 | [Bruno Franco](https://github.com/brnfra) |
 
-## Thanks to…
+## Thanks to
 
 * [Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles) make your own bare repo dotfiles tutorial
 * [@StreakyCobra](https://news.ycombinator.com/item?id=11070797) Hacker News threat
