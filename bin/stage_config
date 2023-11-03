@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 30-03-2023
+#  Ultima_modificacao: 03-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -15,12 +15,22 @@ backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 
+if [ "$BranchHome" != "$RepoBranch" ]; then
+    clnInfo "Branch home are not the same dotfiles. Sync:"
+    eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
+    echo
+else
+    cmOk "Branch are the same"
+    echo
+fi
+
 #function for backup
 sync_copy ()
 {
     printf "[INFO]Sync beginning at %s\n" "$DATE" > "$bkpLog"
     # bash
     files='.bashrc .bash/ '
+    files+='README.md '
     # vim
     files+='.vimrc .config/nvim/ '
     # vifm
