@@ -124,8 +124,6 @@ cd "$HOME" || return
 printf "\r"
 sync_branch
 
-sync_branch
-
 if config_check -a ; then
     cmOk "Files,scripts tests and folders check"
 
