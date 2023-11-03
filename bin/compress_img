@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: compress_img
 # Autor: Bruno Franco
-# Ultima_modificacao: 31-03-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -18,7 +18,7 @@ compress_img
 NAME
     compress_img - compress images sizes 
 SYNOPSIS
-    compress_img [-ah] --help
+    compress_img [ -ah | --help | filename ]
 DESCRIPTION
     Compress images size.
 Examples: 
