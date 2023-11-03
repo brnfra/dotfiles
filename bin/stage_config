@@ -77,6 +77,7 @@ sync_copy ()
 cd "$HOME/tests" || return
 cInfo "Files,scripts tests and folders checking"
 printf "\r"
+sync_branch
 
 if "$checkAll" &> /dev/null; then
     cmOk "Files,scripts tests and folders check"
