@@ -10,14 +10,14 @@ testExecutionMain() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
-testfilesByType() {
+testtype_fold() {
     ext='ext1'
     var='file1name.'"$ext"
     expect="$ext/$var"
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -28,7 +28,7 @@ testfilesByType() {
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -39,21 +39,21 @@ testfilesByType() {
     
     list='find .  -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
 
 }
 
-testTwicefilesByType() {
+testTwicetype_fold() {
     ext='sme1'
     var='fileSME1.'"$ext"
     expect="$ext/$var"
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -64,7 +64,7 @@ testTwicefilesByType() {
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -79,7 +79,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch ./"$var"
-    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -90,7 +90,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"       > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"       > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"
@@ -101,7 +101,7 @@ testFilesWithDots() {
     
     list='find . -type f'
     touch "./$var"
-    filesByType  "$testByTypeDir"      > /dev/null 2> /dev/null 
+    type_fold  "$testByTypeDir"      > /dev/null 2> /dev/null 
     assertTrue \
 	"${LINENO}:${red}${bold}[FAIL]${reset}$error_msg${expect} \nResult:\n $($list)\n" \
         "[ -f $testByTypeDir/$expect ]"

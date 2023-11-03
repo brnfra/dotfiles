@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pdfstd
 # Autor: Bruno Franco
-# Ultima_modificacao: 15-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,9 +10,35 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
+sname="pdfstd"
+printf "Normalize pdf files using ghostscript \n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Normalize pdf files using ghostscript 
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    Normalize pdf files using ghostscrip. Compare files after process and backup older if newer is smaller or skip if not.
+    Backup to output folder inside current folder.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
-    printf "Script avoid execute in [%s] directory.\n" "$HOME"
+    clnError "Script avoid execute in [%s] directory.\n" "$HOME"
     exit 1
 fi
 backup="Backup_"
@@ -107,7 +133,6 @@ do
     echo
 done
 #Clean
-rm -f newsize
-rm -f oldsize
+rm -f newsize oldsize
 find . -type d -empty -delete
 clnInfo "Finish."

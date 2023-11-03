@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: videos_merge
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-11-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,6 +10,28 @@
 #search files in current folder
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
+printf "Create a video mp4 file from files(required files in ordered names).\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Create a video mp4 file from files(required files in ordered names).
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    Create a video mp4 file from files(required files in ordered names) using ffmpeg program(required). Files in same folder(current only).
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
 
 mp4_fl="mp4_files_list"
 intermediates=""
@@ -26,7 +48,6 @@ then
     clnInfo "Merging  mp4's files..."
     if command -v ffmpeg &> /dev/null
     then
-
 	    for(( i=0; i < lenght; i++))
 	    do
 		if ffmpeg -i ${names_mp4[$i]} -qscale:v 1 "intermediate$i"".mpg"

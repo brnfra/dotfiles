@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
 if [ -f "$1" ] ; then
     case "$1" in
 	*.tar.bz2)   tar -xvjf "$1"	    ;;
@@ -14,8 +17,8 @@ if [ -f "$1" ] ; then
 	*.Z)         uncompress "$1"    ;;
 	*.7z)        7z x "$1"	    ;;
 	*.dmg)       hdiutil mount "$1" ;;
-	*)           echo "don't know how to extract '$1'..." ;;
+	*)           clnError "don't know how to extract '$1'..." ;;
     esac
 else
-    echo "'$1' is not a valid file!"
+    clnError "'$1' is not a valid file!"
 fi

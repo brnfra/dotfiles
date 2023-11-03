@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Arquivo: filesByType
+# Arquivo: type_fold
 # Autor: Bruno Franco
-# Ultima_modificacao: 19-03-2023
+# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -13,6 +13,29 @@
 #   não se aplica a pastas ou nomes diferentes do padrão
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
+
+printf "Foldering files by type\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Foldering files by type
+	
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    Move files in current folder to new folders by type, inside current folder.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
 
 filesByExt=$(find . -maxdepth 1 -type f -name '*.*' | sed 's|\.\/||gi')
 today_year=$(date +%Y)

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: audio_to_opus
 # Autor: Bruno Franco
-# Ultima_modificacao: 20-10-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,26 +10,26 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-clnInfo "Convert mp3 to opus audio files"
+clnInfo "Convert audio to opus audio files"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-audio_to_opus
+${0##*/}
 
 NAME
-    audio_to_opus - convert files(audio or video) to opus
+    ${0##*/} - convert files(audio or video) to opus
 
 SYNOPSIS
-    audio_to_opus [-aAh] --help
+    ${0##*/} {-aAh| --help | filename }
 
 DESCRIPTION
     Convert files to opus audio file using FFmpeg. From audio format files and some videos format files accepet in Opus encoder 
     codec. The bitrate is 34k. For more info: http://ffmpeg.org/ffmpeg-codecs.html#libopus-1
 
     To convert specific audio format
-	$(basename "$0") file_name.mp3
+	${0##*/} file_name.mp3
 	output: ./file_name.opus
     To compress all images in current folder
-	$(basename "$0") -a
+	${0##*/} -a
 	Will create a folder compressed and and set output there.
 	output: ./opus/file_name.opus
 
@@ -116,7 +116,7 @@ else
 	eval ffmpeg -i "$1" "$ffmpeg_opus" "${name}.opus"
     else
 	clnError "$1 is not a valid file."
-	exit 1
+	exit 2
     fi
 
 fi
