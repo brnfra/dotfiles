@@ -20,15 +20,15 @@ sync_branch ()
     BranchHome="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     RepoBranch="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
     if [ "$BranchHome" != "$RepoBranch" ]; then
-        clnInfo "Branch home and dotfiles aren't the same:"
+       clnInfo "Branch home are not the same dotfiles. Sync:"
 	eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
 	echo
     else
-	cmOk "Branch in Home and dotfiles are the same."
+	cmOk "Branch in Home = branch in dotfiles"
 	echo
     fi
-}
 
+}
 #function for backup
 sync_copy ()
 {
