@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 30-03-2023
+#  Ultima_modificacao: 03-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -15,12 +15,27 @@ backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 
+sync_branch ()
+{
+    BranchHome="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
+    RepoBranch="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
+    if [ "$BranchHome" != "$RepoBranch" ]; then
+       clnInfo "Branch home are not the same dotfiles. Sync:"
+	eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
+	echo
+    else
+	cmOk "Branch in Home = branch in dotfiles"
+	echo
+    fi
+
+}
 #function for backup
 sync_copy ()
 {
     printf "[INFO]Sync beginning at %s\n" "$DATE" > "$bkpLog"
     # bash
     files='.bashrc .bash/ '
+    files+='README.md '
     # vim
     files+='.vimrc .config/nvim/ '
     # vifm
@@ -62,6 +77,7 @@ sync_copy ()
 cd "$HOME/tests" || return
 cInfo "Files,scripts tests and folders checking"
 printf "\r"
+sync_branch
 
 if "$checkAll" &> /dev/null; then
     cmOk "Files,scripts tests and folders check"
