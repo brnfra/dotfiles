@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: get_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -34,6 +34,7 @@ exit; fi
 
 
 get_fonts() {
+    clnInfo "${0##*/}"
     nowIn=$(pwd)
     clnInfo "Getting fonts."
     cd "$fonts_path" || return

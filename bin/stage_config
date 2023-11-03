@@ -11,6 +11,8 @@ for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env}; do
 done;
 unset file;
 
+clnInfo "${0##*/}"
+
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 bkpLog="$HOME/.config-bkp/stage-bkp.log"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 19-03-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,6 +10,7 @@
 . dotfiles_env
 
 local_repo_pull() {
+    clnInfo "${0##*/}"
     backto=$(pwd)
     cInfo "Git pull in repository folder. Branch:"
     cItalic "$branch" "in"

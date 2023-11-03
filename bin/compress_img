@@ -46,6 +46,7 @@ then
     clnError "ImageMagick is not installed. Please install it and try again."
     exit
 fi
+clnInfo "${0##*/}"
 
 if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     # Create the output directory if it doesn't exist

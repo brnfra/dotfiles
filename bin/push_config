@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 02-11-2023
+#  Ultima_modificacao: 03-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -48,6 +48,7 @@ git_push() {
     fi
 }
 #test, pull from remote repo to local and copy changes
+clnInfo "${0##*/}"
 if stage_config ; then
     git_push "$1"
 fi
