@@ -35,6 +35,8 @@ Thank you guys for sharing :heart:
 
 ## Using git to manage config files.
 
+<img src="https://github.com/brnfra/dotfiles/blob/0bd1bed23d0262ba6a5ffbbef6342d8e6123300f/dotfiles_plant.png" width=415 />
+
 ### Main config
 
 1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
