@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-03-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,6 +12,7 @@ done;
 unset file;
 
 bare_repo_pull() {
+    clnInfo "${0##*/}"
     backto=$(pwd)
     cd "$HOME" || return
     if git_config pull origin "$branch"

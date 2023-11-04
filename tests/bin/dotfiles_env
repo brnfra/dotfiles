@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+#git
+branch="testing"
+user_name="brnfra"
+repository="https://github.com/$user_name/dotfiles.git"
+dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
+email="devlabbr@gmail.com"
+install_dir="$HOME/.dotfiles"
+#backup
+bkpLog="$HOME/.config-bkp/stage-bkp.log"
+bkpdir="$HOME/.config-bkp"
+#tests
+checkAll="$HOME/tests/dotfilesTest.sh"
+checkHome="$HOME/tests/testHomeConfigFiles.sh"
+# enviroment
+fonts_path="$HOME/.local/share/fonts"
+i3_cfg="$HOME/.i3/config"
+i3_scpt="$HOME/bin/i3_config"
+# wallpaper
+wallpapers_dir="$HOME/.wallpapers"
+nitrogen_cfg_dir="$HOME/.config/nitrogen"
+
+# Color {{{ 
+# escape
+E='\e['
+italic="${E}3m"
+reset="${E}0m"
+bold="${E}1m"
+# Set foreground colors
+red="${E}31m"
+green="${E}32m"
+cyan="${E}36m"
+grey="${E}2m"
+
+cInfo() {
+    printf "%b%s%b" "$grey" "[INFO]" "$reset " 
+    printf "%s" "$1" 
+}
+cError() {
+    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
+    printf "%s" "$1" 
+}
+cItalic() {
+    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%s" "$2"
+}
+cOk() {
+    printf "%s" "$1"
+    printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
+}
+cmOk() {
+    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
+    printf "%s" "$1" 
+    printf "%b%b %5s%b\n" "$green" "$bold" "OK" "$reset" 
+}
+clnInfo() {
+    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
+    printf "%s\n" "$1" 
+}
+clnError() {
+    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
+    printf "%s\n" "$1" 
+}
+clnItalic() {
+    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%s\n" "$2"
+}
+# }}}
+

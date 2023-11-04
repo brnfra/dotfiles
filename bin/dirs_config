@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: dirs_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,7 +9,6 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-printf "Create folders to current config files \n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -34,6 +33,8 @@ exit; fi
 
 
 make_dirs() {
+    clnInfo "${0##*/}"
+    printf "Create folders to current config files \n"
     folder_list="$HOME/.local/opt"
     folder_list+=" $HOME/.local/share/fonts"
     folder_list+=" $HOME/.wallpapers"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -35,6 +35,8 @@ for file in ~/bin/{bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+clnInfo "${0##*/}"
+
 if connection &> /dev/null && ssh_connect ;then
     bare_repo_pull
     local_repo_pull
