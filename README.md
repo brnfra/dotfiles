@@ -338,7 +338,7 @@ Get some help before execute scripts ```[script-name] -h```.
 
 If you get the error message 
 
-```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ``` 
+- ```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ``` 
 
 after install or trying update your local configs, try this;
 
@@ -347,6 +347,13 @@ after install or trying update your local configs, try this;
 2. Re-run the command curl for install again.
 
 For other problems, again, check your name and email in install_enviroment or comment.
+
+ - ```[FAIL] Config pull error: Conflict.```
+ 
+ 1.  Resolve the conflict : ``config pull origin testing --rebase```
+ 2.  ```config status``` to check files in conflit. Edit file and add new file to resolve. 
+ 3.  ```config add [file]```, ```config commit -m "[message]"```
+ 4.  ```config rebase --continue ```
 
 ## Feedback
 

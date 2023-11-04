@@ -10,11 +10,9 @@
 . dotfiles_env
 
 git_config() {
-    clnInfo "${0##*/}"
     git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
 git_env() {
-    clnInfo "${0##*/}"
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
     if command -v git &> /dev/null
     then

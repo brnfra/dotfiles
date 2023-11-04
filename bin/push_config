@@ -8,7 +8,6 @@
 #            causados pelo uso deste arquivo.
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
-printf "Push config files from local to remote repo.\n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -35,6 +34,7 @@ exit; fi
 backto=$(pwd)
 
 git_push() {
+    printf "Push config files from local to remote repo.\n"
     cd "$dotfiles_dir" || return
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"

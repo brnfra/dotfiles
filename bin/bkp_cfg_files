@@ -10,7 +10,6 @@
 . dotfiles_env
 
 sname="${0##*/}"
-printf "Backup my config files \n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 $sname 
@@ -36,6 +35,7 @@ exit; fi
 
 bkp_cfg_files() {
     clnInfo "${0##*/}"
+    printf "Backup my config files \n"
     folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "

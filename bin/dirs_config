@@ -9,7 +9,6 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-printf "Create folders to current config files \n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -35,6 +34,7 @@ exit; fi
 
 make_dirs() {
     clnInfo "${0##*/}"
+    printf "Create folders to current config files \n"
     folder_list="$HOME/.local/opt"
     folder_list+=" $HOME/.local/share/fonts"
     folder_list+=" $HOME/.wallpapers"

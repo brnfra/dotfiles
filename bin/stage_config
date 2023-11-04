@@ -26,7 +26,7 @@ sync_branch ()
 	eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
 	echo
     else
-	cmOk "Branch in Home and dotfiles are the same."
+	cmOk "Branches are the same."
 	echo
     fi
 }

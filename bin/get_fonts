@@ -9,7 +9,6 @@
 #Fonts
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
-printf "Get roboto, codenewroman and nerdfont\n"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -35,6 +34,7 @@ exit; fi
 
 get_fonts() {
     clnInfo "${0##*/}"
+    printf "Get roboto, codenewroman and nerdfont\n"
     nowIn=$(pwd)
     clnInfo "Getting fonts."
     cd "$fonts_path" || return
