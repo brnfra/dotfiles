@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-11-2023
+# Ultima_modificacao: 05-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,9 +12,8 @@
 local_repo_pull() {
     clnInfo "${0##*/}"
     backto=$(pwd)
-    cInfo "Git pull in repository folder. Branch:"
-    cItalic "$branch" "in"
-    clnItalic "$dotfiles_dir"
+    cInfo "Git pull in repository folder. Branch:" "$branch" 
+    cInfo "in" "$dotfiles_dir"
 
     if [ -d "$dotfiles_dir" ]
     then
@@ -24,14 +23,12 @@ local_repo_pull() {
 	    git pull origin "$branch"
 	    cmOk "Git pull clone repository folder"
 	else
-	    cError "Check logs(ssh or connection). Or clone dotfiles in"
-	    clnItalic "$dotfiles_dir"
+	    cError "Check logs(ssh or connection). Or clone dotfiles in" "$dotfiles_dir"
 	fi
     else
-	clnError "No such directory to pull in"
-	cInfo "Clone repository first. Branch:"
-	cItalic "$branch" "in"
-	clnItalic "$dotfiles_dir"
+	cError "No such directory to pull in"
+	cInfo "Clone repository first. Branch:" "$branch" 
+	cInfo "in" "$dotfiles_dir"
     fi
     cd "$backto" || return
 }
