@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bkp_cfg_files
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-11-2023
+# Ultima_modificacao: 05-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -35,7 +35,7 @@ exit; fi
 
 bkp_cfg_files() {
     clnInfo "${0##*/}"
-    printf "Backup my config files \n"
+    printf "Check my config files \n"
     folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
@@ -47,7 +47,6 @@ bkp_cfg_files() {
     folders+=".i3/i3blocks "
     folders+=".config/rofi "
     folders+=".config/rofi/themes "
-    folders+=".config/ranger "
     folders+=".config/compton "
     folders+="bin "
     folders+="tests "
@@ -56,18 +55,14 @@ bkp_cfg_files() {
     do
 	if [ -d "$bkpdir/$Folder" ]
 	then
-	    cInfo
-	    clnItalic "$bkpdir/$Folder" "Already exists."
+	    cInfo "Folder" "$bkpdir/$Folder" "Already exists."
 	else
 	    mkdir -p "$bkpdir/$Folder"
-	    cInfo
-	    clnItalic "$bkpdir/$Folder" "Folders created."
+	    cInfo "Folder" "$bkpdir/$Folder" "Folders created."
 	fi
     done
-    cmOk "Creating folders"
-
-    cInfo "Moving files .backup to "
-    clnItalic "$bkpdir"
+    cmOk "Folders"
+    cInfo "Backup to files to" "$bkpdir"
 
     find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     for Folder in $folders; do

@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 26-02-2023
+" Ultima_modificacao: 05-11-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -43,10 +43,9 @@ else
     set viminfo+=n~/.vim/.shada
 endif
 set termguicolors
-set mouse=a " Enable mouse in all modes
+set mouse-=a " Enable mouse in all modes
 set cursorcolumn
 set cursorline
-set splitbelow " New window goes below
 set splitright " New windows goes right
 set suffixes=.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll
 " ignore these files while expanding wild chars
@@ -459,7 +458,7 @@ let g:airline_section_warning=''
 "+-------------------------------------------------------+
 "| https://vimhelp.org/options.txt.html#%27statusline%27 |
 "+-------------------------------------------------------+
- set laststatus=2      "" display Status bar always
+set laststatus=2      "" display Status bar always
 fun! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir

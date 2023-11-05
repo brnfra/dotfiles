@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: dirs_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-11-2023
+# Ultima_modificacao: 05-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -48,17 +48,15 @@ make_dirs() {
     folder_list+=" $HOME/.vim/autoload"
     folder_list+=" $HOME/.config-bkp"
 
-    clnInfo "Make directories"
+    cInfo "Check directories"
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ]
 	then
-	    cInfo
-	    clnItalic "$Folder" "Already exists."
+	    cInfo "Already exists:" "$Folder" 
 	else
 	    mkdir -p "$Folder"
-	    cInfo
-	    clnItalic "$Folder" "Folders created."
+	    cInfo "Folders created." "$Folder" 
 	fi
     done
 }
