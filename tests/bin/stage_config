@@ -27,7 +27,7 @@ sync_branch ()
 	    cmOk "Branches are the same."
 	    echo
 	else
-	    cError "Can't change branch in $dotfiles_dir. Aborting. BranchHome and RepoBranch:" "$BranchHome and $RepoBranch"
+	    clnError "Can't change branch in $dotfiles_dir. Aborting."
 	    exit 2
 	fi
     else
