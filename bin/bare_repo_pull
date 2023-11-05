@@ -22,13 +22,13 @@ bare_repo_pull() {
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "Config pull error:" "Conflict."
+	cError "${LINENO}:Config pull error:" "Conflict."
 	cInfo "Backup conflicts and try again"
 	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Checking again and backup files"
 
 	cInfo "Move .backup files to:" "$bkpdir"
-	bkp_cfg_files
+	bkp_cfg_files 1>> "$bkpLog" 
 	cmOk "Cleaning"
 
 	if git_config pull --no-commit origin $branch
@@ -37,7 +37,7 @@ bare_repo_pull() {
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
-	    clnError "Can't resolve conflicts. Trying to Fetch."
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch."
 
 	    git_config fetch origin
 	    cInfo "Fetching origin" 
@@ -51,7 +51,7 @@ bare_repo_pull() {
 	   #cInfo "Mergin origin" "$branch" 
 	   #cmOk "Merge origin"
 
-	    cInfo "Backup conflicts and try again"
+	    cInfo "${LINENO}:Backup conflicts and try again"
 	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	    cmOk "Backup conflicts and try again"
 	    config_check
@@ -62,7 +62,7 @@ bare_repo_pull() {
 	    if git_config pull origin $branch
 		cInfo "Git pull finished." "Success" "Exit"
 	    then
-		cError "Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
+		cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
 	    fi
 	fi
     fi
