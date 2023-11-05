@@ -11,7 +11,7 @@ for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env}; do
 done;
 unset file;
 
-clnInfo "${0##*/}"
+clnInfo "stage_config"
 
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)

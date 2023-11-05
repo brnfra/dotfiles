@@ -12,7 +12,7 @@ done;
 unset file;
 
 bare_repo_pull() {
-    clnInfo "${0##*/}"
+    clnInfo "bare_repo_pull"
     backto=$(pwd)
     cd "$HOME" || return
     if git_config pull origin "$branch"
@@ -22,8 +22,7 @@ bare_repo_pull() {
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config pull error:" "Conflict."
-	cInfo "Backup conflicts and try again"
+	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
 	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' 
 	
 	#| xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup

@@ -49,7 +49,7 @@ git_push() {
     fi
 }
 #test, pull from remote repo to local and copy changes
-clnInfo "${0##*/}"
+clnInfo "push_config"
 if stage_config ; then
     git_push "$1"
 fi

@@ -10,7 +10,7 @@
 . dotfiles_env
 
 local_repo_pull() {
-    clnInfo "${0##*/}"
+    clnInfo "local_repo_pull"
     backto=$(pwd)
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
