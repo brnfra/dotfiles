@@ -15,7 +15,7 @@ bare_repo_pull() {
     clnInfo "${0##*/}"
     backto=$(pwd)
     cd "$HOME" || return
-    if git_config pull --rebase origin "$branch"
+    if git_config pull origin "$branch"
     then
 	config_check
 
@@ -24,9 +24,13 @@ bare_repo_pull() {
     else
 	cError "${LINENO}:Config pull error:" "Conflict."
 	cInfo "Backup conflicts and try again"
-	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' 
+	
+	#| xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Checking again and backup files"
 
+	exit 23
+	
 	cInfo "Move .backup files to:" "$bkpdir"
 	bkp_cfg_files 1>> "$bkpLog" 
 	cmOk "Cleaning"
