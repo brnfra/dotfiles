@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pdfstd
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 05-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -38,7 +38,7 @@ exit; fi
 
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
-    clnError "Script avoid execute in [%s] directory.\n" "$HOME"
+    cError "Script avoid execute in [%s] directory." "$HOME"
     exit 1
 fi
 backup="Backup_"
@@ -74,8 +74,7 @@ do
     #take the size
     du -b "$file" > oldsize
     OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
-    cInfo
-    clnItalic "$file" "is the next:"
+    cInfo "File" "$file" "is the next:"
     gs \
 	-sDEVICE=pdfwrite \
 	`# font settings` \
@@ -101,32 +100,27 @@ do
 	-dNOPAUSE -dQUIET -dBATCH \
 	-sOutputFile=./"$output"/"$file" "$file"
     
-    cInfo 
-    clnItalic "$output/$file" "created."
+    cInfo "File" "$output/$file" "created."
     du -b "./$output/$file" > newsize
     NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
     if [[ $NEWSIZE -gt $OLDSIZE ]]
     then
 	if rm ./"$output"/"$file";
 	then
-	    cInfo
-	    clnItalic "./$output/$file" "deleted"
+	    cInfo "./$output/$file" "deleted"
 	else
-	    cError "${LINENO}:Discart file"
-	    clnItalic "$file" 
+	    cError "${LINENO}:Discart file" "$file" 
 	    break
 	fi
     else
         if mv "$file" ./"$backup";
         then
-	    cInfo
-            cItalic "$file" "copied to"
+	    cInfo "File" "$file" "copied to"
 	    clnItalic "$backup/" "folder"
 	    mv ./"$output"/"$file" ./"$file"
 	    clnInfo "New file substituted old file"
         else
-            cError "${LINENO}:Error when copy file" 
-	    clnItalic "$file" 
+            cError "${LINENO}:Error when copy file" "$file" 
             break
         fi
     fi

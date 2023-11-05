@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 04-11-2023
+#  Ultima_modificacao: 05-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -23,8 +23,13 @@ sync_branch ()
     RepoBranch="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
     if [ "$BranchHome" != "$RepoBranch" ]; then
         clnInfo "Branch home and dotfiles aren't the same:"
-	eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
-	echo
+	if eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"; then
+	    cmOk "Branches are the same."
+	    echo
+	else
+	    clnError "Can't change branch in $dotfiles_dir. Aborting."
+	    exit 2
+	fi
     else
 	cmOk "Branches are the same."
 	echo
@@ -81,7 +86,7 @@ cInfo "Files,scripts tests and folders checking"
 printf "\r"
 sync_branch
 
-if "$checkAll" &> /dev/null; then
+if "$checkAll" &>> "$bkpLog"; then
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect ;then

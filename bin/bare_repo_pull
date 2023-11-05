@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-11-2023
+# Ultima_modificacao: 05-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -19,52 +19,50 @@ bare_repo_pull() {
     then
 	config_check
 
-	cInfo "Git pull, branch"
-	cItalic "$branch" "(--bare)"
-	cOk
+	cInfo "Git pull, branch" "$branch" "(--bare)"
+	cmOk "Git pull"
     else
-	clnError "Config pull error: Conflict."
+	cError "Config pull error:" "Conflict."
+	cInfo "Backup conflicts and try again"
 	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Checking again and backup files"
 
+	cInfo "Move .backup files to:" "$bkpdir"
 	bkp_cfg_files
 	cmOk "Cleaning"
 
 	if git_config pull origin $branch
 	then
 	    config_check
-	    cInfo "Git pull config , branch"
-	    cItalic "$branch" "(--bare)"
-	    cOk
+	    cInfo "Git pull config, branch" "$branch" "(--bare)"
+	    cmOk "Git pull"
 	else
 	    clnError "Can't resolve conflicts. Trying to Fetch."
 
 	    git_config fetch origin $branch
-	    cInfo "Fetching origin"
-	    cItalic "$branch" ":"
-	    cOk
+	    cInfo "Fetching origin" "$branch"
+	    cmOk "Git fetch"
+	    
+	    git_config reset --hard ORIG_HEAD
+	    cInfo "Reset --hard:" "$branch" 
+	    cmOk "Change reset hard HEAD"
 
-	    git_config reset --hard HEAD
-	    cInfo "Reset --hard:"
-	    cItalic "$branch" ":"
-	    cOk
+	   # git_config merge origin '@{u}'
+	   # cInfo "Mergin origin" "$branch" 
+	   # cmOk "Merge origin"
 
-	    git_config merge origin '@{u}'
-	    cInfo "Mergin origin"
-	    cItalic "$branch" ":"
-	    cOk
-
+	    cInfo "Backup conflicts and try again"
 	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	    cmOk "Checking again and backup files"
+	    cmOk "Backup conflicts and try again"
 	    config_check
 
 	    bkp_cfg_files
 	    cmOk "Clean"
 
 	    if git_config pull origin $branch
-		clnInfo "Git pull finished after fetch. Exit"
+		cInfo "Git pull finished." "Success" "Exit"
 	    then
-		clnError "Can't pull anyway .Exit with errors."
+		cError "Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
 	    fi
 	fi
     fi
