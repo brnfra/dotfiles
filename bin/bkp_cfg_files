@@ -50,7 +50,7 @@ bkp_cfg_files() {
     folders+=".config/compton "
     folders+="bin "
     folders+="tests "
-    clnInfo "Creating backup folders."
+    clnInfo "Checking backup folders."
     for Folder in $folders
     do
 	if [ -d "$bkpdir/$Folder" ]
@@ -66,7 +66,14 @@ bkp_cfg_files() {
 
     find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
     for Folder in $folders; do
-	find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
+	if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
+	then
+	    wait $!
+	else
+	    continue
+	fi
+
+	wait 
     done
 }
 
