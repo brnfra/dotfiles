@@ -15,7 +15,7 @@ bare_repo_pull() {
     clnInfo "${0##*/}"
     backto=$(pwd)
     cd "$HOME" || return
-    if git_config pull origin "$branch"
+    if git_config pull --rebase origin "$branch"
     then
 	config_check
 
@@ -31,7 +31,7 @@ bare_repo_pull() {
 	bkp_cfg_files
 	cmOk "Cleaning"
 
-	if git_config pull origin $branch
+	if git_config pull --no-commit origin $branch
 	then
 	    config_check
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
@@ -39,17 +39,17 @@ bare_repo_pull() {
 	else
 	    clnError "Can't resolve conflicts. Trying to Fetch."
 
-	    git_config fetch origin $branch
-	    cInfo "Fetching origin" "$branch"
+	    git_config fetch origin
+	    cInfo "Fetching origin" 
 	    cmOk "Git fetch"
 	    
-	    git_config reset --hard ORIG_HEAD
+	    git_config reset --hard origin/"$branch" 
 	    cInfo "Reset --hard:" "$branch" 
 	    cmOk "Change reset hard HEAD"
 
-	   # git_config merge origin '@{u}'
-	   # cInfo "Mergin origin" "$branch" 
-	   # cmOk "Merge origin"
+	   #git_config merge origin '@{u}'
+	   #cInfo "Mergin origin" "$branch" 
+	   #cmOk "Merge origin"
 
 	    cInfo "Backup conflicts and try again"
 	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
