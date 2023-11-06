@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 05-11-2023
+#  Ultima_modificacao: 06-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -39,8 +39,7 @@ git_push() {
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";
-    if git push -u origin "$branch"; then
-	git push
+    if git push origin "$branch"; then
 	git status -sb
 	cmOk "Git add and push"
     else
@@ -49,8 +48,9 @@ git_push() {
     fi
 }
 #test, pull from remote repo to local and copy changes
-clnInfo "push_config"
+cInfo "Push local to remote:" "push config"
 if stage_config ; then
+    cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1"
 fi
 cd "$backto" || return

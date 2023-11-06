@@ -1,21 +1,43 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 05-11-2023
+#  Ultima_modificacao: 06-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env}; do
+for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env,git_config}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
-clnInfo "stage_config"
+cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
 
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
-bkpLog="$HOME/.config-bkp/stage-bkp.log"
+
+commit_last ()
+{
+    bareModfied=$(git_bare status -s | cut -d " " -f 3)
+    repoModfied=$(git_repo status -s | cut -d " " -f 3)
+
+    cInfo "git bare repo file to add:" 
+    for file in $bareModfied
+    do
+	cInfo "add:" "$file"
+	git_bare add "$file"
+    done
+    
+    cInfo "git cloned repo file to add:" 
+    for file in $repoModfied
+    do
+	git_repo add "$dotfiles_dir""$file" 
+    done
+   
+    git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}"
+    git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}"
+    cInfo "Commit message:" "${1:-"refact: update dot files, dir or scripts"}"
+}
 
 sync_branch ()
 {
@@ -82,15 +104,15 @@ sync_copy ()
 }
 
 cd "$HOME/tests" || return
-cInfo "Files,scripts tests and folders checking"
 printf "\r"
 sync_branch
+commit_last "$1"
 
 if "$checkAll" &>> "$bkpLog"; then
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect ;then
-	#pull from remote to local before make changes
+	cmOk "Connection and ssh_connect check:"
 	local_repo_pull
 	sync_copy
 
@@ -100,23 +122,22 @@ if "$checkAll" &>> "$bkpLog"; then
 
     elif connection &> /dev/null; then
 	cmOk "Connection"
-	clnError "Check your ssh-agent."
+	clnError "Check your ssh-agent." &>> "$bkpLog"
 	exit 2
 
     elif ssh_connect ;then
 	cmOk "ssh-agent"
-	clnError "Check your connection."
+	clnError "Check your connection." &>> "$bkpLog"
 	exit 3
 
     else
-	clnError "Check your connection and your ssh-agent."
+	clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
 	exit 4
     fi
 
 else
     "$checkAll" | awk '/FAIL/''{print}' &>> "$bkpLog"
-    cInfo "If error occured check backup log in:"
-    clnItalic "$bkpLog" "Done."
+    cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
     cd "$backto" || return
     exit 1
