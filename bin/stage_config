@@ -16,6 +16,7 @@ cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 
+#add and commit
 commit_last ()
 {
     bareModfied=$(git_bare status -s | cut -d " " -f 3)
@@ -31,7 +32,7 @@ commit_last ()
     cInfo "git cloned repo file to add:" 
     for file in $repoModfied
     do
-	git_repo add "$dotfiles_dir""$file" 
+	git_repo add "$dotfiles_dir/""$file" 
     done
    
     git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}"
@@ -106,17 +107,18 @@ sync_copy ()
 cd "$HOME/tests" || return
 printf "\r"
 sync_branch
-commit_last "$1"
 
 if "$checkAll" &>> "$bkpLog"; then
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect ;then
 	cmOk "Connection and ssh_connect check:"
-	local_repo_pull
 	sync_copy
-
 	printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
+	
+	commit_last "$1"
+	#local_repo_pull
+
 	cd "$backto" || return
 	exit 0
 

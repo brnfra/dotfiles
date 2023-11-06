@@ -39,6 +39,7 @@ cInfo "Get config from remote:" "pull_config"
 
 if connection &> /dev/null && ssh_connect ;then
     bare_repo_pull
+    exit 1
     local_repo_pull
 elif connection &> /dev/null; then
     cmOk "Connection"

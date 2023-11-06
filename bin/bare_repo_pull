@@ -23,8 +23,9 @@ bare_repo_pull() {
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
-	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' 
-	
+	conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
+	echo "TESTS"
+	echo "conflicts $conflicts"
 	#| xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Checking again and backup files"
 
