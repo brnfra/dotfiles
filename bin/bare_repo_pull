@@ -30,21 +30,16 @@ bare_repo_pull() {
     cInfo "Get config from remote(pull) to:" "repo_pull --bare"
     backto=$(pwd)
     cd "$HOME" || return
-    if git_config pull --rebase origin "$branch"
+    if git_config pull origin "$branch" &>> $bkpLog
     then
 	config_check
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config pull error:" "Conflict."
-	cInfo "Backup conflicts and try again"
-	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checking again and backup files"
+	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
 
-	cInfo "Move .backup files to:" "$bkpdir"
-	bkp_cfg_files 1>> "$bkpLog" 
-	cmOk "Cleaning"
+	bkp_conflict 
 
 	if git_config pull --no-commit origin $branch
 	then
@@ -52,36 +47,9 @@ bare_repo_pull() {
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch."
-	    
-	    git_config fetch origin $branch
-	    cInfo "${LINENO}: Fetching origin:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    git_config reset --hard HEAD
-	    cInfo "${LINENO}: Reset --hard:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    git_config merge origin '@{u}'
-	    cInfo "${LINENO}: Mergin origin:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    cInfo "${LINENO}:Backup conflicts and try again"
-	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	    cmOk "Backup conflicts and try again"
-	    config_check
-
-	    bkp_cfg_files
-	    cmOk "Clean"
-
-	    if git_config pull origin $branch
-		cInfo "Git pull finished." "Success" "Exit"
-	    then
-		cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
-	    fi
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
+	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
+	    exit 1
 	fi
     fi
     cd "$backto" || return
