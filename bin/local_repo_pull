@@ -8,7 +8,7 @@
 #           causados pelo uso deste script.
 # shellcheck source=~/bin/dotfiles_env
 for file in ~/bin/{dotfiles_env,git_config}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
@@ -17,7 +17,6 @@ local_repo_pull() {
     backto=$(pwd)
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
-
     if [ -d "$dotfiles_dir" ]
     then
 	if git_repo checkout "$branch" &>> "$bkpLog" && git_repo pull origin "$branch" &>> "$bkpLog" ;then
