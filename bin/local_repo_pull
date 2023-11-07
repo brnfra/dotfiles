@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-11-2023
+# Ultima_modificacao: 07-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 # shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
+for file in ~/bin/{dotfiles_env,git_config}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
 
 local_repo_pull() {
-    clnInfo "${0##*/}"
     backto=$(pwd)
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
 
     if [ -d "$dotfiles_dir" ]
     then
-	cd "$dotfiles_dir" || return
-	if git checkout "$branch"; then
-
-	    git pull origin "$branch"
-	    cmOk "Git pull clone repository folder"
+	if git_repo checkout "$branch" &>> "$bkpLog" && git_repo pull origin "$branch" &>> "$bkpLog" ;then
+	    cmOk "Git make pull in cloned repository folder"
 	else
 	    cError "Check logs(ssh or connection). Or clone dotfiles in" "$dotfiles_dir"
 	fi
