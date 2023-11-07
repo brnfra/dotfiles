@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 13-03-2023
+# Ultima_modificacao: 07-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,14 +14,13 @@ backto=$(pwd)
 git_config() {
     git --git-dir="$install_dir" --work-tree="$HOME" "$@";
 }
+#install_check {{{
 install_check() {
-    if [ -f "$HOME/bin/dotfiles_env" ]
-    then
+    if [ -f "$HOME/bin/dotfiles_env" ]; then
 	# shellcheck source=~/bin/dotfiles_env
 	. dotfiles_env
     else
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
-	then
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env";	then
 	    mkdir "$HOME/bin"
 	    mv "$HOME/dotfiles_env" "$HOME/bin/"
 	    # shellcheck source=~/bin/dotfiles_env
@@ -38,62 +37,51 @@ install_check() {
 	exit 1
     fi
 }
-
+##}}}
+##bare_repo_checkout {{{
 bare_repo_checkout() {
-    cInfo "Git checkout"
-    clnItalic "$branch"
-    if git_config checkout
-    then
-	cInfo "Checkout branch "
-	cItalic "$branch" ":"
-	cOk
+    cInfo "Git checkout" "$branch"
+    if git_config checkout; then
+	cmOk "Checkout branch"
 	enviroment_config
 	config_check
 	cd "$backto" || return
 	exit 0
     else
-	cError "Checkout branch:"
-	clnItalic "$branch" "and backup files."
+	cError "Checkout branch:" "$branch" "and backup files."
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checkout branch"
 	cmOk "Backup files"
 	clnInfo "Checking branch"
-	if git_config checkout
-	then
-	    cmOk "Checking branch"
+	if git_config checkout;	then
+	    cmOk "Check branch"
+	    cmOk "Checkout branch"
 	    clnInfo "Installing enviroment_config and backup config files"
 	    source ~/bin/bkp_cfg_files
 	    git_config config status.showUntrackedFiles no
 	    enviroment_config
 	    bkp_cfg_files
-	    clnInfo "Installation scripts done"
+	    cmOk "Installation script"
 	    config_check
 	    cd "$backto" || return
 	    exit 0
 	else
-	    cError "Checkout branch"
-	    clnItalic "$branch" "Exit with error."
+	    cError "Checkout branch" "$branch" "Exit with error."
 	    exit 1
 	fi
     fi
 }
-
+##}}}
 cd "$HOME" || return
 install_check
-cInfo "Git clone (--bare):"
-clnItalic "$branch"
-
-if git clone --branch "$branch" --bare "$repository" "$install_dir";
-then
-    cInfo "Git clone"
-    cItalic "$branch" "(--bare)"
-    cOk
+cInfo "Git clone (--bare):" "$branch"
+if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
+    cmOk "Git clone"
     bare_repo_checkout
 else
     clnError "Can't clone repository"
     exit 1
 fi
-
+cd "$backto" || return
 
 
 

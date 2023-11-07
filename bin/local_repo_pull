@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 06-11-2023
+# Ultima_modificacao: 07-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 # shellcheck source=~/bin/dotfiles_env
 for file in ~/bin/{dotfiles_env,git_config}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
-
 
 local_repo_pull() {
     backto=$(pwd)
     cInfo "Get config from remote(pull):" "repo pull --cloned-repo"
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
-
     if [ -d "$dotfiles_dir" ]
     then
 	if git_repo checkout "$branch" &>> "$bkpLog" && git_repo pull origin "$branch" &>> "$bkpLog" ;then
@@ -33,4 +31,31 @@ local_repo_pull() {
 	cInfo "in" "$dotfiles_dir"
     fi
     cd "$backto" || return
+}
+
+local_repo_fetch () {
+    cInfo "Get config from remote(fetch) to:" "fetch and reset --local-repo FETCH_HEAD"
+
+    backto=$(pwd)
+    cd "$HOME" || return
+    if git_repo fetch --all &>> $bkpLog
+    then
+	git_repo reset --hard FETCH_HEAD &>> $bkpLog
+
+	if config_check ;then
+	    cmOk "Files check"
+	else
+	    cError "Files check"
+	    exit 3
+	fi
+
+	cInfo "Git pull, branch" "$branch" "(--local)"
+	cmOk "Git pull"
+    else
+	cError "${LINENO}:Config fetch error:" "Conflict." "Backup conflicts and try again"
+
+    fi
+    cd "$backto" || return
+
+
 }
