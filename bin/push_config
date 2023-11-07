@@ -42,10 +42,11 @@ backto=$(pwd)
 
 git_push() {
     printf "Push config files from local to remote repo.\n"
+    printf "Push config files from local to remote repo.\n" >> "$bkpLog"
     cd "$dotfiles_dir" || return
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git fetch --all
+    git fetch --all &>> "$bkpLog"
     git add -A -v;git commit -v -m "$message";
     if git push origin "$branch" &>> $bkpLog; then
 	git status -sb &>> $bkpLog

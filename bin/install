@@ -26,7 +26,7 @@ install_check() {
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
 	else
-	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository. Exiting\n"
+	    printf "[ERROR] dotfiles_env doesn't exist or fail to download from repository. Exiting\n"
 	    exit 1
 	fi
     fi

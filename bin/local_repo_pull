@@ -15,6 +15,7 @@ unset file;
 local_repo_pull() {
     backto=$(pwd)
     cInfo "Get config from remote(pull):" "repo pull --cloned-repo"
+    cInfo "Get config from remote(pull):" "repo pull --cloned-repo" >> "$bkpLog"
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
     if [ -d "$dotfiles_dir" ]
@@ -35,6 +36,7 @@ local_repo_pull() {
 
 local_repo_fetch () {
     cInfo "Get config from remote(fetch) to:" "fetch and reset --local-repo FETCH_HEAD"
+    cInfo "Get config from remote(fetch) to:" "fetch and reset --local-repo FETCH_HEAD" >> "$bkpLog"
 
     backto=$(pwd)
     cd "$HOME" || return

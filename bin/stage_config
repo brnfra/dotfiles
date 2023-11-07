@@ -74,7 +74,7 @@ sync_branch ()
 #function for backup {{{ 
 sync_copy ()
 {
-    printf "[INFO]Sync beginning at %s\n" "$DATE" > "$bkpLog"
+    printf "[INFO]Sync beginning at %s\n" "$DATE" >> "$bkpLog"
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
