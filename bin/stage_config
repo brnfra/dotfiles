@@ -6,7 +6,7 @@
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
 #            causados pelo uso deste arquivo.
-for file in ~/bin/{local_repo_pull,ssh_config,dotfiles_env,git_config}; do
+for file in ~/bin/{ssh_config,dotfiles_env,git_config}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -117,7 +117,6 @@ if "$checkAll" &>> "$bkpLog"; then
 	printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
 	
 	commit_last "$1"
-	#local_repo_pull
 
 	cd "$backto" || return
 	exit 0
@@ -142,5 +141,5 @@ else
     cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
     cd "$backto" || return
-    exit 1
+    exit 10
 fi

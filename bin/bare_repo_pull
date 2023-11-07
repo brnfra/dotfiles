@@ -13,7 +13,7 @@ unset file;
 bkp_conflict ()
 {
     conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
-   #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+    #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
     echo "conflicts $conflicts"
     for file in $conflicts
     do     
@@ -30,7 +30,7 @@ bare_repo_pull() {
     cInfo "Get config from remote(pull) to:" "repo_pull --bare"
     backto=$(pwd)
     cd "$HOME" || return
-    if git_config pull origin "$branch"
+    if git_config pull origin "$branch" &>> $bkpLog
     then
 	config_check
 
@@ -38,7 +38,7 @@ bare_repo_pull() {
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
-	
+
 	bkp_conflict 
 
 	if git_config pull origin $branch
@@ -48,29 +48,8 @@ bare_repo_pull() {
 	    cmOk "Git pull"
 	else
 	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
-
-	    git_config fetch origin $branch
-	    cInfo "${LINENO}: Fetching origin:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    git_config reset --hard HEAD
-	    cInfo "${LINENO}: Reset --hard:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    git_config merge origin '@{u}'
-	    cInfo "${LINENO}: Mergin origin:"
-	    cItalic "$branch" ":"
-	    cOk
-
-	    bkp_conflict
-
-	    if git_config pull origin $branch
-		cInfo "Git pull finished." "Success" "Exit"
-	    then
-		cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
-	    fi
+	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
+	    exit 1
 	fi
     fi
     cd "$backto" || return

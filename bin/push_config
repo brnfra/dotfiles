@@ -39,8 +39,8 @@ git_push() {
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";
-    if git push origin "$branch"; then
-	git status -sb
+    if git push origin "$branch" &>> $bkpLog; then
+	git status -sb &>> $bkpLog
 	cmOk "Git add and push"
     else
 	git status -sb
