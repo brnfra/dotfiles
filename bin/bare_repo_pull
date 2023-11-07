@@ -7,10 +7,25 @@
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 for file in ~/bin/{dotfiles_env,config_check,dirs_config,git_config,ssh_config,get_fonts,bkp_cfg_files}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+bkp_conflict ()
+{
+    conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
+   #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+    echo "conflicts $conflicts"
+    for file in $conflicts
+    do     
+	mv "$HOME"/"$file" "$HOME"/"$file".backup
+    done  
+    config_check
+    cmOk "Checking and backup files"
+    cInfo "Move .backup files to:" "$bkpdir"
+    bkp_cfg_files 1>> "$bkpLog" 
+    cmOk "Clean"
 
+}
 bare_repo_pull() {
     cInfo "Get config from remote(pull) to:" "repo_pull --bare"
     backto=$(pwd)
@@ -23,26 +38,17 @@ bare_repo_pull() {
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
-	conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
-	echo "TESTS"
-	echo "conflicts $conflicts"
-	#| xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checking again and backup files"
-
-	exit 23
 	
-	cInfo "Move .backup files to:" "$bkpdir"
-	bkp_cfg_files 1>> "$bkpLog" 
-	cmOk "Cleaning"
+	bkp_conflict 
 
-	if git_config pull --no-commit origin $branch
+	if git_config pull origin $branch
 	then
 	    config_check
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch."
-	    
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
+
 	    git_config fetch origin $branch
 	    cInfo "${LINENO}: Fetching origin:"
 	    cItalic "$branch" ":"
@@ -58,13 +64,7 @@ bare_repo_pull() {
 	    cItalic "$branch" ":"
 	    cOk
 
-	    cInfo "${LINENO}:Backup conflicts and try again"
-	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	    cmOk "Backup conflicts and try again"
-	    config_check
-
-	    bkp_cfg_files
-	    cmOk "Clean"
+	    bkp_conflict
 
 	    if git_config pull origin $branch
 		cInfo "Git pull finished." "Success" "Exit"

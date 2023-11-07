@@ -37,15 +37,14 @@ done;
 unset file;
 cInfo "Get config from remote:" "pull_config"
 
-if connection &> /dev/null && ssh_connect ;then
+if connection &> /dev/null && ssh_connect &> /dev/null;then
     bare_repo_pull
-    exit 1
     local_repo_pull
 elif connection &> /dev/null; then
     cmOk "Connection"
     clnError "Check your ssh-agent."
     exit 1
-elif ssh_connect ;then
+elif ssh_connect &> /dev/null;then
     cmOk "ssh-agent"
     clnError "Check your connection."
     exit 2

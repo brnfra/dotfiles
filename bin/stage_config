@@ -111,7 +111,7 @@ sync_branch
 if "$checkAll" &>> "$bkpLog"; then
     cmOk "Files,scripts tests and folders check"
 
-    if connection &> /dev/null && ssh_connect ;then
+    if connection &> /dev/null && ssh_connect &> /dev/null;then
 	cmOk "Connection and ssh_connect check:"
 	sync_copy
 	printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
@@ -127,7 +127,7 @@ if "$checkAll" &>> "$bkpLog"; then
 	clnError "Check your ssh-agent." &>> "$bkpLog"
 	exit 2
 
-    elif ssh_connect ;then
+    elif ssh_connect &> /dev/null;then
 	cmOk "ssh-agent"
 	clnError "Check your connection." &>> "$bkpLog"
 	exit 3
