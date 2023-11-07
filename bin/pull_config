@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 06-11-2023
+# Ultima_modificacao: 07-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -24,6 +24,18 @@ DESCRIPTION
     -h, --help
 	Print help informations
 
+Exit status:
+       0      if OK,
+
+       1      ssh-agent error.
+
+       2      connection problem error.
+
+       3      connection and ssh-agent problem(error).
+
+       4      pull and fetch fails.
+
+
 See the README for documentation.
 https://github.com/brnfra/dotfiles
 Licensed under the MIT license.
@@ -38,8 +50,14 @@ unset file;
 cInfo "Get config from remote:" "pull_config"
 
 if connection &> /dev/null && ssh_connect &> /dev/null;then
-    bare_repo_pull
-    local_repo_pull
+    #try pull 
+    if bare_repo_pull;then
+	local_repo_pull
+    elif bare_repo_fetch; then
+	local_repo_fetch
+    else
+	exit 4
+    fi
 elif connection &> /dev/null; then
     cmOk "Connection"
     clnError "Check your ssh-agent."

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 06-11-2023
+# Ultima_modificacao: 07-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,8 +10,28 @@
 . dotfiles_env
 
 config_check() {
-    clnInfo "Config check"
-    if bash "$checkHome" > /dev/null;
+if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
+    clnInfo "Config check all" &>> "$bkpLog"
+    if bash "$checkAll" &>> "$bkpLog";
+    then
+	bash "$checkAll" | awk '/FAIL/''{print}'
+	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+	    clnInfo "I3config and i3 scripts"
+	else
+	    clnError "I3config not found. Installing config file "
+	    if ! "$i3_scpt" "$bkpdir"; then
+		cError "I3config "
+		cItalic "$i3_cfg" " isn't installed "
+		clnItalic "$i3_scpt" "exec fail or not found."
+	    fi
+	    clnInfo "I3config file installed."
+	fi
+    else
+	cmOk "Config files and folders checked"
+    fi
+else
+    clnInfo "Config check /home" &>> "$bkpLog"
+    if bash "$checkHome" &>> "$bkpLog";
     then
 	bash "$checkHome" | awk '/FAIL/''{print}'
 	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
@@ -28,5 +48,6 @@ config_check() {
     else
 	cmOk "Config files and folders checked"
     fi
+fi
 }
 
