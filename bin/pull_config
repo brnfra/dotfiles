@@ -52,10 +52,10 @@ cInfo "Get config from remote:" "pull_config" >> "$bkpLog"
 
 if connection &> /dev/null && ssh_connect &> /dev/null;then
     #try pull 
-    if bare_repo_pull;then
-	local_repo_pull
-    elif bare_repo_fetch; then
+    if bare_repo_fetch; then
 	local_repo_fetch
+    elif bare_repo_pull;then
+	local_repo_pull
     else
 	exit 4
     fi
