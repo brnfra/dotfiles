@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 07-11-2023
+#  Ultima_modificacao: 08-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -49,7 +49,7 @@ sync_branch ()
 
     if [ "$BranchHome" != "$RepoBranch" ]; then
 	clnInfo "Branch home and dotfiles aren't the same:"
-	if eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"; then
+	if git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome;then
 	    cmOk "Branches are the same."
 	    echo
 	else
@@ -125,6 +125,7 @@ printf "\r"
 sync_branch
 
 if config_check -a ; then
+    system_packs_check
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect &> /dev/null;then
