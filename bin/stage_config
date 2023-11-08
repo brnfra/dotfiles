@@ -74,7 +74,6 @@ sync_branch ()
 #function for backup {{{ 
 sync_copy ()
 {
-    printf "[INFO]Sync beginning at %s\n" "$DATE" >> "$bkpLog"
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
@@ -118,6 +117,7 @@ sync_copy ()
 ##}}}
 
 cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
+printf "[INFO]Stage beginning at %s !!!\n" "$DATE" >> "$bkpLog"
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 

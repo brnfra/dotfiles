@@ -47,7 +47,8 @@ for file in ~/bin/{bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
-cInfo "Get config from remote:" "pull_config"
+cInfo "Get config from remote:" "pull_config" 
+cInfo "Get config from remote:" "pull_config" >> "$bkpLog"
 
 if connection &> /dev/null && ssh_connect &> /dev/null;then
     #try pull 
