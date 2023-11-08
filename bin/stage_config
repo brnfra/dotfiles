@@ -94,7 +94,7 @@ sync_copy ()
     # gsimplecal
     files+='.config/gsimplecal/config '
     # systemrc
-    files+='.wgetrc .curlrc dotfilesTest.sh'
+    files+='.wgetrc .curlrc dotfilesTest.sh '
     # git
     files+='.gitconfig '
     files+='.git-completion.bash '
