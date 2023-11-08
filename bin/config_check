@@ -99,7 +99,7 @@ system_packs_check() {
 	fi
 	cInfo "Checking packs"
 	for pack in $packs_list; do
-	    if dpkg -s "$pack";then
+	    if dpkg -s "$pack" &> /dev/null;then
 		cmOk "$pack"
 	    else
 		cError " " "$pack"
