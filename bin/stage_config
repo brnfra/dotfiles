@@ -94,7 +94,7 @@ sync_copy ()
     # gsimplecal
     files+='.config/gsimplecal/config '
     # systemrc
-    files+='.wgetrc .curlrc dotfilesTest.sh '
+    files+='.wgetrc .curlrc  '
     # git
     files+='.gitconfig '
     files+='.git-completion.bash '
@@ -104,8 +104,9 @@ sync_copy ()
     files+='.tmux.conf '
     # scripts
     files+='bin/ '
-    # test
+    # tests
     files+='tests/ '
+
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$file
