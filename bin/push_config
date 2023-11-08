@@ -43,6 +43,7 @@ backto=$(pwd)
 git_push() {
     printf "Push config files from local to remote repo.\n"
     cd "$dotfiles_dir" || return
+    git fetch --all
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";
