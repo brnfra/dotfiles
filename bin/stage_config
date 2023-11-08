@@ -68,7 +68,6 @@ sync_branch ()
 	clnInfo "Branch name and dotfiles_env branch definition aren't the same:"
 	sed -i "s/branch=\"$Repo_dotfile_branch\"/branch=\"$RepoBranch\"/" "$repo_env_dotfiles"
     fi
-
 }
 ##}}}
 #function for backup {{{ 
@@ -123,6 +122,7 @@ DATE=$(date +%d/%m/%Y-%H:%M:%S)
 
 cd "$HOME" || return
 printf "\r"
+sync_branch
 
 sync_branch
 
