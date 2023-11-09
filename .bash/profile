@@ -36,7 +36,14 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 
-complete -o "default" -o "nospace" -W "$(git --git-dir=$HOME/.dotfiles --work-tree=$HOME )" config
+complete -o "default" -o "nospace" -W "packs tests" config_check
+complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"
+complete -o "default" -o "nospace" -W "commit_last sync_branch sync_copy prepare" stage_config
+complete -o "default" -o "nospace" -W "-a -A -h --help" namestd
+complete -o "default" -o "nospace" -W "-a --all -h --help" rm_linedup
+complete -o "default" -o "nospace" -W "make_dirs" dirs_config
+complete -o "default" -o "nospace" -W "bkp_cfg_files" bkp_cfg_files
+complete -o "default" -o "nospace" -W "bare_repo_fetch bare_repo_pull" bare_repo_pull
 
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 
