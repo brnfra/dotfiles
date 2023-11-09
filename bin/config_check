@@ -77,7 +77,6 @@ packs() {
 	packs_list+="nitrogen "
 	packs_list+="openssl "
 	packs_list+="pcmanfm "
-	packs_list+="ranger "
 	packs_list+="rsync "
 	packs_list+="scrot "
 	packs_list+="shunit2 "
