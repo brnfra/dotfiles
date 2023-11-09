@@ -165,26 +165,28 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	}
 
     # }}}
-    # autocomplete {{{
 
-    function auto_complete_apt() {
-	mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
-    }
+# autocomplete {{{
 
-    complete -F auto_complete_apt get
-    complete -F auto_complete_apt psearch
-    complete -F auto_complete_apt pinfo
-    complete -F auto_complete_apt plist
-    complete -F auto_complete_apt pdeps
+function auto_complete_apt() {
+    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+}
 
-    function auto_complete_pacman() {
-	mapfile -t COMPREPLY < <(pacman -Si  "$2");
-    }
+complete -F auto_complete_apt get
+complete -F auto_complete_apt psearch
+complete -F auto_complete_apt pinfo
+complete -F auto_complete_apt plist
+complete -F auto_complete_apt pdeps
 
-    complete -F auto_complete_pacman get
-    complete -F auto_complete_pacman pdeps
-    complete -F auto_complete_pacman pinfo
-    complete -F auto_complete_pacman plist
+function auto_complete_pacman() {
+    mapfile -t COMPREPLY < <(pacman -Si "$2");
+}
+
+complete -F auto_complete_pacman get
+complete -F auto_complete_pacman pdeps
+complete -F auto_complete_pacman pinfo
+complete -F auto_complete_pacman plist
+
 
 # }}}
 #package info dependencies  {{{
@@ -254,11 +256,12 @@ function open_with_fzf () {
 	--preview="xdg-mime query default {}" \
 	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} &"    
 	    #2>&-
-	}
+	
+}
 
-	function cd_with_fzf () {
-	    cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
-	}
+function cd_with_fzf () {
+    cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
+}
 
 # do not use yet
 # function pacs () {
@@ -298,4 +301,3 @@ function man_find () {
 	    eval "$(cat < ~/.bash_history | fzf -m -i)"
 	}
 	# }}}
-
