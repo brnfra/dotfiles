@@ -124,8 +124,7 @@ cd "$HOME" || return
 printf "\r"
 sync_branch
 
-if config_check -a ; then
-    system_packs_check
+if tests -a ; then
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect &> /dev/null;then
@@ -154,9 +153,10 @@ if config_check -a ; then
     fi
 
 else
-    config_check -a | awk '/FAIL/''{print}' &>> "$bkpLog"
+    tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
     cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
     cd "$backto" || return
     exit 5
 fi
+
