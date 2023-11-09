@@ -115,48 +115,49 @@ sync_copy ()
     done
 }
 ##}}}
+prepare() {
+    cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
+    backto=$(pwd)
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    cd "$HOME" || return
 
-cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
-backto=$(pwd)
-DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    sync_branch
 
-cd "$HOME" || return
-printf "\r"
-sync_branch
+    if tests -a ; then
+	cmOk "Files,scripts tests and folders check"
 
-if tests -a ; then
-    cmOk "Files,scripts tests and folders check"
+	if connection &> /dev/null && ssh_connect &> /dev/null;then
+	    cmOk "Connection and ssh_connect check:"
+	    sync_copy
+	    printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
 
-    if connection &> /dev/null && ssh_connect &> /dev/null;then
-	cmOk "Connection and ssh_connect check:"
-	sync_copy
-	printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
+	    commit_last "$1"
 
-	commit_last "$1"
+	    cd "$backto" || return
+	    exit 0
 
-	cd "$backto" || return
-	exit 0
+	elif connection &> /dev/null; then
+	    cmOk "Connection"
+	    clnError "Check your ssh-agent." &>> "$bkpLog"
+	    exit 2
 
-    elif connection &> /dev/null; then
-	cmOk "Connection"
-	clnError "Check your ssh-agent." &>> "$bkpLog"
-	exit 2
+	elif ssh_connect &> /dev/null;then
+	    cmOk "ssh-agent"
+	    clnError "Check your connection." &>> "$bkpLog"
+	    exit 3
 
-    elif ssh_connect &> /dev/null;then
-	cmOk "ssh-agent"
-	clnError "Check your connection." &>> "$bkpLog"
-	exit 3
+	else
+	    clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
+	    exit 4
+	fi
 
     else
-	clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
-	exit 4
+	tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
+	cInfo "If error occured check backup log in:" "$bkpLog" "Done."
+
+	cd "$backto" || return
+	exit 5
     fi
+}
 
-else
-    tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
-    cInfo "If error occured check backup log in:" "$bkpLog" "Done."
-
-    cd "$backto" || return
-    exit 5
-fi
 "$@"

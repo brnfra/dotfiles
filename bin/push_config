@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 07-11-2023
+#  Ultima_modificacao: 09-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
 # shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
+for file in ~/bin/{stage_config,dotfiles_env}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -58,7 +61,7 @@ git_push() {
 }
 #test, pull from remote repo to local and copy changes
 cInfo "Push local to remote:" "push config"
-if stage_config ; then
+if prepare; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1"
 else
