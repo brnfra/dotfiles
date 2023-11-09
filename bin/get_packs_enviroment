@@ -33,7 +33,7 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	unzip \
 	vifm \
 	vim  \
-	vim neovim vifm \
+	neovim \
 	x11-utils \
 	xfce4-power-manager \
 	xfce4-terminal 
