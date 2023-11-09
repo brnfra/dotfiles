@@ -43,12 +43,12 @@ backto=$(pwd)
 git_push() {
     printf "Push config files from local to remote repo.\n"
     cd "$dotfiles_dir" || return
+    git fetch --all
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git fetch --all 
     git add -A -v;git commit -v -m "$message";
-    if git push origin "$branch"; then
-	git status -sb 
+    if git push origin "$branch" &>> $bkpLog; then
+	git status -sb &>> $bkpLog
 	cmOk "Git add and push"
     else
 	git status -sb
@@ -58,10 +58,9 @@ git_push() {
 }
 #test, pull from remote repo to local and copy changes
 cInfo "Push local to remote:" "push config"
-printf "Push config files from local to remote repo.\n" >> "$bkpLog"
-if stage_config &>> "$bkpLog"; then
+if stage_config ; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
-    git_push "$1" &>> "$bkpLog"
+    git_push "$1"
 else
 	clnError "$?:stage_config error."
 	exit 2

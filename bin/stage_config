@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 07-11-2023
+#  Ultima_modificacao: 09-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -49,7 +49,7 @@ sync_branch ()
 
     if [ "$BranchHome" != "$RepoBranch" ]; then
 	clnInfo "Branch home and dotfiles aren't the same:"
-	if eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"; then
+	if git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome;then
 	    cmOk "Branches are the same."
 	    echo
 	else
@@ -68,12 +68,12 @@ sync_branch ()
 	clnInfo "Branch name and dotfiles_env branch definition aren't the same:"
 	sed -i "s/branch=\"$Repo_dotfile_branch\"/branch=\"$RepoBranch\"/" "$repo_env_dotfiles"
     fi
-
 }
 ##}}}
 #function for backup {{{ 
 sync_copy ()
 {
+    printf "[INFO]Sync beginning at %s\n" "$DATE" > "$bkpLog"
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
@@ -94,7 +94,7 @@ sync_copy ()
     # gsimplecal
     files+='.config/gsimplecal/config '
     # systemrc
-    files+='.wgetrc .curlrc  '
+    files+='.wgetrc .curlrc dotfilesTest.sh '
     # git
     files+='.gitconfig '
     files+='.git-completion.bash '
@@ -104,9 +104,8 @@ sync_copy ()
     files+='.tmux.conf '
     # scripts
     files+='bin/ '
-    # tests
+    # test
     files+='tests/ '
-
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$file
@@ -118,16 +117,14 @@ sync_copy ()
 ##}}}
 
 cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
-printf "[INFO]Stage beginning at %s !!!\n" "$DATE" >> "$bkpLog"
 backto=$(pwd)
 DATE=$(date +%d/%m/%Y-%H:%M:%S)
 
 cd "$HOME" || return
 printf "\r"
-
 sync_branch
 
-if config_check -a ; then
+if tests -a ; then
     cmOk "Files,scripts tests and folders check"
 
     if connection &> /dev/null && ssh_connect &> /dev/null;then
@@ -156,9 +153,10 @@ if config_check -a ; then
     fi
 
 else
-    config_check -a | awk '/FAIL/''{print}' &>> "$bkpLog"
+    tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
     cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
     cd "$backto" || return
     exit 5
 fi
+"$@"

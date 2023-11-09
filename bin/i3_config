@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 03-11-2023
+# Ultima_modificacao: 09-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -275,7 +275,7 @@ options="${options}}\n"
 #bindsym Ctrl+1 exec xfce4-appfinder
 options="${options}bindsym Ctrl+0 exec \$Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+1 exec firefox\n"
-options="${options}bindsym Ctrl+2 exec \$Terminal -x ranger\n"
+options="${options}bindsym Ctrl+2 exec \$Terminal -x vifm\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
 options="${options}bindsym Ctrl+F2 exec \$Terminal -x alsamixer\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"

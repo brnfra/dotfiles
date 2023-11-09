@@ -4,18 +4,38 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 function mkd() {
     mkdir -p "$@" && cd "$_";
 }
+
 # }}}
 # Safe mv and rm cmd {{{
 del() {
-    cp -r "$@" "$HOME"'/.local/share/Trash/files'
-    rm -rf "$@" 
+    if cp -r "$@" "$HOME"'/.local/share/Trash/files'; then
+	rm -rf "$@"
+	echo "$* deleted"
+    else
+	echo "$*: No such file or directory"
+    fi
 }
 
 move() {
-    cp -r "$@" "$HOME"'/.local/share/Trash/files'
-    mv -i "$@" "$2"
+    if cp -r "$@" "$HOME"'/.local/share/Trash/files'; then
+	mv -i "$@" "$2"
+	echo "$* copyed"
+     else
+	echo "$*: No such file or directory"
+    fi
+
 }
 
+clean() {
+    sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean;
+    sudo rm -rf /var/log/*.log* 
+    sudo rm -rf /var/log/syslog* 
+    sudo journalctl --vacuum-time=7d
+    rm -rf "$HOME/.cache/thumbnails/*"
+    del "$HOME/.vim/.viminfo"
+    del "$HOME/.vim/.viminfo.tmp"
+    rm -rf "$HOME/.local/share/Trash/files/*"
+}
 # }}}
 # Colorized man pages{{{
 #from: http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
@@ -30,12 +50,14 @@ man() {
 	LESS_TERMCAP_us="$(printf "\e[1;32m")" \
 	man "$@"
     }
+
 #}}}
 # Where is a function defined? {{{
 whichfunc() {
     whence -v $1
     type -a $1
 }
+
 #}}}
 # Create a SymLink {{{
 function symlink() {
@@ -47,6 +69,7 @@ function symlink() {
 	ln -s "$file" "$link"
     fi
 }
+
 # }}}
 # Create a backup {{{
 # Define a function which rename a `target` file to `target.backup` if the file
@@ -61,12 +84,14 @@ function backup() {
 	fi
     fi
 }
+
 # }}}
 # DIG {{{
 # Run `dig` and display the most useful info
 function digga() {
     dig +nocmd "$1" any +multiline +noall +answer;
 }
+
 #}}}
 # OPEN {{{
 # Normalize `open` across Linux, macOS, and Windows.
@@ -88,14 +113,17 @@ function o() {
 	open "$@";
     fi;
 }
+
 function aplay() {
     # vlc --play-and-exit --no-loop --no-repeat $1 &> /dev/null
     ffplay -nodisp -autoexit $1 &> /dev/null
 }
+
 function vplay () {
     vlc --play-and-exit --no-loop --no-repeat $1 &> /dev/null
     #ffplay -autoexit $1 &> /dev/null
 }
+
 # }}}
 # TREE {{{
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
@@ -105,6 +133,7 @@ function vplay () {
 function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
 # }}}
 # search avaliable packages to install {{{
 #
@@ -114,12 +143,14 @@ function pnonfree ()
 {
     dpkg-query -W -f='${Section}\t{Package}\n' | sort -u;
 }
+
 # }}}
 #search for contrib installed packages {{{
 function pcontrib ()
 {
     dpkg-query -W -f='${Section}\t{Package}\n' | grep ^contrib;
 }
+
 # }}}
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
@@ -136,6 +167,7 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	    | cut -d " " -f 1 \
 	    | xargs -ro sudo apt-get install
 	}
+
     # }}}
     # Show installed packages {{{
     function plist () {
@@ -150,16 +182,31 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview" ;
 	}
+
     # }}}
-    # autocomplete {{{
-    function auto_complete_apt() {
-	mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
-    }
+
+# autocomplete {{{
+
+function auto_complete_apt() {
+    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+}
+
 complete -F auto_complete_apt get
 complete -F auto_complete_apt psearch
 complete -F auto_complete_apt pinfo
 complete -F auto_complete_apt plist
 complete -F auto_complete_apt pdeps
+
+function auto_complete_pacman() {
+    mapfile -t COMPREPLY < <(pacman -Si "$2");
+}
+
+complete -F auto_complete_pacman get
+complete -F auto_complete_pacman pdeps
+complete -F auto_complete_pacman pinfo
+complete -F auto_complete_pacman plist
+
+
 # }}}
 #package info dependencies  {{{
 function depends() {
@@ -174,6 +221,7 @@ function depends() {
 	--preview-window=wrap \
 	--bind="tab:toggle-preview" ;
     }
+
 # }}}
 # {{{ pacman alias
 #
@@ -190,38 +238,34 @@ elif [ "$osys" = "manjaro" ]; then
 	    --bind="tab:toggle-preview" \
 	    | xargs -ro sudo pacman -S
 	}
-    function fremove () {
+
+	function fremove () {
+	    pacman -Qq \
+		| fzf \
+		--multi \
+		--preview 'pacman -Qi {1}' \
+		| xargs -ro sudo pacman -Rns
+	    }
+
+    # }}}
+    # autocomplete {{{
+
+    function plist () {
 	pacman -Qq \
 	    | fzf \
 	    --multi \
 	    --preview 'pacman -Qi {1}' \
-	    | xargs -ro sudo pacman -Rns
+	    --height=80% \
+	    --border \
+	    --hscroll-off=800 \
+	    --preview-window=wrap \
+	    --bind="tab:toggle-preview"
 	}
-    # }}}
-    # autocomplete {{{
-    function auto_complete_pacman() {
-	mapfile -t COMPREPLY < <(pacman -Si  "$2");
-    }
-function plist () {
-    pacman -Qq \
-	| fzf \
-	--multi \
-	--preview 'pacman -Qi {1}' \
-	--height=80% \
-	--border \
-	--hscroll-off=800 \
-	--preview-window=wrap \
-	--bind="tab:toggle-preview"
-    }
+
 # function pinfo ()
 # {
 # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
 # }
-complete -F auto_complete_pacman get
-complete -F auto_complete_pacman pdeps
-complete -F auto_complete_pacman pinfo
-complete -F auto_complete_pacman plist
-
 fi
 # }}}
 # FZF FUNCTIONS {{{
@@ -231,10 +275,13 @@ function open_with_fzf () {
 	--preview="xdg-mime query default {}" \
 	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} &"    
 	    #2>&-
-    }
+	
+}
+
 function cd_with_fzf () {
     cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
 }
+
 # do not use yet
 # function pacs () {
 #     pcmanfm -Syy $(pcmanfm -Ssq | fzf -m --preview="pcmanfm -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
@@ -254,21 +301,22 @@ function man_find () {
 	--bind="tab:toggle-preview" \
 	| man
     }
-function fman () {
-    man -k . \
-	| fzf \
-	--multi \
-	--prompt='Man> ' \
-	--preview 'man {1}' \
-	--height=80% \
-	--border \
-	--hscroll-off=800 \
-	--preview-window=wrap \
-	--bind="tab:toggle-preview" \
-	| awk '{print $1}' | xargs -r man
-    }
-function fhistory () {
-    eval "$(cat < ~/.bash_history | fzf -m -i)"
-}
-# }}}
 
+    function fman () {
+	man -k . \
+	    | fzf \
+	    --multi \
+	    --prompt='Man> ' \
+	    --preview 'man {1}' \
+	    --height=80% \
+	    --border \
+	    --hscroll-off=800 \
+	    --preview-window=wrap \
+	    --bind="tab:toggle-preview" \
+	    | awk '{print $1}' | xargs -r man
+	}
+
+	function fhistory () {
+	    eval "$(cat < ~/.bash_history | fzf -m -i)"
+	}
+	# }}}

@@ -16,21 +16,21 @@ git_config() {
 }
 #install_check {{{
 install_check() {
-    if [ -f "$HOME/bin/dotfiles_env" ];then
+    if [ -f "$HOME/bin/dotfiles_env" ]; then
 	# shellcheck source=~/bin/dotfiles_env
 	. dotfiles_env
     else
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env";then
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env";	then
 	    mkdir "$HOME/bin"
 	    mv "$HOME/dotfiles_env" "$HOME/bin/"
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
 	else
-	    printf "[ERROR] dotfiles_env doesn't exist or fail to download from repository. Exiting\n"
+	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository. Exiting\n"
 	    exit 1
 	fi
     fi
-    if [ -d "$install_dir" ];then
+    if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
 	clnItalic "$install_dir" "in order and check outputs log."
 
@@ -41,7 +41,7 @@ install_check() {
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
-    if git_config checkout;then
+    if git_config checkout; then
 	cmOk "Checkout branch"
 	enviroment_config
 	config_check
@@ -52,7 +52,7 @@ bare_repo_checkout() {
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
 	cmOk "Backup files"
 	clnInfo "Checking branch"
-	if git_config checkout;then
+	if git_config checkout;	then
 	    cmOk "Check branch"
 	    cmOk "Checkout branch"
 	    clnInfo "Installing enviroment_config and backup config files"
@@ -74,7 +74,7 @@ bare_repo_checkout() {
 cd "$HOME" || return
 install_check
 cInfo "Git clone (--bare):" "$branch"
-if git clone --branch "$branch" --bare "$repository" "$install_dir";then
+if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     bare_repo_checkout
 else

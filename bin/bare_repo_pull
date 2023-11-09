@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 07-11-2023
+# Ultima_modificacao: 08-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -19,7 +19,7 @@ bkp_conflict ()
     do     
 	mv "$HOME"/"$file" "$HOME"/"$file".backup
     done  
-    config_check
+    tests
     cmOk "Checking and backup files"
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files 1>> "$bkpLog" 
@@ -33,7 +33,7 @@ bare_repo_pull() {
     cd "$HOME" || return
     if git_config pull origin "$branch" &>> $bkpLog
     then
-	config_check
+	tests
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
@@ -44,7 +44,7 @@ bare_repo_pull() {
 
 	if git_config pull --no-commit origin $branch
 	then
-	    config_check
+	    tests
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
@@ -64,7 +64,7 @@ bare_repo_fetch() {
     then
 	git_config reset --hard FETCH_HEAD &>> $bkpLog
 
-	if config_check ;then
+	if tests ;then
 	    cmOk "Files check"
 	else
 	    cError "Files check"
@@ -80,4 +80,4 @@ bare_repo_fetch() {
     cd "$backto" || return
 }
 
-
+"$@"

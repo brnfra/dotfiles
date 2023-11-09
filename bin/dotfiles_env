@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #git
-branch="testing"
+branch="main"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
@@ -36,29 +36,28 @@ grey="${E}2m"
 cInfo() {
     printf "%b%s%b" "$grey" "[INFO]" "$reset " 
     printf "%s" "$1" 
-    printf "%b%b %s%b " "$cyan" "$italic" "$2" "$reset" 
+    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
     printf "%s\n" "$3" 
  
 }
 cError() {
     printf "%b%s%b " "$red" "[FAIL]" "$reset" 
     printf "%s" "$1" 
-    printf "%b%b %s%b " "$cyan" "$italic" "$2" "$reset" 
+    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
     printf "%s\n" "$3" 
  
 }
 cItalic() {
-    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
     printf "%s" "$2"
 }
 cOk() {
+    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
     printf "%s" "$1"
-    printf "%b%b%5s%b\n" "$green" "$bold" "OK" "$reset" 
 }
 cmOk() {
-    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
-    printf "%s" "$1" 
-    printf "%b%b %5s%b\n" "$green" "$bold" "OK" "$reset" 
+    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
+    printf "%s\n" "$1" 
 }
 clnInfo() {
     printf "%b%s%b " "$grey" "[INFO]" "$reset" 
@@ -69,7 +68,7 @@ clnError() {
     printf "%s\n" "$1" 
 }
 clnItalic() {
-    printf "%b%b %s%b " "$cyan" "$italic" "$1" "$reset" 
+    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
     printf "%s\n" "$2"
 }
 # }}}

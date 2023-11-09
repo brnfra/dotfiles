@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 07-11-2023
+# Ultima_modificacao: 08-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,45 +9,103 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-config_check() {
-if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
-    clnInfo "Config check all" &>> "$bkpLog"
-    if bash "$checkAll" &>> "$bkpLog";
-    then
-	bash "$checkAll" | awk '/FAIL/''{print}'
-	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    clnInfo "I3config and i3 scripts"
-	else
-	    clnError "I3config not found. Installing config file "
-	    if ! "$i3_scpt" "$bkpdir"; then
-		cError "I3config "
-		cItalic "$i3_cfg" " isn't installed "
-		clnItalic "$i3_scpt" "exec fail or not found."
+tests() {
+    if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
+	clnInfo "Config check all" &>> "$bkpLog"
+	if bash "$checkAll" &>> "$bkpLog";
+	then
+	    bash "$checkAll" | awk '/FAIL/''{print}'
+	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+		clnInfo "I3config and i3 scripts"
+	    else
+		clnError "I3config not found. Installing config file "
+		if ! "$i3_scpt" "$bkpdir"; then
+		    cError "I3config "
+		    cItalic "$i3_cfg" " isn't installed "
+		    clnItalic "$i3_scpt" "exec fail or not found."
+		fi
+		clnInfo "I3config file installed."
 	    fi
-	    clnInfo "I3config file installed."
+	else
+	    cmOk "Config files and folders checked"
 	fi
     else
-	cmOk "Config files and folders checked"
-    fi
-else
-    clnInfo "Config check /home" &>> "$bkpLog"
-    if bash "$checkHome" &>> "$bkpLog";
-    then
-	bash "$checkHome" | awk '/FAIL/''{print}'
-	if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-	    clnInfo "I3config and i3 scripts"
-	else
-	    clnError "I3config not found. Installing config file "
-	    if ! "$i3_scpt" "$bkpdir"; then
-		cError "I3config "
-		cItalic "$i3_cfg" " isn't installed "
-		clnItalic "$i3_scpt" "exec fail or not found."
+	clnInfo "Config check /home" &>> "$bkpLog"
+	if bash "$checkHome" &>> "$bkpLog";
+	then
+	    bash "$checkHome" | awk '/FAIL/''{print}'
+	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+		clnInfo "I3config and i3 scripts"
+	    else
+		clnError "I3config not found. Installing config file "
+		if ! "$i3_scpt" "$bkpdir"; then
+		    cError "I3config "
+		    cItalic "$i3_cfg" " isn't installed "
+		    clnItalic "$i3_scpt" "exec fail or not found."
+		fi
+		clnInfo "I3config file installed."
 	    fi
-	    clnInfo "I3config file installed."
+	else
+	    cmOk "Config files and folders checked"
 	fi
-    else
-	cmOk "Config files and folders checked"
     fi
-fi
 }
 
+packs() {
+
+	osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+
+	packs_list="acpi "
+	packs_list+="blueman "
+	packs_list+="compton "
+	packs_list+="curl "
+	packs_list+="exa "
+	packs_list+="fd-find "
+	packs_list+="ffmpeg "
+	packs_list+="fzf "
+	packs_list+="ghostscript " 
+	packs_list+="git "
+	packs_list+="gsimplecal "
+	packs_list+="i3 " 
+	packs_list+="i3blocks "
+	packs_list+="i3lock-fancy " 
+	packs_list+="imagemagick "
+	packs_list+="jq " 
+	packs_list+="neovim "
+	packs_list+="netcat-openbsd " 
+	packs_list+="network-manager-gnome "  
+	packs_list+="nitrogen "
+	packs_list+="openssl "
+	packs_list+="pcmanfm "
+	packs_list+="rsync "
+	packs_list+="scrot "
+	packs_list+="shunit2 "
+	packs_list+="ssh "
+	packs_list+="sysstat " 
+	packs_list+="unzip "
+	packs_list+="vifm "
+	packs_list+="vim  "
+	packs_list+="x11-utils "
+	packs_list+="xfce4-power-manager "
+	packs_list+="xfce4-terminal "
+	if [ "$osys" = "debian" ]; then
+	    packs_list+="alsautils "
+	fi
+	if [ "$osys" = "ubuntu" ]; then
+	    packs_list+="pulseaudio "
+	fi
+	cInfo "Checking installed packs for" "bare repo" "dotfiles"
+	for pack in $packs_list; do
+	    if dpkg -s "$pack" &> /dev/null;then
+		cmOk "$pack"
+	    else
+		cError " " "$pack"
+	    fi
+	done
+
+}
+
+case $1 in
+    tests) "$@"; exit;;
+    packs) "$@"; exit;;
+esac
