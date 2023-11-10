@@ -140,7 +140,6 @@ prepare() {
 	    commit_last "$1"
 
 	    cd "$backto" || return
-	    exit 0
 
 	elif connection &> /dev/null; then
 	    cmOk "Connection"

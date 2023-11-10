@@ -56,13 +56,12 @@ git_push() {
 	clnError "$?:error check git push logs to find out."
 	exit 1
     fi
-    printf "[INFO]%s all done at %s ### push config  ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 
 }
 #}}}
 
 #test, pull from remote repo to local and copy changes
-printf "[INFO]%s beginning at %s ### push config ###\n" "${FUNCNAME[0]}" "$DATE" > "$bkpLog"
+printf "[INFO]%s beginning  ### push config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
 backto=$(pwd)
 cd "$dotfiles_dir" || return
 cInfo "Push local to remote:" "push config"
@@ -75,4 +74,5 @@ else
     clnError "$?:stage_config error."
     exit 2
 fi
+printf "[INFO]%s all done  ### push config  ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
 cd "$backto" || return

@@ -10,7 +10,7 @@
 . dotfiles_env
 
 tests() {
-    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
+    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
     backto=$(pwd)
     cd "$HOME/tests" || return
 
@@ -54,11 +54,11 @@ tests() {
 	fi
     fi
     cd "$backto" || return
-    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 packs() {
-    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
+    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
 
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
@@ -109,11 +109,11 @@ packs() {
 	    cError " " "$pack"
 	fi
     done
-    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 connect() {
-    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
+    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
     if connection &> /dev/null && ssh_connect &> /dev/null;then
 	cmOk "Connection and ssh_connect check:"
     elif connection &> /dev/null; then
@@ -128,7 +128,7 @@ connect() {
 	clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
 	exit 4
     fi
-    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 case $1 in
