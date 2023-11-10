@@ -19,9 +19,9 @@ local_repo_fetch () {
     cd "$dotfiles_dir" || return
     prepare
 
-    if git_repo "fetch --all" &>> "$bkpLog"
+    if git_repo fetch --all &>> "$bkpLog"
     then
-	git_repo "merge -s recursive -X theirs origin/$branch" &>> "$bkpLog"
+	git_repo merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
 
 	if tests -a;then
 	    cmOk "Files check"
@@ -50,7 +50,7 @@ local_repo_pull() {
 
     if [ -d "$dotfiles_dir" ]
     then
-	if  git_repo "pull origin $branch" &>> "$bkpLog" ;then
+	if  git_repo pull origin $branch &>> "$bkpLog" ;then
 	    if tests -a;then
 		cmOk "Files check"
 	    else

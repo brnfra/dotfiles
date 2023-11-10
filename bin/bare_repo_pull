@@ -37,9 +37,9 @@ bare_repo_fetch() {
     cd "$HOME" || return
     prepare
 
-    if git_config "fetch --all" &>> "$bkpLog"
+    if git_config fetch --all &>> "$bkpLog"
     then
-	git_config "merge -s recursive -X theirs origin/$branch" &>> "$bkpLog"
+	git_config merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
 
 	if config_check tests ;then
 	    cmOk "Files check"
@@ -64,7 +64,7 @@ bare_repo_pull() {
     backto=$(pwd)
     cd "$HOME" || return
     sync_branch    
-    git_config "fetch --all" &>> "$bkpLog"
+    git_config fetch --all &>> "$bkpLog"
     
     if git_config pull origin "$branch" &>> "$bkpLog"
     then
