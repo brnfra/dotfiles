@@ -123,7 +123,7 @@ prepare() {
 
     sync_branch
 
-    if tests -a ; then
+    if config_check tests -a ; then
 	cmOk "Files,scripts tests and folders check"
 
 	if connection &> /dev/null && ssh_connect &> /dev/null;then
@@ -152,7 +152,7 @@ prepare() {
 	fi
 
     else
-	tests -a  &>> "$bkpLog"
+	config_check tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
 	cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
 	cd "$backto" || return
