@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,25 +14,24 @@ unset file;
 #fetch{{{
 local_repo_fetch () {
     cInfo "Get config from remote(fetch) to:" "fetch and reset --local-repo FETCH_HEAD"
-
     backto=$(pwd)
     cd "$dotfiles_dir" || return
-    if git_repo fetch --all &>> "$bkpLog"
+    prepare
+
+    if git_repo "fetch --all" &>> "$bkpLog"
     then
-	git_repo reset --hard FETCH_HEAD &>> "$bkpLog"
+	git_repo "merge -s recursive -X theirs origin/$branch" &>> "$bkpLog"
 
 	if tests -a;then
 	    cmOk "Files check"
 	else
 	    cError "Files check"
-	    exit 3
 	fi
 
 	cInfo "Git pull, branch" "$branch" "(--local)"
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config fetch error:" "Conflict." "Backup conflicts and try again"
-
     fi
     cd "$backto" || return
 }
@@ -44,24 +43,23 @@ local_repo_pull() {
     cInfo "Get config from remote(pull):" "repo pull --cloned-repo"
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
-    sync_branch
-    git_repo fetch --all &>> "$bkpLog"
     cd "$dotfiles_dir" || return
 
     if [ -d "$dotfiles_dir" ]
     then
-	if  git_repo pull origin "$branch" &>> "$bkpLog" ;then
+	if  git_repo "pull origin $branch" &>> "$bkpLog" ;then
 	    if tests -a;then
 		cmOk "Files check"
 	    else
 		cError "Files check"
-		exit 3
 	    fi
 
 	    cmOk "Git make pull in cloned repository folder"
 	else
 	    cError "Fail to checkout and pull from remote. Check:" "$bkpLog" " ; Or clone dotfiles in" "$dotfiles_dir."
-	    cInfo "See log in:" "bkpLog"
+	    cInfo "See log in:" "$bkpLog"
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
+	    local_repo_fetch
 	fi
     else
 	cError "No such directory to pull in"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 09-11-2023
+#  Ultima_modificacao: 10-11-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -42,11 +42,11 @@ exit; fi
 
 #push{{{
 git_push() {
-    printf "Push config files from local to remote repo.\n"
+    printf "Push config files from local to remote repo.\n" &>> "$bkpLog"
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git_repo "add -A -v";git_repo "commit -v -m $message";
-    if git_repo "-u origin $branch" &>> $bkpLog; then
+    git_repo add -A -v;git commit -v -m "$message";
+    if git_repo -u origin "$branch" &>> $bkpLog; then
 	git_repo push
 	git status -sb &>> "$bkpLog"
 	cmOk "Git add and push"
@@ -65,7 +65,7 @@ cInfo "Push local to remote:" "push config"
 git fetch --all
 if prepare; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
-    git_push "$1" &>> "$bkpLog"
+    git_push "$1" 
 else
     clnError "$?:stage_config error."
     exit 2

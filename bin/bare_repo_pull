@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -20,7 +20,7 @@ bkp_conflict ()
     do     
 	mv "$HOME"/"$file" "$HOME"/"$file".backup
     done  
-    tests
+    config_check tests
     cmOk "Checking and backup files"
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files 1>> "$bkpLog" 
@@ -32,21 +32,22 @@ bare_repo_fetch() {
     cInfo "Get config from remote(fetch) to:" "fetch and reset --bare-repo FETCH_HEAD"
     backto=$(pwd)
     cd "$HOME" || return
-    if git_config fetch --all &>> $bkpLog
-    then
-	git_config reset --hard FETCH_HEAD &>> $bkpLog
+    prepare
 
-	if tests ;then
+    if git_config "fetch --all" &>> $bkpLog
+    then
+	git_config "merge -s recursive -X theirs origin/$branch" &>> $bkpLog
+
+	if config_check tests ;then
 	    cmOk "Files check"
 	else
 	    cError "Files check"
-	    exit 3
 	fi
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config fetch error:" "Conflict." "Backup conflicts and try again"
+	cError "${LINENO}:Config merge error:" "Conflict." "Backup conflicts and try again"
 
     fi
     cd "$backto" || return
@@ -58,11 +59,11 @@ bare_repo_pull() {
     backto=$(pwd)
     cd "$HOME" || return
     sync_branch    
-    git_config fetch --all &>> "$bkpLog"
+    git_config "fetch --all" &>> "$bkpLog"
     
     if git_config pull origin "$branch" &>> "$bkpLog"
     then
-	tests
+	config_check tests
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
@@ -70,18 +71,16 @@ bare_repo_pull() {
 	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts, reset and try again"
 
 	bkp_conflict 
-	bare_repo_fetch
 
 	if git_config pull origin "$branch"
 	then
-	    tests
+	    config_check tests
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails. Reset and exit."
 	    bare_repo_fetch
-	    exit 1
 	fi
     fi
     cd "$backto" || return
