@@ -45,10 +45,12 @@ git_push() {
     printf "Push config files from local to remote repo.\n" &>> "$bkpLog"
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git_repo add -A -v;git commit -v -m "$message";
-    if git_repo -u origin "$branch" &>> $bkpLog; then
+    git_repo "add -A -v";
+    git_repo "commit -v -m $message";
+    if git_repo "-u origin $branch" &>> $bkpLog; then
 	git_repo push
 	git status -sb &>> "$bkpLog"
+	git status -sb 
 	cmOk "Git add and push"
     else
 	git status -sb
