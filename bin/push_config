@@ -40,13 +40,9 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
-
-backto=$(pwd)
-
+#push{{{
 git_push() {
     printf "Push config files from local to remote repo.\n"
-    cd "$dotfiles_dir" || return
-    git fetch --all
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
     git add -A -v;git commit -v -m "$message";
@@ -60,8 +56,13 @@ git_push() {
 	exit 1
     fi
 }
+#}}}
+
 #test, pull from remote repo to local and copy changes
+backto=$(pwd)
+cd "$dotfiles_dir" || return
 cInfo "Push local to remote:" "push config"
+git fetch --all
 if prepare; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1"
