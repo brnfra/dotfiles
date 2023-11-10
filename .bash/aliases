@@ -102,6 +102,8 @@ alias gconf='git config --list --show-origin'
 #push see bash_functions
 #config
 alias conf='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias conf_packs='config_check packs'
+
 # }}}
 # jekyll {{{
 alias jstart="bundle exec jekyll serve --livereload"

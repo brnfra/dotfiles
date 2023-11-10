@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 07-11-2023
+# Ultima_modificacao: 09-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -50,12 +50,11 @@ unset file;
 cInfo "Get config from remote:" "pull_config"
 
 if connection &> /dev/null && ssh_connect &> /dev/null;then
-    #try pull 
-    if bare_repo_fetch; then
-	local_repo_fetch
-    elif bare_repo_pull;then
+    #try pull or undo changes
+    if bare_repo_pull;then
 	local_repo_pull
     else
+	cError "Pull (in bare repo) fail"
 	exit 4
     fi
 elif connection &> /dev/null; then

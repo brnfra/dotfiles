@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-11-2023
+# Ultima_modificacao: 09-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-for file in ~/bin/{dotfiles_env,config_check,dirs_config,git_config,ssh_config,get_fonts,bkp_cfg_files}; do
+for file in ~/bin/{dotfiles_env,config_check,dirs_config,git_config,ssh_config,get_fonts,bkp_cfg_files,stage_config}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+#backup conflicts{{{
 bkp_conflict ()
 {
     conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
@@ -24,38 +25,9 @@ bkp_conflict ()
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files 1>> "$bkpLog" 
     cmOk "Clean"
-
 }
-
-bare_repo_pull() {
-    cInfo "Get config from remote(pull) to:" "pull --bare-repo"
-    backto=$(pwd)
-    cd "$HOME" || return
-    if git_config pull origin "$branch" &>> $bkpLog
-    then
-	tests
-
-	cInfo "Git pull, branch" "$branch" "(--bare)"
-	cmOk "Git pull"
-    else
-	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts and try again"
-
-	bkp_conflict 
-
-	if git_config pull --no-commit origin $branch
-	then
-	    tests
-	    cInfo "Git pull config, branch" "$branch" "(--bare)"
-	    cmOk "Git pull"
-	else
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
-	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
-	    exit 1
-	fi
-    fi
-    cd "$backto" || return
-}
-
+##}}}
+#{{{ fetch
 bare_repo_fetch() {
     cInfo "Get config from remote(fetch) to:" "fetch and reset --bare-repo FETCH_HEAD"
     backto=$(pwd)
@@ -79,5 +51,41 @@ bare_repo_fetch() {
     fi
     cd "$backto" || return
 }
+##}}}
+#pull {{{
+bare_repo_pull() {
+    cInfo "Get config from remote(pull) to:" "pull --bare-repo"
+    backto=$(pwd)
+    cd "$HOME" || return
+    sync_branch    
+    git_config fetch --all &>> "$bkpLog"
+    
+    if git_config pull origin "$branch" &>> "$bkpLog"
+    then
+	tests
+
+	cInfo "Git pull, branch" "$branch" "(--bare)"
+	cmOk "Git pull"
+    else
+	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts, reset and try again"
+
+	bkp_conflict 
+	bare_repo_fetch
+
+	if git_config pull origin "$branch"
+	then
+	    tests
+	    cInfo "Git pull config, branch" "$branch" "(--bare)"
+	    cmOk "Git pull"
+	else
+	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch. UNDO changes!"
+	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails. Reset and exit."
+	    bare_repo_fetch
+	    exit 1
+	fi
+    fi
+    cd "$backto" || return
+}
+#}}}
 
 "$@"
