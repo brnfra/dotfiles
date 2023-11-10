@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-11-2023
+# Ultima_modificacao: 09-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,6 +10,9 @@
 . dotfiles_env
 
 tests() {
+    backto=$(pwd)
+    cd "$HOME/tests" || return
+    
     if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
 	clnInfo "Config check all" &>> "$bkpLog"
 	if bash "$checkAll" &>> "$bkpLog";
@@ -49,6 +52,7 @@ tests() {
 	    cmOk "Config files and folders checked"
 	fi
     fi
+    cd "$backto" || return
 }
 
 packs() {
