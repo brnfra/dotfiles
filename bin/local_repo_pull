@@ -38,7 +38,7 @@ local_repo_fetch () {
 ##}}}
 #pull{{{
 local_repo_pull() {
-    clnInfo "${0##*/}"
+    clnInfo "local repo pull"
     backto=$(pwd)
     cInfo "Get config from remote(pull):" "repo pull [--local-repo]"
     cInfo "Git pull in repository folder. Branch:" "$branch" 

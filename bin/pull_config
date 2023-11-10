@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -43,13 +43,13 @@ HELP
 exit; fi
 
 
-for file in ~/bin/{bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
+for file in ~/bin/{config_check,bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 cInfo "Get config from remote:" "pull_config"
-
-if connection &> /dev/null && ssh_connect &> /dev/null;then
+printf "[INFO]%s beginning at %s ### bare_repo_pull ###\n" "${FUNCNAME[0]}" "$DATE" > "$bkpLog"
+if config_check connect ;then
     #try pull or undo changes
     if bare_repo_pull;then
 	local_repo_pull
@@ -57,15 +57,8 @@ if connection &> /dev/null && ssh_connect &> /dev/null;then
 	cError "Pull (in bare repo) fail"
 	exit 4
     fi
-elif connection &> /dev/null; then
-    cmOk "Connection"
-    clnError "Check your ssh-agent."
-    exit 1
-elif ssh_connect &> /dev/null;then
-    cmOk "ssh-agent"
-    clnError "Check your connection."
-    exit 2
 else 
     clnError "Check your connection and your ssh-agent."
     exit 3
 fi
+printf "[INFO]%s all done at %s ### bare_repo_pull ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"

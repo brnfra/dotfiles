@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,9 +10,10 @@
 . dotfiles_env
 
 tests() {
+    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
     backto=$(pwd)
     cd "$HOME/tests" || return
-    
+
     if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
 	clnInfo "Config check all" &>> "$bkpLog"
 	if bash "$checkAll" &>> "$bkpLog";
@@ -53,63 +54,85 @@ tests() {
 	fi
     fi
     cd "$backto" || return
+    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 
 packs() {
+    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
 
-	osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
-	packs_list="acpi "
-	packs_list+="blueman "
-	packs_list+="compton "
-	packs_list+="curl "
-	packs_list+="exa "
-	packs_list+="fd-find "
-	packs_list+="ffmpeg "
-	packs_list+="fzf "
-	packs_list+="ghostscript " 
-	packs_list+="git "
-	packs_list+="gsimplecal "
-	packs_list+="i3 " 
-	packs_list+="i3blocks "
-	packs_list+="i3lock-fancy " 
-	packs_list+="imagemagick "
-	packs_list+="jq " 
-	packs_list+="neovim "
-	packs_list+="netcat-openbsd " 
-	packs_list+="network-manager-gnome "  
-	packs_list+="nitrogen "
-	packs_list+="openssl "
-	packs_list+="pcmanfm "
-	packs_list+="rsync "
-	packs_list+="scrot "
-	packs_list+="shunit2 "
-	packs_list+="ssh "
-	packs_list+="sysstat " 
-	packs_list+="unzip "
-	packs_list+="vifm "
-	packs_list+="vim  "
-	packs_list+="x11-utils "
-	packs_list+="xfce4-power-manager "
-	packs_list+="xfce4-terminal "
-	if [ "$osys" = "debian" ]; then
-	    packs_list+="alsautils "
+    packs_list="acpi "
+    packs_list+="blueman "
+    packs_list+="compton "
+    packs_list+="curl "
+    packs_list+="exa "
+    packs_list+="fd-find "
+    packs_list+="ffmpeg "
+    packs_list+="fzf "
+    packs_list+="ghostscript " 
+    packs_list+="git "
+    packs_list+="gsimplecal "
+    packs_list+="i3 " 
+    packs_list+="i3blocks "
+    packs_list+="i3lock-fancy " 
+    packs_list+="imagemagick "
+    packs_list+="jq " 
+    packs_list+="neovim "
+    packs_list+="netcat-openbsd " 
+    packs_list+="network-manager-gnome "  
+    packs_list+="nitrogen "
+    packs_list+="openssl "
+    packs_list+="pcmanfm "
+    packs_list+="rsync "
+    packs_list+="scrot "
+    packs_list+="shunit2 "
+    packs_list+="ssh "
+    packs_list+="sysstat " 
+    packs_list+="unzip "
+    packs_list+="vifm "
+    packs_list+="vim  "
+    packs_list+="x11-utils "
+    packs_list+="xfce4-power-manager "
+    packs_list+="xfce4-terminal "
+    if [ "$osys" = "debian" ]; then
+	packs_list+="alsautils "
+    fi
+    if [ "$osys" = "ubuntu" ]; then
+	packs_list+="pulseaudio "
+    fi
+    cInfo "Checking installed packs for" "bare repo" "dotfiles"
+    for pack in $packs_list; do
+	if dpkg -s "$pack" &> /dev/null;then
+	    cmOk "$pack"
+	else
+	    cError " " "$pack"
 	fi
-	if [ "$osys" = "ubuntu" ]; then
-	    packs_list+="pulseaudio "
-	fi
-	cInfo "Checking installed packs for" "bare repo" "dotfiles"
-	for pack in $packs_list; do
-	    if dpkg -s "$pack" &> /dev/null;then
-		cmOk "$pack"
-	    else
-		cError " " "$pack"
-	    fi
-	done
+    done
+    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+}
 
+connect() {
+    printf "[INFO]%s beginning at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog" 
+    if connection &> /dev/null && ssh_connect &> /dev/null;then
+	cmOk "Connection and ssh_connect check:"
+    elif connection &> /dev/null; then
+	cmOk "Connection"
+	clnError "Check your ssh-agent." &>> "$bkpLog"
+	exit 2
+    elif ssh_connect &> /dev/null;then
+	cmOk "ssh-agent"
+	clnError "Check your connection." &>> "$bkpLog"
+	exit 3
+    else
+	clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
+	exit 4
+    fi
+    printf "[INFO]%s all done at %s ### config_check ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 
 case $1 in
     tests) "$@"; exit;;
     packs) "$@"; exit;;
+    connect) "$@"; exit;;
 esac
