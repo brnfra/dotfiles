@@ -160,4 +160,4 @@ prepare() {
     fi
 }
 
-"$@"
+"$@" 2> /dev/null
