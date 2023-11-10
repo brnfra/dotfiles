@@ -152,7 +152,7 @@ prepare() {
 	fi
 
     else
-	tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
+	tests -a  &>> "$bkpLog"
 	cInfo "If error occured check backup log in:" "$bkpLog" "Done."
 
 	cd "$backto" || return
