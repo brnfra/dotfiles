@@ -44,14 +44,14 @@ exit; fi
 git_push() {
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
-    git_repo add -A -v
-    git_repo commit -v -m "$message"
-    if git_repo push origin "$branch" &>> $bkpLog; then
+    git_repo add -A -v &>> "$bkpLog"
+    git_repo commit -v -m "$message" &>> "$bkpLog"
+    if git_repo push origin "$branch" &>> "$bkpLog"; then
 	git status -sb &>> "$bkpLog"
 	git status -sb 
-	cmOk "Git add and push"
+	cmOk "Git add, commit and push"
     else
-	git status -sb
+	git status -sb &>> "$bkpLog"
 	clnError "$?:error check git push logs to find out."
 	exit 1
     fi
@@ -64,7 +64,7 @@ printf "[INFO]%s beginning  ### push config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
 backto=$(pwd)
 cd "$dotfiles_dir" || return
 cInfo "Push local to remote:" "push config"
-git fetch --all
+git fetch --all &>> "$bkpLog"
 if prepare "$1"; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1" 

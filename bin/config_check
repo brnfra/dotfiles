@@ -16,9 +16,8 @@ tests() {
 
     if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
 	clnInfo "Config check all" &>> "$bkpLog"
-	if bash "$checkAll" &>> "$bkpLog";
+	if bash "$checkAll" | awk '/^test|OK|FAILED/{print $0}' &>> "$bkpLog";
 	then
-	    bash "$checkAll" | awk '/FAIL/''{print}'
 	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
 		clnInfo "I3config and i3 scripts"
 	    else
@@ -31,13 +30,14 @@ tests() {
 		clnInfo "I3config file installed."
 	    fi
 	else
+	    bash "$checkAll" | awk '/^test|OK|FAILED/{print $0}'
+	    cError "Some tests fail"
 	    cmOk "Config files and folders checked"
 	fi
     else
 	clnInfo "Config check /home" &>> "$bkpLog"
-	if bash "$checkHome" &>> "$bkpLog";
+	if bash "$checkHome"| awk '/^test|OK|FAILED/{print $0}' &>> "$bkpLog";
 	then
-	    bash "$checkHome" | awk '/FAIL/''{print}'
 	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
 		clnInfo "I3config and i3 scripts"
 	    else
@@ -50,6 +50,8 @@ tests() {
 		clnInfo "I3config file installed."
 	    fi
 	else
+	    bash "$checkHome" | awk '/^test|OK|FAILED/{print $0}'
+	    cError "Some tests fail"
 	    cmOk "Config files and folders checked"
 	fi
     fi

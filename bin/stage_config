@@ -114,8 +114,9 @@ sync_copy ()
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$file
 	mkdir -p "$(echo ${newDir%/*})"
-	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$dotfiles_dir"/"$file" &>> "$bkpLog"
-	printf "[INFO] Files to stage: (%s),sync Done!\n" "$file" &>> "$bkpLog"
+	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "$dotfiles_dir"/"$file" \
+	    | sed '/^$/d;/./!d' &>> "$bkpLog"
+	echo >>"$bkpLog"
     done
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
@@ -157,8 +158,8 @@ prepare() {
 	fi
 
     else
-	config_check tests -a | awk '/FAIL/''{print}' &>> "$bkpLog"
-	cInfo "If error occured check backup log in:" "$bkpLog" "Done."
+	config_check tests -a  &>> "$bkpLog"
+	cInfo "Error occured, check backup log in:" "$bkpLog" "Done."
 
 	cd "$backto" || return
 	exit 5
