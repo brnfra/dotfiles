@@ -166,5 +166,9 @@ prepare() {
     fi
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
-
-"$@" 2> /dev/null
+case $1 in
+    commit_last) "$@"; exit;;
+    prepare) "$@"; exit;;
+    sync_copy) "$@"; exit;;
+    sync_branch) "$@"; exit;;
+esac

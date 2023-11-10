@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: ssh_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -47,3 +47,7 @@ ssh_connect() {
   return 2
 }
 
+case $1 in
+    ssh_env) "$@"; exit;;
+    ssh_connect) "$@"; exit;;
+esac
