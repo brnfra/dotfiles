@@ -65,7 +65,7 @@ cInfo "Push local to remote:" "push config"
 git fetch --all
 if prepare; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
-    git_push "$1"
+    git_push "$1" &>> "$bkpLog"
 else
     clnError "$?:stage_config error."
     exit 2
