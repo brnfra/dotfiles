@@ -29,7 +29,7 @@ bkp_conflict ()
 ##}}}
 #{{{ fetch
 bare_repo_fetch() {
-    cInfo "Get config from remote(fetch) to:" "fetch and reset --bare-repo FETCH_HEAD"
+    cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--bare-repo] "
     backto=$(pwd)
     cd "$HOME" || return
     prepare
@@ -47,7 +47,7 @@ bare_repo_fetch() {
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config merge error:" "Conflict." "Backup conflicts and try again"
+	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Backup conflicts and try again"
 
     fi
     cd "$backto" || return
@@ -68,11 +68,11 @@ bare_repo_pull() {
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config pull error:" "Conflict." "Backup conflicts, reset and try again"
+	cError "${LINENO}:Config pull error(logs):" "$bkpLog" "; Backup conflicts, reset and try again"
 
 	bkp_conflict 
 
-	if git_config pull origin "$branch"
+	if git_config pull origin "$branch" &>> "$bkpLog"
 	then
 	    config_check tests
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
