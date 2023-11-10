@@ -27,13 +27,13 @@ DESCRIPTION
     -h, --help
 	Print help informations
 Exit status: 
-         0      if OK,
-               
-         1      git push local repo error.
-               
-         2      stage_config error.
-               
-               
+	 0      if OK,
+
+	 1      git push local repo error.
+
+	 2      stage_config error.
+
+
 See the README for documentation.
 https://github.com/brnfra/dotfiles
 Licensed under the MIT license.
@@ -67,7 +67,7 @@ if prepare; then
     cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1"
 else
-	clnError "$?:stage_config error."
-	exit 2
+    clnError "$?:stage_config error."
+    exit 2
 fi
 cd "$backto" || return
