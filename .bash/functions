@@ -206,6 +206,7 @@ complete -F auto_complete_pacman pdeps
 complete -F auto_complete_pacman pinfo
 complete -F auto_complete_pacman plist
 
+
 # }}}
 #package info dependencies  {{{
 function depends() {
