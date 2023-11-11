@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bkp_cfg_files
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-11-2023
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -34,8 +34,8 @@ exit; fi
 
 
 bkp_cfg_files() {
+    printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
     cInfo "Backup config files:" "bkp_cfg_files"
-    printf "Check my config files \n"
     folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
@@ -64,10 +64,12 @@ bkp_cfg_files() {
     cmOk "Folders"
     cInfo "Backup to files to" "$bkpdir"
 
-    find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir"
+    find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir" &>> "$bkpLog"
+
     for Folder in $folders; do
 	cInfo "Moving to:" "$HOME/$Folder"
-	if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder"
+	if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder" &>> "$bkpLog"
+
 	then
 	    wait $!
 	else
@@ -76,6 +78,7 @@ bkp_cfg_files() {
 
 	wait 
     done
+printf "[INFO]### %s all done ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
 }
 
 "$@"

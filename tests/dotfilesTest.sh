@@ -4,6 +4,7 @@
 
 SHUNIT_TEST_PREFIX=' #Main --> '
 SHUNIT_COLOR="always"
+ clnInfo "Main test"
 
 testDotfilesConfigs() {
     clnInfo "Check Git Configs Tests"
@@ -24,8 +25,9 @@ testDotfilesConfigs() {
     clnInfo "Check if Scripts in bin works[fold by Type]."
     "$HOME/tests/binMakeFolderByTypeTest.sh"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error Scripts in bin works[fold by Type]\n" $? 
-    "$HOME/tests/testPkgInstalled.sh"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error some packages are not installed\n" $? 
+    #cInfo "Check if packs are installed"
+    #"$HOME/tests/testPkgInstalled.sh"
+    #assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error some packages are not installed\n" $? 
 
 }
 oneTimeSetUp() {

@@ -8,59 +8,58 @@ testPkgsInstalledCheck() {
     #debian ubuntu manjaro etc
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
-    pkges="rar"
-    pkges+=" tar"
-    pkges+=" bzip2"
-    pkges+=" gzip"
-    pkges+=" unzip"
-    pkges+=" uncompress" 
-    pkges+=" tgz"
-    pkges+=" zip"
-    pkges+=" gunzip"
-    pkges+=" 7z"
-    pkges+=" jq"
-    pkges+=" ip"
-    pkges+=" nc"
-    pkges+=" openssl"
-    pkges+=" mpstat" 
-    pkges+=" i3lock-fancy"
-    pkges+=" blueman-applet"
-    pkges+=" xfce4-terminal" 
-    pkges+=" scrot"
-    pkges+=" pcmanfm" 
-    pkges+=" ranger"
-    pkges+=" compton" 
-    pkges+=" xrandr" 
-    pkges+=" xfce4-power-manager" 
-    pkges+=" nitrogen"
     pkges+=" acpi" 
+    pkges+=" blueman "      
+    pkges+=" bzip2 "
+    pkges+=" compton" 
+    pkges+=" curl "         
+    pkges+=" exa "
+    pkges+=" fd-find "      
+    pkges+=" ffmpeg "       
+    pkges+=" fzf "          
+    pkges+=" ghostscript "  
+    pkges+=" git "          
     pkges+=" gsimplecal" 
-    pkges+=" vim nvim vifm" 
-    pkges+=" shunit2"
-    pkges+=" fdfind"
-    pkges+=" exa"
-    pkges+=" git"
-    pkges+=" curl"
-    pkges+=" ssh"
-    pkges+=" fzf"
-    pkges+=" nm-applet"
-    pkges+=" rsync"
-    pkges+=" ffmpeg"
+    pkges+=" gzip "
+    pkges+=" i3 "           
+    pkges+=" i3blocks "     
+    pkges+=" i3lock-fancy " 
+    pkges+=" imagemagick "  
+    pkges+=" jq "           
+    pkges+=" neovim "       
+    pkges+=" netcat-openbsd "
+    pkges+=" network-manager-gnome "
+    pkges+=" nitrogen "     
+    pkges+=" openssl "      
+    pkges+=" pcmanfm" 
+    pkges+=" ranger "
+    pkges+=" rar "
+    pkges+=" rsync "        
+    pkges+=" scrot "        
+    pkges+=" shunit2 "      
+    pkges+=" ssh "          
+    pkges+=" sysstat "      
+    pkges+=" tar "
+    pkges+=" unzip "        
+    pkges+=" vifm "         
+    pkges+=" vim  "         
+    pkges+=" x11-utils "    
+    pkges+=" xfce4-power-manager" 
+    pkges+=" xfce4-terminal" 
+    pkges+=" zip "
     if [ "$osys" = "ubuntu" ]
     then
-	pkges+=" pactl"
+	pkges+=" pulseaudio"
     else
-	pkges+=" amixer"
+	pkges+=" alsautils"
     fi
 
     for pkg in $pkges 
     do
-	command -v "$pkg"  1> /dev/null 
+	dpkg -s "$pkg"  1> /dev/null 
 	assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
     done
 
-
-   
 }
 
 . shunit2

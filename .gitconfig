@@ -10,9 +10,11 @@
     timestampResolution = 4000 nanoseconds
     minRacyThreshold	= 7440 microseconds
 [push]
-    default = current
+    default = simple
 [pull]
-    rebase = false
+    rebase = true
+[fetch]
+    prune = true
 [diff]
     mnemonicprefix = true
 [branch]
