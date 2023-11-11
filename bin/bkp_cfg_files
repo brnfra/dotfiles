@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bkp_cfg_files
 # Autor: Bruno Franco
-<<<<<<< HEAD
 # Ultima_modificacao: 10-11-2023
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-# Ultima_modificacao: 03-11-2023
-=======
-# Ultima_modificacao: 05-11-2023
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -40,16 +34,8 @@ exit; fi
 
 
 bkp_cfg_files() {
-<<<<<<< HEAD
     printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
     cInfo "Backup config files:" "bkp_cfg_files"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-    clnInfo "${0##*/}"
-    printf "Backup my config files \n"
-=======
-    clnInfo "${0##*/}"
-    printf "Check my config files \n"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
     folders=".bash "
     folders+=".config/nvim "
     folders+=".config/vifm "
@@ -75,20 +61,10 @@ bkp_cfg_files() {
 	    cInfo "Folder" "$bkpdir/$Folder" "Folders created."
 	fi
     done
-<<<<<<< HEAD
     cmOk "Folders"
     cInfo "Backup to files to" "$bkpdir"
 
     find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir" &>> "$bkpLog"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-    cmOk "Creating folders"
-
-    cInfo "Moving files .backup to "
-    clnItalic "$bkpdir"
-=======
-    cmOk "Folders"
-    cInfo "Backup to files to" "$bkpdir"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 
     for Folder in $folders; do
 	cInfo "Moving to:" "$HOME/$Folder"

@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-<<<<<<< HEAD
 #  Ultima_modificacao: 10-11-2023
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-#  Ultima_modificacao: 04-11-2023
-=======
-#  Ultima_modificacao: 05-11-2023
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -57,7 +51,6 @@ sync_branch ()
     repo_env_dotfiles="$dotfiles_dir/bin/dotfiles_env"
 
     if [ "$BranchHome" != "$RepoBranch" ]; then
-<<<<<<< HEAD
 	clnInfo "Branch home and dotfiles aren't the same:"
 	if git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome;then
 	    cmOk "Branches are the same."
@@ -66,20 +59,6 @@ sync_branch ()
 	    cError "Can't change branch in $dotfiles_dir. Aborting. BranchHome and RepoBranch:" "$BranchHome and $RepoBranch"
 	    exit 2
 	fi
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-        clnInfo "Branch home and dotfiles aren't the same:"
-	eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"
-	echo
-=======
-        clnInfo "Branch home and dotfiles aren't the same:"
-	if eval "git --git-dir=$dotfiles_dir/.git checkout $BranchHome"; then
-	    cmOk "Branches are the same."
-	    echo
-	else
-	    clnError "Can't change branch in $dotfiles_dir. Aborting."
-	    exit 2
-	fi
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
     else
 	cmOk "Branches are the same."
 	echo
@@ -151,16 +130,8 @@ prepare() {
 
     sync_branch
 
-<<<<<<< HEAD
     if config_check tests -a ; then
 	cmOk "Files,scripts tests and folders check"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-if "$checkAll" &> /dev/null; then
-    cmOk "Files,scripts tests and folders check"
-=======
-if "$checkAll" &>> "$bkpLog"; then
-    cmOk "Files,scripts tests and folders check"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 
 	if connection &> /dev/null && ssh_connect &> /dev/null;then
 	    cmOk "Connection and ssh_connect check:"

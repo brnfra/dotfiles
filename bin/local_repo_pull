@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-<<<<<<< HEAD
 # Ultima_modificacao: 10-11-2023
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-# Ultima_modificacao: 03-11-2023
-=======
-# Ultima_modificacao: 05-11-2023
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -22,7 +16,6 @@ local_repo_fetch () {
     printf "[INFO]### %s beginning ### local_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
     cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--local-repo]"
     backto=$(pwd)
-<<<<<<< HEAD
     cd "$dotfiles_dir" || return
     prepare
 
@@ -54,14 +47,6 @@ local_repo_pull() {
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
     cd "$dotfiles_dir" || return
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-    cInfo "Git pull in repository folder. Branch:"
-    cItalic "$branch" "in"
-    clnItalic "$dotfiles_dir"
-=======
-    cInfo "Git pull in repository folder. Branch:" "$branch" 
-    cInfo "in" "$dotfiles_dir"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 
     if [ -d "$dotfiles_dir" ]
     then
@@ -74,17 +59,10 @@ local_repo_pull() {
 
 	    cmOk "Git make pull in cloned repository folder"
 	else
-<<<<<<< HEAD
 	    cError "Fail to checkout and pull from remote. Check:" "$bkpLog" " ; Or clone dotfiles in" "$dotfiles_dir."
 	    cInfo "See log in:" "$bkpLog"
 	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    local_repo_fetch
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	    cError "Check logs(ssh or connection). Or clone dotfiles in"
-	    clnItalic "$dotfiles_dir"
-=======
-	    cError "Check logs(ssh or connection). Or clone dotfiles in" "$dotfiles_dir"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 	fi
     else
 	cError "No such directory to pull in"

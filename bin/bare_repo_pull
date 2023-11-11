@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-<<<<<<< HEAD
 # Ultima_modificacao: 10-11-2023
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-# Ultima_modificacao: 03-11-2023
-=======
-# Ultima_modificacao: 05-11-2023
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -47,71 +41,17 @@ bare_repo_fetch() {
     then
 	git_config merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
 
-<<<<<<< HEAD
 	if config_check tests ;then
 	    cmOk "Files check"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	cInfo "Git pull, branch"
-	cItalic "$branch" "(--bare)"
-	cOk
-    else
-	clnError "Config pull error: Conflict."
-	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checking again and backup files"
-
-	bkp_cfg_files
-	cmOk "Cleaning"
-
-	if git_config pull origin $branch
-	then
-	    config_check
-	    cInfo "Git pull config , branch"
-	    cItalic "$branch" "(--bare)"
-	    cOk
-=======
-	cInfo "Git pull, branch" "$branch" "(--bare)"
-	cmOk "Git pull"
-    else
-	cError "Config pull error:" "Conflict."
-	cInfo "Backup conflicts and try again"
-	git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Checking again and backup files"
-
-	cInfo "Move .backup files to:" "$bkpdir"
-	bkp_cfg_files
-	cmOk "Cleaning"
-
-	if git_config pull origin $branch
-	then
-	    config_check
-	    cInfo "Git pull config, branch" "$branch" "(--bare)"
-	    cmOk "Git pull"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 	else
 	    cError "Files check"
 	fi
 
-<<<<<<< HEAD
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Backup conflicts and try again"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	    git_config fetch origin $branch
-	    cInfo "Fetching origin"
-	    cItalic "$branch" ":"
-	    cOk
-=======
-	    git_config fetch origin $branch
-	    cInfo "Fetching origin" "$branch"
-	    cmOk "Git fetch"
-	    
-	    git_config reset --hard ORIG_HEAD
-	    cInfo "Reset --hard:" "$branch" 
-	    cmOk "Change reset hard HEAD"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 
-<<<<<<< HEAD
     fi
     cd "$backto" || return
     printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
@@ -134,36 +74,9 @@ bare_repo_pull() {
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config pull error(logs):" "$bkpLog" "; Backup conflicts, reset and try again"
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	    git_config reset --hard HEAD
-	    cInfo "Reset --hard:"
-	    cItalic "$branch" ":"
-	    cOk
 
-	    git_config merge origin '@{u}'
-	    cInfo "Mergin origin"
-	    cItalic "$branch" ":"
-	    cOk
-=======
-	   # git_config merge origin '@{u}'
-	   # cInfo "Mergin origin" "$branch" 
-	   # cmOk "Merge origin"
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
-
-<<<<<<< HEAD
 	bkp_conflict 
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	    cmOk "Checking again and backup files"
-	    config_check
-=======
-	    cInfo "Backup conflicts and try again"
-	    git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	    cmOk "Backup conflicts and try again"
-	    config_check
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 
-<<<<<<< HEAD
 	if git_config pull origin "$branch" &>> "$bkpLog"
 	then
 	    config_check tests
@@ -173,25 +86,6 @@ bare_repo_pull() {
 	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails. Reset and exit."
 	    bare_repo_fetch
-||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
-	    bkp_cfg_files
-	    cmOk "Clean"
-
-	    if git_config pull origin $branch
-		clnInfo "Git pull finished after fetch. Exit"
-	    then
-		clnError "Can't pull anyway .Exit with errors."
-	    fi
-=======
-	    bkp_cfg_files
-	    cmOk "Clean"
-
-	    if git_config pull origin $branch
-		cInfo "Git pull finished." "Success" "Exit"
-	    then
-		cError "Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails."
-	    fi
->>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 	fi
     fi
     cd "$backto" || return
