@@ -64,6 +64,9 @@ local_repo_pull() {
 	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    local_repo_fetch
 	fi
+
+	cInfo "Git pull, branch" "$branch" "(--local)"
+	cmOk "Git pull"
     else
 	cError "No such directory to pull in"
 	cInfo "Clone repository first. Branch:" "$branch" 
