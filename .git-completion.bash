@@ -3582,6 +3582,7 @@ __git_complete ()
 ___git_complete git __git_main
 ___git_complete gitk __gitk_main
 
+___git_complete bare __git_main
 # The following are necessary only for Cygwin, and only are needed
 # when the user has tab-completed the executable name and consequently
 # included the '.exe' suffix.

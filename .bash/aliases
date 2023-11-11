@@ -82,6 +82,7 @@ alias myhost='ssh -T user@my.remote.host screen -dAr'
 #git {{{
 #status
 alias g='git status '
+
 alias glog="git log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar. %s ;'"
 #git diff
 alias gdiff="git diff"
@@ -101,9 +102,15 @@ alias gmail='git config --global user.email '
 alias gconf='git config --list --show-origin'
 #push see bash_functions
 #config
-alias conf='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias conf_packs='config_check packs'
-alias conf_log='cat $HOME/.config-bkp/stage-bkp.log'
+alias bare='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias ba='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -i'
+alias bcm='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m'
+alias b='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status'
+alias bdiff='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff'
+alias br='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME restore'
+alias bare_log="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar.%s ;'"
+alias bpacks='config_check packs'
+alias blog='cat $HOME/.config-bkp/stage-bkp.log'
 # }}}
 # jekyll {{{
 alias jstart="bundle exec jekyll serve --livereload"

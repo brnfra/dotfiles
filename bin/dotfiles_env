@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #git
-branch="main"
+branch=""
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
@@ -36,16 +36,30 @@ grey="${E}2m"
 cInfo() {
     printf "%b%s%b" "$grey" "[INFO]" "$reset " 
     printf "%s" "$1" 
+<<<<<<< HEAD
     printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
     printf "%s\n" "$3" 
  
+||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
+=======
+    printf "%b%b %s%b " "$cyan" "$italic" "$2" "$reset" 
+    printf "%s\n" "$3" 
+ 
+>>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 }
 cError() {
     printf "%b%s%b " "$red" "[FAIL]" "$reset" 
     printf "%s" "$1" 
+<<<<<<< HEAD
     printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
     printf "%s\n" "$3" 
  
+||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
+=======
+    printf "%b%b %s%b " "$cyan" "$italic" "$2" "$reset" 
+    printf "%s\n" "$3" 
+ 
+>>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 }
 cItalic() {
     printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 

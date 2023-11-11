@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 # Arquivo: dirs_config
 # Autor: Bruno Franco
+<<<<<<< HEAD
 # Ultima_modificacao: 10-11-2023
+||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
+# Ultima_modificacao: 03-11-2023
+=======
+# Ultima_modificacao: 05-11-2023
+>>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos

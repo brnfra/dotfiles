@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
+<<<<<<< HEAD
 #  Ultima_modificacao: 10-11-2023
+||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
+#  Ultima_modificacao: 03-11-2023
+=======
+#  Ultima_modificacao: 05-11-2023
+>>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -44,12 +50,25 @@ exit; fi
 git_push() {
     #push
     message="${1:-"refactor: update dotfiles dir or scripts"}"
+<<<<<<< HEAD
     git_repo add -A -v &>> "$bkpLog"
     git_repo commit -v -m "$message" &>> "$bkpLog"
     if git_repo push origin "$branch" &>> "$bkpLog"; then
 	git status -sb &>> "$bkpLog"
 	git status -sb 
 	cmOk "Git add, commit and push"
+||||||| parent of 92eb859 (refactor: update dotfiles dir or scripts)
+    git add -A -v;git commit -v -m "$message";
+    if git push origin "$branch"; then
+	git status -sb
+	cmOk "Git add and push"
+=======
+    git add -A -v;git commit -v -m "$message";
+    if git push -u origin "$branch"; then
+	git push
+	git status -sb
+	cmOk "Git add and push"
+>>>>>>> 92eb859 (refactor: update dotfiles dir or scripts)
     else
 	git status -sb &>> "$bkpLog"
 	clnError "$?:error check git push logs to find out."
