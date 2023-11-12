@@ -35,7 +35,6 @@ bare_repo_fetch() {
     cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--bare-repo] "
     backto=$(pwd)
     cd "$HOME" || return
-    prepare
 
     if git_config fetch --all &>> "$bkpLog"
     then
@@ -65,6 +64,7 @@ bare_repo_pull() {
     cd "$HOME" || return
     sync_branch    
     git_config fetch --all &>> "$bkpLog"
+    prepare
     
     if git_config pull origin "$branch" &>> "$bkpLog"
     then
