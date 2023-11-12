@@ -15,24 +15,26 @@ unset file;
 commit_last ()
 {
     printf "[INFO]%s at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
-    bareModfied=$(git_bare status -s | cut -d " " -f 3)
-    repoModfied=$(git_repo status -s | cut -d " " -f 3)
+    bareModfied=$(git_bare status -s | awk '{print $2}')
+    repoModfied=$(git_repo status -s | awk '{print $2}')
 
     cInfo "git bare repo file to add:" 
     for file in $bareModfied
     do
-	cInfo "add:" "$file"
-	git_bare add "$file"
+	cInfo "add:" "$file" 
+	git_bare add "$file" &>> "$bkpLog"
+
     done
 
     cInfo "git cloned repo file to add:" 
     for file in $repoModfied
     do
-	git_repo add "$dotfiles_dir/""$file" 
+	git_repo add "$dotfiles_dir/$file"  &>> "$bkpLog"
+
     done
 
-    git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}"
-    git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}"
+    git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
+    git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
     cInfo "Commit message:" "${1:-"refact: update dot files, dir or scripts"}"
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
@@ -53,15 +55,17 @@ sync_branch ()
     if [ "$BranchHome" != "$RepoBranch" ]; then
 	clnInfo "Branch home and dotfiles aren't the same:"
 	if git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome &>> "$bkpLog" && \
-	    git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome;then
+	    git --git-dir=$install_dir --work-tree=$HOME checkout $BranchHome &>> "$bkpLog";then
 	    cmOk "Branches are the same."
 	    echo
 	else
 	    cError "Can't change branch in $dotfiles_dir. Aborting. BranchHome and RepoBranch:" "$BranchHome and $RepoBranch"
+	    printf "[INFO]Branches are't the same.Can't change branch.\n"  >> "$bkpLog"
 	    exit 2
 	fi
     else
 	cmOk "Branches are the same."
+	printf "[INFO]Branches are the same.\n"  >> "$bkpLog"
 	echo
     fi
 
