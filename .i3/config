@@ -36,7 +36,7 @@ focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
+bindsym $mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur
 for_window [title="fzf-menu"] floating enable move position center
 set $sup bindsym Mod4
 set $exe exec --no-startup-id

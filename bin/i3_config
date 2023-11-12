@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-11-2023
+# Ultima_modificacao: 12-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -101,7 +101,7 @@ options="${options}default_border pixel 2\n"
 # Kill focused window.
 options="${options}bindsym \$mod+Shift+q kill\n"
 #dmenu
-options="${options}bindsym \$mod+d exec --no-startup-id xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'\n"
+options="${options}bindsym \$mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur\n"
 options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
 # exec shortener 
 options="${options}set \$sup bindsym Mod4\n"
