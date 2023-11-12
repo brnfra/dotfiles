@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 12-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,12 +14,12 @@ unset file;
 bkp_conflict ()
 {
     printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"                                                                                                                                           
-    conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
+    conflicts=$(git_config pull origin "$branch" 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
     #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    echo "conflicts $conflicts"
+    echo "conflicts $conflicts" >> "$bkpLog"
     for file in $conflicts
     do     
-	mv "$HOME"/"$file" "$HOME"/"$file".backup
+	mv "$HOME"/"$file" "$HOME"/"$file".backup &>> "$bkpLog"
     done  
     config_check tests
     cmOk "Checking and backup files"
