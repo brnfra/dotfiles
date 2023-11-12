@@ -21,18 +21,20 @@ commit_last ()
     cInfo "git bare repo file to add:" 
     for file in $bareModfied
     do
-	cInfo "add:" "$file"
-	git_bare add "$file"
+	cInfo "add:" "$file" 
+	git_bare add "$file" &>> "$bkpLog"
+
     done
 
     cInfo "git cloned repo file to add:" 
     for file in $repoModfied
     do
-	git_repo add "$dotfiles_dir/""$file" 
+	git_repo add "$dotfiles_dir/""$file"  &>> "$bkpLog"
+
     done
 
-    git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}"
-    git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}"
+    git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
+    git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
     cInfo "Commit message:" "${1:-"refact: update dot files, dir or scripts"}"
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
