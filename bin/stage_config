@@ -29,7 +29,7 @@ commit_last ()
     cInfo "git cloned repo file to add:" 
     for file in $repoModfied
     do
-	git_repo add "$dotfiles_dir/""$file"  &>> "$bkpLog"
+	git_repo add "$dotfiles_dir/$file"  &>> "$bkpLog"
 
     done
 
