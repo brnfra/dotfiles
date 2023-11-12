@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 05-11-2023
+" Ultima_modificacao: 11-11-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -185,7 +185,7 @@ call plug#end()
 "              FUGITIVE                          {{{
 "                                           }}}"
 "COC{{{
-if has("nvim")
+if has('nvim')
     set shortmess+=c
     if has("nvim-0.5.0") || has("patch-8.1.1564")
 	set signcolumn=number
@@ -302,12 +302,14 @@ if has("nvim")
 endif
 ""}}}
 "              VIM-SENSIBLE {{{
-" automatically open and close the popup menu / preview window
-au CursorMovedI,InsertLeave * if pumvisible()==0|silent! pclose|endif
-" Complete options (disable preview scratch window)
-set completeopt+=menuone,noinsert,longest,preview,noselect
-" Limit popup menu height
-set pumheight=15
+if has('nvim')
+    " automatically open and close the popup menu / preview window
+    au CursorMovedI,InsertLeave * if pumvisible()==0|silent! pclose|endif
+    " Complete options (disable preview scratch window)
+    set completeopt+=menuone,noinsert,longest,preview,noselect
+    " Limit popup menu height
+    set pumheight=15
+endif
 "              }}}
 "             Netrw configuration       {{{2
 ""------------------------------------------------------
@@ -782,7 +784,9 @@ noremap ,g :Goyo 120x90%<CR>
 "delete blank spaces"
 noremap <leader>d :%s/\s\+$//<CR>    
 "delete blank lines
-noremap <leader>D :g/^\s*$/d<CR>
+noremap <leader>DD :g/^\s*$/d<CR>
+noremap <leader>D :%s!\n\n\n\+!\r\r!g<CR>
+"noremap <leader>D :%!cat: -s<CR>
 "manual entry
 noremap <leader>M :call <SNR>44_PreGetPage(0)<CR>
 inoremap <leader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
@@ -798,11 +802,16 @@ inoremap { {}<left>
 inoremap [ []<left>
 inoremap ' ''<left>
 inoremap " ""<left>
-"surround "" ou ''  
+"surround "" ou '' ss or SS for surround special chars
+"only words s or S
 nnoremap <leader>s bcw""<esc>P
-inoremap <leader>s <esc>bcw""<esc>Pi
+nnoremap <leader>ss BcW""<esc>P
 nnoremap <leader>S bcw''<esc>P
+nnoremap <leader>SS BcW''<esc>P
+inoremap <leader>s <esc>bcw""<esc>Pi
+inoremap <leader>ss <esc>BcW""<esc>Pi
 inoremap <leader>S <esc>bcw''<esc>Pi
+inoremap <leader>SS <esc>BcW''<esc>Pi
 let s:hidden_all = 1 "by @LukeSmithxyz"
 function ToggleHidden()
     if s:hidden_all == 0
