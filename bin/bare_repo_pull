@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 12-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,14 +14,13 @@ unset file;
 bkp_conflict ()
 {
     printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"                                                                                                                                           
-    conflicts=$(git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
+    conflicts=$(git_config pull origin "$branch" 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
     #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-    echo "conflicts $conflicts"
+    echo "conflicts $conflicts" >> "$bkpLog"
     for file in $conflicts
     do     
-	mv "$HOME"/"$file" "$HOME"/"$file".backup
+	mv "$HOME"/"$file" "$HOME"/"$file".backup &>> "$bkpLog"
     done  
-    config_check tests
     cmOk "Checking and backup files"
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files  
@@ -35,8 +34,7 @@ bare_repo_fetch() {
     cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--bare-repo] "
     backto=$(pwd)
     cd "$HOME" || return
-    prepare
-
+    git_config rebase --abort
     if git_config fetch --all &>> "$bkpLog"
     then
 	git_config merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
@@ -50,8 +48,9 @@ bare_repo_fetch() {
 	cInfo "Git pull, branch" "$branch" "(--bare)"
 	cmOk "Git pull"
     else
-	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Backup conflicts and try again"
-
+	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Exit with error."
+	printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+	exit 1
     fi
     cd "$backto" || return
     printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
@@ -64,6 +63,7 @@ bare_repo_pull() {
     backto=$(pwd)
     cd "$HOME" || return
     sync_branch    
+    prepare
     git_config fetch --all &>> "$bkpLog"
     
     if git_config pull origin "$branch" &>> "$bkpLog"
@@ -83,8 +83,7 @@ bare_repo_pull() {
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
 	    cmOk "Git pull"
 	else
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
-	    cError "${LINENO}:Can't pull anyway .Exit with errors. Check:" "$bkpLog" " for more datails. Reset and exit."
+	    cError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    bare_repo_fetch
 	fi
     fi

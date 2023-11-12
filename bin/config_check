@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 12-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -19,10 +19,10 @@ tests() {
 
     if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
 	clnInfo "Config check all" &>> "$bkpLog"
-	if bash "$checkAll" | awk '/^test|OK|FAILED/{print $0}' &>> "$bkpLog";
+	if bash "$checkAll" | awk '/test|OK|FAILED/{print $0}' &>> "$bkpLog";
 	then
 	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-		clnInfo "I3config and i3 scripts"
+		cmOk "I3config and i3 scripts"
 	    else
 		clnError "I3config not found. Installing config file "
 		if ! "$i3_scpt" "$bkpdir"; then
@@ -33,16 +33,16 @@ tests() {
 		clnInfo "I3config file installed."
 	    fi
 	else
-	    bash "$checkAll" | awk '/^test|OK|FAILED/{print $0}'
+	    bash "$checkAll" | awk '/test|OK|FAILED/{print $0}'
 	    cError "Some tests fail"
 	    cmOk "Config files and folders checked"
 	fi
     else
 	clnInfo "Config check /home" &>> "$bkpLog"
-	if bash "$checkHome"| awk '/^test|OK|FAILED/{print $0}' &>> "$bkpLog";
+	if bash "$checkHome"| awk '/test|OK|FAILED/{print $0}' &>> "$bkpLog";
 	then
 	    if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-		clnInfo "I3config and i3 scripts"
+		cmOk "I3config and i3 scripts"
 	    else
 		clnError "I3config not found. Installing config file "
 		if ! "$i3_scpt" "$bkpdir"; then
@@ -53,7 +53,7 @@ tests() {
 		clnInfo "I3config file installed."
 	    fi
 	else
-	    bash "$checkHome" | awk '/^test|OK|FAILED/{print $0}'
+	    bash "$checkHome" | awk '/test|OK|FAILED/{print $0}'
 	    cError "Some tests fail"
 	    cmOk "Config files and folders checked"
 	fi
@@ -65,7 +65,7 @@ tests() {
 packs() {
     printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
 
-    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    osys=$(cat /etc/os-release | sed -n -r '/ID=/p' | cut -d "=" -f 2)
 
     packs_list="acpi "
     packs_list+="blueman "

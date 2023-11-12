@@ -10,6 +10,39 @@ for file in ~/bin/{dotfiles_env,config_check,git_config,stage_config}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+  Bare merge
+
+  NAME
+      bare_merge  - Remove dupes lines in file(text)
+
+  SYNOPSIS
+      bare_merge update_branch { "[string_message]" | -h | --help }
+
+  DESCRIPTION
+      In currente branch, you can update other branch with the last updates if you desire. 
+      Run the command bare_merge update_branch [branch_to_update] and the script will sync current branch
+      and the other that you choose.
+
+      -h, --help
+	  Print help informations
+  OPTIONS
+      -h,--help
+	  Print help informations
+
+  Exit status:
+	 0      if OK,
+
+	 1      Checkout or fetch error.
+
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
 # merge from updated branch
 update_branch() 
 {
@@ -31,10 +64,10 @@ update_branch()
 	cmOk "Git merge"
     else
 	cError "${LINENO}:Config checkout or fetch, error(logs):" "$bkpLog"     
+	exit 1
     fi
     cd "$backto" || return
     printf "[INFO]### %s all done ### bare_merge ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
-
 }
 
 case $1 in
