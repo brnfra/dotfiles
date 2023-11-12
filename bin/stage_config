@@ -15,8 +15,8 @@ unset file;
 commit_last ()
 {
     printf "[INFO]%s at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
-    bareModfied=$(git_bare status -s | cut -d " " -f 3)
-    repoModfied=$(git_repo status -s | cut -d " " -f 3)
+    bareModfied=$(git_bare status -s | awk '{print $2}')
+    repoModfied=$(git_repo status -s | awk '{print $2}')
 
     cInfo "git bare repo file to add:" 
     for file in $bareModfied
