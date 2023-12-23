@@ -34,7 +34,7 @@ ssh_env() {
 	    exit 2
 	fi
     elif [ "$osys" = "manjaro" ]; then
-	if ssh -v &> /dev/null
+	if ssh -V &> /dev/null
 	then
 	    if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
 	    then
