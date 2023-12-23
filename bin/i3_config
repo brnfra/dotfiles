@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 12-11-2023
+# Ultima_modificacao: 13-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -274,7 +274,7 @@ options="${options}}\n"
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
 options="${options}bindsym Ctrl+0 exec \$Terminal -x vim $cfg_dir/config\n"
-options="${options}bindsym Ctrl+1 exec firefox\n"
+options="${options}bindsym Ctrl+1 exec firefox-esr\n"
 options="${options}bindsym Ctrl+2 exec \$Terminal -x vifm\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
 options="${options}bindsym Ctrl+F2 exec \$Terminal -x alsamixer\n"
@@ -317,6 +317,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
+elif [ "$system_id" = "debian" ]; then
     options="${options}bar {\n"
     options="${options}    id bar-2 \n"
     options="${options}    position bottom\n"

@@ -170,3 +170,4 @@ alias vifm="vifm ."
 alias py="python3"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
+alias rottenpotatoes-rails-intro="cd /home/devlab/Documents/Projects/git/rottenpotatoes-rails-intro"
