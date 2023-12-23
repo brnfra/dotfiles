@@ -28,6 +28,9 @@ testDotfilesConfigs() {
     #cInfo "Check if packs are installed"
     #"$HOME/tests/testPkgInstalled.sh"
     #assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error some packages are not installed\n" $? 
+    cInfo "Check if install branch is correct"
+    "$HOME/tests/testInstall.sh"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} The curl will get branch in wrong place. Check curl site install script line 23.\n" $? 
 
 }
 oneTimeSetUp() {
