@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: ssh_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 23-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,21 +14,42 @@ ssh_env() {
     #setup ssh
     #by  nishanthshanmugham and lhunath
     #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
-    if command -v ssh &> /dev/null
-    then
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
-	if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
+    #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
+    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+	if command -v ssh &> /dev/null
 	then
-	    clnInfo "Creating pub keys: ssh-agent in use."
+
+	    if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
+	    then
+		clnInfo "Creating pub keys: ssh-agent in use."
+	    else
+		eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/${user_name}_key_ecdsa";  wait $!
+		eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/${user_name}_key_ecdsa"
+	    fi
+	    cmOk "Edit ssh enviroments. keygen and agent."
 	else
-	    eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/${user_name}_key_ecdsa";  wait $!
-	    eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/${user_name}_key_ecdsa"
+	    clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
+	    exit 2
 	fi
-	cmOk "Edit ssh enviroments. keygen and agent."
-    else
-	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
-	exit 2
+    elif [ "$osys" = "manjaro" ]; then
+	if ssh -v &> /dev/null
+	then
+	    if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
+	    then
+		clnInfo "Creating pub keys: ssh-agent in use."
+	    else
+		eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/${user_name}_key_ecdsa";  wait $!
+		eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/${user_name}_key_ecdsa"
+	    fi
+	    cmOk "Edit ssh enviroments. keygen and agent."
+	else
+	    clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
+	    exit 2
+	fi
     fi
+
 }
 
 ssh_connect() {
