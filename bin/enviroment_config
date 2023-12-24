@@ -43,7 +43,7 @@ make_dirs
 git_env
 ssh_env
 get_fonts
-if git clone "$repository" "$HOME/Documents/Projects/git/"; then
+if git clone "$repository" "$dotfiles_dir"; then
     cmOk "Clone remote in: " "$dotfiles_dir"
 else
     clnError "Can't clone repository"
