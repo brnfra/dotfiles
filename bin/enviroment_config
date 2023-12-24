@@ -38,11 +38,18 @@ for file in ~/bin/{dotfiles_env,dirs_config,git_config,ssh_config,get_fonts}; do
 done;
 unset file;
 clnInfo "${0##*/}"
-clnInfo "Installing Enviroment."
+clnInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and download fonts."
 make_dirs
 git_env
 ssh_env
 get_fonts
+if git clone "$repository" "$HOME/Documents/Projects/git/"; then
+    cmOk "Clone remote in: " "$dotfiles_dir"
+else
+    clnError "Can't clone repository"
+    exit 1
+fi
+
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     i3_config
 elif [ "$osys" = "manjaro" ]; then
