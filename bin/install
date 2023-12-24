@@ -76,6 +76,7 @@ install_check
 cInfo "Git clone (--bare):" "$branch"
 if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
+    cd "$HOME/bin" || return
     bare_repo_checkout
 else
     clnError "Can't clone repository"
