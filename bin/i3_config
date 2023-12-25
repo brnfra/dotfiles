@@ -14,8 +14,8 @@ clnInfo "${0##*/}"
 
 # Settings.
 #gaps
-gaps_inner=10
-gaps_outer=0
+gaps_inner=-2
+gaps_outer=-2
 #colors
 i3darker="#080910"
 dark="#181920"
@@ -93,8 +93,8 @@ options="${options}set \$ico_whatsapp <span font='Font Awesome'>&#xf232;</span>\
 options="${options}set \$ico_window   <span font='Font Awesome'>&#xf2d0;</span>\n"
 options="${options}set \$ico_calibre   <span font='Font Awesome'>&#xf212;</span>\n"
 #terminal
-#options="${options}set \$Terminal $terminal\n"
-#options="${options}set \$Terminim $terminal --minimize\n"
+#options="${options}set terminal $terminal\n"
+#options="${options}set terminim $terminal --minimize\n"
 options="${options}set \$binaries $binaries\n"
 options="${options}bindsym \$mod+Return exec terminal\n"
 # Use Mouse+$mod to drag floating windows to their wanted position.
@@ -216,9 +216,6 @@ if [ "$use_gaps" = "true" ]; then
 ### settings for i3-gaps: ###
 #############################
 
-# Set inner/outer gaps
-options="${options}gaps inner 14\n"
-options="${options}gaps outer -2\n"
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -234,7 +231,6 @@ options="${options}smart_borders on\n"
 
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
-options="${options}gaps outer -2\n"
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap sie.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -381,9 +377,9 @@ fi
 #bindsym Ctrl+1 exec xfce4-appfinder
 options="${options}bindsym Ctrl+0 exec terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+1 exec firefox\n"
-options="${options}bindsym Ctrl+2 exec \$Terminal -x vifm\n"
+options="${options}bindsym Ctrl+2 exec terminal -x vifm\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
-options="${options}bindsym Ctrl+F2 exec \$Terminal -x alsamixer\n"
+options="${options}bindsym Ctrl+F2 exec terminal -x alsamixer\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
 options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
 options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
@@ -398,12 +394,12 @@ fi
 #Color appearance -----------------------------------------------------------------
 #
 		    # class                 border      backgr. text    indicator child_border
-options="${options}client.focused          $i3green      $i3black  $i3white  $i3purple   $i3green\n"
+options="${options}client.focused          $i3green    $i3black  $i3white  $i3purple   $i3green\n"
 options="${options}client.focused_inactive $dark       $dark   $i3white  $i3yellow   $dark\n"
 options="${options}client.unfocused        $dark       $dark   $i3white  $i3purple   $dark\n"
-options="${options}client.urgent           $i3red        $dark   $i3white  $i3red      $i3red\n"
+options="${options}client.urgent           $i3red      $dark   $i3white  $i3red      $i3red\n"
 options="${options}client.background       $dark\n"
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$system_id" = "debian" ]; then
     # Place workspace.
     #options="${options}workspace 1 output $monitor1\n"
     #options="${options}workspace 2 output $monitor2\n"
@@ -418,14 +414,14 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
-    options="${options}        background $i3white\n"
-    options="${options}        statusline $i3darker\n"
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
-			       #                    border     backgr    text
-    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
-    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
-    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+			       #                border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
     options="${options}bar {\n"
@@ -439,14 +435,36 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    font pango: Monofur 10\n"
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}        background $i3white\n"
-    options="${options}        statusline $i3darker\n"
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
-			       #                    border     backgr    text
-    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
-    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
-    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+			       #                border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+    options="${options}    }\n"
+    options="${options}}\n"
+elif [ "$system_id" = "ubuntu" ]; then
+ options="${options}bar {\n"
+    options="${options}    id bar-1 \n"
+    options="${options}    position bottom\n"
+    options="${options}    output primary\n"
+    options="${options}    tray_output primary\n"
+    options="${options}    tray_padding 2\n"
+    options="${options}    separator_symbol \" \"\n"
+    options="${options}    mode dock \n"
+    options="${options}    font pango: Monofur 10\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    colors {\n"
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
+    #options="${options}    separator  $i3purple\n"
+			   #                    border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
 elif [ "$system_id" = "manjaro" ]; then
@@ -459,42 +477,22 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
    # options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command i3status\n"
+    options="${options}    status_command i3status -c $cfg_dir/i3status.conf\n"
     options="${options}    i3bar_command i3bar\n"
    # options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
-    options="${options}        background $i3white\n"
-    options="${options}        statusline $i3darker\n"
-    #options="${options}        separator  $i3purple\n"
-			       #                    border     backgr    text
-    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
-    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
-    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
-    options="${options}    }\n"
-    options="${options}}\n"
-    options="${options}bar {\n"
-    options="${options}    id bar-2 \n"
-    options="${options}    position bottom\n"
-    options="${options}    output nonprimary\n"
-    options="${options}    tray_output none\n"
-    options="${options}    tray_padding 2\n"
-    options="${options}    separator_symbol \" \"\n"
-    options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
-    options="${options}    colors {\n"
-    options="${options}        background $i3white\n"
-    options="${options}        statusline $i3darker\n"
-#    options="${options}        separator  $i3purple\n"
-			       #                    border     backgr    text
-    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
-    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
-    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
+    #options="${options}    separator  $i3purple\n"
+			   #                    border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
     options="${options}    }\n"
     options="${options}}\n"
 fi
+ 
 # caps lock/num lock status 
 options="${options}bindsym --release Caps_Lock \$exe pkill -SIGRTMIN+11 i3blocks\n"
 options="${options}bindsym --release Num_Lock  \$exe pkill -SIGRTMIN+11 i3blocks\n"
