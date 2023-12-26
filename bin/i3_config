@@ -11,6 +11,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 clnInfo "${0##*/}"
+system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
 # Settings.
 #gaps
@@ -37,7 +38,20 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #Apps
-#terminal="xfce4-terminal"
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+    if xfce4-terminal -V &> /dev/null;then
+	Terminal="xfce4-terminal"
+    else
+	Terminal="i3-sensible-terminal"
+    fi
+elif [ "$system_id" = "manjaro" ]; then
+    if xfce4-terminal -V &> /dev/null;then
+	Terminal="xfce4-terminal"
+    else
+	Terminal="i3-sensible-terminal"
+    fi
+fi
+
 #font
 font="Monofur 10"
 
@@ -46,7 +60,6 @@ mod_button="Mod4"
 # Initializing the variable. 0 = true
 use_gaps="true"
 # Get OS and hostname.
-system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     use_gaps="false"
 fi
@@ -92,11 +105,11 @@ options="${options}set \$ico_volume   <span font='Font Awesome'>&#xf028;</span>\
 options="${options}set \$ico_whatsapp <span font='Font Awesome'>&#xf232;</span>\n"
 options="${options}set \$ico_window   <span font='Font Awesome'>&#xf2d0;</span>\n"
 options="${options}set \$ico_calibre   <span font='Font Awesome'>&#xf212;</span>\n"
-#terminal
-#options="${options}set terminal $terminal\n"
-#options="${options}set terminim $terminal --minimize\n"
+#Terminal
+#options="${options}set terminal $Terminal\n"
+#options="${options}set terminim $Terminal --minimize\n"
 options="${options}set \$binaries $binaries\n"
-options="${options}bindsym \$mod+Return exec terminal\n"
+options="${options}bindsym \$mod+Return exec $Terminal\n"
 # Use Mouse+$mod to drag floating windows to their wanted position.
 options="${options}floating_modifier \$mod\n"
 # Disable focus following the mouse (no).
@@ -375,11 +388,11 @@ options="${options}}\n"
 fi
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
-options="${options}bindsym Ctrl+0 exec terminal -x vim $cfg_dir/config\n"
+options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+1 exec firefox\n"
-options="${options}bindsym Ctrl+2 exec terminal -x vifm\n"
+options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
-options="${options}bindsym Ctrl+F2 exec terminal -x alsamixer\n"
+options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
 options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
 options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
@@ -510,7 +523,7 @@ elif [ "$system_id" = "manjaro" ]; then
 ################################################################################################
 
 options="${options}exec --no-startup-id volumeicon\n"
-options="${options}bindsym \$mod+Ctrl+m exec terminal -e \'alsamixer\'\n"
+options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
 #bindsym $mod+Ctrl+m exec pavucontrol

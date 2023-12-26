@@ -29,7 +29,7 @@ set $ico_whatsapp <span font='Font Awesome'>&#xf232;</span>
 set $ico_window   <span font='Font Awesome'>&#xf2d0;</span>
 set $ico_calibre   <span font='Font Awesome'>&#xf212;</span>
 set $binaries $HOME/bin
-bindsym $mod+Return exec terminal
+bindsym $mod+Return exec xfce4-terminal
 floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
@@ -185,11 +185,11 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym Ctrl+0 exec terminal -x vim $HOME/.i3/config
+bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
 bindsym Ctrl+1 exec firefox
-bindsym Ctrl+2 exec terminal -x vifm
+bindsym Ctrl+2 exec xfce4-terminal -x vifm
 bindsym Ctrl+3 exec pcmanfm
-bindsym Ctrl+F2 exec terminal -x alsamixer
+bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
@@ -224,7 +224,7 @@ bar {
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
 exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
 $exe_always compton --config ~/.config/compton.conf
 $exe_always xset b off
 $exe numlockx on
