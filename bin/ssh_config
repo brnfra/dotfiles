@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: ssh_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 25-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -14,9 +14,9 @@ ssh_env() {
     #setup ssh
     #by  nishanthshanmugham and lhunath
     #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
-    if command -v ssh &> /dev/null
+    
+    if ssh -V &> /dev/null
     then
-
 	if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
 	then
 	    clnInfo "Creating pub keys: ssh-agent in use."
@@ -29,6 +29,7 @@ ssh_env() {
 	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
 	exit 2
     fi
+
 }
 
 ssh_connect() {

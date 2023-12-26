@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: git_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
+# Ultima_modificacao: 23-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -22,14 +22,27 @@ git_config() {
 }
 
 git_env() {
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
-    if dpkg -s git &> /dev/null
-    then
-	git config --global user.email "$email"
-	git config --global user.name "$user_name"
-	cmOk "Edit git enviroments. Username and e-mail."
-    else
-	clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
-	exit 1
+    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+	if dpkg -s git &> /dev/null
+	then
+	    git config --global user.email "$email"
+	    git config --global user.name "$user_name"
+	    cmOk "Edit git enviroments. Username and e-mail."
+	else
+	    clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
+	    exit 1
+	fi
+    elif [ "$osys" = "manjaro" ]; then
+	if git config --global user.email "$email"; then
+	    git config --global user.name "$user_name"
+	    cmOk "Edit git enviroments. Username and e-mail."
+	else
+	    clnError "Add git config: Git installation needed. Run pacman install git or read output for problems"
+	    exit 1
+	fi
     fi
+
 }

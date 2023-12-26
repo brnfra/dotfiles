@@ -13,19 +13,21 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     alias get='sudo apt-get install'
     alias remove='sudo apt-get remove --purge'
     alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
-    alias fd='fdfind'
+   alias fd='fdfind'
     # }}}
     # {{{ pacman alias
     #
 elif [ "$osys" = "manjaro" ]; then
     # update and upgrade
-    alias up='sudo pacman -Syu'
-    alias get='sudo pacman -Syu'
+    alias up='sudo pacman -Sy'
+    alias upg='sudo pacman -Syu'
+    alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
+    alias upgrade-distro='sudo pacman -Syyu'
+    alias fd='fdfind'
+    
 fi
 # #}}}
-
-
 #Neofetch {{{
 alias neofetch='neofetch --block_range 0 15'
 # }}}

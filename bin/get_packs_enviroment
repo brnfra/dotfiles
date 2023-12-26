@@ -37,21 +37,25 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	x11-utils \
 	xfce4-power-manager \
 	xfce4-terminal 
-    elif [ "$osys" = "manjaro" ]; then
-	sudo pacman -Syu \
-	    acpi \
-	    blueman \
-	    fzf \
-	    gsimplecal \
-	    jq \
-	    nitrogen \
-	    pcmanfm \
-	    picom \
-	    scrot \
-	    sysstat \
-	    unzip \
-	    vim neovim vifm \
-	    xfce4-power-manager \
-	    xfce4-terminal \
-	    xorg-xwininfo 
+elif [ "$osys" = "manjaro" ]; then
+     sudo pacman -S \
+	 acpi \
+         blueman \
+         fzf \
+         fd-find \
+         jq \
+         netcat-openbsd \
+         gsimplecal \
+         jq \
+         gsimplecal \
+         nitrogen \
+         pcmanfm \
+         picom \
+         scrot \
+         sysstat \
+         unzip \
+         vim neovim vifm \
+         xfce4-power-manager \
+         xfce4-terminal \
+         xorg-xwininfo 
 fi

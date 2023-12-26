@@ -43,8 +43,8 @@ bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
     if git_config checkout; then
 	cmOk "Checkout branch"
-	enviroment_config
-	config_check
+	bash ~/bin/enviroment_config
+	bash ~/bin/config_check
 	cd "$backto" || return
 	exit 0
     else
@@ -58,10 +58,10 @@ bare_repo_checkout() {
 	    clnInfo "Installing enviroment_config and backup config files"
 	    source ~/bin/bkp_cfg_files
 	    git_config config status.showUntrackedFiles no
-	    enviroment_config
-	    bkp_cfg_files
+	    bash ~/bin/enviroment_config
+	    bash ~/bin/bkp_cfg_files
 	    cmOk "Installation script"
-	    config_check
+	    bash ~/bin/config_check
 	    cd "$backto" || return
 	    exit 0
 	else
@@ -76,6 +76,7 @@ install_check
 cInfo "Git clone (--bare):" "$branch"
 if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
+    cd "$HOME/bin" || return
     bare_repo_checkout
 else
     clnError "Can't clone repository"
