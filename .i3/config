@@ -192,19 +192,11 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
-<<<<<<< HEAD
 set $vol_signal pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
 bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
 bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
 bindsym XF86HomePage         $exe pavucontrol
-||||||| b29a045
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-=======
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
->>>>>>> 8fbf9140cc952efab66e9b672c5079b902c9d04c
 $exe_always compton --config ~/.config/compton.conf
 $exe_always xset b off
 $exe numlockx on
