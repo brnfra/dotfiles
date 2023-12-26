@@ -134,13 +134,13 @@ bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Ctrl+l $exe i3lock-fancy -p
 bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
-mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own" {
-	bindsym e exec "i3-msg exit" , mode default
-	bindsym s exec "systemctl suspend", mode default
-	bindsym t exec "--no-startup-id sudo -A systemctl restart NetworkManager", mode default
-	bindsym r exec "systemctl reboot" , mode default
-	bindsym d exec "systemctl poweroff", mode default
+bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
+mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own" {
+	bindsym t $exe systemctl restart NetworkManager, mode default
+	bindsym e $exe i3-msg exit , mode default
+	bindsym s $exe systemctl suspend, mode default
+	bindsym r $exe systemctl reboot , mode default
+	bindsym d $exe systemctl poweroff, mode default
 	bindsym Return mode default
 	bindsym Escape mode default
 }
@@ -158,7 +158,7 @@ mode resize {
     bindsym $mod+r mode default
 }
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
-bindsym Ctrl+1 exec firefox
+bindsym Ctrl+1 exec firefox-esr
 bindsym Ctrl+2 exec xfce4-terminal -x vifm
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
