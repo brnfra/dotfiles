@@ -1,7 +1,4 @@
-#!/usr/bin/env bash
-#
-bash ~/bin/i3_config
-i3-msg reload
+#!/bin/bash
 #Script to adapt the i3config for virtual machines in pre defined resolution
 SCR="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)"
 #get primary screeen
@@ -22,13 +19,6 @@ if [ "$LOC" = "debian-tablet" ]; then
     exit 0
 fi
 if [ "$LOC" = "ubuntu-ideapad3" ]; then
-     $KEYB_ABNT2_BR
-     xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR" 1920x1080_60
-     xrandr --output "$SCR" --mode 1920x1080_60
-    exit 0
-fi
-if [ "$LOC" = "manjaro-ideapad3" ]; then
      $KEYB_ABNT2_BR
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
      xrandr --addmode "$SCR" 1920x1080_60

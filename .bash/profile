@@ -35,7 +35,6 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
 
 complete -o "default" -o "nospace" -W "packs tests" config_check
 complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"

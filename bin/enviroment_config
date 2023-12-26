@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: enviroment_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 23-12-2023
+# Ultima_modificacao: 03-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -31,40 +31,16 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
 for file in ~/bin/{dotfiles_env,dirs_config,git_config,ssh_config,get_fonts}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 clnInfo "${0##*/}"
-clnInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and download fonts."
+clnInfo "Installing Enviroment."
 make_dirs
 git_env
 ssh_env
 get_fonts
-<<<<<<< HEAD
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    i3_config
-elif [ "$osys" = "manjaro" ]; then
-    echo "preparing i3 config"
-fi
-
-||||||| 91e5fa1
 i3_config
-=======
-if git clone "$repository" "$dotfiles_dir"; then
-    cmOk "Clone remote in: " "$dotfiles_dir"
-else
-    clnError "Can't clone repository"
-    exit 1
-fi
-
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    i3_config
-elif [ "$osys" = "manjaro" ]; then
-    echo "preparing i3 config"
-fi
-
->>>>>>> 39aeadbd33b832260f604a3d1baa292cee1cff05
 

@@ -31,6 +31,7 @@ testDotfilesConfigs() {
     cInfo "Check if install branch is correct"
     "$HOME/tests/testInstall.sh"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} The curl will get branch in wrong place. Check curl site install script line 23.\n" $? 
+
 }
 oneTimeSetUp() {
     local=$(pwd)
