@@ -46,7 +46,6 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #font
-font="Monofur 10"
 #Apps
 if xfce4-terminal -V &> /dev/null;then
     Terminal="xfce4-terminal"
@@ -69,9 +68,11 @@ options="# i3 config. Auto generate\n"
 options="${options}# Check ~/bin/i3_config\n"
 options="${options}set \$mod $mod_button\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+    font="Monofur 10"
     options="${options}font pango:$font\n"
 elif [ "$system_id" = "manjaro" ]; then
-    options="${options}font xft:URWGothic-Book 11\n"
+    font="URWGothic-Book 11"
+    options="${options}font xft:$font\n"
 fi
 
 #icons
@@ -488,7 +489,7 @@ elif [ "$system_id" = "ubuntu" ]; then
     options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
-    options="${options}    statusline $i3darker\n"
+
     #options="${options}    separator  $i3purple\n"
 			   #                    border     backgr      text
     options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
@@ -506,13 +507,14 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    # options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command i3status -c $cfg_dir/i3status.conf\n"
+    options="${options}    font pango: $font\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+   # options="${options}    status_command i3status -c $cfg_dir/i3status.conf\n"
     options="${options}    i3bar_command i3bar\n"
     # options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
-    options="${options}    statusline $i3darker\n"
+    #options="${options}    statusline $i3darker\n"
     #options="${options}    separator  $i3purple\n"
 			   #                    border     backgr      text
     options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"

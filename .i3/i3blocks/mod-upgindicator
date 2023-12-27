@@ -4,11 +4,14 @@ osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     check="$(expr $(apt list --upgradeable | wc -l) - 1)"
     color="'orange'"
+elif [ "$osys" = "manjaro" ]; then
+    check="$(expr $( pacman -Qu| wc -l) - 1)"
+    color="'orange'"
 else
     exit
 fi
 # $ fc-list command to list fonts
-font_face='"monofurNF"'
+font_face='"monofur NF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 font_params="<span font=$font_face  color=$color size=$font_size ><b>"
@@ -16,5 +19,5 @@ font_params_close="</b></span>"
 if [ "$check" -lt 1 ]; then
     exit
 else
-    printf "%s %s %s" "$font_params" "↑($check Pkgs)" "$font_params_close"
+    printf "%s %s %s\n" "$font_params" "↑($check Pkgs)" "$font_params_close"
 fi

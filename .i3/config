@@ -212,11 +212,11 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    status_command i3status -c $HOME/.i3/i3status.conf
+    font pango: URWGothic-Book 11
+    status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
     i3bar_command i3bar
     colors {
     background #F5F6F7
-    statusline #080910
     focused_workspace    #0066FF    #00FF00    #181920
     active_workspace	#181920      #0066FF     #F5F6F7
     inactive_workspace   #181920      #E7E8EB     #181920
