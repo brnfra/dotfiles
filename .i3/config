@@ -1,5 +1,5 @@
 # i3 config. Auto generate
-# Check ~/bin/i3_config_install
+# Check ~/bin/i3_config
 set $mod Mod4
 font pango:Monofur 10
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
@@ -28,9 +28,8 @@ set $ico_volume   <span font='Font Awesome'>&#xf028;</span>
 set $ico_whatsapp <span font='Font Awesome'>&#xf232;</span>
 set $ico_window   <span font='Font Awesome'>&#xf2d0;</span>
 set $ico_calibre   <span font='Font Awesome'>&#xf212;</span>
-set $Terminal xfce4-terminal
 set $binaries $HOME/bin
-bindsym $mod+Return exec $Terminal
+bindsym $mod+Return exec xfce4-terminal
 floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
@@ -61,7 +60,7 @@ bindsym $mod+v split h;exec notify-send 'tile horizontally'
 bindsym $mod+h split v;exec notify-send 'tile vertically'
 bindsym $mod+x split toggle;exec notify-send 'tile toggle'
 bindsym $mod+Shift+f fullscreen toggle
-bindsym $mod+Shift+s layout stacking
+bindsym $mod+Ctrl+s layout stacking
 bindsym $mod+Shift+t layout tabbed
 bindsym $mod+Shift+e layout toggle split
 bindsym $mod+f floating toggle
@@ -87,7 +86,6 @@ bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
 bindsym $mod+b workspace back_and_forth
 bindsym $mod+Tab workspace next
 bindsym $mod+Ctrl+1 move container to workspace $ws1
@@ -134,14 +132,23 @@ for_window [class="Virt-manager"] fullscreen enable
 bindsym $mod+Ctrl+u [urgent=latest] focus
 bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
-bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Ctrl+l $exe i3lock-fancy -p
+bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
+mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own" {
+	bindsym t $exe systemctl restart NetworkManager, mode default
+	bindsym e $exe i3-msg exit , mode default
+	bindsym s $exe systemctl suspend, mode default
+	bindsym r $exe systemctl reboot , mode default
+	bindsym d $exe systemctl poweroff, mode default
+	bindsym Return mode default
+	bindsym Escape mode default
+}
 bindsym $mod+Ctrl+r mode resize
 mode resize {
     bindsym h resize shrink width 10 px or 10 ppt
     bindsym j resize grow height 10 px or 10 ppt
     bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
     bindsym Left resize shrink width 10 px or 10 ppt
     bindsym Down resize grow height 10 px or 10 ppt
     bindsym Up resize shrink height 10 px or 10 ppt
@@ -150,29 +157,19 @@ mode resize {
     bindsym Escape mode default
     bindsym $mod+r mode default
 }
-bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own"
-mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own" {
-	bindsym e exec "i3-msg exit" , mode default
-	bindsym s exec "systemctl suspend", mode default
-	bindsym t exec "--no-startup-id sudo -A systemctl restart NetworkManager", mode default
-	bindsym r exec "systemctl reboot" , mode default
-	bindsym d exec "systemctl poweroff", mode default
-	bindsym Return mode default
-	bindsym Escape mode default
-}
-bindsym Ctrl+0 exec $Terminal -x vim $HOME/.i3/config
+bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
 bindsym Ctrl+1 exec firefox-esr
-bindsym Ctrl+2 exec $Terminal -x vifm
+bindsym Ctrl+2 exec xfce4-terminal -x vifm
 bindsym Ctrl+3 exec pcmanfm
-bindsym Ctrl+F2 exec $Terminal -x alsamixer
+bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
-client.focused          #00FF00      #2C323E  #F5F6F7  #9800FE   #00FF00
+client.focused          #00FF00    #2C323E  #F5F6F7  #9800FE   #00FF00
 client.focused_inactive #181920       #181920   #F5F6F7  #FFFF00   #181920
 client.unfocused        #181920       #181920   #F5F6F7  #9800FE   #181920
-client.urgent           #F74336        #181920   #F5F6F7  #F74336      #F74336
+client.urgent           #F74336      #181920   #F5F6F7  #F74336      #F74336
 client.background       #181920
 bar {
     id bar-1 
@@ -185,12 +182,12 @@ bar {
     font pango: Monofur 10
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
-        background #F5F6F7
-        statusline #080910
-        focused_workspace    #0066FF      #00FF00    #181920
-        active_workspace	    #181920      #0066FF     #F5F6F7
-        inactive_workspace   #181920      #E7E8EB     #181920
-        urgent_workspace	    #181920      #FFFF00   #181920
+    background #F5F6F7
+    statusline #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
     }
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
