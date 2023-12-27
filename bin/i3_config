@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
+<<<<<<< HEAD
+# Ultima_modificacao: 27-12-2023
+||||||| fbac7c0
+# Ultima_modificacao: 12-11-2023
+=======
 # Ultima_modificacao: 26-12-2023
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -38,6 +44,24 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #Apps
+<<<<<<< HEAD
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+    if xfce4-terminal -V &> /dev/null;then
+	Terminal="xfce4-terminal"
+    else
+	Terminal="i3-sensible-terminal"
+    fi
+elif [ "$system_id" = "manjaro" ]; then
+    if xfce4-terminal -V &> /dev/null;then
+	Terminal="alacritty"
+    else
+	Terminal="i3-sensible-terminal"
+    fi
+fi
+
+||||||| fbac7c0
+terminal="xfce4-terminal"
+=======
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     if xfce4-terminal -V &> /dev/null;then
 	Terminal="xfce4-terminal"
@@ -52,6 +76,7 @@ elif [ "$system_id" = "manjaro" ]; then
     fi
 fi
 
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 #font
 font="Monofur 10"
 
@@ -118,11 +143,23 @@ options="${options}hide_edge_borders smart\n"
 options="${options}default_border pixel 2\n"
 # Kill focused window.
 options="${options}bindsym \$mod+Shift+q kill\n"
+<<<<<<< HEAD
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+#dmenu
+options="${options}bindsym \$mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur\n"
+options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
+fi
+||||||| fbac7c0
+#dmenu
+options="${options}bindsym \$mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur\n"
+options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
+=======
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     #dmenu
     options="${options}bindsym \$mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur\n"
     options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
 fi
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 # exec shortener 
 options="${options}set \$sup bindsym Mod4\n"
 options="${options}set \$exe exec --no-startup-id\n"
@@ -224,6 +261,82 @@ options="${options}bindsym \$mod+Shift+b workspace back_and_forth\n"
 if [ "$use_gaps" = "true" ]; then
     options="${options}gaps inner $gaps_inner\n"
     options="${options}gaps outer $gaps_outer\n"
+<<<<<<< HEAD
+
+#############################
+### settings for i3-gaps: ###
+#############################
+
+
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+options="${options}smart_gaps on\n"
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+options="${options}smart_borders on\n"
+
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap sie.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+options="${options}smart_gaps on\n"
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+options="${options}smart_borders on\n"
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. 
+# Press one of + / - (in-/derement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the
+#change will be global for all workspaces.
+options="${options}set \$mode_gaps Gaps: (o) outer, (i) inner\n"
+options="${options}set \$mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)\n"
+options="${options}set \$mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)\n"
+options="${options}bindsym \$mod+Shift+g mode \"\$mode_gaps\"\n"
+options="${options}\n"
+options="${options}mode \"\$mode_gaps\" {\n"
+options="${options}        bindsym o      mode \"\$mode_gaps_outer\"\n"
+options="${options}        bindsym i      mode \"\$mode_gaps_inner\"\n"
+options="${options}        bindsym Return mode \"default\"\n"
+options="${options}        bindsym Escape mode \"default\"\n"
+options="${options}}\n"
+options="${options}mode \"\$mode_gaps_inner\" {\n"
+options="${options}        bindsym plus  gaps inner current plus 5\n"
+options="${options}        bindsym minus gaps inner current minus 5\n"
+options="${options}        bindsym 0    gaps inner current set 0\n"
+options="${options}\n"
+options="${options}        bindsym Shift+plus  gaps inner all plus 5\n"
+options="${options}        bindsym Shift+minus gaps inner all minus 5\n"
+options="${options}        bindsym Shift+0     gaps inner all set 0\n"
+options="${options}\n"
+options="${options}        bindsym Return mode \"default\"\n"
+options="${options}        bindsym Escape mode \"default\"\n"
+options="${options}}\n"
+
+options="${options}mode \"\$mode_gaps_outer\" {\n"
+options="${options}        bindsym plus  gaps outer current plus 5\n"
+options="${options}        bindsym minus gaps outer current minus 5\n"
+options="${options}        bindsym 0     gaps outer current set 0\n"
+options="${options}\n"
+options="${options}        bindsym Shift+plus  gaps outer all plus 5\n"
+options="${options}        bindsym Shift+minus gaps outer all minus 5\n"
+options="${options}        bindsym Shift+0     gaps outer all set 0\n"
+options="${options}\n"
+options="${options}        bindsym Return mode \"default\"\n"
+options="${options}        bindsym Escape mode \"default\"\n"
+options="${options}}\n"
+#I3 gaps use IF
+||||||| fbac7c0
+=======
 
     #############################
     ### settings for i3-gaps: ###
@@ -295,6 +408,7 @@ if [ "$use_gaps" = "true" ]; then
     options="${options}        bindsym Escape mode \"default\"\n"
     options="${options}}\n"
     #I3 gaps use IF
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 fi
 #resize set [width] <width> [px | ppt] [height] <height> [px | ppt]
 # Open specific applications in floating mode
@@ -330,6 +444,94 @@ options="${options}bindsym \$mod+Shift+r restart\n"
 # exit i3 labed (logs you out of your X session) 
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}bindsym \$mod+Ctrl+l \$exe i3lock-fancy -p\n"
+<<<<<<< HEAD
+options="${options}bindsym \$mod+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'\"\n"
+
+#exit, logout, shutdown, restart etc
+options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\"\n"
+options="${options}mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\" {\n"
+options="${options}	bindsym e exec \"i3-msg exit\" , mode default\n"
+options="${options}	bindsym s exec \"systemctl suspend\", mode default\n"
+options="${options}	bindsym t exec \"--no-startup-id sudo -A systemctl restart NetworkManager\", mode default\n"
+options="${options}	bindsym r exec \"systemctl reboot\" , mode default\n"
+options="${options}	bindsym d exec \"systemctl poweroff\", mode default\n"
+options="${options}	bindsym Return mode default\n"
+options="${options}	bindsym Escape mode default\n"
+options="${options}}\n"
+# Resize window (you can also use the mouse for that).
+options="${options}bindsym \$mod+Ctrl+r mode resize\n"
+options="${options}mode resize {\n"
+options="${options}    bindsym h resize shrink width 10 px or 10 ppt\n"
+options="${options}    bindsym j resize grow height 10 px or 10 ppt\n"
+options="${options}    bindsym k resize shrink height 10 px or 10 ppt\n"
+##options="${options}    bindsym l resize grow width 10 px or 10 ppt\n"
+#with arrow
+options="${options}    bindsym Left resize shrink width 10 px or 10 ppt\n"
+options="${options}    bindsym Down resize grow height 10 px or 10 ppt\n"
+options="${options}    bindsym Up resize shrink height 10 px or 10 ppt\n"
+options="${options}    bindsym Right resize grow width 10 px or 10 ppt\n"
+# Back to normal: Enter or Escape.
+options="${options}    bindsym Return mode default\n"
+options="${options}    bindsym Escape mode default\n"
+options="${options}    bindsym \$mod+r mode default\n"
+options="${options}}\n"
+
+
+elif [ "$system_id" = "manjaro" ]; then
+    options="${options}bindsym \$mod+Ctrl+l \$exe blurlock\n"
+# exit i3 (logs you out of your X session)
+#options="${options}bindsym \$mod+Shift+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'\"\n"
+
+# Set shut down, restart and locking features
+options="${options}bindsym \$mod+Escape mode \"\$mode_system\"\n"
+options="${options}set \$mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown\n"
+options="${options}mode \"\$mode_system\" {\n"
+options="${options}    bindsym l exec --no-startup-id i3exit lock, mode \"default\"\n"
+options="${options}    bindsym s exec --no-startup-id i3exit suspend, mode \"default\"\n"
+options="${options}    bindsym u exec --no-startup-id i3exit switch_user, mode \"default\"\n"
+options="${options}    bindsym e exec --no-startup-id i3exit logout, mode \"default\"\n"
+options="${options}    bindsym h exec --no-startup-id i3exit hibernate, mode \"default\"\n"
+options="${options}    bindsym r exec --no-startup-id i3exit reboot, mode \"default\"\n"
+options="${options}    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode \"default\"\n"
+
+# exit system mode: "Enter" or "Escape""
+options="${options}    bindsym Return mode \"default\"\n"
+options="${options}    bindsym Escape mode \"default\"\n"
+options="${options}}\n"
+fi
+||||||| fbac7c0
+elif [ "$system_id" = "manjaro" ]; then
+    options="${options}bindsym \$mod+Ctrl+l \$exe blurlock\n"
+fi
+# Resize window (you can also use the mouse for that).
+options="${options}bindsym \$mod+Ctrl+r mode resize\n"
+options="${options}mode resize {\n"
+options="${options}    bindsym h resize shrink width 10 px or 10 ppt\n"
+options="${options}    bindsym j resize grow height 10 px or 10 ppt\n"
+options="${options}    bindsym k resize shrink height 10 px or 10 ppt\n"
+options="${options}    bindsym l resize grow width 10 px or 10 ppt\n"
+#with arrow
+options="${options}    bindsym Left resize shrink width 10 px or 10 ppt\n"
+options="${options}    bindsym Down resize grow height 10 px or 10 ppt\n"
+options="${options}    bindsym Up resize shrink height 10 px or 10 ppt\n"
+options="${options}    bindsym Right resize grow width 10 px or 10 ppt\n"
+# Back to normal: Enter or Escape.
+options="${options}    bindsym Return mode default\n"
+options="${options}    bindsym Escape mode default\n"
+options="${options}    bindsym \$mod+r mode default\n"
+options="${options}}\n"
+#exit, logout, shutdown, restart etc
+options="${options}bindsym \$mod+Escape mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\"\n"
+options="${options}mode \"Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [h]ibernate, [r]eboot, Shut[d]own\" {\n"
+options="${options}	bindsym e exec \"i3-msg exit\" , mode default\n"
+options="${options}	bindsym s exec \"systemctl suspend\", mode default\n"
+options="${options}	bindsym t exec \"--no-startup-id sudo -A systemctl restart NetworkManager\", mode default\n"
+options="${options}	bindsym r exec \"systemctl reboot\" , mode default\n"
+options="${options}	bindsym d exec \"systemctl poweroff\", mode default\n"
+options="${options}	bindsym Return mode default\n"
+options="${options}	bindsym Escape mode default\n"
+options="${options}}\n"
+=======
     options="${options}bindsym \$mod+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'\"\n"
 
     #exit, logout, shutdown, restart etc
@@ -383,8 +585,18 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    bindsym Escape mode \"default\"\n"
     options="${options}}\n"
 fi
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
+<<<<<<< HEAD
+options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
+options="${options}bindsym Ctrl+1 exec firefox\n"
+options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
+||||||| fbac7c0
+options="${options}bindsym Ctrl+0 exec \$Terminal -x vim $cfg_dir/config\n"
+options="${options}bindsym Ctrl+1 exec firefox\n"
+options="${options}bindsym Ctrl+2 exec \$Terminal -x vifm\n"
+=======
 options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
 
 if [ "$system_id" = "ubuntu" ] || [ "$system_id" = "debian" ]; then
@@ -394,6 +606,7 @@ elif [ "$system_id" = "manjaro" ]; then
 fi
 
 options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
 options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
@@ -402,12 +615,21 @@ options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
 options="${options}bindsym \$mod+Ctrl+x --release exec --no-startup-id xkill\n"
 if [ "$system_id" = "manjaro" ]; then
     options="${options}bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf\n"
+<<<<<<< HEAD
+# start program launcher
+options="${options}bindsym \$mod+d exec --no-startup-id dmenu_recency\n"
+# launch categorized menu
+options="${options}bindsym \$mod+z exec --no-startup-id morc_menu\n"
+||||||| fbac7c0
+=======
     # start program launcher
     options="${options}bindsym \$mod+d exec --no-startup-id dmenu_recency\n"
     # launch categorized menu
     options="${options}bindsym \$mod+z exec --no-startup-id morc_menu\n"
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 fi
 #Color appearance -----------------------------------------------------------------
+#
 		    # class                 border      backgr. text    indicator child_border
 options="${options}client.focused          $i3green    $i3black  $i3white  $i3purple   $i3green\n"
 options="${options}client.focused_inactive $dark       $dark   $i3white  $i3yellow   $dark\n"
@@ -453,11 +675,47 @@ if [ "$system_id" = "debian" ]; then
     options="${options}    background $i3white\n"
     options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
+<<<<<<< HEAD
 			       #                border     backgr      text
     options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
     options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
     options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
     options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+    options="${options}    }\n"
+    options="${options}}\n"
+elif [ "$system_id" = "ubuntu" ]; then
+ options="${options}bar {\n"
+    options="${options}    id bar-1 \n"
+    options="${options}    position bottom\n"
+    options="${options}    output primary\n"
+    options="${options}    tray_output primary\n"
+    options="${options}    tray_padding 2\n"
+    options="${options}    separator_symbol \" \"\n"
+    options="${options}    mode dock \n"
+    options="${options}    font pango: Monofur 10\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    colors {\n"
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
+    #options="${options}    separator  $i3purple\n"
+			   #                    border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+||||||| fbac7c0
+			       #                    border     backgr    text
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+=======
+			       #                border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
     options="${options}    }\n"
     options="${options}}\n"
 elif [ "$system_id" = "ubuntu" ]; then
@@ -469,9 +727,51 @@ elif [ "$system_id" = "ubuntu" ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+   # options="${options}    font pango: Monofur 10\n"
+    options="${options}    status_command i3status -c $cfg_dir/i3status.conf\n"
+    options="${options}    i3bar_command i3bar\n"
+   # options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
+<<<<<<< HEAD
+    options="${options}    background $i3white\n"
+    options="${options}    statusline $i3darker\n"
+    #options="${options}    separator  $i3purple\n"
+			   #                    border     backgr      text
+    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
+    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
+    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+||||||| fbac7c0
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+    #options="${options}        separator  $i3purple\n"
+			       #                    border     backgr    text
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+    options="${options}    }\n"
+    options="${options}}\n"
+    options="${options}bar {\n"
+    options="${options}    id bar-2 \n"
+    options="${options}    position bottom\n"
+    options="${options}    output nonprimary\n"
+    options="${options}    tray_output none\n"
+    options="${options}    tray_padding 2\n"
+    options="${options}    separator_symbol \" \"\n"
+    options="${options}    mode dock \n"
+    options="${options}    font pango: Monofur 10\n"
+    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
+    options="${options}    colors {\n"
+    options="${options}        background $i3white\n"
+    options="${options}        statusline $i3darker\n"
+#    options="${options}        separator  $i3purple\n"
+			       #                    border     backgr    text
+    options="${options}        focused_workspace    $i3blue      $i3green    $dark\n"
+    options="${options}        active_workspace	    $dark      $i3blue     $i3white\n"
+    options="${options}        inactive_workspace   $dark      $i3gray     $dark\n"
+    options="${options}        urgent_workspace	    $dark      $i3yellow   $dark\n"
+=======
     options="${options}    background $i3white\n"
     options="${options}    statusline $i3darker\n"
     #options="${options}    separator  $i3purple\n"
@@ -504,6 +804,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
     options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
     options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
     options="${options}    }\n"
     options="${options}}\n"
 fi
@@ -511,6 +812,35 @@ fi
 # caps lock/num lock status 
 options="${options}bindsym --release Caps_Lock \$exe pkill -SIGRTMIN+11 i3blocks\n"
 options="${options}bindsym --release Num_Lock  \$exe pkill -SIGRTMIN+11 i3blocks\n"
+<<<<<<< HEAD
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+# volume control and i3blocks volume status --------------------------------
+options="${options}set \$vol_signal pkill -SIGRTMIN+10 i3blocks\n"
+options="${options}bindsym XF86AudioRaiseVolume \$exe pactl set-sink-volume \$pa_sink +5%%  && \$vol_signal\n"
+options="${options}bindsym XF86AudioLowerVolume \$exe pactl set-sink-volume \$pa_sink -5%%  && \$vol_signal\n"
+options="${options}bindsym XF86AudioMute        \$exe pactl set-sink-mute \$pa_sink toggle && \$vol_signal\n"
+options="${options}bindsym XF86HomePage         \$exe pavucontrol\n"
+
+elif [ "$system_id" = "manjaro" ]; then
+################################################################################################
+## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
+################################################################################################
+
+options="${options}exec --no-startup-id volumeicon\n"
+options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
+#exec --no-startup-id pulseaudio
+#exec --no-startup-id pa-applet
+#bindsym $mod+Ctrl+m exec pavucontrol
+
+fi
+||||||| fbac7c0
+# volume control and i3blocks volume status --------------------------------
+options="${options}set \$vol_signal pkill -SIGRTMIN+10 i3blocks\n"
+options="${options}bindsym XF86AudioRaiseVolume \$exe pactl set-sink-volume \$pa_sink +5%%  && \$vol_signal\n"
+options="${options}bindsym XF86AudioLowerVolume \$exe pactl set-sink-volume \$pa_sink -5%%  && \$vol_signal\n"
+options="${options}bindsym XF86AudioMute        \$exe pactl set-sink-mute \$pa_sink toggle && \$vol_signal\n"
+options="${options}bindsym XF86HomePage         \$exe pavucontrol\n"
+=======
 
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     # volume control and i3blocks volume status --------------------------------
@@ -530,6 +860,7 @@ elif [ "$system_id" = "manjaro" ]; then
     #exec --no-startup-id pa-applet
     #bindsym $mod+Ctrl+m exec pavucontrol
 fi
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 # session startup ------------------------------------------------------------
 # $exe_always ~/.screenlayout/i3-default.sh
 options="${options}\$exe_always compton --config ~/.config/compton.conf\n"
@@ -552,6 +883,31 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
     options="${options}\$exe diodon\n"
 elif [ "$system_id" = "manjaro" ]; then
+<<<<<<< HEAD
+options="${options}\$exe --no-startup-id clipit\n"
+options="${options}\$exe xautolock -time 10 -locker blurlock\n"
+options="${options}\$exe pamac-tray\n"
+options="${options}\$exe start_conky_maia\n"
+#options="${options}\$exe conky -c ~/.config/conky/conky_maia\n"
+#options="${options}\$exe conky -c ~/.config/conky/conky1.10_shortcuts_maia\n"
+options="${options}\$exe ff-theme-util\n"
+options="${options}\$exe fix_xcursor\n"
+options="${options}\$exe_always xrdb -load ~/.Xresources\n"
+# exec_always --no-startup-id sbxkb
+#$exe start_conky_green
+||||||| fbac7c0
+options="${options}\$exe --no-startup-id clipit\n"
+options="${options}\$exe xautolock -time 10 -locker blurlock\n"
+options="${options}\$exe pamac-tray\n"
+options="${options}\$exe volumeicon\n"
+options="${options}\$exe conky -c ~/.config/conky/conky_maia\n"
+options="${options}\$exe conky -c ~/.config/conky/conky1.10_shortcuts_maia\n"
+options="${options}\$exe ff-theme-util\n"
+options="${options}\$exe fix_xcursor\n"
+options="${options}\$exe_always xrdb -load ~/.Xresources\n"
+# exec_always --no-startup-id sbxkb
+#$exe start_conky_green
+=======
     options="${options}\$exe --no-startup-id clipit\n"
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
@@ -563,6 +919,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     # exec_always --no-startup-id sbxkb
     #$exe start_conky_green
+>>>>>>> 578831b953f8a253ff3f81569a166fdf239ab9c1
 fi
 
 printf "$options%s" > "$i3_cfg"
