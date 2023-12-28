@@ -1,7 +1,7 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
-font pango:Monofur 10
+font xft:URWGothic-Book 11
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
 set $ico_chat     <span font='Font Awesome'>&#xf27b;</span>
 set $ico_chrome   <span font='Font Awesome'>&#xf268;</span>
@@ -36,6 +36,62 @@ floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
+<<<<<<< HEAD
+workspace_auto_back_and_forth yes
+set $ws1  "1"
+set $ws2  "2"
+set $ws3  "3"
+set $ws4  "4"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
+gaps inner -2
+gaps outer -2
+smart_gaps on
+smart_borders on
+smart_gaps on
+smart_borders on
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0    gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+Return exec xfce4-terminal
+||||||| 578831b
+=======
 workspace_auto_back_and_forth yes
 set $ws1  "1"
 set $ws2  "2"
@@ -48,8 +104,15 @@ set $ws8  "8"
 set $ws9  "9"
 set $ws10 "10"
 bindsym $mod+Return exec xfce4-terminal
+>>>>>>> 6b3bfae8c4c3c68852d3fac1fd4c846e9ef9aec5
 bindsym $mod+Shift+q kill
+<<<<<<< HEAD
+bindsym $mod+Ctrl+d $exe dmenu_run -b -l 15 -fn monofur
+||||||| 578831b
+bindsym $mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur
+=======
 bindsym $mod+d $exe dmenu_run -b -l 15 -fn monofur
+>>>>>>> 6b3bfae8c4c3c68852d3fac1fd4c846e9ef9aec5
 for_window [title="fzf-menu"] floating enable move position center
 bindsym $mod+y focus left
 bindsym $mod+j focus down
@@ -132,33 +195,34 @@ for_window [class="Virt-manager"] fullscreen enable
 bindsym $mod+Ctrl+u [urgent=latest] focus
 bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Ctrl+l $exe i3lock-fancy -p
-bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
-mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own" {
-	bindsym t $exe systemctl restart NetworkManager, mode default
-	bindsym e $exe i3-msg exit , mode default
-	bindsym s $exe systemctl suspend, mode default
-	bindsym r $exe systemctl reboot , mode default
-	bindsym d $exe systemctl poweroff, mode default
-	bindsym Return mode default
-	bindsym Escape mode default
+bindsym $mod+Ctrl+l $exe blurlock
+bindsym $mod+Escape mode "$mode_system"
+set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l $exe i3exit lock, mode "default"
+    bindsym e $exe i3exit logout, mode "default"
+    bindsym u $exe i3exit switch_user, mode "default"
+    bindsym s $exe i3exit suspend, mode "default"
+    bindsym h $exe i3exit hibernate, mode "default"
+    bindsym r $exe i3exit reboot, mode "default"
+    bindsym Shift+s $exe i3exit shutdown, mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
-bindsym $mod+Ctrl+r mode resize
-mode resize {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    bindsym Return mode default
-    bindsym Escape mode default
-    bindsym $mod+r mode default
-}
+<<<<<<< HEAD
+bindsym Ctrl+1 exec firefox
+bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
+bindsym $mod+d $exe dmenu_recency
+bindsym $mod+z $exe morc_menu
+bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
+||||||| 578831b
+bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
+bindsym Ctrl+1 exec firefox-esr
+bindsym Ctrl+2 exec xfce4-terminal -x vifm
+=======
 bindsym Ctrl+1 exec firefox-esr
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
+>>>>>>> 6b3bfae8c4c3c68852d3fac1fd4c846e9ef9aec5
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+2 exec xfce4-terminal -x vifm
 bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
@@ -179,8 +243,9 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur 10
+    font pango: URWGothic-Book 11
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
+    i3bar_command i3bar
     colors {
     background #F5F6F7
     focused_workspace    #0066FF    #00FF00    #181920
@@ -191,11 +256,23 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
+<<<<<<< HEAD
+$exe volumeicon
+bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
+||||||| 578831b
 set $vol_signal pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
 bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
 bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
 bindsym XF86HomePage         $exe pavucontrol
+$exe_always compton --config ~/.config/compton.conf
+=======
+set $vol_signal pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
+bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
+bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
+bindsym XF86HomePage         $exe pavucontrol
+>>>>>>> 6b3bfae8c4c3c68852d3fac1fd4c846e9ef9aec5
 $exe_always xset b off
 $exe numlockx on
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -207,5 +284,10 @@ $exe compton --config ~/.config/compton.conf
 $exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
-$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
-$exe diodon
+$exe clipit
+$exe xautolock -time 10 -locker blurlock
+$exe pamac-tray
+$exe start_conky_maia
+$exe ff-theme-util
+$exe fix_xcursor
+$exe_always xrdb -load ~/.Xresources
