@@ -36,72 +36,6 @@ floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
-<<<<<<< HEAD
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id dmenu_run -b -l 15 -fn monofur
-for_window [title="fzf-menu"] floating enable move position center
-set $sup bindsym Mod4
-set $exe exec --no-startup-id
-set $exe_always exec_always --no-startup-id
-bindsym $mod+y focus left
-bindsym $mod+j focus down
-bindsym $mod+u focus up
-bindsym $mod+i focus right
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-bindsym $mod+Shift+y move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+u move up
-bindsym $mod+Shift+i move right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-bindsym $mod+v split h;exec notify-send 'tile horizontally'
-bindsym $mod+h split v;exec notify-send 'tile vertically'
-bindsym $mod+x split toggle;exec notify-send 'tile toggle'
-bindsym $mod+Shift+f fullscreen toggle
-bindsym $mod+Ctrl+s layout stacking
-bindsym $mod+Shift+t layout tabbed
-bindsym $mod+Shift+e layout toggle split
-bindsym $mod+f floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
-||||||| 8fbf914
-bindsym $mod+Shift+q kill
-set $sup bindsym Mod4
-set $exe exec --no-startup-id
-set $exe_always exec_always --no-startup-id
-bindsym $mod+y focus left
-bindsym $mod+j focus down
-bindsym $mod+u focus up
-bindsym $mod+i focus right
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-bindsym $mod+Shift+y move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+u move up
-bindsym $mod+Shift+i move right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-bindsym $mod+v split h;exec notify-send 'tile horizontally'
-bindsym $mod+h split v;exec notify-send 'tile vertically'
-bindsym $mod+x split toggle;exec notify-send 'tile toggle'
-bindsym $mod+Shift+f fullscreen toggle
-bindsym $mod+Ctrl+s layout stacking
-bindsym $mod+Shift+t layout tabbed
-bindsym $mod+Shift+e layout toggle split
-bindsym $mod+f floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
-=======
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 workspace_auto_back_and_forth yes
 set $ws1  "1"
 set $ws2  "2"
@@ -113,160 +47,9 @@ set $ws7  "7"
 set $ws8  "8"
 set $ws9  "9"
 set $ws10 "10"
-<<<<<<< HEAD
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Tab workspace next
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
-bindsym $mod+Ctrl+5 move container to workspace $ws5
-bindsym $mod+Ctrl+6 move container to workspace $ws6
-bindsym $mod+Ctrl+7 move container to workspace $ws7
-bindsym $mod+Ctrl+8 move container to workspace $ws8
-bindsym $mod+Ctrl+9 move container to workspace $ws9
-bindsym $mod+Ctrl+0 move container to workspace $ws10
-bindsym $mod+Ctrl+b move workspace back_and_forth
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
-bindsym $mod+Shift+b workspace back_and_forth
-||||||| 8fbf914
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Tab workspace next
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
-bindsym $mod+Ctrl+5 move container to workspace $ws5
-bindsym $mod+Ctrl+6 move container to workspace $ws6
-bindsym $mod+Ctrl+7 move container to workspace $ws7
-bindsym $mod+Ctrl+8 move container to workspace $ws8
-bindsym $mod+Ctrl+9 move container to workspace $ws9
-bindsym $mod+Ctrl+0 move container to workspace $ws10
-bindsym $mod+Ctrl+b move workspace back_and_forth
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
-bindsym $mod+Shift+b workspace back_and_forth
-gaps inner -2
-gaps outer -2
-smart_gaps on
-smart_borders on
-smart_gaps on
-smart_borders on
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
-
-mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
-        bindsym 0    gaps inner current set 0
-
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
-        bindsym Shift+0     gaps inner all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
-
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-=======
-gaps inner -2
-gaps outer -2
-smart_gaps on
-smart_borders on
-smart_gaps on
-smart_borders on
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
-
-mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
-        bindsym 0    gaps inner current set 0
-
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
-        bindsym Shift+0     gaps inner all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
-
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
 bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+q kill
-bindsym $mod+Ctrl+d $exe dmenu_run -b -l 15 -fn monofur
+bindsym $mod+d $exe dmenu_run -b -l 15 -fn monofur
 for_window [title="fzf-menu"] floating enable move position center
 bindsym $mod+y focus left
 bindsym $mod+j focus down
@@ -327,7 +110,6 @@ bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+b workspace back_and_forth
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 for_window [class="^.*"] border pixel 2
 assign [class="Firefox-esr"] Firefox $ico_firefox
 assign [class="calibre"] Calibre $ico_calibre
@@ -350,7 +132,6 @@ for_window [class="Virt-manager"] fullscreen enable
 bindsym $mod+Ctrl+u [urgent=latest] focus
 bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
-<<<<<<< HEAD
 bindsym $mod+Ctrl+l $exe i3lock-fancy -p
 bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
@@ -375,67 +156,16 @@ mode resize {
     bindsym Return mode default
     bindsym Escape mode default
     bindsym $mod+r mode default
-||||||| 8fbf914
-bindsym $mod+Ctrl+l $exe blurlock
-bindsym $mod+Escape mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-=======
-bindsym $mod+Ctrl+l $exe blurlock
-bindsym $mod+Escape mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l $exe i3exit lock, mode "default"
-    bindsym e $exe i3exit logout, mode "default"
-    bindsym u $exe i3exit switch_user, mode "default"
-    bindsym s $exe i3exit suspend, mode "default"
-    bindsym h $exe i3exit hibernate, mode "default"
-    bindsym r $exe i3exit reboot, mode "default"
-    bindsym Shift+s $exe i3exit shutdown, mode "default"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 }
-<<<<<<< HEAD
-bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
 bindsym Ctrl+1 exec firefox-esr
-bindsym Ctrl+2 exec xfce4-terminal -x vifm
-||||||| 8fbf914
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
-bindsym Ctrl+1 exec firefox
-bindsym Ctrl+2 exec xfce4-terminal -x vifm
-=======
-bindsym Ctrl+1 exec firefox
-bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
-bindsym $mod+d $exe dmenu_recency
-bindsym $mod+z $exe morc_menu
-bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+2 exec xfce4-terminal -x vifm
 bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
-<<<<<<< HEAD
-bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
-||||||| 8fbf914
-bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
-bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
-bindsym $mod+d exec --no-startup-id dmenu_recency
-bindsym $mod+z exec --no-startup-id morc_menu
-=======
 bindsym $mod+Ctrl+x --release $exe xkill
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 client.focused          #00FF00    #2C323E  #F5F6F7  #9800FE   #00FF00
 client.focused_inactive #181920       #181920   #F5F6F7  #FFFF00   #181920
 client.unfocused        #181920       #181920   #F5F6F7  #9800FE   #181920
@@ -449,17 +179,8 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-<<<<<<< HEAD
     font pango: Monofur 10
     status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
-||||||| 8fbf914
-    status_command i3status -c $HOME/.i3/i3status.conf
-    i3bar_command i3bar
-=======
-    font pango: URWGothic-Book 11
-    status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
-    i3bar_command i3bar
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
     colors {
     background #F5F6F7
     focused_workspace    #0066FF    #00FF00    #181920
@@ -470,21 +191,11 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
-<<<<<<< HEAD
 set $vol_signal pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
 bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
 bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
 bindsym XF86HomePage         $exe pavucontrol
-$exe_always compton --config ~/.config/compton.conf
-||||||| 8fbf914
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
-$exe_always compton --config ~/.config/compton.conf
-=======
-$exe volumeicon
-bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
 $exe_always xset b off
 $exe numlockx on
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -496,23 +207,5 @@ $exe compton --config ~/.config/compton.conf
 $exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
-<<<<<<< HEAD
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
 $exe diodon
-||||||| 8fbf914
-$exe --no-startup-id clipit
-$exe xautolock -time 10 -locker blurlock
-$exe pamac-tray
-$exe start_conky_maia
-$exe ff-theme-util
-$exe fix_xcursor
-$exe_always xrdb -load ~/.Xresources
-=======
-$exe clipit
-$exe xautolock -time 10 -locker blurlock
-$exe pamac-tray
-$exe start_conky_maia
-$exe ff-theme-util
-$exe fix_xcursor
-$exe_always xrdb -load ~/.Xresources
->>>>>>> 4b3d8ab49c0e88dc71f673cb1a2b298b2df18876
