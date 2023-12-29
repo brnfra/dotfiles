@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 27-12-2023
+# Ultima_modificacao: 29-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -443,7 +443,7 @@ if [ "$system_id" = "debian" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
     options="${options}    statusline $i3darker\n"
@@ -464,7 +464,7 @@ if [ "$system_id" = "debian" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command2\n"
+    options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
     options="${options}    statusline $i3darker\n"
@@ -486,9 +486,9 @@ elif [ "$system_id" = "ubuntu" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: Monofur 10\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3white\n"
+    options="${options}    background $i3darker\n"
 
     #options="${options}    separator  $i3purple\n"
 			   #                    border     backgr      text
@@ -508,12 +508,12 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
     options="${options}    font pango: $font\n"
-    options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
+    options="${options}    status_command $status_command\n"
    # options="${options}    status_command i3status -c $cfg_dir/i3status.conf\n"
     options="${options}    i3bar_command i3bar\n"
     # options="${options}    status_command SCRIPT_DIR=$cfg_dir/i3blocks $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3white\n"
+    options="${options}    background $i3darker\n"
     #options="${options}    statusline $i3darker\n"
     #options="${options}    separator  $i3purple\n"
 			   #                    border     backgr      text
