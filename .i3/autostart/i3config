@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-#
-bash ~/bin/i3_config
-i3-msg reload
+
 #Script to adapt the i3config for virtual machines in pre defined resolution
 SCR="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)"
 #get primary screeen

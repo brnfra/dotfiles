@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+XKB_OUTPUT=$(setxkbmap -query)
+LAYOUT=$(echo "${XKB_OUTPUT}" | grep "layout" | awk -F ':' '{print $2}' | tr -d ' ')
+MODEL=$(echo "${XKB_OUTPUT}" | grep "model" | awk -F ':' '{print $2}' | tr -d ' ')
+# Keymap has not been specific, so it's not configured properly
+if [[ "${LAYOUT}" == "" ]] || [[ "${MODEL}" == "" ]]; then
+  exit 1
+fi
+
+ KEYMAP_NAME="${MODEL}*${LAYOUT}"
+
+if [[ "${KEYMAP_NAME}" ]]; then
+  echo "<span font='monofur NF' color='#2666A1'>${KEYMAP_NAME}</span>"
+fi

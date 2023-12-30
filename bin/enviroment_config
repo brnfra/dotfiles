@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: enviroment_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 23-12-2023
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -43,16 +43,7 @@ make_dirs
 git_env
 ssh_env
 get_fonts
-<<<<<<< HEAD
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    i3_config
-elif [ "$osys" = "manjaro" ]; then
-    echo "preparing i3 config"
-fi
-
-||||||| 91e5fa1
 i3_config
-=======
 if git clone "$repository" "$dotfiles_dir"; then
     cmOk "Clone remote in: " "$dotfiles_dir"
 else
@@ -65,6 +56,4 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 elif [ "$osys" = "manjaro" ]; then
     echo "preparing i3 config"
 fi
-
->>>>>>> 39aeadbd33b832260f604a3d1baa292cee1cff05
 
