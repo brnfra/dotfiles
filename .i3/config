@@ -182,27 +182,11 @@ bar {
     font pango: Monofur NF 10
     status_command i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
-<<<<<<< HEAD
-    background #F5F6F7
-    statusline #080910
-    focused_workspace    #0066FF    #00FF00    #181920
-    active_workspace	#181920      #0066FF     #F5F6F7
-    inactive_workspace   #181920      #E7E8EB     #181920
-    urgent_workspace	#181920      #FFFF00   #181920
-||||||| 92efae9
-	background #F5F6F7
-	statusline #080910
-	focused_workspace    #0066FF    #00FF00    #181920
-	active_workspace	#181920      #0066FF     #F5F6F7
-	inactive_workspace   #181920      #E7E8EB     #181920
-	urgent_workspace	#181920      #FFFF00   #181920
-=======
     background #080910
     focused_workspace    #0066FF    #00FF00    #181920
     active_workspace	#181920      #0066FF     #F5F6F7
     inactive_workspace   #181920      #E7E8EB     #181920
     urgent_workspace	#181920      #FFFF00   #181920
->>>>>>> f701211651eb03eca358c587da79daabb948fad5
     }
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
