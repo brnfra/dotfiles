@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: vifmrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 19-03-2023
+" Ultima_modificacao: 27-12-2023
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -52,6 +52,7 @@ highlight User2 ctermbg=blue ctermfg=white cterm=bold
 set statusline="%1* PartFree: %2* %a  %1* LinkTgt: %2* %T %1* %A %5u:%-5g %3s %10d %1* Hint: %2* %z%="
 mark b ~/bin/
 mark h ~/
+
 
 " ------------------------------------------------------------------------------
 
@@ -305,14 +306,18 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 " Sample mappings
 
 " Quit program
-noremap <F10> :q<cr> 
-noremap <F1> :help<cr> 
+nnoremap <F1> :help<cr> 
 "toggle hidden"
-noremap <F2> za 
+nnoremap <F2> za 
 "calc dir size"
-noremap <F3> ga 
 nnoremap <f4> :!less %f<cr>
-nnoremap <f5> :edit<cr>
+nnoremap <F3> ga 
+nnoremap <f5> :filter
+nnoremap <f6> :find
+nnoremap <f7> :tree!<cr>
+nnoremap <F8> :sp!<cr> 
+nnoremap <F10> :q<cr> 
+nnoremap <F12> :vs!<cr> 
 
 " Start shell in current directory
 nnoremap s :shell<cr>
@@ -324,7 +329,6 @@ nnoremap S :sort<cr>
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 
-" Open file in existing instance of gvim
 nnoremap o :!gvim --remote-tab-silent %f<cr>
 " Open file in new instance of gvim
 nnoremap O :!gvim %f<cr>

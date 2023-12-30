@@ -52,7 +52,7 @@ END {
 out_to_int=${output//\%/)}
 if [[ $out_to_int > $ALERT_HIGH  ]]
 then
-    printf "%s  %s%s" "$font_alert_params" "$output" "$BLOCK_INSTANCE" 
+    printf "%s  %s%s\n" "$font_alert_params" "$output" "$BLOCK_INSTANCE" 
 else
-    printf "%s  %s%s"  "$font_params" "$output" "$BLOCK_INSTANCE" 
+    printf "%s  %s%s\n"  "$font_params" "$output" "$BLOCK_INSTANCE" 
 fi

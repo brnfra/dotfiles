@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-temperatures
 # Autor: Bruno Franco
-# Ultima_modificacao: 20-03-2023
+# Ultima_modificacao: 29-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,26 +9,33 @@
 # depends 'jq' package
 # dont inject shell variables into your jq filter!
 # instead use --argjson
-temps_all=$(sensors -j | jq '.' | grep "temp[1-2]_input" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g')
+temps_all=$(sensors -j | jq '.' | \
+    grep "temp[1-2]_input" | \
+    sed 's/[,"]//g; s/^[ \t]*//;s/[ \t]*$//' | \
+    cut -d " " -f 2 | \
+    awk '{printf "%1.0f\n",$0}')
+#| cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g')
 #temp_max=$(sensors -j | jq '.' | grep "temp[1-9]_max" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
 #temp_crit=$(sensors -j | jq '.' | grep "temp[1-2]_crit" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
 icon20="&#xf2ca;"
 icon50="&#xf2c9;"
 icon70="&#xf2c7;"
+
 output=""
+get_temp_max=$(( 0 )) 
+
 for temp in $temps_all
 do
-    if (( temp < 200 ))
-    then
-	if (( temp <= 20 )) 
-	then
-	    output+="<span font='monofur NF' color='blue'>$icon20 $temp</span> "
-	elif (( temp >= 21 )) && (( temp <= 70 ))
-	then
-	    output+="<span font='monofur NF' color='green'>$icon50 $temp</span> "
-	elif (( temp >= 71 ))
-	then
-	    output+="<span font='monofur NF' color='red'>$icon70 $temp</span> "
+    if (( get_temp_max < temp )); then
+	get_temp_max=$temp
+    fi
+    if (( temp < 200 )); then
+	if (( temp <= 30 )); then
+	    output="<span font='monofur NF' color='blue'>$icon20 $get_temp_max</span> "
+	elif (( temp >= 31 )) && (( temp <= 60 )); then
+	    output="<span font='monofur NF' color='green'>$icon50 $get_temp_max</span> "
+	elif (( temp >= 61 )); then
+	    output="<span font='monofur NF' color='red'>$icon70 $get_temp_max</span> "
 	fi
     fi
 done

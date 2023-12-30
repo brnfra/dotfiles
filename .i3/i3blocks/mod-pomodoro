@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Arquivo: mod-pomodoro
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-02-2023
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -24,7 +24,7 @@ start_color='"#2666A1"'
 break_color='"#58a814"'
 work_color='"#f39660"'
 # $ fc-list command to list fonts
-font_face='"monofurNF"'
+font_face='"monofur NF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 font_start_params="<span font=$font_face"
@@ -59,10 +59,10 @@ function display () {
     fi
     case $2 in
 	w)
-	    printf "%s %s[%s] %s:%s%s"  "$font_work_params" "$work_prefix"  "$pomos_counter"  "$min" "$sek" "$font_params_close"
+	    printf "%s %s[%s] %s:%s%s\n"  "$font_work_params" "$work_prefix"  "$pomos_counter"  "$min" "$sek" "$font_params_close"
 	    ;;
 	b)
-	    printf "%s %s[%s] %s:%s%s"  "$font_break_params" "$break_prefix" "$pomos_counter"  "$min" "$sek" "$font_params_close"
+	    printf "%s %s[%s] %s:%s%s\n"  "$font_break_params" "$break_prefix" "$pomos_counter"  "$min" "$sek" "$font_params_close"
 	    ;;
     esac
 }
@@ -104,7 +104,11 @@ then
     fi
     display $s $t
 else
-    printf "%s %s[%s] %s %s" "$font_start_params" "$msg_start" "$(cat $counter_file)" "$font_params_close"
+    if [[ -e $counter_file ]];then
+	printf "%s %s [%s] %s %s\n" "$font_start_params" "$msg_start" "$(cat $counter_file)" "$font_params_close"
+    else
+	printf "%s%s%s\n" "$font_start_params" "$msg_start" "$font_params_close"
+    fi
 fi
 case $BLOCK_BUTTON in
     1)

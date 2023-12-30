@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Arquivo: mod-battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 27-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste arquivo.
 # $ fc-list command to list fonts
-font_face='"monofurNF"'
+font_face='"monofur NF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 font_weight='"bold"'
@@ -70,4 +70,4 @@ then
     btry_icon="<span font=$font_face color='#2666A1' size=$font_size >$icon90 $bat_percent [$timeto]</span>"
 fi
 
-printf "%s %s%s" "$chrg_icon" "$btry_icon" 
+printf "%s %s%s\n" "$chrg_icon" "$btry_icon" 
