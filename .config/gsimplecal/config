@@ -11,18 +11,8 @@ mainwindow_keep_above = 1
 mainwindow_sticky = 1
 mainwindow_skip_taskbar = 1
 mainwindow_resizable = 1
-<<<<<<< HEAD
-mainwindow_position = center
-mainwindow_xoffset = 700
-mainwindow_yoffset = -400
-||||||| 5901a82
-mainwindow_position = center
-mainwindow_xoffset = 700
-mainwindow_yoffset = 300
-=======
 #mainwindow_position = center
 #mainwindow_xoffset = 190
 #mainwindow_yoffset = 700
->>>>>>> d1ccbec3a0a7b1ebb3be08d152c8ff89eeecc37e
 clock_label = Local
 clock_tz = 
