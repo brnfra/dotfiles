@@ -184,6 +184,29 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	}
 
     # }}}
+
+# autocomplete {{{
+
+function auto_complete_apt() {
+    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+}
+
+complete -F auto_complete_apt get
+complete -F auto_complete_apt psearch
+complete -F auto_complete_apt pinfo
+complete -F auto_complete_apt plist
+complete -F auto_complete_apt pdeps
+
+function auto_complete_pacman() {
+    mapfile -t COMPREPLY < <(pacman -Si "$2");
+}
+
+complete -F auto_complete_pacman get
+complete -F auto_complete_pacman pdeps
+complete -F auto_complete_pacman pinfo
+complete -F auto_complete_pacman plist
+
+# }}}
 #package info dependencies  {{{
 function depends() {
     apt list --installed \
@@ -198,22 +221,12 @@ function depends() {
 	--bind="tab:toggle-preview" ;
     }
 
-    function auto_complete_apt() {
-	mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
-    }
-
-    complete -F auto_complete_apt get
-    complete -F auto_complete_apt psearch
-    complete -F auto_complete_apt pinfo
-    complete -F auto_complete_apt plist
-    complete -F auto_complete_apt pdeps
-
 # }}}
 # {{{ pacman alias
 #
 elif [ "$osys" = "manjaro" ]; then
     function psearch () {
-	pacman -Ss \
+	pacman -Slq \
 	    | fzf \
 	    --multi \
 	    --preview 'pacman -Si {1}' \
@@ -229,7 +242,7 @@ elif [ "$osys" = "manjaro" ]; then
 	    pacman -Qq \
 		| fzf \
 		--multi \
-		--preview 'pacman -Si {1}' \
+		--preview 'pacman -Qi {1}' \
 		| xargs -ro sudo pacman -Rns
 	    }
 
@@ -240,30 +253,18 @@ elif [ "$osys" = "manjaro" ]; then
 	pacman -Qq \
 	    | fzf \
 	    --multi \
-	    --preview 'pacman -Si {1}' \
+	    --preview 'pacman -Qi {1}' \
 	    --height=80% \
 	    --border \
 	    --hscroll-off=800 \
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview"
 	}
-    # autocomplete {{{
 
-    function auto_complete_pacman() {
-	mapfile -t COMPREPLY < <(pacman -Si "$1");
-    }
-
-    complete -F auto_complete_pacman get
-    complete -F auto_complete_pacman pdeps
-    complete -F auto_complete_pacman pinfo
-    complete -F auto_complete_pacman plist
-
-    # }}}
-
-    # function pinfo ()
-    # {
-    # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
-    # }
+# function pinfo ()
+# {
+# pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
+# }
 fi
 # }}}
 # FZF FUNCTIONS {{{
@@ -300,7 +301,7 @@ function man_find () {
 	| man
     }
 
-function fman () {
+    function fman () {
 	man -k . \
 	    | fzf \
 	    --multi \
@@ -314,7 +315,7 @@ function fman () {
 	    | awk '{print $1}' | xargs -r man
 	}
 
-function fhistory () {
+	function fhistory () {
 	    eval "$(cat < ~/.bash_history | fzf -m -i)"
 	}
 	# }}}

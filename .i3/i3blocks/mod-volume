@@ -20,7 +20,7 @@
 # or you may use hw:# where # is the number of the card desired
 
 # $ fc-list command to list fonts
-font_face="'monofur NF'"
+font_face="'monofurNF'"
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size="'medium'"
 
@@ -132,26 +132,27 @@ get_block() {
 	exit 0
     elif (( volume >= 0 )) && (( volume <= 4 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s\n" "$show" 
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 5 )) && (( volume <= 15 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-	printf "%s\n" "$show" 
+	# printf "%s%s%%" "$show" "$1"
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 16 )) && (( volume <= 35 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-	printf "%s\n" "$show" 
+	printf "%s" "$show" 
     elif (( volume >= 36 )) && (( volume <= 65 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-	printf "%s\n" "$show" 
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 66 )) && (( volume <= 85 )) ; then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-	printf "%s\n" "$show" 
+	printf "%s" "$show" 
 	exit 0
     elif (( volume >= 86 )); then
 	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
-	printf "%s\n" "$show" 
+	printf "%s" "$show" 
 	exit 0
     fi
 }

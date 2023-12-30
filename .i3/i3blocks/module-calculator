@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#name of monitor
+SCR=$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)
+#process grep name
+ISOPEN=$(pidof gnome-calculator)
+case "$BLOCK_BUTTON" in
+  1|2|3) 
+      if [ "$ISOPEN" = "" ]; then  
+        i3-msg 'exec gnome-calculator' >/dev/null
+      else
+          kill $ISOPEN
+      fi
+    ;;
+esac
+if [ "$SCR" = "Virtual" ]; then
+    echo "<span font='Font Awesome' color='#2666A1'> <span size='large'>🖩</span> </span>"
+else
+    echo "<span font='Font Awesome' color='#2666A1'> <span size='large'></span> </span>"
+fi

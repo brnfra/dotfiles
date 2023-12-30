@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#process grep name
+ISOPEN=`pgrep xfce4-terminal` 
+case "$BLOCK_BUTTON" in
+  1|2|3) 
+      if [ "$ISOPEN" = "" ]; then  
+        i3-msg 'exec xfce4-terminal' >/dev/null
+      else
+          kill $ISOPEN
+      fi
+    ;;
+esac
+echo "<span font='Font Awesome'>[]</span>"

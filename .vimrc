@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 27-12-2023
+" Ultima_modificacao: 11-11-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -748,12 +748,6 @@ vnoremap <S-up> VdkP`[v`]
 vnoremap <C-d> VOyP`[v`]
 "repeate line bellow
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
-
-inoremap <S-Down> <esc>ddp<esc>i
-nnoremap <S-Down> <esc>ddp<esc>
-inoremap <S-Up> <esc>ddkP<esc>i
-nnoremap <S-Up> <esc>ddkP<esc>
-
 "close tags
 inoremap <leader>/ </<C-X><C-O>
 inoremap <C-up> <esc>5ki

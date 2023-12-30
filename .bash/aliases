@@ -24,7 +24,7 @@ elif [ "$osys" = "manjaro" ]; then
     alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
     alias upgrade-distro='sudo pacman -Syyu'
-    #alias fd='fdfind'
+    alias fd='fdfind'
     
 fi
 # #}}}
@@ -158,6 +158,8 @@ alias ANKI="cd ~/ && setsid ./Anki &>/dev/null"
 alias android="cd ~/ && setsid ./android-studio &>/dev/null"
 alias studio="setsid studio.sh &>/dev/null"
 alias ANDROID="cd ~/ && setsid ./android-studio &>/dev/null"
+alias foxit="cd ~/ && setsid ./Foxit &>/dev/null"
+alias FOXIT="cd ~/ && setsid ./Foxit &>/dev/null"
 alias eclipse="cd ~/ && setsid ./eclipse_ide &>/dev/null"
 alias ECLIPSE="cd ~/ && setsid ./eclipse_ide &>/dev/null"
 alias tor="cd ~/ && setsid ./tor-browser &>/dev/null"
@@ -170,4 +172,4 @@ alias vifm="vifm ."
 alias py="python3"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
+alias rottenpotatoes-rails-intro="cd /home/devlab/Documents/Projects/git/rottenpotatoes-rails-intro"

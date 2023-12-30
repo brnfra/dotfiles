@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # $ fc-list command to list fonts
-font_face='"monofur NF"'
+font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 color='"#2666A1"'
@@ -67,23 +67,17 @@ if [[ "$rx_rate" -gt 1048576 ]]; then
    # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sM </span>" "$(echo "scale=2; $rx_kib / 1024" | bc)"
     rx_band="$(echo "scale=2; $rx_kib / 1024" | bc)" 
     printf "%s ↓%sM %s" "$font_params" "$rx_band" "$font_params_close"
-    #output="$font_params ↓$rx_band M $font_params_close"
-elif [[ "$rx_rate" -gt 1024 ]]; then
+else
    # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sK </span>" "${rx_kib}"
     rx_band="${rx_kib}" 
     printf "%s ↓%sK %s" "$font_params" "$rx_band" "$font_params_close"
-    #output="$font_params ↓$rx_band K $font_params_close"
-elif [[ "$rx_rate" -lt 1024 ]]; then
-    printf "%s ↓%sb %s" "$font_params" "$rx_rate" "$font_params_close"
 fi
 # outgoing
 tx_kib=$(( $tx_rate >> 10 ))
 if [[ "$tx_rate" -gt 1048576 ]]; then
     tx_band="$(echo "scale=2; $tx_kib / 1024" | bc)"
-    printf "%s ↑%sM %s\n" "$font_params" "$tx_band" "$font_params_close" 
-elif [[ "$tx_rate" -gt 1024 ]]; then
+    printf "%s ↑%sM %s" "$font_params" "$tx_band" "$font_params_close" 
+else
     tx_band="${tx_kib}"
-    printf "%s ↑%sK %s\n" "$font_params" "$tx_band" "$font_params_close"
-elif [[ "$tx_rate" -lt 1024 ]]; then
-    printf "%s ↑%sb %s\n" "$font_params" "$tx_rate" "$font_params_close"
+    printf "%s ↑%sK %s" "$font_params" "$tx_band" "$font_params_close"
 fi

@@ -26,8 +26,7 @@ my $text_off = $ENV{TEXT_OFF} || $indicator;
 my $color_on  = $ENV{COLOR_ON} || "#F5F6F7";
 my $color_off = $ENV{COLOR_OFF} || "#F5F6F7";
 my $bg_color_on = $ENV{BG_COLOR_ON} || "#FF6600";
-#check bar bg
-my $bg_color_off = $ENV{BG_COLOR_OFF} || "#080910";
+my $bg_color_off = $ENV{BG_COLOR_OFF} || "#F5F6F7";
 my $hide      = $ENV{HIDE_WHEN_OFF} || 0;
 sub help {
     my $program = basename($0);
@@ -75,8 +74,8 @@ $indicator = $indicator_status ? $text_on : $text_off;
 my $fg_color = $indicator_status ? $color_on : $color_off;
 my $bg_color = $indicator_status ? $bg_color_on : $bg_color_off;
 if (defined $bg_color) {
-    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>%s</span>\n", $fg_color, $bg_color, $indicator;
+    printf "<span font='monofurNF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>%s</span>\n", $fg_color, $bg_color, $indicator;
 } else {
-    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s'>%s</span>\n", $fg_color, $indicator;
+    printf "<span font='monofurNF' size='medium' font-weight='bold' color='%s'>%s</span>\n", $fg_color, $indicator;
 }
 exit 0
