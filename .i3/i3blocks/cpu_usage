@@ -3,7 +3,7 @@
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
 # Copyright 2014 Andreas Guldstrand <andreas.guldstrand@gmail.com>
-#
+# From: https://github.com/Anachron/i3blocks#
 # Licensed under the terms of the GNU GPL v3, or any later version.
 use strict;
 use warnings;
@@ -58,14 +58,17 @@ $LAVG15 = $LAVG15*100;
 
 # Print color, if needed
 if (($cpu_usage < $t_crit && $cpu_usage >= $t_warn) || ($LAVG1 < $t_crit && $LAVG1 >= $t_warn) || ($LAVG5 < $t_crit && $LAVG5 >= $t_warn) || ($LAVG15 < $t_warn && $LAVG15 >= $t_warn) ) {
+    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVGRZ;
     printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
     exit 1
 }
 if (($cpu_usage >= $t_crit) || ($LAVG1 >= $t_crit) || ($LAVG5 >= $t_crit) || ($LAVG15 >= $t_crit) ) {
+    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVGRZ;
     printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
     exit 2
 }
 
 # Print short_text, full_text
+printf "<span font='monofur NF'  size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n",$color_norm ,$bg_color_norm ,  $cpu_usage, $LAVG1, $LAVGRZ;
 printf "<span font='monofur NF'  size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n",$color_norm ,$bg_color_norm ,  $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
 exit 0;

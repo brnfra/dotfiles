@@ -24,7 +24,7 @@ elif [ "$osys" = "manjaro" ]; then
     alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
     alias upgrade-distro='sudo pacman -Syyu'
-    alias fd='fdfind'
+    #alias fd='fdfind'
     
 fi
 # #}}}

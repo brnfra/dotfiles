@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#From: https://github.com/Anachron/i3blocks
+
 TRASH_DIRECTORY="${BLOCK_INSTANCE}"
 
 if [[ "${TRASH_DIRECTORY}" = "" ]]; then

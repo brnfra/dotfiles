@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-pomodoro
 # Autor: Bruno Franco
-# Ultima_modificacao: 29-12-2023
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -104,10 +104,10 @@ then
     fi
     display $s $t
 else
-    if (( $(cat counter_file) > 0 ));then
+    if [[ -e $counter_file ]];then
 	printf "%s %s [%s] %s %s\n" "$font_start_params" "$msg_start" "$(cat $counter_file)" "$font_params_close"
     else
-	printf "%s%s%s%s\n" "$font_start_params" "$msg_start" "$(cat $counter_file)" "$font_params_close"
+	printf "%s%s%s\n" "$font_start_params" "$msg_start" "$font_params_close"
     fi
 fi
 case $BLOCK_BUTTON in

@@ -260,10 +260,10 @@ elif [ "$osys" = "manjaro" ]; then
 
     # }}}
 
-# function pinfo ()
-# {
-# pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
-# }
+    # function pinfo ()
+    # {
+    # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
+    # }
 fi
 # }}}
 # FZF FUNCTIONS {{{

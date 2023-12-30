@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 29-12-2023
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -71,7 +71,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     font="Monofur 10"
     options="${options}font pango:$font\n"
 elif [ "$system_id" = "manjaro" ]; then
-    font="URWGothic-Book 11"
+    font="URWGothic-Book 10"
     options="${options}font xft:$font\n"
 fi
 
@@ -402,6 +402,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}bindsym \$mod+d \$exe dmenu_recency\n"
     # launch categorized menu
     options="${options}bindsym \$mod+z \$exe morc_menu\n"
+    options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
 fi
 options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
@@ -436,13 +437,13 @@ if [ "$system_id" = "debian" ]; then
     #options="${options}workspace 2 output $monitor2\n"
     options="${options}bar {\n"
     options="${options}    id bar-1 \n"
-    options="${options}    position bottom\n"
+    options="${options}    position top\n"
     options="${options}    output primary\n"
     options="${options}    tray_output primary\n"
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 10\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
@@ -457,13 +458,13 @@ if [ "$system_id" = "debian" ]; then
     options="${options}}\n"
     options="${options}bar {\n"
     options="${options}    id bar-2 \n"
-    options="${options}    position bottom\n"
+    options="${options}    position top\n"
     options="${options}    output nonprimary\n"
     options="${options}    tray_output none\n"
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 10\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
     options="${options}    background $i3white\n"
@@ -479,13 +480,13 @@ if [ "$system_id" = "debian" ]; then
 elif [ "$system_id" = "ubuntu" ]; then
     options="${options}bar {\n"
     options="${options}    id bar-1 \n"
-    options="${options}    position bottom\n"
+    options="${options}    position top\n"
     options="${options}    output primary\n"
     options="${options}    tray_output primary\n"
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: Monofur 10\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3darker\n"
@@ -501,7 +502,7 @@ elif [ "$system_id" = "ubuntu" ]; then
 elif [ "$system_id" = "manjaro" ]; then
     options="${options}bar {\n"
     options="${options}    id bar-1 \n"
-    options="${options}    position bottom\n"
+    options="${options}    position top\n"
     options="${options}    output primary\n"
     options="${options}    tray_output primary\n"
     options="${options}    tray_padding 2\n"
