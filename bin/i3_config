@@ -68,7 +68,7 @@ options="# i3 config. Auto generate\n"
 options="${options}# Check ~/bin/i3_config\n"
 options="${options}set \$mod $mod_button\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
-    font="Monofur 10"
+    font="Monofur NF 10"
     options="${options}font pango:$font\n"
 elif [ "$system_id" = "manjaro" ]; then
     font="URWGothic-Book 10"
