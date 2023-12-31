@@ -37,15 +37,15 @@ END {
 }
 ')
 out_to_int=${output//\%/)}
-if [[ $out_to_int < $ALERT_HIGH ]] 
+if [[ $out_to_int -lt $ALERT_HIGH ]] 
 then
 font_params="<span font=$font_face color=$color size=$font_size >$icon $output</span>"
       printf "%s%s\n"  "$font_params" "$BLOCK_INSTANCE"
-elif [[ $out_to_int > $ALERT_HIGH ]] && [[ $out_to_int < $CRITIC ]] 
+elif [[ $out_to_int -gt $ALERT_HIGH ]] && [[ $out_to_int -lt $CRITIC ]] 
 then
 font_alert_params="<span font=$font_face color=$color_alert size=$font_size >$icon $output</span>"
       printf "%s%s\n" "$font_alert_params" "$BLOCK_INSTANCE"
-elif [[ $out_to_int > $CRITIC ]] 
+elif [[ $out_to_int -gt $CRITIC ]] 
 then
 font_critic="<span font=$font_face color=$color_critic font-weight='bold' size=$font_size >$icon $output</span>"
     printf "%s%s\n"  "$font_critic" "$BLOCK_INSTANCE"

@@ -52,7 +52,6 @@ END {
 	if (total > 0) {
 		pct=used/total*100
 	}
-	pct=85
 	# full text
 	#printf("%.1fG/%.1fG (%.f%%)\n", used, total, pct)
 	# short text
@@ -62,15 +61,15 @@ END {
 ' /proc/meminfo)
 
 out_to_int=${output//\%/)}
-if [[ $out_to_int < $ALERT_HIGH ]]
+if [[ $out_to_int -lt $ALERT_HIGH ]]
 then
 font_params="<span font=$font_face color=$green size=$font_size >$output</span>"
       printf "%s%s\n"  "$font_params"
-elif [[ $out_to_int > $ALERT_HIGH ]] && [[ $out_to_int < $CRITIC ]]
+elif [[ $out_to_int -ge $ALERT_HIGH ]] && [[ $out_to_int -lt $CRITIC ]]
 then
 font_alert_params="<span font=$font_face color=$orange size=$font_size >$output</span>"
       printf "%s%s\n" "$font_alert_params"
-elif [[ $out_to_int > $CRITIC ]]
+elif [[ $out_to_int -ge $CRITIC ]]
 then
 font_critic="<span font=$font_face font-weight='bold' color=$red size=$font_size >$output</span>"
     printf "%s%s\n"  "$font_critic"
