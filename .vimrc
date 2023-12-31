@@ -1,13 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-<<<<<<< HEAD
-" Ultima_modificacao: 23-11-2023
-||||||| 39aeadb
-" Ultima_modificacao: 11-11-2023
-=======
-" Ultima_modificacao: 27-12-2023
->>>>>>> 16d7d78e302c25ce24eefd3b350e0127c7dd022e
+" Ultima_modificacao: 31-12-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público

@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-<<<<<<< HEAD
-# Ultima_modificacao: 13-11-2023
-||||||| 39aeadb
-# Ultima_modificacao: 12-11-2023
-=======
-# Ultima_modificacao: 30-12-2023
->>>>>>> 16d7d78e302c25ce24eefd3b350e0127c7dd022e
+# Ultima_modificacao: 31-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos

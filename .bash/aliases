@@ -179,9 +179,4 @@ alias py="python3"
 alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-<<<<<<< HEAD
-alias rottenpotatoes-rails-intro="cd /home/devlab/Documents/Projects/git/rottenpotatoes-rails-intro"
-||||||| 39aeadb
-=======
 alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
->>>>>>> 16d7d78e302c25ce24eefd3b350e0127c7dd022e
