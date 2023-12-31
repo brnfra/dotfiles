@@ -26,6 +26,8 @@
 [mergetool]
     prompt	= false
     keepBackup	= false
+[mergetool "vimdiff3"]
+    cmd = vim \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 [branch "main"]
     remote  = origin
     merge   = refs/heads/main

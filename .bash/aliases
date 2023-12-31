@@ -113,6 +113,13 @@ alias br='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME restore'
 alias bare_log="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar.%s ;'"
 alias bpacks='config_check packs'
 alias blog='cat $HOME/.config-bkp/stage-bkp.log'
+BranchHome="$(git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
+if [ "$BranchHome" = "main" ]; then
+    alias bs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout testing'
+else
+    alias bs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout main'
+fi
+
 # }}}
 # jekyll {{{
 alias jstart="bundle exec jekyll serve --livereload"
@@ -169,6 +176,12 @@ alias nvi="nvim"
 alias nv="nvim"
 alias vifm="vifm ."
 alias py="python3"
+alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
+<<<<<<< HEAD
+alias rottenpotatoes-rails-intro="cd /home/devlab/Documents/Projects/git/rottenpotatoes-rails-intro"
+||||||| 39aeadb
+=======
 alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
+>>>>>>> 16d7d78e302c25ce24eefd3b350e0127c7dd022e

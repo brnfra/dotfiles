@@ -33,6 +33,7 @@ clean() {
     sudo journalctl --vacuum-time=7d
     rm -rf "$HOME/.cache/thumbnails/*"
     del "$HOME/.vim/.viminfo"
+    del "$HOME/.viminfo"
     del "$HOME/.vim/.viminfo.tmp"
     rm -rf "$HOME/.local/share/Trash/files/*"
 }

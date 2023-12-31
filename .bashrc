@@ -17,3 +17,4 @@ if [ -f ~/.bash/profile ]; then
     . ~/.bash/profile
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+eval "$(~/.rbenv/bin/rbenv init - bash)"
