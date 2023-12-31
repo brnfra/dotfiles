@@ -36,7 +36,7 @@ Thank you guys for sharing :heart:
 ## Using git to manage config files.
 
 <span>
-<img src="https://github.com/brnfra/dotfiles/blob/6c65c4408dd5b181136ae685da3df38a354e3e8c/images/print_screen.png" width=900 height=500 /></span>
+<img src="https://github.com/brnfra/dotfiles/blob/2ac9dee22bf78cbcda508660ea323a723bde6003/images/print_screen.png" width=900 height=500 /></span>
 
 ### Main config
 
