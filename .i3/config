@@ -1,13 +1,7 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
-<<<<<<< HEAD
 font xft:URWGothic-Book 10
-||||||| 6b3bfae
-font pango:Monofur 10
-=======
-font pango:Monofur NF 10
->>>>>>> 3e6e869456051275730f026b802b79a4b0fb3644
 set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
 set $ico_chat     <span font='Font Awesome'>&#xf27b;</span>
 set $ico_chrome   <span font='Font Awesome'>&#xf268;</span>
@@ -219,17 +213,9 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-<<<<<<< HEAD
     font pango: URWGothic-Book 10
     status_command i3blocks -c $HOME/.i3/i3blocks.conf
     i3bar_command i3bar
-||||||| 6b3bfae
-    font pango: Monofur 10
-    status_command SCRIPT_DIR=$HOME/.i3/i3blocks i3blocks -c $HOME/.i3/i3blocks.conf
-=======
-    font pango: Monofur NF 10
-    status_command i3blocks -c $HOME/.i3/i3blocks.conf
->>>>>>> 3e6e869456051275730f026b802b79a4b0fb3644
     colors {
     background #080910
     focused_workspace    #0066FF    #00FF00    #181920
