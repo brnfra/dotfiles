@@ -11,8 +11,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 TYPE="${BLOCK_INSTANCE:-mem}"
-ALERT_HIGH=70 # color will turn red up this value (default: 90%)
-CRITIC=90 # color will turn red up this value (default: 90%)
+alert_high=$(( 70 ))
+critic=$(( 90 ))
 font_face='"monofur NF"'
 font_size='"medium"'
 green='"#00FF00"'                                                                            
@@ -60,17 +60,16 @@ END {
 }
 ' /proc/meminfo)
 
-out_to_int=${output//\%/)}
-if [[ $out_to_int < $ALERT_HIGH ]]
-then
+out_to_int=$(${output//\%/)} | bc)
+if (( out_to_int < alert_high )); then
 font_params="<span font=$font_face color=$green size=$font_size >$output</span>"
-      printf "%s%s\n"  "$font_params"
-elif [[ $out_to_int > $ALERT_HIGH ]] && [[ $out_to_int < $CRITIC ]]
+      printf "%s\n"  "$font_params"
+  elif (( out_to_int >= alert_high )) && (( out_to_int < critic ))
 then
 font_alert_params="<span font=$font_face color=$orange size=$font_size >$output</span>"
-      printf "%s%s\n" "$font_alert_params"
-elif [[ $out_to_int > $CRITIC ]]
+      printf "%s\n" "$font_alert_params"
+  elif (( out_to_int >= critic ))
 then
 font_critic="<span font=$font_face font-weight='bold' color=$red size=$font_size >$output</span>"
-    printf "%s%s\n"  "$font_critic"
+    printf "%s\n"  "$font_critic"
 fi      
