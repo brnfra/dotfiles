@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: mod-battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-12-2023
+# Ultima_modificacao: 31-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,6 +12,8 @@ font_face='"monofur NF"'
 font_size='"medium"'
 font_weight='"bold"'
 icon_disch="&#xf103;"
+icon_plug="&#xF1E6;"
+icon_bolt="&#xF0E7;" 
 icon_ch="&#xf102;"
 icon_low="&#xf244;"
 icon25="&#xf243;"
@@ -28,7 +30,10 @@ bat_down_alert="notify-send -t 7000 'Time to charge!'"
 bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &> /dev/null'
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
-    exit 1
+    chrg_icon="<span font=$font_face color=$orange font-weight=$font_weight size=$font_size >$icon_plug</span>"
+    btry_icon="<span font=$font_face color=$orange size=$font_size >$icon_bolt</span>"
+    printf "%s%s\n" "$btry_icon" "$chrg_icon" 
+    exit 0
 else
     bat_number=$(acpi -b | grep -v "unavailable" | awk '{print $2}')
     bat_number=${bat_number:0:1}
@@ -74,4 +79,4 @@ then
     btry_icon="<span font=$font_face color=$white size=$font_size >$icon90 $bat_percent [$timeto]</span>"
 fi
 
-printf "%s %s%s\n" "$chrg_icon" "$btry_icon" 
+printf "%s %s\n" "$chrg_icon" "$btry_icon" 
