@@ -11,17 +11,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # $ fc-list command to list fonts
-font_face='"monofurNF"'
+
+font_face='"monofur NF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
-color='"#2666A1"'
-color_alert='#FF0000'
+color='"#00FF00"'
+color_alert='"#FFA500"'
+color_critic='"#FF0000"'
 icon="&#xf233;"
-font_params="<span font=$font_face color=$color size=$font_size >$icon</span>"
-font_alert_params="<span font=$font_face color=$color_alert size=$font_size >$icon</span>"
 DIR="${BLOCK_INSTANCE:-$HOME}"
 ALERT_LOW="${1:-10}" # color will turn red under this value (default: 10%)
-ALERT_HIGH="${1:-90}" # color will turn red up this value (default: 90%)
+ALERT_HIGH=80 # color will turn red up this value (default: 90%)
+CRITIC=90 # color will turn red up this value (default: 90%)
 output=$(df -h -P -l "$DIR" | awk -v alert_low=$ALERT_LOW '
 /\/.*/ {
 	free=$4
@@ -31,28 +32,21 @@ output=$(df -h -P -l "$DIR" | awk -v alert_low=$ALERT_LOW '
 	use=$5 
 }
 END {
-	# full text
-	#printf "%.f%%", use; 
-	# short text
 	printf "%.f%%", use; 
-	# gsub(/%$/,"",use)
-	#     # color
-	# if (100 - use < alert_low) {
-	#     print "#FF0000"
-	# }
-	#     # color
-	# if ( pct > 30 ) {
-	#     # short text alert color
-	#     print("#FFF600")
-	# }
-	# no need to continue parsing
 	exit 0
 }
 ')
 out_to_int=${output//\%/)}
-if [[ $out_to_int > $ALERT_HIGH  ]]
+if [[ $out_to_int < $ALERT_HIGH ]] 
 then
-    printf "%s  %s%s\n" "$font_alert_params" "$output" "$BLOCK_INSTANCE" 
-else
-    printf "%s  %s%s\n"  "$font_params" "$output" "$BLOCK_INSTANCE" 
-fi
+font_params="<span font=$font_face color=$color size=$font_size >$icon $output</span>"
+      printf "%s%s\n"  "$font_params" "$BLOCK_INSTANCE"
+elif [[ $out_to_int > $ALERT_HIGH ]] && [[ $out_to_int < $CRITIC ]] 
+then
+font_alert_params="<span font=$font_face color=$color_alert size=$font_size >$icon $output</span>"
+      printf "%s%s\n" "$font_alert_params" "$BLOCK_INSTANCE"
+elif [[ $out_to_int > $CRITIC ]] 
+then
+font_critic="<span font=$font_face color=$color_critic font-weight='bold' size=$font_size >$icon $output</span>"
+    printf "%s%s\n"  "$font_critic" "$BLOCK_INSTANCE"
+fi  

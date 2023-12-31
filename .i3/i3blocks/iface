@@ -11,15 +11,15 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-color_ok="'green'"
-color_fail="'red'"
+color_ok="'#00FF00'"
+color_fail="'#FF0000'"
 # $ fc-list command to list fonts
 font_face='"monofurNF"'
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size='"medium"'
 #------------------------------------------------------------------------
 font_params_ok="<span font=$font_face color=$color_ok size=$font_size ><b>"
-font_params_fail="<span font=$font_face color=$color_fail size=$font_size ><b>"
+font_params_fail="<span font=$font_face font-weight='bold' color=$color_fail size=$font_size ><b>"
 font_params_close="</b></span>"
 site_list='google.com' 
 site_list+=' github.com' 

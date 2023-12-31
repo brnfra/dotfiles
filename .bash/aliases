@@ -129,6 +129,7 @@ alias dimg='docker image ls'
 alias dstop='docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin'
 # }}}
 # Shortcuts map {{{
+alias fonts="fc-list"
 alias down="cd ~/Downloads"
 alias dow="cd ~/Downloads"
 alias dwall="cd ~/.wallpapers/"

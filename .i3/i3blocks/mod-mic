@@ -18,7 +18,7 @@ font_face="'monofur NF'"
 #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
 font_size="'medium'"
 
-color_on="'#2666A1'"
+color_on="'#FFFFFF'"
 color_mute="'#BF616A'"
 
 icon_mute='&#xf130; X'

@@ -20,7 +20,7 @@ counter_file="/tmp/pomos_counter"
 msg_start="&#xf251; "
 work_prefix="&#xf262; "
 break_prefix="&#xf0f4; "
-start_color='"#2666A1"'
+start_color='"#FFFFFF"'
 break_color='"#58a814"'
 work_color='"#f39660"'
 # $ fc-list command to list fonts

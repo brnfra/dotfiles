@@ -13,7 +13,7 @@ font_face='"monofur NF"'
 font_size='"medium"'
 font_params_close="</b></span>"
 if [ "$check" -lt 1 ]; then
-    color="'green'"
+    color="'#00FF00'"
     font_params="<span font=$font_face  color=$color size=$font_size ><b>"
     printf "%s %s %s\n" "$font_params" "No Updates" "$font_params_close"
 else

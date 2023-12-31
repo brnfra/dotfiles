@@ -11,7 +11,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 TYPE="${BLOCK_INSTANCE:-mem}"
-awk -v type=$TYPE '
+ALERT_HIGH=70 # color will turn red up this value (default: 90%)
+CRITIC=90 # color will turn red up this value (default: 90%)
+font_face='"monofur NF"'
+font_size='"medium"'
+green='"#00FF00"'                                                                            
+orange='"#FFA500"'
+red='"#FF0000"'
+
+output=$(awk -v type=$TYPE '
 /^MemTotal:/ {
 	mem_total=$2
 }
@@ -44,17 +52,26 @@ END {
 	if (total > 0) {
 		pct=used/total*100
 	}
+	pct=85
 	# full text
 	#printf("%.1fG/%.1fG (%.f%%)\n", used, total, pct)
 	# short text
 	printf("%.f%%\n", pct)
-	# color
-	if (pct > 90) {
-		print("#FF0000")
-	} else if (pct > 80) {
-		print("#FCCC00")
-	} else if (pct > 70) {
-		print("#FFF600")
-	}
+	
 }
-' /proc/meminfo
+' /proc/meminfo)
+
+out_to_int=${output//\%/)}
+if [[ $out_to_int < $ALERT_HIGH ]]
+then
+font_params="<span font=$font_face color=$green size=$font_size >$output</span>"
+      printf "%s%s\n"  "$font_params"
+elif [[ $out_to_int > $ALERT_HIGH ]] && [[ $out_to_int < $CRITIC ]]
+then
+font_alert_params="<span font=$font_face color=$orange size=$font_size >$output</span>"
+      printf "%s%s\n" "$font_alert_params"
+elif [[ $out_to_int > $CRITIC ]]
+then
+font_critic="<span font=$font_face font-weight='bold' color=$red size=$font_size >$output</span>"
+    printf "%s%s\n"  "$font_critic"
+fi      

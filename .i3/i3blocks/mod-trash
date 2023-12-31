@@ -27,7 +27,7 @@ URGENT_VALUE=100
 
 
 if (( TRASH_COUNT == 0 )); then
-    echo  "<span font='monofur NF' color='#2666A1'>&#xf48e; [${TRASH_COUNT}]</span>"
+    echo  "<span font='monofur NF' color='#FFFFFF'>&#xf48e; [${TRASH_COUNT}]</span>"
 elif (( TRASH_COUNT > 0 )); then
     echo  "<span font='monofur NF' color='orange'>&#xea81; [${TRASH_COUNT}]</span>"
 

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 #
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
@@ -11,12 +11,12 @@ use utf8;
 use Getopt::Long;
 use Term::ANSIColor;
 # default values
-my $color_norm  = $ENV{COLOR_ON} || "#2666A1";
-my $color_warn  = $ENV{COLOR_ON} || "#FF0000";
-my $color_crit  = $ENV{COLOR_ON} || "#FCCC00";
-my $bg_color_norm = $ENV{BG_COLOR_ON} || "#080910";
-my $bg_color_warn = $ENV{BG_COLOR_ON} || "#FCCC00";
-my $bg_color_crit = $ENV{BG_COLOR_ON} || "#FF0000";
+my $color_norm  = "#00FF00";
+my $color_warn  = "#FF0000";
+my $color_crit  = "#FFA500";
+my $bg_color_norm = "#080910";
+my $bg_color_warn = "#FCA500";
+my $bg_color_crit = "#FF0000";
 
 my $t_warn = 50;
 my $t_crit = 80;
@@ -58,14 +58,14 @@ $LAVG15 = $LAVG15*100;
 
 # Print color, if needed
 if (($cpu_usage < $t_crit && $cpu_usage >= $t_warn) || ($LAVG1 < $t_crit && $LAVG1 >= $t_warn) || ($LAVG5 < $t_crit && $LAVG5 >= $t_warn) || ($LAVG15 < $t_warn && $LAVG15 >= $t_warn) ) {
-    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVGRZ;
-    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
-    exit 1
+    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVGRZ;
+    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_warn, $bg_color_warn , $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
+    exit 0
 }
 if (($cpu_usage >= $t_crit) || ($LAVG1 >= $t_crit) || ($LAVG5 >= $t_crit) || ($LAVG15 >= $t_crit) ) {
-    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVGRZ;
-    printf "<span font='monofur NF' size='medium' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
-    exit 2
+    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%s) </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVGRZ;
+    printf "<span font='monofur NF' size='medium' font-weight='bold' color='%s' bgcolor='%s'>&#xf0e4; %.1f%% &#127947; (%.1f%%) (%.1f%%) (%.1f%%) (%s) %s </span>\n", $color_crit, $bg_color_crit ,  $cpu_usage, $LAVG1, $LAVG5, $LAVG15, $LAVGRZ, $LPROSS_STR;
+    exit 0
 }
 
 # Print short_text, full_text
