@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+
+clnInfo "Search strings inside files"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - Search strings insid files
+
+SYNOPSIS
+    ${0##*/} { folder | -h | --help} | { string }
+
+DESCRIPTION
+    Search a string using grep program. Provide local to search and string.
+
+    To search a string 
+	${0##*/} "~/Documents" "radius"
+
+OPTIONS
+    -h,--help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      no valid folder 
+
+       2      empty string.
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+# Search inside files {{{
+search() {
+    grep --color=always -Rnw "$1" -e "$2"
+}
+if [ -e "$1" ];then
+    if [ "$2" != "" ];then
+	#echo "search!!!"
+	search "$1" "$2"
+    else
+	clnInfo "search \"./folder/local\" \"string\"" 
+	clnError "No string" 
+	exit 2;
+    fi
+else
+    clnError "Invalid folder" "$1"
+    exit 1;
+fi

@@ -135,14 +135,6 @@ function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
 # }}}    
-# Search inside files {{{
-function search() {
-    fd -H -t d \
-	| fzf -m\
-	| xargs -ro -d "\n" -I "{}" grep -H -r "$1" "{}" &
-
-}        
-# }}}    
 # search avaliable packages to install {{{
 #
 # }}}
