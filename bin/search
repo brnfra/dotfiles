@@ -31,6 +31,8 @@ Exit status:
 
        2      empty string.
 
+       3      no file selected.
+
 See the README for documentation.
 https://github.com/brnfra/dotfiles
 Licensed under the MIT license.

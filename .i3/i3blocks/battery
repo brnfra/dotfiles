@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Arquivo: mod-battery
+# Arquivo: battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 31-12-2023
+# Ultima_modificacao: 01-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -23,7 +23,7 @@ icon90="&#xf240;"
 red="'#FF0000'"                                         
 green="'#00FF00'"                                       
 orange="'#FFA500'"
-white="'FFFFFF'"
+white="'#FFFFFF'"
 bat_up_alert="notify-send -t 7000 'Recommend plug-off charger.'"
 bat_up_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/suspend-error.oga &> /dev/null'
 bat_down_alert="notify-send -t 7000 'Time to charge!'"
