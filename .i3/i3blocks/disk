@@ -31,7 +31,6 @@ END {
 }
 ')
 out_to_int=${output//\%/}
-echo $output
 if (( out_to_int < alert_high )); then
       printf "%s%s\n"  "<span $font $green $font_medium >$icon $output</span>" "$BLOCK_INSTANCE"
 elif (( out_to_int >= alert_high )) && (( out_to_int < critic )); then
