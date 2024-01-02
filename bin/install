@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 23-12-2023
+# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -20,7 +20,7 @@ install_check() {
 	# shellcheck source=~/bin/dotfiles_env
 	. dotfiles_env
     else
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env";	then
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/main/testing/bin/dotfiles_env";	then
 	    mkdir "$HOME/bin"
 	    # shellcheck source=~/bin/dotfiles_env
 	    . dotfiles_env
