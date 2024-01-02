@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-01-2024
+# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -579,7 +579,7 @@ fi
 options="${options}\$exe_always xset b off\n"
 #Keyboard settings
 options="${options}\$exe numlockx on\n"
-options="${options}\$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1\n"
+options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
 options="${options}\$exe xfce4-power-manager\n"
 #Networkmanager wicd and NM do not work together
 options="${options}\$exe nm-applet --indicator\n"
