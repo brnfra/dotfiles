@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+
+source ~/.i3/i3blocks/vars 
+
 case "$BLOCK_BUTTON" in
   1|2|3) 
     i3-msg 'exec gsimplecal' > /dev/null ;;
 esac
-echo "<span font='monofur NF'>$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"
+echo "<span $font $font_medium >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"

@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 27-12-2023
+" Ultima_modificacao: 31-12-2023
 " Download: git@github.com:brnfra
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
@@ -233,7 +233,7 @@ if has('nvim')
 	endif
     endfunction
     " Highlight the symbol and its references when holding the cursor.
-    autocmd CursorHold * silent call CocActionAsync('highlight')
+    autocmd CursorHold * silent! call CocActionAsync('highlight')
     " Symbol renaming.
     nmap <leader>rn <Plug>(coc-rename)
     " Formatting selected code.

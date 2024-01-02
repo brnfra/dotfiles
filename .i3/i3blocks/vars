@@ -1,0 +1,18 @@
+white='color="'#FFFFFF'"'
+red='color="'#FF0000'"'                                         
+dark_red='color="'#BF616A'"'                                         
+green='color="'#00FF00'"'                                       
+lima_green='color="'#C0FF00'"'                                       
+dark_green='color="'#418A03'"'                                       
+yellow='color="'#FFED00'"'                                       
+orange='color="'#FFA500'"'
+# fc-list command to list fonts 
+font='font="monofur NF"'
+# normal bold [100; - thin 400; - normal 900; - heavy(black)]
+font_bold='font-weight="bold"'
+font_normal='font-weight="normal"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_small='size="small"'
+font_medium='size="medium"'
+font_large='size="large"'
+
