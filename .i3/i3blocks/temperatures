@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Arquivo: temperatures
+# Arquivo: mod-temperatures
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-01-2024
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,8 +9,6 @@
 # depends 'jq' package
 # dont inject shell variables into your jq filter!
 # instead use --argjson
-source ~/.i3/i3blocks/vars
-
 temps_all=$(sensors -j | jq '.' | \
     grep "temp[1-2]_input" | \
     sed 's/[,"]//g; s/^[ \t]*//;s/[ \t]*$//' | \
@@ -22,6 +20,9 @@ temps_all=$(sensors -j | jq '.' | \
 icon20="&#xf2ca;"
 icon50="&#xf2c9;"
 icon70="&#xf2c7;"
+red='"#FF0000"'
+green='"#00FF00"'
+orange='"#FFA500"'
 output=""
 get_temp_max=$(( 0 )) 
 
@@ -32,13 +33,13 @@ do
     fi
     if (( temp < 200 )); then
 	if (( temp <= 30 )); then
-	    output="<span $font $blue >$icon20 $get_temp_max</span>"
+	    output="<span font='monofur NF' color='blue'>$icon20 $get_temp_max</span>"
 	elif (( temp >= 31 )) && (( temp <= 54 )); then
-	    output="<span $font $green >$icon50 $get_temp_max</span>"
+	    output="<span font='monofur NF' color=$green >$icon50 $get_temp_max</span>"
 	elif (( temp >= 55 )) && (( temp <= 69 )); then
-	    output="<span $font $orange >$icon70 $get_temp_max</span>"
+	    output="<span font='monofur NF' color=$orange >$icon70 $get_temp_max</span>"
 	elif (( temp >= 70 )); then
-	    output="<span $font $red >$icon70 $get_temp_max</span>"
+	    output="<span font='monofur NF' color=$red >$icon70 $get_temp_max</span>"
 	fi
     fi
 done

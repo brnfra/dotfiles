@@ -12,18 +12,34 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
 
 print_in ()
 {
-    printf "%s %s %s" "<span $font $font_medium $1 >" "↓$2" "</span>"
+    # $ fc-list command to list fonts
+    font_face='"monofur NF"'
+    #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+    font_size='"medium"'
+    font_params="<span font=$font_face color=$1 size=$font_size >"
+    font_params="<span font=$font_face color=$1 size=$font_size >"
+    font_params_close="</span>"
+    printf "%s %s %s" "$font_params" "↓$2" "$font_params_close"
 }
 
 print_out ()
 {
-    printf "%s %s %s\n" "<span $font $font_medium $1 >" "↑$2" "</span>" 
+    # $ fc-list command to list fonts
+    font_face='"monofur NF"'
+    #xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+    font_size='"medium"'
+    font_params="<span font=$font_face color=$1 size=$font_size >"
+    font_params="<span font=$font_face color=$1 size=$font_size >"
+    font_params_close="</span>"
+    printf "%s %s %s\n" "$font_params" "↑$2" "$font_params_close" 
 }
 
+green="'#00FF00'"                                       
+orange="'#FFA500'"                           
+white="'#FFFFFF'"  
 # Use the provided interface, otherwise the device used for the default route.
 if [[ -n $BLOCK_INSTANCE ]]; then
     INTERFACE=$BLOCK_INSTANCE
@@ -44,7 +60,7 @@ path="/dev/shm/$(basename $0)-${INTERFACE}"
 read rx < "/sys/class/net/${INTERFACE}/statistics/rx_bytes"
 read tx < "/sys/class/net/${INTERFACE}/statistics/tx_bytes"
 # get time
-time=$(date +%s | bc)
+time=$(date +%s)
 # write current data if file does not exist. Do not exit, this will cause
 # problems if this file is sourced instead of executed as another process.
 if ! [[ -f "${path}" ]]; then
@@ -58,7 +74,7 @@ echo "${time} ${rx} ${tx}" > "${path}"
 old=(${old//;/ })
 time_diff=$(( $time - ${old[0]} ))
 # sanity check: has a positive amount of time passed
-(( time_diff > 0 )) || exit
+[[ "${time_diff}" -gt 0 ]] || exit
 # calc bytes transferred, and their rate in byte/s
 rx_diff=$(( $rx - ${old[1]} ))
 tx_diff=$(( $tx - ${old[2]} ))
@@ -67,24 +83,34 @@ tx_rate=$(( $tx_diff / $time_diff ))
 # shift by 10 bytes to get KiB/s. If the value is larger than
 # 1024^2 = 1048576, then display MiB/s instead
 # incoming
-rx_kib=$(( $rx_rate / 1024 ))
-if (( rx_rate >= 1048576 )); then
+rx_kib=$(( $rx_rate >> 10 ))
+if [[ "$rx_rate" -gt 1048576 ]]; then
+    # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sM </span>" "$(echo "scale=2; $rx_kib / 1024" | bc)"
     rx_band="$(echo "scale=2; $rx_kib / 1024" | bc)" 
+    #printf "%s ↓%sM %s" "$font_params" "$rx_band" "$font_params_close"
     print_in "$orange" "$rx_band M"
-elif (( rx_rate >= 1024 )) && (( rx_rate < 1048576 )); then
+    #output="$font_params ↓$rx_band M $font_params_close"
+elif [[ "$rx_rate" -gt 1024 ]]; then
+    # printf "<span font='monofur NF' color='#2666A1' size='medium'>↓%sK </span>" "${rx_kib}"
     rx_band="${rx_kib}" 
     print_in "$green" "$rx_band K"
-elif (( rx_rate < 1024 )); then
+    #printf "%s ↓%sK %s" "$font_params" "$rx_band" "$font_params_close"
+    #output="$font_params ↓$rx_band K $font_params_close"
+elif [[ "$rx_rate" -lt 1024 ]]; then
     print_in "$white" "$rx_rate b"
+    #printf "%s ↓%sb %s" "$font_params" "$rx_rate" "$font_params_close"
 fi
 # outgoing
 tx_kib=$(( $tx_rate >> 10 ))
-if (( tx_rate >= 1048576 )); then
+if [[ "$tx_rate" -gt 1048576 ]]; then
     tx_band="$(echo "scale=2; $tx_kib / 1024" | bc)"
+    #printf "%s ↑%sM %s\n" "$font_params" "$tx_band" "$font_params_close" 
     print_out "$orange" "$tx_band M"
-elif (( tx_rate >= 1024 )) && (( tx_rate < 1048576 )); then
+elif [[ "$tx_rate" -gt 1024 ]]; then
     tx_band="${tx_kib}"
     print_out "$green" "$tx_band K"
-elif (( tx_rate < 1024 )); then
+    #printf "%s ↑%sK %s\n" "$font_params" "$tx_band" "$font_params_close"
+elif [[ "$tx_rate" -lt 1024 ]]; then
     print_out "$white" "$tx_rate b"
+    #printf "%s ↑%sb %s\n" "$font_params" "$tx_rate" "$font_params_close"
 fi

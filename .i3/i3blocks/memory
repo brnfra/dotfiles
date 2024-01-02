@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -10,11 +10,14 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
-
 TYPE="${BLOCK_INSTANCE:-mem}"
 alert_high=$(( 70 ))
 critic=$(( 90 ))
+font_face='"monofur NF"'
+font_size='"medium"'
+green='"#00FF00"'                                                                            
+orange='"#FFA500"'
+red='"#FF0000"'
 
 output=$(awk -v type=$TYPE '
 /^MemTotal:/ {
@@ -57,13 +60,16 @@ END {
 }
 ' /proc/meminfo)
 
-out_to_int=${output//\%/}
+out_to_int=$(${output//\%/)} | bc)
 if (( out_to_int < alert_high )); then
-      printf "%s\n" "<span $font $green $font_medium >$output</span>"
+font_params="<span font=$font_face color=$green size=$font_size >$output</span>"
+      printf "%s\n"  "$font_params"
   elif (( out_to_int >= alert_high )) && (( out_to_int < critic ))
 then
-      printf "%s\n" "<span $font $orange $font_medium >$output</span>"
+font_alert_params="<span font=$font_face color=$orange size=$font_size >$output</span>"
+      printf "%s\n" "$font_alert_params"
   elif (( out_to_int >= critic ))
 then
-    printf "%s\n" "<span $font $font_bold $red $font_medium >$output</span>"
+font_critic="<span font=$font_face font-weight='bold' color=$red size=$font_size >$output</span>"
+    printf "%s\n"  "$font_critic"
 fi      

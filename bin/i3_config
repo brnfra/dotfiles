@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-01-2024
+# Ultima_modificacao: 31-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -75,27 +75,6 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}font xft:$font\n"
 fi
 
-###############################
-### Definitionsfor i3-gaps: ###{{{
-###############################
-options="${options}set \$binaries $binaries\n"
-options="${options}set \$sup bindsym Mod4\n"
-
-options="${options}set \$exe exec --no-startup-id\n"
-options="${options}set \$exe_always exec_always --no-startup-id\n"
-
-# Open specific applications in floating mode
-# Disable title bars.
-options="${options}for_window [class=\"^.*\"] border pixel 2\n"
-options="${options}assign [class=\"Firefox-esr\"] Firefox \$ico_firefox\n"
-options="${options}assign [class=\"firefox\"] \$ico_firefox\n"
-options="${options}assign [class=\"Firefox\"] \$ico_firefox\n"
-options="${options}assign [class=\"calibre\"] \$ico_calibre\n"
-options="${options}assign [class=\"okular\"] \$ico_pdf\n"
-options="${options}assign [class=\"Pcmanfm\"] \$ico_window\n"
-options="${options}assign [instance=\"pcmanfm\"] \$ico_window\n"
-options="${options}assign [instance=\"pamac-manager\"] \$ico_package\n"
-options="${options}assign [class=\"Virt-manager\"] \$ico_monitor\n"
 #icons
 options="${options}set \$ico_bank     <span font='Font Awesome'>&#xf155;</span>\n"
 options="${options}set \$ico_chat     <span font='Font Awesome'>&#xf27b;</span>\n"
@@ -123,7 +102,11 @@ options="${options}set \$ico_volume   <span font='Font Awesome'>&#xf028;</span>\
 options="${options}set \$ico_whatsapp <span font='Font Awesome'>&#xf232;</span>\n"
 options="${options}set \$ico_window   <span font='Font Awesome'>&#xf2d0;</span>\n"
 options="${options}set \$ico_calibre   <span font='Font Awesome'>&#xf212;</span>\n"
+options="${options}set \$binaries $binaries\n"
+options="${options}set \$sup bindsym Mod4\n"
 # exec shortener 
+options="${options}set \$exe exec --no-startup-id\n"
+options="${options}set \$exe_always exec_always --no-startup-id\n"
 # Use Mouse+$mod to drag floating windows to their wanted position.
 options="${options}floating_modifier \$mod\n"
 # Disable focus following the mouse (no).
@@ -143,27 +126,8 @@ options="${options}set \$ws8  \"8\"\n"
 options="${options}set \$ws9  \"9\"\n"
 options="${options}set \$ws10 \"10\"\n"
 
-# Assign to floating by default.
-options="${options}for_window [class=\"mpv\"] floating enable\n"
-options="${options}for_window [class=\"gnome-calculator\"] floating enable\n"
-# Let's try to get most pop-up floating.
-options="${options}for_window [window_role=\"pop-up\"] floating enable\n"
-options="${options}for_window [window_role=\"bubble\"] floating enable\n"
-options="${options}for_window [window_role=\"task_dialog\"] floating enable\n"
-options="${options}for_window [window_role=\"Preferences\"] floating enable\n"
-options="${options}for_window [window_type=\"dialog\"] floating enable\n"
-options="${options}for_window [window_type=\"menu\"] floating enable\n"
-options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 800 800\n"
-options="${options}for_window [title=\"File Transfer*\"] floating enable\n"
-options="${options}for_window [class=\"knotes\"] floating enable resize set 500 500\n"
-options="${options}for_window [class=\"GParted\"] floating enable border normal set 800 800\n"
-options="${options}for_window [title=\"Calculator\"] floating enable move position center\n"
-#virtual machines
-options="${options}for_window [class=\"Virt-manager\"] fullscreen enable\n" 
-
-#}}}
 #############################
-### settings for i3-gaps: ###{{{
+### settings for i3-gaps: ###
 #############################
 # Running with i3-gaps.
 if [ "$use_gaps" = "true" ]; then
@@ -240,9 +204,8 @@ if [ "$use_gaps" = "true" ]; then
     options="${options}}\n"
     #I3 gaps use IF
 fi
-#}}}
 ################################################################################################
-## keybindings                                                                                ##{{{
+## keybindings                                                                                ##
 ################################################################################################
 
 #Terminal
@@ -340,6 +303,31 @@ options="${options}bindsym \$mod+Shift+7 move container to workspace \$ws7; work
 options="${options}bindsym \$mod+Shift+8 move container to workspace \$ws8; workspace \$ws8\n"
 options="${options}bindsym \$mod+Shift+b workspace back_and_forth\n"
 #resize set [width] <width> [px | ppt] [height] <height> [px | ppt]
+# Open specific applications in floating mode
+# Disable title bars.
+options="${options}for_window [class=\"^.*\"] border pixel 2\n"
+options="${options}assign [class=\"Firefox-esr\"] Firefox \$ico_firefox\n"
+options="${options}assign [class=\"calibre\"] Calibre \$ico_calibre\n"
+options="${options}assign [class=\"okular\"] Okular \$ico_pdf\n"
+# Assign to floating by default.
+options="${options}for_window [class=\"mpv\"] floating enable\n"
+options="${options}for_window [class=\"gnome-calculator\"] floating enable\n"
+# Let's try to get most pop-up floating.
+options="${options}for_window [window_role=\"pop-up\"] floating enable\n"
+options="${options}for_window [window_role=\"bubble\"] floating enable\n"
+options="${options}for_window [window_role=\"task_dialog\"] floating enable\n"
+options="${options}for_window [window_role=\"Preferences\"] floating enable\n"
+options="${options}for_window [window_type=\"dialog\"] floating enable\n"
+options="${options}for_window [window_type=\"menu\"] floating enable\n"
+options="${options}for_window [class=\"GoldenDict\"] floating enable resize set 800 800\n"
+options="${options}for_window [title=\"File Transfer*\"] floating enable\n"
+options="${options}for_window [class=\"knotes\"] floating enable resize set 500 500\n"
+options="${options}for_window [class=\"GParted\"] floating enable border normal set 800 800\n"
+options="${options}for_window [title=\"Calculator\"] floating enable move position center\n"
+#virtual machines
+options="${options}assign [class=\"Virt-manager\"] VManager \$ico_monitor\n"
+options="${options}for_window [class=\"Virt-manager\"] fullscreen enable\n" 
+
 # Jump to the latest "urgent" window.
 options="${options}bindsym \$mod+Ctrl+u [urgent=latest] focus\n"
 # Reload the configuration file.
@@ -426,9 +414,8 @@ options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
 options="${options}bindsym \$mod+Ctrl+x --release \$exe xkill\n"
 
 
-#}}}
 ################################################################################################
-##  Color appearance                                                                          ##{{{
+##  Color appearance                                                                          ##
 ################################################################################################
 
 
@@ -440,9 +427,8 @@ options="${options}client.unfocused        $dark       $dark   $i3white  $i3purp
 options="${options}client.urgent           $i3red      $dark   $i3white  $i3red      $i3red\n"
 options="${options}client.background       $dark\n"
 
-#}}}
 ################################################################################################
-## i3bar config                                                                               ##{{{
+## i3bar config                                                                               ##
 ################################################################################################
 
 if [ "$system_id" = "debian" ]; then
@@ -540,16 +526,14 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}}\n"
 fi
  
-#}}}
 ################################################################################################
-## caps lock/num lock status                                                                  ##{{{
+## caps lock/num lock status                                                                  ##
 ################################################################################################
 # 
 options="${options}bindsym --release Caps_Lock \$exe pkill -SIGRTMIN+11 i3blocks\n"
 options="${options}bindsym --release Num_Lock  \$exe pkill -SIGRTMIN+11 i3blocks\n"
-#}}}
 ################################################################################################
-## sound-section                                                                              ##{{{
+## sound-section                                                                              ##
 ################################################################################################
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     # volume control and i3blocks volume status --------------------------------
@@ -560,9 +544,8 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}bindsym XF86HomePage         \$exe pavucontrol\n"
 
 elif [ "$system_id" = "manjaro" ]; then
-#}}}
     ################################################################################################
-    ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##{{{
+    ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
     ################################################################################################
     options="${options}\$exe volumeicon\n"
     options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
@@ -571,9 +554,8 @@ elif [ "$system_id" = "manjaro" ]; then
     #bindsym $mod+Ctrl+m exec pavucontrol
 fi
 
-    #}}}
 ################################################################################################
-## Session startup                                                                            ##{{{
+## Session startup                                                                            ##
 ################################################################################################
 #OFF bell on preference for X
 options="${options}\$exe_always xset b off\n"
@@ -598,18 +580,15 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}\$exe clipit\n"
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
-    if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
-    else
-	options="${options}\$exe start_conky_maia\n"
-    fi
+    options="${options}\$exe start_conky_maia\n"
+    #options="${options}\$exe conky -c ~/.config/conky/conky_maia\n"
+    #options="${options}\$exe conky -c ~/.config/conky/conky1.10_shortcuts_maia\n"
     options="${options}\$exe ff-theme-util\n"
     options="${options}\$exe fix_xcursor\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     # exec_always --no-startup-id sbxkb
     #$exe start_conky_green
 fi
-#}}}
 #### config ends in this line
 
 printf "$options%s" > "$i3_cfg"

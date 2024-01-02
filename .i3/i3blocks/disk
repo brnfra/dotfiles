@@ -10,14 +10,20 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
+# $ fc-list command to list fonts
 
+font_face='"monofur NF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
+color='"#00FF00"'
+color_alert='"#FFA500"'
+color_critic='"#FF0000"'
 icon="&#xf233;"
 DIR="${BLOCK_INSTANCE:-$HOME}"
 alert_low="${1:-10}" # color will turn red under this value (default: 10%)
 alert_high=$(( 80 )) # color will turn red up this value (default: 90%)
 critic=$(( 90 )) # color will turn red up this value (default: 90%)
-output=$(df -h -P -l "$DIR" | awk -v alert_low=$alert_low '
+output=$(df -h -P -l "$DIR" | awk -v alert_low=$ALERT_LOW '
 /\/.*/ {
 	free=$4
 	used=$3
@@ -30,12 +36,14 @@ END {
 	exit 0
 }
 ')
-out_to_int=${output//\%/}
-echo $output
+out_to_int=$(${output//\%/)} | bc)
 if (( out_to_int < alert_high )); then
-      printf "%s%s\n"  "<span $font $green $font_medium >$icon $output</span>" "$BLOCK_INSTANCE"
+font_params="<span font=$font_face color=$color size=$font_size >$icon $output</span>"
+      printf "%s%s\n"  "$font_params" "$BLOCK_INSTANCE"
 elif (( out_to_int >= alert_high )) && (( out_to_int < critic )); then
-      printf "%s%s\n" "<span $font $orange $font_medium >$icon $output</span>" "$BLOCK_INSTANCE"
+font_alert_params="<span font=$font_face color=$color_alert size=$font_size >$icon $output</span>"
+      printf "%s%s\n" "$font_alert_params" "$BLOCK_INSTANCE"
 elif (( out_to_int >= critic )); then
-    printf "%s%s\n" "<span $font $red $font_bold $font_medium >$icon $output</span>" "$BLOCK_INSTANCE"
+font_critic="<span font=$font_face color=$color_critic font-weight='bold' size=$font_size >$icon $output</span>"
+    printf "%s%s\n"  "$font_critic" "$BLOCK_INSTANCE"
 fi  

@@ -33,7 +33,6 @@ clean() {
     sudo journalctl --vacuum-time=7d
     rm -rf "$HOME/.cache/thumbnails/*"
     del "$HOME/.vim/.viminfo"
-    del "$HOME/.viminfo"
     del "$HOME/.vim/.viminfo.tmp"
     rm -rf "$HOME/.local/share/Trash/files/*"
 }
@@ -134,7 +133,8 @@ function vplay () {
 function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
-# }}}    
+
+# }}}
 # search avaliable packages to install {{{
 #
 # }}}
@@ -222,7 +222,7 @@ elif [ "$osys" = "manjaro" ]; then
 	    --hscroll-off=800 \
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview" \
-	    | cut -d " " -f 1 | xargs -ro sudo pacman -S
+	    | xargs -ro sudo pacman -S
 	}
 
 	function fremove () {
@@ -230,14 +230,11 @@ elif [ "$osys" = "manjaro" ]; then
 		| fzf \
 		--multi \
 		--preview 'pacman -Si {1}' \
-		--height=80% \
-		--border \
-		--hscroll-off=800 \
-		--preview-window=wrap \
-		--bind="tab:toggle-preview" \
 		| xargs -ro sudo pacman -Rns
 	    }
 
+    # }}}
+    # autocomplete {{{
 
     function plist () {
 	pacman -Qq \
@@ -250,6 +247,7 @@ elif [ "$osys" = "manjaro" ]; then
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview"
 	}
+    # autocomplete {{{
 
     function auto_complete_pacman() {
 	mapfile -t COMPREPLY < <(pacman -Si "$1");
@@ -260,6 +258,7 @@ elif [ "$osys" = "manjaro" ]; then
     complete -F auto_complete_pacman pinfo
     complete -F auto_complete_pacman plist
 
+    # }}}
 
     # function pinfo ()
     # {
