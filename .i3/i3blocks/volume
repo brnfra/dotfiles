@@ -18,14 +18,7 @@
 # For Jack/Jack2 users, use "jackplug"
 # For ALSA users, you may use "default" for your primary card
 # or you may use hw:# where # is the number of the card desired
-
-# $ fc-list command to list fonts
-font_face="'monofur NF'"
-#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_size="'medium'"
-
-color_on="'#FFFFFF'"
-color_mute="'#BF616A'"
+source ~/.i3/i3blocks/vars
 
 icon_mute='&#xf026; X'
 icon95='&#xf028; &#x1D11a;'
@@ -34,7 +27,6 @@ icon50='&#xf028; &#x1D118;'
 icon25='&#xf027; &#x1D117;'
 icon_low='&#xf027; &#x1D116;'
 icon_zero='&#xf026;  '
-
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -127,31 +119,25 @@ else
 fi
 get_block() {
     if [ "$vmute" = "$res" ]; then
-	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
-	printf "%s\n" "$show"
+	printf "%s\n" "<span $font $red $font_medium >$icon_mute</span>"
 	exit 0
     elif (( volume >= 0 )) && (( volume <= 4 )) ; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon_zero</span>"
 	exit 0
     elif (( volume >= 5 )) && (( volume <= 15 )) ; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon_low</span>"
 	exit 0
     elif (( volume >= 16 )) && (( volume <= 35 )) ; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon25</span>"
+	exit 0
     elif (( volume >= 36 )) && (( volume <= 65 )) ; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon50</span>"
 	exit 0
     elif (( volume >= 66 )) && (( volume <= 85 )) ; then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon75</span>"
 	exit 0
     elif (( volume >= 86 )); then
-	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
-	printf "%s\n" "$show" 
+	printf "%s\n" "<span $font $green $font_medium >$icon95</span>"
 	exit 0
     fi
 }

@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 # Arquivo: battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 01-01-2024
+# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste arquivo.
-# $ fc-list command to list fonts
-font_face='"monofur NF"'
-#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_size='"medium"'
-font_weight='"bold"'
+source ~/.i3/i3blocks/vars
+
 icon_disch="&#xf103;"
 icon_plug="&#xF1E6;"
 icon_bolt="&#xF0E7;" 
@@ -20,18 +17,15 @@ icon25="&#xf243;"
 icon50="&#xf242;"
 icon75="&#xf241;"
 icon90="&#xf240;"
-red="'#FF0000'"                                         
-green="'#00FF00'"                                       
-orange="'#FFA500'"
-white="'#FFFFFF'"
+
 bat_up_alert="notify-send -t 7000 'Recommend plug-off charger.'"
 bat_up_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/suspend-error.oga &> /dev/null'
 bat_down_alert="notify-send -t 7000 'Time to charge!'"
 bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &> /dev/null'
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
-    chrg_icon="<span font=$font_face color=$orange font-weight=$font_weight size=$font_size >$icon_plug</span>"
-    btry_icon="<span font=$font_face color=$orange size=$font_size >$icon_bolt</span>"
+    chrg_icon="<span $font $orange $font_bold $font_medium >$icon_plug</span>"
+    btry_icon="<span $font $orange $font_bold $font_medium >$icon_bolt</span>"
     printf "%s%s\n" "$btry_icon" "$chrg_icon" 
     exit 0
 else
@@ -48,35 +42,29 @@ bat_percent_int=${bat_percent%\%*}
 
 if [ "$status" = 'Discharging' ]
 then
-    chrg_icon="<span font=$font_face color=$red font-weight=$font_weight size=$font_size >$icon_disch</span>"
+    chrg_icon="<span $font $red $font_bold $font_large >$icon_disch</span>"
 else
-    chrg_icon="<span font=$font_face color=$green font-weight=$font_weight size=$font_size >$icon_ch</span>"
+    chrg_icon="<span $font $green $font_bold $font_large >$icon_ch</span>"
 fi
 
-if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 14 ))
-then
-    btry_icon="<span font=$font_face color=$red size=$font_size >$icon_low $bat_percent [$timeto]</span>"
-elif (( bat_percent_int >= 15 )) && (( bat_percent_int <= 35 ))
-then
-    if (( bat_percent_int == 20 ))
-    then
+if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 5 )); then
+    btry_icon="<span $font $red $font_medium >$icon_low $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 6 )) && (( bat_percent_int <= 14 )); then
+    btry_icon="<span $font $orange $font_medium >$icon_low $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 15 )) && (( bat_percent_int <= 35 )); then
+    if (( bat_percent_int == 20 )); then
 	eval $bat_down_alert
     fi
-    btry_icon="<span font=$font_face color=$orange size=$font_size >$icon25 $bat_percent [$timeto]</span>"
-elif (( bat_percent_int >= 36 )) && (( bat_percent_int <= 60 ))
-then
-    btry_icon="<span font=$font_face color='lightgreen' size=$font_size >$icon50 $bat_percent  [$timeto]</span>"
-elif (( bat_percent_int >= 61 )) && (( bat_percent_int <= 85 ))
-then
-    if (( bat_percent_int == 83 ))
-    then
+    btry_icon="<span $font $yellow $font_medium >$icon25 $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 36 )) && (( bat_percent_int <= 60 )); then
+    btry_icon="<span $font $lima_green $font_medium >$icon50 $bat_percent  [$timeto]</span>"
+elif (( bat_percent_int >= 61 )) && (( bat_percent_int <= 85 )); then
+    if (( bat_percent_int == 83 )); then
 	eval $bat_up_alert
     fi
-
-    btry_icon="<span font=$font_face color=$green size=$font_size >$icon75 $bat_percent [$timeto]</span>"
-elif (( bat_percent_int >= 86 )) 
-then
-    btry_icon="<span font=$font_face color=$white size=$font_size >$icon90 $bat_percent [$timeto]</span>"
+    btry_icon="<span $font $green $font_medium >$icon75 $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 86 )); then
+    btry_icon="<span $font $white $font_medium >$icon90 $bat_percent [$timeto]</span>"
 fi
 
-printf "%s %s\n" "$chrg_icon" "$btry_icon" 
+printf " %s %s\n" "$chrg_icon" "$btry_icon" 
