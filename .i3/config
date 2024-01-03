@@ -203,7 +203,6 @@ bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_si
 bindsym XF86HomePage         $exe pavucontrol
 $exe_always xset b off
 $exe numlockx on
-$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
@@ -212,5 +211,6 @@ $exe compton --config ~/.config/compton.conf
 $exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
+$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
 $exe diodon
