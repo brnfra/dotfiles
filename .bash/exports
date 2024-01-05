@@ -22,7 +22,6 @@ export HISTCONTROL='ignoreboth';
 yellow=$(tput setaf 220);
 export LESS_TERMCAP_md="${yellow}";
 export MANPAGER='less -X --save-marks --mouse --wheel-lines=6';
-OPT="$HOME/.local/opt"
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
@@ -30,10 +29,17 @@ export PATH=$PATH:$HOME/bin/composer
 #export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
 # Android
 if [ "$osys" = "debian" ]; then 
+    OPT="$HOME/.local/opt"
     export ANDROID_HOME="/media/SamsungHDD/AndroidProjects/Android/Sdk"
     export ANDROID_USER_HOME="/media/SamsungHDD/AndroidProjects/.android/"
     export ANDROID_EMULATOR_HOME="/media/SamsungHDD/AndroidProjects/.android/"
-elif [ "$osys" = "ubuntu" ] || [ "$osys" = "manjaro" ]; then
+elif [ "$osys" = "ubuntu" ]; then 
+    OPT="$HOME/.local/opt"
+    export ANDROID_HOME="$HOME/AndroidProjects/Android/Sdk"
+    export ANDROID_USER_HOME="$HOME/AndroidProjects/.android/"
+    export ANDROID_EMULATOR_HOME="$HOME/AndroidProjects/.android/"
+elif [ "$osys" = "manjaro" ]; then
+    OPT="$HOME/.local/share"
     export ANDROID_HOME="$HOME/AndroidProjects/Android/Sdk"
     export ANDROID_USER_HOME="$HOME/AndroidProjects/.android/"
     export ANDROID_EMULATOR_HOME="$HOME/AndroidProjects/.android/"
