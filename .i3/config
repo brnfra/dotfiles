@@ -114,7 +114,8 @@ mode "$mode_gaps_outer" {
 }
 bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+q kill
-bindsym $mod+Ctrl+d $exe dmenu_run -b -l 15 -fn monofur
+bindsym $mod+Ctrl+d $exe dmenu_recency
+bindsym $mod+d $exe xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
 for_window [title="fzf-menu"] floating enable move position center
 bindsym $mod+y focus left
 bindsym $mod+j focus down
@@ -194,7 +195,6 @@ mode "$mode_system" {
 }
 bindsym Ctrl+1 exec firefox
 bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
-bindsym $mod+d $exe dmenu_recency
 bindsym $mod+z $exe morc_menu
 bindsym $mod+Shift+m exec xfce4-terminal -x 'bmenu'
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
@@ -244,6 +244,7 @@ $exe compton --config ~/.config/compton.conf
 $exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
+$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe clipit
 $exe xautolock -time 10 -locker blurlock
 $exe pamac-tray
