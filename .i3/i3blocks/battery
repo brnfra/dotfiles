@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: battery
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-01-2024
+# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -52,22 +52,18 @@ if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 5 )); then
 elif (( bat_percent_int >= 6 )) && (( bat_percent_int <= 14 )); then
     btry_icon="<span $font $orange $font_medium >$icon_low $bat_percent [$timeto]</span>"
 elif (( bat_percent_int >= 15 )) && (( bat_percent_int <= 35 )); then
-    # BU-808: How to Prolong Lithium-based Batteries
-    # https://batteryuniversity.com/article/bu-808-how-to-prolong-lithium-based-batteries
-    if (( bat_percent_int <= 20 )) && [ "$status" = 'Discharging' ]; then
+    if (( bat_percent_int == 20 )); then
 	eval $bat_down_alert
     fi
     btry_icon="<span $font $yellow $font_medium >$icon25 $bat_percent [$timeto]</span>"
 elif (( bat_percent_int >= 36 )) && (( bat_percent_int <= 60 )); then
     btry_icon="<span $font $lima_green $font_medium >$icon50 $bat_percent  [$timeto]</span>"
-elif (( bat_percent_int >= 61 )) && (( bat_percent_int <= 80 )); then
-    btry_icon="<span $font $green $font_medium >$icon75 $bat_percent [$timeto]</span>"
-elif (( bat_percent_int >= 81 )); then
-    # BU-808: How to Prolong Lithium-based Batteries
-    # https://batteryuniversity.com/article/bu-808-how-to-prolong-lithium-based-batteries
-    if [ "$status" = 'Charging' ]; then
+elif (( bat_percent_int >= 61 )) && (( bat_percent_int <= 85 )); then
+    if (( bat_percent_int == 83 )); then
 	eval $bat_up_alert
     fi
+    btry_icon="<span $font $green $font_medium >$icon75 $bat_percent [$timeto]</span>"
+elif (( bat_percent_int >= 86 )); then
     btry_icon="<span $font $white $font_medium >$icon90 $bat_percent [$timeto]</span>"
 fi
 

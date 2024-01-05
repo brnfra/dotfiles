@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: i3_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-01-2024
+# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -251,14 +251,11 @@ options="${options}bindsym \$mod+Return exec $Terminal\n"
 options="${options}bindsym \$mod+Shift+q kill\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     #dmenu
-    #options="${options}bindsym \$mod+d \$exe dmenu_run -b -l 15 -fn monofur\n"
-    options="${options}bindsym \$mod+d \$exe xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'\n"
+    options="${options}bindsym \$mod+d \$exe dmenu_run -b -l 15 -fn monofur\n"
     options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
 elif [ "$system_id" = "manjaro" ]; then
     #dmenu
-    options="${options}bindsym \$mod+Ctrl+d \$exe dmenu_recency\n"
-    #options="${options}bindsym \$mod+d \$exe dmenu_run -b -l 15 -fn monofur\n"
-    options="${options}bindsym \$mod+d \$exe xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'\n"
+    options="${options}bindsym \$mod+Ctrl+d \$exe dmenu_run -b -l 15 -fn monofur\n"
     options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
 fi
 # Chance focus.
@@ -414,6 +411,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}bindsym Ctrl+1 exec firefox\n"
     options="${options}bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf\n"
     # start program launcher
+    options="${options}bindsym \$mod+d \$exe dmenu_recency\n"
     # launch categorized menu
     options="${options}bindsym \$mod+z \$exe morc_menu\n"
     options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
@@ -581,6 +579,7 @@ fi
 options="${options}\$exe_always xset b off\n"
 #Keyboard settings
 options="${options}\$exe numlockx on\n"
+options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
 options="${options}\$exe xfce4-power-manager\n"
 #Networkmanager wicd and NM do not work together
 options="${options}\$exe nm-applet --indicator\n"
@@ -593,11 +592,9 @@ options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
 options="${options}\$exe goldendict\n"
 options="${options}\$exe blueman-applet\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
-    options="${options}\$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1\n"
     options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
     options="${options}\$exe diodon\n"
 elif [ "$system_id" = "manjaro" ]; then
-    options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
     options="${options}\$exe clipit\n"
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"

@@ -27,11 +27,7 @@ move() {
 }
 
 clean() {
-    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-	sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean;
-    elif [ "$osys" = "manjaro" ]; then
-	echo "for packages run bmenu"
-    fi
+    sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean;
     sudo rm -rf /var/log/*.log* 
     sudo rm -rf /var/log/syslog* 
     sudo journalctl --vacuum-time=7d
@@ -40,8 +36,6 @@ clean() {
     del "$HOME/.viminfo"
     del "$HOME/.vim/.viminfo.tmp"
     rm -rf "$HOME/.local/share/Trash/files/*"
-    rm -rf "$HOME/.local/share/Trash/files/*"
-    rm -rf "$HOME/.local/share/vifm/Trash/*"
 }
 # }}}
 # Colorized man pages{{{
@@ -276,15 +270,15 @@ fi
 # FZF FUNCTIONS {{{
 function open_with_fzf () {
     fd -t f -H -I \
-	| fzf -e -m \
+	| fzf -m \
 	--preview="xdg-mime query default {}" \
-	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} "    
+	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} &"    
 	    #2>&-
 	
 }
 
 function cd_with_fzf () {
-    cd $HOME && cd "$(fd -H -t d | fzf -e --preview="tree -L 1 {}" --bind="space:toggle-preview")"
+    cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
 }
 
 # do not use yet
