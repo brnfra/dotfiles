@@ -73,8 +73,7 @@ for_window [title="Calculator"] floating enable move position center
 for_window [class="Virt-manager"] fullscreen enable
 bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+q kill
-bindsym $mod+d $exe xfce4-terminal --title='fzf-menu' --command='i3-dmenu-desktop --dmenu=fzf'
-for_window [title="fzf-menu"] floating enable move position center
+bindsym $mod+d $exe rofi -show drun
 bindsym $mod+y focus left
 bindsym $mod+j focus down
 bindsym $mod+u focus up

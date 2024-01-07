@@ -2,7 +2,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-SHUNIT_TEST_PREFIX=' Packages Test --> '
+SHUNIT_TEST_PREFIX=' Packages Instaled Test for Debian or Ubuntu --> '
 SHUNIT_COLOR="always"
 testPkgsInstalledCheck() {
     #debian ubuntu manjaro etc
@@ -34,10 +34,11 @@ testPkgsInstalledCheck() {
     pkges+=" pcmanfm" 
     pkges+=" ranger "
     pkges+=" rar "
+    pkges+=" rofi "
     pkges+=" rsync "        
     pkges+=" scrot "        
     pkges+=" shunit2 "      
-    pkges+=" ssh "          
+    pkges+=" openssh-client "          
     pkges+=" sysstat "      
     pkges+=" tar "
     pkges+=" unzip "        
@@ -51,7 +52,7 @@ testPkgsInstalledCheck() {
     then
 	pkges+=" pulseaudio"
     else
-	pkges+=" alsautils"
+	pkges+=" alsa-utils"
     fi
 
     for pkg in $pkges 

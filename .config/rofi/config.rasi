@@ -1,2 +1,29 @@
 
-@import "themes/debxp-dmenu-top.rasi"
+//@import "themes/debxp-dmenu-top.rasi"
+@import "themes/debxp-arc-dark-center-rounded.rasi"
+
+configuration {
+    modi: "window,run,drun,ssh,filebrowser";
+    combi-modes: "run,drun,window,filebrowser";
+    dpi: 130;
+    show-icons: true;
+    font: "monofur NF 12";
+    window-thumbnail: true;
+    location: 0;
+    hover-select: true;
+    window-format: "{t}";
+    drun-match-fields: "all";
+    max-history-size: 25;
+    sidebar-mode: true;
+    cycle: true;
+    kb-cancel: "Escape,Alt+F1";
+    kb-row-tab: "Tab";
+    kb-page-prev: "Page_Up";
+    kb-page-next: "Page_Down";
+    kb-row-first: "Home,KP_Home";
+    kb-row-last: "End,KP_End";
+    run {
+	  fallback-icon: "application-x-addon";
+    }
+
+}
