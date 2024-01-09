@@ -1,8 +1,7 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 31-12-2023
-" Download: git@github.com:brnfra
+" Ultima_modificacao: 08-01-2024
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -42,6 +41,32 @@ if !has('nvim')
 else
     set viminfo+=n~/.vim/.shada
 endif
+" ------------------------------------------------------------------------------------------------------------------------------
+" Vim Directories
+" ------------------------------------------------------------------------------------------------------------------------------
+let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
+set nobackup                                                             
+set noswapfile                                                          
+set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp           
+set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set viewdir=$DATA_PATH/view/                                       
+set viewoptions=folds,cursor,curdir,slash,unix                    
+
+" ------------------------------------------------------------------------------------------------------------------------------
+" History saving
+" ------------------------------------------------------------------------------------------------------------------------------
+set history=2000
+augroup user_persistent_undo
+    autocmd!
+    au BufWritePre /tmp/*          setlocal noundofile
+    au BufWritePre COMMIT_EDITMSG  setlocal noundofile
+    au BufWritePre MERGE_MSG       setlocal noundofile
+    au BufWritePre *.tmp           setlocal noundofile
+    au BufWritePre *.bak           setlocal noundofile
+augroup END
+
+" ------------------------------------------------------------------------------------------------------------------------------
 set termguicolors
 set mouse-=a " Enable mouse in all modes
 set cursorcolumn
@@ -55,6 +80,7 @@ set wildignore+=*.o,*.a,*.class,*.mo,*.la,*.so,*.lo,*.la,*.obj,*.pyc
 set wildignore+=*.exe,*.zip,*.jpg,*.png,*.gif,*.jpeg,*pdf
 set wildignore+=*.swp,*.bak,*.pyc,*.class,.svn
 ""set wildchar=<TAB>      " start wild expansion in the command line using <TAB>
+setlocal wildmode=full
 set linebreak
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
@@ -66,28 +92,46 @@ set showcmd         "Exibe comando sendo executado
 set autoread
 set autowrite       " write buffers automagically when leaving them
 ""set vb              " set visual bell --
-setlocal wildmode=full
 "Word completion
 set dictionary+=~/.vim/c_src/tags
 set dictionary+=~/.vim/cpp_src/8/tags
 set complete-=i
 set complete+=.,w,k
-"set infercase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=8       " Tabstops are 2 spaces
-set shiftwidth=4
-set softtabstop=4
-set autoindent      " auto indent
-set smartindent
-set smarttab  " Be smart when using tabs ;)
-set noexpandtab   "no- Use spaces instead of tabs
 set lbr
-set tw=500  " Linebreak on 500 characters
+"set tw=500  " Linebreak on 500 characters
 set showmatch
-set textwidth=160
+
 "---------------------------------------------------------------------------
+" Searching
+""---------------------------------------------------------------------------
+
+set ignorecase
+set smartcase 
+set infercase 
+set incsearch         " Incrementally match the search
+set wrapscan
+""---------------------------------------------------------------------------
+" Auto BreakIndent
+""---------------------------------------------------------------------------
+set textwidth=160
+set expandtab    "no- Use spaces instead of tabs     
+set tabstop=8       " Tabstops are 2 spaces
+set shiftwidth=4  
+"set softtabstop=4
+set softtabstop=-1
+set autoindent      " auto indent
+set smartindent 
+set smarttab  " Be smart when using tabs ;)
+set shiftround 
+
+if exists('&breakindent')
+    set breakindentopt=shift:4,min:20
+endif
+
+""---------------------------------------------------------------------------
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
 " Local directories {{{
@@ -117,12 +161,13 @@ set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines 
 set wildmenu          " Make the command-line completion better
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
 set hlsearch          " Enable search highlighting
-set incsearch         " Incrementally match the search
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
 " --- sane text files -------   Encoding ----"
 set encoding=utf-8
+set fileencodings=utf-8,cp936,gb18030,big5,latin1   
+set fileencoding=utf-8  
 set ttyfast
 if !has('nvim')
     set ttymouse=xterm2
@@ -178,6 +223,9 @@ Plug 'mzlogin/vim-markdown-toc'
 ""let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'brnfra/vim-shortcuts'
 ""unlet g:plug_url_format
+Plug 'vimwiki/vimwiki' 
+Plug 'michal-h21/vim-zettel'
+
 call plug#end()
 "-------------------------------------------------------
 "     END PLUGINS  }}}1
@@ -301,6 +349,34 @@ if has('nvim')
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 endif
 ""}}}
+"              VIMWIKI {{{
+" Height
+"----------------------------------------------------------------
+hi VimwikiHeader1 guifg=#e5c07b
+hi VimwikiHeader2 guifg=#98c379
+hi VimwikiHeader3 guifg=#c678dd
+""hi VimwikiHeader4 guifg=#FF00FF
+""hi VimwikiHeader5 guifg=#00FFFF
+""hi VimwikiHeader6 guifg=#FFFF00
+hi VimwikiH1Folding guifg=#e5c07b
+hi VimwikiH2Folding guifg=#98c379
+hi VimwikiH3Folding guifg=#c678dd
+""hi VimwikiH4Folding guifg=#8096BF
+""hi VimwikiH5Folding guifg=#8096BF
+""hi VimwikiH6Folding guifg=#8096BF
+hi VimwikiLink guifg=#61afef
+hi VimwikiBold term=bold  ctermfg=204 gui=bold guifg=#E06C75
+hi VimwikiBold guifg=#E06C75
+inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
+inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
+inoremap <C-]> <Plug>VimwikiTablePrevCell
+"inoremap <C-[> <Plug>VimwikiTableNextCell
+nnoremap <C-]> <Plug>VimwikiTablePrevCell
+nnoremap <C-[> <Plug>VimwikiTableNextCell
+nnoremap <C-Tab> <Plug>VimwikiPrevLink
+nnoremap <C-n> <Plug>VimwikiDiaryNextDay
+nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
+"              }}} 
 "              VIM-SENSIBLE {{{
 if has('nvim')
     " automatically open and close the popup menu / preview window
@@ -313,7 +389,7 @@ endif
 "              }}}
 "             Netrw configuration       {{{2
 ""------------------------------------------------------
-let g:loaded_netrw       = 1
+let g:loaded_netrw       = 0
 let g:loaded_netrwPlugin = 1
 let shownetrw =0
 let g:netrw_banner=0        " disable banner
@@ -328,8 +404,15 @@ if shownetrw
     let g:netrw_menu=1
     let g:netrw_preview=1
     let g:netrw_browse_split=2
-    autocmd VimEnter * :Vexplore
+    "autocmd VimEnter * :Vexplore
 endif
+function! NetrwOnBufferOpen()
+    if exists('b:noNetrw')
+	return
+    endif
+    call ToggleNetrw()
+endfun
+
 ""-----------------------------------------END NETRW }}}2
 "              NERDTree configuration      {{{2
 ""------------------------------------------------------
@@ -381,8 +464,11 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#whitespace#enabled = 0 
+let g:airline_skip_empty_sections = 0
+let g:airline_focuslost_inactive = 1
+let g:airline_skip_empty_sections = 1
 let g:airline_exclude_preview = 0
 let g:airline_detect_modified=1
 let g:airline_inactive_alt_sep=1
@@ -427,34 +513,34 @@ let g:airline_filetype_overrides = {
 	    \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
 	    \ }
 ""* enable/disable ale integration >
-let airline#extensions#ale#error_symbol = 'E:'
-let airline#extensions#ale#warning_symbol = 'W:'
-let airline#extensions#ale#show_line_numbers = 1
-let airline#extensions#ale#open_lnum_symbol = '(L'
-let airline#extensions#ale#close_lnum_symbol = ')'
-let g:airline#extensions#keymap#enabled=1
-let g:airline#extensions#bookmark#enabled=1
+let airline#extensions#ale#error_symbol         = 'E:'
+let airline#extensions#ale#warning_symbol       = 'W:'
+let airline#extensions#ale#show_line_numbers    = 1
+let airline#extensions#ale#open_lnum_symbol     = '(L'
+let airline#extensions#ale#close_lnum_symbol    = ')'
+let g:airline#extensions#keymap#enabled         = 1
+let g:airline#extensions#bookmark#enabled       = 1
 "powerline"
-let g:airline#extensions#tabline#right_sep  =	"\u2591\u2592\u2593"
-let g:airline#extensions#tabline#left_sep   =	"\u2593\u2592\u2591"
-let g:airline#extensions#tabline#right_alt_sep=	"\u2593\u2592\u2591"
-let g:airline#extensions#tabline#left_alt_sep =	"\u2593\u2592\u2591"
-let g:airline_right_alt_sep =			"\u2591\u2592\u2593"
-let g:airline_left_alt_sep  =			"\u2593\u2592\u2591"
-let g:airline_left_sep	=			"\u2593\u2592\u2591"
-let g:airline_right_sep	=			"\u2593\u2592\u2591"
-let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' ℅:'
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' :'
-let g:airline_symbols.maxlinenr = '☰ '
-let g:airline_symbols.dirty='⚡'
+let g:airline#extensions#tabline#right_sep      = "\u2591\u2592\u2593"
+let g:airline#extensions#tabline#left_sep       = "\u2593\u2592\u2591"
+let g:airline#extensions#tabline#right_alt_sep  = "\u2593\u2592\u2591"
+let g:airline#extensions#tabline#left_alt_sep   = "\u2593\u2592\u2591"
+let g:airline_right_alt_sep                     = "\u2591\u2592\u2593"
+let g:airline_left_alt_sep                      = "\u2593\u2592\u2591"
+let g:airline_left_sep	                        = "\u2593\u2592\u2591"
+let g:airline_right_sep	                        = "\u2593\u2592\u2591"
+let g:airline_symbols.branch                    = ''
+let g:airline_symbols.colnr                     = ' ℅:'
+let g:airline_symbols.readonly                  = ''
+let g:airline_symbols.linenr                    = ' :'
+let g:airline_symbols.maxlinenr                 = '☰ '
+let g:airline_symbols.dirty                     = '⚡'
 "check :help statusline or airline
-let g:airline_section_c='%r%m%t %-0.50{CurDir()}'
-let g:airline_section_x='%y'
-let g:airline_section_z='%p%% %l Col:%c'
-let g:airline_section_error=''
-let g:airline_section_warning=''
+let g:airline_section_c                         = '%r%m%t %-0.50{CurDir()}'
+let g:airline_section_x                         = '%y'
+let g:airline_section_z                         = '%p%% %l Col:%c'
+let g:airline_section_error                     = ''
+let g:airline_section_warning                   = ''
 "+-------------------------------------------------------+
 "| Set advanced status line				 |
 "+-------------------------------------------------------+
@@ -601,7 +687,7 @@ augroup END
 " }}}
 "autocmd vimenter * NERDTree  {{{
 if !has('nvim')
-    autocmd VimEnter * exec ":loadview"
+    "autocmd VimEnter * exec ":loadview"
 endif
 "}}}
 " Arquivos .sh sao sempre bash, e não sh
@@ -677,8 +763,8 @@ autocmd BufNewFile,BufRead *.sass			set ft=sass.css
 autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 "---------------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
-let mapleader="," " Map <Leader> to ,
-let g:mapleader=","
+let mapleader="\\" "Map <Leader> to \
+let maplocalleader=";"
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     
 "-------------------------------------------------------
@@ -735,6 +821,8 @@ noremap <F7> :call ToggleFold()<cr>
 inoremap <F7> <esc>:call ToggleFold()<cr>i
 noremap <F8> :call OneLineAllText()<cr>v$
 inoremap <F8> <esc>:call OneLineAllText()<cr>v$
+nnoremap <F9> :execute('setlocal wrap! breakindent!')<CR>
+inoremap <F9> <esc>:execute('setlocal wrap! breakindent!')<CR>i
 "fold selected
 noremap <leader>f :call ToggleCreateFold()<cr>
 vnoremap <leader>f :call ToggleCreateFold()<cr>
@@ -781,6 +869,8 @@ nnoremap <silent> ci` ?`<CR><space>v/`<CR><BS>c
 nnoremap <silent> ca" ?"<CR>v/"<CR>c
 nnoremap <silent> ca' ?'<CR>v/'<CR>c
 nnoremap <silent> ca` ?`<CR>v/`<CR>c
+"Yank"
+nnoremap Y y$
 "redo"
 nnoremap U :redo<cr>
 "select ALL"

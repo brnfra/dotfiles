@@ -88,7 +88,7 @@ options="${options}set \$exe_always exec_always --no-startup-id\n"
 # Open specific applications in floating mode
 # Disable title bars.
 options="${options}for_window [class=\"^.*\"] border pixel 2\n"
-options="${options}assign [class=\"Firefox-esr\"] Firefox \$ico_firefox\n"
+options="${options}assign [class=\"Firefox-esr\"] \$ico_firefox\n"
 options="${options}assign [class=\"firefox\"] \$ico_firefox\n"
 options="${options}assign [class=\"Firefox\"] \$ico_firefox\n"
 options="${options}assign [class=\"calibre\"] \$ico_calibre\n"

@@ -7,7 +7,7 @@ set $sup bindsym Mod4
 set $exe exec --no-startup-id
 set $exe_always exec_always --no-startup-id
 for_window [class="^.*"] border pixel 2
-assign [class="Firefox-esr"] Firefox $ico_firefox
+assign [class="Firefox-esr"] $ico_firefox
 assign [class="firefox"] $ico_firefox
 assign [class="Firefox"] $ico_firefox
 assign [class="calibre"] $ico_calibre
