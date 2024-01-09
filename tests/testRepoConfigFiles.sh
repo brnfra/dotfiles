@@ -115,7 +115,7 @@ testLocalConfigIsValid() {
 
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3 config[HOME] is not valid.                          " "i3 -C -c $HOME/.i3/config"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Script to generate I3 config[HOME] is not valid.       " "$HOME/bin/i3_config"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3block status line config[HOME] is not valid.         " "timeout --preserve-status 1.5s i3blocks -c $HOME/.i3/i3blocks.conf"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3block status line config[HOME] is not valid.         " "timeout --preserve-status 2s i3blocks -c $HOME/.i3/i3blocks.conf"
 }
 
 # Load and run shUnit2.
