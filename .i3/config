@@ -235,7 +235,6 @@ $exe volumeicon
 bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
 $exe_always xset b off
 $exe numlockx on
-$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
