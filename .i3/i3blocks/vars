@@ -1,18 +1,39 @@
-white='color="'#FFFFFF'"'
-red='color="'#FF0000'"'                                         
-dark_red='color="'#BF616A'"'                                         
-green='color="'#00FF00'"'                                       
-lima_green='color="'#C0FF00'"'                                       
-dark_green='color="'#418A03'"'                                       
-yellow='color="'#FFED00'"'                                       
-orange='color="'#FFA500'"'
+
+white='     color="'#FFFFFF'" bgcolor="'#4A5151'"'
+red='       color="'#FF0000'" bgcolor="'#4A5151'"'
+dark_red='  color="'#BF616A'" bgcolor="'#4A5151'"'
+green='     color="'#00FF00'" bgcolor="'#4A5151'"'
+lima_green='color="'#C0FF00'" bgcolor="'#4A5151'"'
+dark_green='color="'#418A03'" bgcolor="'#4A5151'"'
+yellow='    color="'#FFED00'" bgcolor="'#4A5151'"'
+orange='    color="'#FFA500'" bgcolor="'#4A5151'"'
+color_off=' color="'#00FF00'" bgcolor="'#4A5151'"'
+color_on='  color="'#FF0000'" bgcolor="'#FFED00'"'
+white_code='     "'#FFFFFF'"'
+red_code='       "'#FF0000'"'
+dark_red_code='  "'#BF616A'"'
+green_code='     "'#00FF00'"'
+lima_green_code='"'#C0FF00'"'
+dark_green_code='"'#418A03'"'
+yellow_code='    "'#FFED00'"'
+orange_code='    "'#FFA500'"'
+
 # fc-list command to list fonts 
 font='font="monofur NF"'
+
 # normal bold [100; - thin 400; - normal 900; - heavy(black)]
+weight='font-weight="bold"'
 font_bold='font-weight="bold"'
 font_normal='font-weight="normal"'
-#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_small='size="small"'
-font_medium='size="medium"'
-font_large='size="large"'
+
+#normal,italic
+style='font-style="italic"'
+
+#none ,uppercase,lowercase,capitalize
+capitalize='text-transform="capitalize"'
+uppercase='text-transform="uppercase"'
+
+# percent, xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+size='size="100%"'
+icon_size='size="100%"'
 

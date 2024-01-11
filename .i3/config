@@ -71,8 +71,8 @@ for_window [class="knotes"] floating enable resize set 500 500
 for_window [class="GParted"] floating enable border normal set 800 800
 for_window [title="Calculator"] floating enable move position center
 for_window [class="Virt-manager"] fullscreen enable
-gaps inner -2
-gaps outer -2
+gaps inner 2
+gaps outer 2
 smart_gaps on
 smart_borders on
 smart_gaps on

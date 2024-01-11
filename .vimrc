@@ -1,7 +1,6 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 08-01-2024
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -181,21 +180,35 @@ filetype indent on
 filetype plugin on
 filetype plugin indent on
 call plug#begin('~/.vim/bundle')
-Plug 'junegunn/fzf', { 'dir': '~/.vim/.fzf', 'do': './install --all' }
-Plug 'junegunn/vim-easy-align'
-Plug 'scrooloose/nerdtree'
+Plug 'brnfra/vim-shortcuts'
+Plug 'dense-analysis/ale'
+Plug 'flazz/vim-colorschemes'
+Plug 'hail2u/vim-css3-syntax'
 Plug 'jistr/vim-nerdtree-tabs'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'liuchengxu/vim-which-key' 
+Plug 'michal-h21/vim-zettel'
+Plug 'mzlogin/vim-markdown-toc'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tpope/vim-sensible'
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-scripts/OmniCppComplete'
+Plug 'vim-scripts/c.vim'
+Plug 'vimwiki/vimwiki' 
+Plug 'hecal3/vim-leader-guide'
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
     Plug 'roxma/nvim-yarp'
-    Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/deoplete.nvim'
 endif
 " Code Snnipets"
 if has('nvim')
@@ -207,29 +220,17 @@ else
 	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
 endif
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"colorschemes
-""Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
-Plug 'dense-analysis/ale'
-"syntax
-Plug 'hail2u/vim-css3-syntax'
-"c/c++"
-Plug 'vim-scripts/OmniCppComplete'
-Plug 'vim-scripts/c.vim'
-"Table Of Contents[toc]
-Plug 'mzlogin/vim-markdown-toc'
-""let g:plug_url_format = 'git@github.com:%s.git'
-Plug 'brnfra/vim-shortcuts'
-""unlet g:plug_url_format
-Plug 'vimwiki/vimwiki' 
-Plug 'michal-h21/vim-zettel'
-
 call plug#end()
 "-------------------------------------------------------
 "     END PLUGINS  }}}1
 "             PLUGINS CONFIG {{{1
+"                 ALE.VIM  {{{2
+"-------------------------------------------------------
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_enabled = 1
+let b:ale_fixers = ['prettier', 'eslint']
+let g:ale_completion_autoimport = 1
+"-----------------------------------END ALE.VIM}}}2
 "              FUGITIVE                          {{{
 "                                           }}}"
 "COC{{{
@@ -376,7 +377,202 @@ nnoremap <C-[> <Plug>VimwikiTableNextCell
 nnoremap <C-Tab> <Plug>VimwikiPrevLink
 nnoremap <C-n> <Plug>VimwikiDiaryNextDay
 nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
-"              }}} 
+"              }}}
+" VIM-LEADER-GUIDE{{{
+"=================================================================================================================================
+" Which Key Map  settings
+"=================================================================================================================================
+" Define prefix dictionary
+let g:lmap =  {}
+
+
+
+"}}}
+"             VIM-WITCH-KEY {{{
+"=================================================================================================================================
+" Which Key Map  settings
+"=================================================================================================================================
+" Define prefix dictionary
+let g:which_key_map = {}
+let g:which_key_map.c = {}
+
+
+if !exists('which_key#register')
+   silent! call which_key#register('\', 'g:which_key_map')
+
+endif
+
+nnoremap <silent><leader> :WhichKey '\'<CR>
+vnoremap <silent><leader> :WhichKeyVisual '\'<CR>
+
+let g:which_key_default_group_name = ''
+
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+"-----------------------------------------------------------------
+let g:which_key_sep = '→'
+""let g:which_key_sep = ' ◆ '
+let g:which_key_use_floating_win = 0
+let g:which_key_use_floating_relative = 0
+let g:which_key_align_by_seperator = 1
+let g:which_key_flatten = 1
+let g:which_key_run_map_on_popup = 0
+let g:which_key_fallback_to_native_key=1
+let g:which_key_disable_default_offset = 1
+let g:which_key_exit = ["\<Esc>","\q"]
+let g:which_key_hspace = 3
+let g:which_key_vertical = 0
+let g:which_key_max_size = 0
+let g:which_key_sort_horizontal = 0
+
+highlight default link WhichKey          Function
+highlight default link WhichKeySeperator DiffAdded
+highlight default link WhichKeyGroup     Keyword
+highlight default link WhichKeyDesc      Identifier
+highlight default link WhichKeyFloating  Pmenu
+
+" By default timeoutlen is 1000 ms
+set timeoutlen=300
+let g:which_key_map = {
+    \
+    \ '<F2>'    : [ ''                                               , 'Toggle NERDTree'             ] ,
+    \ '<F3>'    : [ ''                                               , 'Toggle Number'               ] ,
+    \ '<F4>'    : [ ''                                               , 'AutoIndent'                  ] ,
+    \ '<F5>'    : [ ''                                               , 'Wrap Lines'                  ] ,
+    \ '<F6>'    : [ ''                                               , 'Toggle Paste'                ] ,
+    \ '<F7>'    : [ ''                                               , 'Toggle Fold'                 ] ,
+    \ '<F8>'    : [ ''                                               , 'Turn OneLine All'            ] ,
+    \ '<F9>'    : [ ''                                               , 'Toggle Local BreakIndent'    ] ,
+    \ '\'       : [ ''                                               , 'Search <++> and enter'       ] ,
+    \ 'D'       : [ '\\DD'                                           , 'Delete break lines'          ] ,
+    \ 'd'       : [ '\\D'                                            , 'Delete blank lines'          ] ,
+    \ 'h'       : [ '\\d'                                            , 'Delete spaces in the end'    ] ,
+    \ 'V'       : [ '=v'                                             , 'Redraw vimrc'                ] ,
+    \ 'v'       : [ '0v'                                             , 'Reload Vimrc '               ] ,
+    \ 'e'       : [ '\\v'                                            , 'Edit Vimrc '                 ] ,
+    \ 'l'       : [ '+l'                                             , 'Add a line after'            ] ,
+    \ '1'       : [ '<C-L>'                                          , 'Diff update search '         ] ,
+    \ '2'       : [ '<C-F12>'                                        , 'ctags -R           '         ] ,
+    \ 'C'       : [ '<C-C>'                                          , 'Copy to xclip (visual)'      ] ,
+    \ 's'       : [ '<C-S>'                                          , 'Save current file  '         ] ,
+    \ 'q'       : [ '<C-Q>'                                          , 'Exit vim           '         ] ,
+    \ 'L'       : [ '+L'                                             , 'Add a line before'           ] ,
+    \ }
+let g:which_key_map.c = {
+    \ 'name'    : '+Commands',
+    \
+    \ '1'   : [ '\\K'                                                , 'Get Man page 1'              ] ,
+    \ '2'   : [ '\\M'                                                , 'Get Man Page 2'              ] ,
+    \ }
+
+let g:which_key_map.p = {
+    \ 'name' : '+From_Plugins',
+    \
+    \ '['       : [ '<Plug>(MatchitNormalMultiBackward)'  , '(MatchitNormalMultiBackward)   ' ] ,
+    \ ']'       : [ '<Plug>(MatchitNormalMultiForward)'   , '(MatchitNormalMultiForward)    ' ] ,
+    \ 'S'       : [ '<Plug>CSurround'                     , 'Changes surroundings           ' ] ,
+    \ 's'       : [ '<Plug>Csurround'                     , 'Substitute cs!} !->}           ' ] ,
+    \ 'd'       : [ '<Plug>Dsurround'                     , 'Delete surround ds"            ' ] ,
+    \ 'g'       : [ '<Plug>(MatchitNormalBackward)'       , 'Matchit Normal Backward        ' ] ,
+    \ 'u'       : [ '<Plug>Commentary<Plug>Commentary'    , 'Undo Commentary                ' ] ,
+    \ 'c'       : [ '<Plug>CommentaryLine'                , 'Commentary Line                ' ] ,
+    \ 'C'       : [ '<Plug>Commentary'                    , 'Commentary                     ' ] ,
+    \ 'a'       : [ '\a'                                  , 'EasyAlign delim -> <Space>,=, :, ., |, &, #, and ,' ] ,
+    \ 'e'       : [ 'EasyAlign'                           , 'EasyAlign command Start        ' ] ,
+    \ 'l'       : [ 'LiveEasyAlign'                       , 'Live interactive mode          ' ] ,
+    \
+    \ }
+
+let g:which_key_map.f = {
+    \ "name" : "+FZF",
+    \
+    \ "f"    : ['Files'                                        , 'Search Files'                ] ,
+    \ "l"    : ['BLines'                                       , 'Search Lines Buffers'        ] ,
+    \ "o"    : ['Colors'                                       , 'Search Color Themes'         ] ,
+    \ "t"    : ['BTags'                                        , 'Search Tags'                 ] ,
+    \ "b"    : ['Buffers'                                      , 'Search Open Buffers'         ] ,
+    \ "i"    : ['GFiles'                                       , 'Search Git-Files'            ] ,
+    \ "g"    : ['GFiles?'                                      , 'Search Modified-Git-Files'   ] ,
+    \ "a"    : ['Ag'                                           , 'Search Ag'                   ] ,
+    \ "r"    : ['Rg'                                           , 'Search Rg'                   ] ,
+    \ "m"    : ['Marks'                                        , 'Search Marks'                ] ,
+    \ "w"    : ['Windows'                                      , 'Search Windows'              ] ,
+    \ "c"    : ['Commands'                                     , 'Search Commands'             ] ,
+    \
+    \ }
+
+"let g:which_key_map.f = { 'name' : '+file' }
+"nnoremap <silent> <leader>fd :e $MYVIMRC<CR>
+"let g:which_key_map.f.d = 'open-vimrc'
+let g:which_key_map.b = {                       
+       \ 'name' : '+buffer' ,                     
+       \ '1' : ['b1'        , 'buffer 1']        ,
+       \ '2' : ['b2'        , 'buffer 2']        ,
+       \ 'd' : ['bd'        , 'delete-buffer']   ,
+       \ 'f' : ['bfirst'    , 'first-buffer']    ,
+       \ 'h' : ['Startify'  , 'home-buffer']     ,
+       \ 'l' : ['blast'     , 'last-buffer']     ,                                             
+       \ 'n' : ['bnext'     , 'next-buffer']     ,
+       \ 'p' : ['bprevious' , 'previous-buffer'] ,
+       \ '?' : ['Buffers'   , 'fzf-buffer']      ,
+       \ }  
+let g:which_key_map.w = {
+    \ 'name' : '+VimWiki',
+    \
+    \ "w"    : ['\ww'                                         , 'Go To Index'                           ] ,
+    \ "n"    : [''                                            , 'Create new wiki page'                  ] ,
+    \ "d"    : [''                                            , 'Delete wiki page'                      ] ,
+    \ "r"    : [''                                            , 'Rename wiki page'                      ] ,
+    \ "v"    : [''                                            , 'Toggle wiki List'                      ] ,
+    \ "s"    : [''                                            , 'Search-for-wiki-pattam'                ] ,
+    \ "f"    : [''                                            , 'Search-for-wiki-curword'               ] ,
+    \ '1'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
+    \ '2'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
+    \ '3'    : [ '\w\t'                                       , 'Tab Make Diary Note'                   ] ,
+    \ '4'    : [ '\w\w'                                       , 'Make Diary Note'                       ] ,
+    \ '5'    : [ '\w\i'                                       , 'Diary Generate Links'                  ] ,
+    \ '6'    : [ '\wi'                                        , 'Diary Index'                           ] ,
+    \ '7'    : [ '\ws'                                        , 'UI Select'                             ] ,
+    \ 'I'    : [ '\wt'                                        , 'Tab Index'                             ] ,
+    \ '-'    : [ '<C-M>'                                      , 'Diary Prev Day'                        ] ,
+    \ '+'    : [ '<C-N>'                                      , 'Diary Next Day'                        ] ,
+    \ '<Tab>': [ '<C-Tab>'                                    , 'Prev Link'                             ] ,
+    \ '0'    : [ '<C-[>'                                      , 'Table Next Cell'                       ] ,
+    \ '9'    : [ '<C-]>'                                      , 'Table Prev Cell'                       ] ,
+    \
+    \ 'c'    : {
+    \ 'name' : '+CheckBox',
+    \
+    \ "t"    : ['VimwikiToggleListItem'                       , 'Toggle checkbox On/Off'       ] ,
+    \ "n"    : ['VimwikiIncrementListItem'                    , 'Toggle checkbox Next/Previous'] ,
+    \
+    \ },
+    \
+    \ 't'    : {
+    \ 'name' : '+Tables',
+    \
+    \ "t"    : ['VimwikiTable'                                , 'Create Table'                             ] ,
+    \ "h"    : ['<Plug>VimwikiTableMoveColumnLeft'            , 'Move current column to the left'          ] ,
+    \ "l"    : ['<Plug>VimwikiTableMoveColumnRight'           , 'Move current column to the Right'         ] ,
+    \
+    \ },
+    \
+    \ 'z'    : {
+    \ 'name' : '+Zettel',
+    \
+    \ "b"    : ['ZettelBackLinks'                             , 'add-backlineks'                           ] ,
+    \ "n"    : ['ZettelNew'                                   , 'add-new'                                  ] ,
+    \ "o"    : ['ZettelOpen'                                  , 'Search fulltext use FZF'                  ] ,
+    \ "i"    : ['ZettelInsertNote'                            , 'Using FZF and insert in the current'      ] ,
+    \ "s"    : ['ZettelSearch'                                , 'Search the content of your zettelkasten'  ] ,
+    \ "y"    : ['ZettelYankName'                              , 'Copy the current zettel file name'        ] ,
+    \
+    \ },
+    \
+    \ }
+
+"              }}}
 "              VIM-SENSIBLE {{{
 if has('nvim')
     " automatically open and close the popup menu / preview window
@@ -569,13 +765,6 @@ let s:terms_italic=[
 	    \"gnome-terminal"
 	    \]
 ""---------------------------------END COLORSCHEME }}}2
-"                 ALE.VIM  {{{2
-"-------------------------------------------------------
-set omnifunc=ale#completion#OmniFunc
-let g:ale_completion_enabled = 1
-let b:ale_fixers = ['prettier', 'eslint']
-let g:ale_completion_autoimport = 1
-"-----------------------------------END ALE.VIM}}}2
 "             DEOPLETE{{{
 let g:python3_host_prog = "/usr/bin/python3.9"
 let g:ruby_host_prog = '$HOME/.gem/ruby/2.7.0/bin/neovim-ruby-host'
@@ -588,6 +777,17 @@ let g:ycm_language_server =
 	    \   'filetypes': [ 'c', 'cpp', 'cuda', 'objc', 'objcpp' ],
 	    \   'project_root_files': [ '.ccls-root', 'compile_commands.json' ]
 	    \ }]
+"              }}}
+"              C.VIM {{{
+let g:C_MapLeader  = ','
+let tlist_template_settings  = 'template;t:template'
+"---------------------------------------------------------------
+" plugin templates : set filetype for *.template  
+"---------------------------------------------------------------
+if has("autocmd")
+    autocmd BufNewFile,BufRead Templates  set filetype=template
+    autocmd BufNewFile,BufRead *.template  set filetype=template
+endif " has("autocmd")
 "              }}}
 "              OMNICOMPLETE{{{
 " configure tags - add additional tags here or comment out not-used ones
@@ -607,17 +807,6 @@ let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
-"              }}}
-"              C.VIM {{{
-let g:C_MapLeader  = '\'
-let tlist_template_settings  = 'template;t:template'
-"---------------------------------------------------------------
-" plugin templates : set filetype for *.template  
-"---------------------------------------------------------------
-if has("autocmd")
-    autocmd BufNewFile,BufRead Templates  set filetype=template
-    autocmd BufNewFile,BufRead *.template  set filetype=template
-endif " has("autocmd")
 "              }}}
 "              CSupport{{{
 "---Configurações de plugin do vim 'C Support - csupport.zip'------------------
@@ -678,12 +867,42 @@ augroup nerd_commenter
     let g:NERDCustomDelimiters = { 'racket': { 'left': ';', 'leftAlt': '#|', 'rightAlt': '|#' } }
 augroup END
 " }}}
-" EasyAlign.vim {{{
+"       EasyAlign.vim {{{
 augroup easy_align_config
     autocmd!
-    vmap <Enter> <Plug>(EasyAlign) " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-    nmap <Leader>a <Plug>(EasyAlign) " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+    vnoremap <Enter> <Plug>(EasyAlign) 
+    " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+    xnoremap ga <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+    nnoremap <Leader>a <Plug>(EasyAlign) 
 augroup END
+"----------------------------------------------------------------
+let g:easy_align_delimiters = {
+    \ '>': { 'pattern': '>>\|=>\|>'  },
+    \ '/': {
+    \     'pattern':         '//\+\|/\*\|\*/',
+    \     'delimiter_align': 'l',
+    \     'ignore_groups':   ['!Comment'] },
+    \ ']': {
+    \     'pattern':       '[[\]]',
+    \     'left_margin':   0,
+    \     'right_margin':  0,
+    \     'stick_to_left': 0
+    \   },
+    \ ')': {
+    \     'pattern':       '[()]',
+    \     'left_margin':   0,
+    \     'right_margin':  0,
+    \     'stick_to_left': 0
+    \   },
+    \ 'd': {
+    \     'pattern':      ' \(\S\+\s*[;=]\)\@=',
+    \     'left_margin':  0,
+    \     'right_margin': 0
+    \   }
+    \ }
+
+
 " }}}
 "autocmd vimenter * NERDTree  {{{
 if !has('nvim')
@@ -777,12 +996,12 @@ inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
 "--------------------------------------------------------
 " Permite recarregar o vim para que modificações no
 " próprio vimrc seja ativadas com o mesmo sendo editado
-nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>
-nnoremap 0V :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>:redraw!<cr>
-noremap =v :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
-noremap =V :source ~/.vimrc<CR>:redraw!<cr>  " Para recarregar o .vimrc
-noremap <leader>v :e ~/.vimrc<CR>  " para editar o .vimrc
-noremap <leader>V :e ~/.vimrc<CR>  " para editar o .vimrc
+nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc reloaded!"<CR>
+nnoremap 0V :<C-u>source ~/.vimrc <BAR> echo "Vimrc redraw!"<CR>:redraw!<cr>
+noremap =v :source ~/.vimrc<CR>:redraw!<cr>
+noremap =V :source ~/.vimrc<CR>:redraw!<cr> 
+noremap <leader>v :e ~/.vimrc<CR>  
+noremap <leader>V :e ~/.vimrc<CR> 
 "" this shortcuts will make improve type errors
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -797,10 +1016,11 @@ cnoreabbrev Qall qall
 "---------------------------------------------
 "           copy to system buffer
 "---------------------------------------------
-noremap <C-c> :'<,'>:w !xclip -selection clipboard -i<cr><cr>
+vnoremap <C-c> :w !xclip -selection clipboard -i<cr><cr>
 "colar area de transferencia xclip"
-""noremap <C-v> :r!xclip -o +\%c<cr>
-""inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
+noremap <C-v> :r!xclip -o +\%c<cr>
+"inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
+inoremap <C-v> <esc>:r!xclip -o <cr>i
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
@@ -836,6 +1056,7 @@ vnoremap <S-up> VdkP`[v`]
 vnoremap <C-d> VOyP`[v`]
 "repeate line bellow
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
+nnoremap <C-d> $v0y$o<esc>p<up>$<esc>
 
 inoremap <S-Down> <esc>ddp<esc>i
 nnoremap <S-Down> <esc>ddp<esc>

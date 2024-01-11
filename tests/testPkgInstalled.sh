@@ -2,65 +2,100 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-SHUNIT_TEST_PREFIX=' Packages Instaled Test for Debian or Ubuntu --> '
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+if [ "$osys" = "manjaro" ]; then
+    SHUNIT_TEST_PREFIX=' Packages Instaled Test for Manjaro --> '
+
+elif [ "$osys" = "ubuntu" ] || [ "$osys" = "debian" ]; then
+    SHUNIT_TEST_PREFIX=' Packages Instaled Test for Debian or Ubuntu --> '
+
+fi
 SHUNIT_COLOR="always"
 testPkgsInstalledCheck() {
     #debian ubuntu manjaro etc
-    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
-    pkges+=" acpi" 
+    pkges+=" acpi " 
     pkges+=" blueman "      
     pkges+=" bzip2 "
-    pkges+=" compton" 
     pkges+=" curl "         
-    pkges+=" exa "
-    pkges+=" fd-find "      
+    if [ "$osys" = "manjaro" ]; then
+        pkges+=" fd "      
+        pkges+=" picom " 
+        pkges+=" xautolock " 
+        pkges+=" i3-wm "           
+    else
+        pkges+=" fd-find "      
+        pkges+=" exa "
+        pkges+=" compton" 
+        pkges+=" i3 "           
+        pkges+=" i3lock-fancy " 
+        pkges+=" x11-utils "    
+        pkges+=" network-manager-gnome "
+        pkges+=" rar "
+        pkges+=" netcat-openbsd "
+        pkges+=" openssh-client "          
+    fi
     pkges+=" ffmpeg "       
     pkges+=" fzf "          
     pkges+=" ghostscript "  
     pkges+=" git "          
     pkges+=" gsimplecal" 
     pkges+=" gzip "
-    pkges+=" i3 "           
     pkges+=" i3blocks "     
-    pkges+=" i3lock-fancy " 
     pkges+=" imagemagick "  
     pkges+=" jq "           
     pkges+=" neovim "       
-    pkges+=" netcat-openbsd "
-    pkges+=" network-manager-gnome "
     pkges+=" nitrogen "     
     pkges+=" openssl "      
-    pkges+=" pcmanfm" 
+    pkges+=" pcmanfm " 
     pkges+=" ranger "
-    pkges+=" rar "
     pkges+=" rofi "
     pkges+=" rsync "        
     pkges+=" scrot "        
     pkges+=" shunit2 "      
-    pkges+=" openssh-client "          
     pkges+=" sysstat "      
     pkges+=" tar "
     pkges+=" unzip "        
     pkges+=" vifm "         
     pkges+=" vim  "         
-    pkges+=" x11-utils "    
-    pkges+=" xfce4-power-manager" 
-    pkges+=" xfce4-terminal" 
+    pkges+=" xfce4-power-manager " 
+    pkges+=" xfce4-terminal " 
     pkges+=" zip "
     if [ "$osys" = "ubuntu" ]
     then
-	pkges+=" pulseaudio"
+        pkges+=" pulseaudio"
     else
-	pkges+=" alsa-utils"
+        pkges+=" alsa-utils"
     fi
 
     for pkg in $pkges 
     do
-	dpkg -s "$pkg"  1> /dev/null 
-	assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
-    done
+        if [ "$osys" = "ubuntu" ]
+        then
+            dpkg -s "$pkg"  1> /dev/null 
+            assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
+        elif [ "$osys" = "debian" ]
+        then
+            dpkg -s "$pkg"  1> /dev/null 
+            assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
+        elif [ "$osys" = "manjaro" ]
+        then
+            pacman -Qi "$pkg" 1> /dev/null
+            assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
+            #ASSERT:[FAIL]71:compton not installed
+            # erro: o pacote "exa" não foi encontrado
+            # erro: o pacote "fd-find" não foi encontrado
+            # erro: o pacote "i3" não foi encontrado
+            # erro: o pacote "i3lock-fancy" não foi encontrado
+            # erro: o pacote "netcat-openbsd" não foi encontrado
+            # erro: o pacote "network-manager-gnome" não foi encontrado
+            # erro: o pacote "rar" não foi encontrado
+            # erro: o pacote "openssh-client" não foi encontrado
+            # erro: o pacote "x11-utils" não foi encontrado
+        fi
 
+
+    done
 }
 
 . shunit2

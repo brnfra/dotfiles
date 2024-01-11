@@ -22,8 +22,8 @@ system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
 # Settings.
 #gaps
-gaps_inner=-2
-gaps_outer=-2
+gaps_inner=2
+gaps_outer=2
 #colors
 i3darker="#080910"
 dark="#181920"

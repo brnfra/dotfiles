@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: pomodoro
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -20,9 +19,10 @@ pomos_counter=$(( 0 ))
 counter_file="/tmp/pomos_counter"
 
 #fonts awesomei ->  icons required
-ico_start="&#xf251; "
-ico_work="&#xf262; "
-ico_break="&#xf0f4; "
+#ico_start="&#xf251;"
+ico_start="&#xf251;"
+ico_work="&#xf262;"
+ico_break="&#xf0f4;"
 
 break_alert="notify-send -t 3000 'Grab a tea'"
 break_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/complete.oga &> /dev/null' 
@@ -47,13 +47,13 @@ function display () {
     case $2 in
 	w)
 	    if [[ -e $counter_file ]];then
-		echo "<span $font $orange $font_medium > $ico_work [$pomos_counter] $min:$sek </span>"
+		echo "<span $font $orange $size >     $ico_work [$pomos_counter] $min:$sek     </span>"
 	    else
-		echo "<span $font $orange $font_medium > $ico_work $min:$sek </span>"
+		echo "<span $font $orange $size >     $ico_work $min:$sek     </span>"
 	    fi
 	    ;;
 	b)
-	    echo "<span $font $green $font_medium > $ico_break [$pomos_counter]  $min:$sek </span>"
+	    echo "<span $font $green $size >     $ico_break [$pomos_counter]  $min:$sek     </span>"
 	    ;;
     esac
 }
@@ -96,9 +96,9 @@ then
     display $s $t
 else
     if [[ -e $counter_file ]];then
-	echo "<span $font $white $font_medium > $ico_start [$(cat $counter_file)] </span>"
+	echo "<span $font $white $size > $ico_start [$(cat $counter_file)] </span>"
     else
-	echo "<span $font $white $font_medium >     $ico_start </span>"
+	echo "<span $font $white $size $transform $style  >    $ico_start     </span>"
     fi
 fi
 case $BLOCK_BUTTON in

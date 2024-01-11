@@ -5,7 +5,7 @@
 configuration {
     modi: "window,run,drun,ssh,filebrowser";
     combi-modes: "run,drun,window,filebrowser";
-    dpi: 130;
+    dpi: 100;
     show-icons: true;
     font: "monofur NF 12";
     window-thumbnail: true;
@@ -17,7 +17,7 @@ configuration {
     sidebar-mode: true;
     cycle: true;
     kb-cancel: "Escape,Alt+F1";
-    kb-row-tab: "Tab";
+    kb-row-tab: "Alt+Tab";
     kb-page-prev: "Page_Up";
     kb-page-next: "Page_Down";
     kb-row-first: "Home,KP_Home";
