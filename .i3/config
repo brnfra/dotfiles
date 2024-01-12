@@ -1,7 +1,7 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
-font pango:Monofur NF 10
+font pango:URWGothic-Book 10
 set $binaries $HOME/bin
 set $sup bindsym Mod4
 set $exe exec --no-startup-id
@@ -183,7 +183,7 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur NF 10
+    font pango: URWGothic-Book 10
     status_command i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
     background #080910
