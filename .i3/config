@@ -1,13 +1,7 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
-<<<<<<< HEAD
 font pango:Monofur NF 10
-||||||| a955fd2
-font xft:URWGothic-Book 10
-=======
-font pango:URWGothic-Book 10
->>>>>>> testing
 set $binaries $HOME/bin
 set $sup bindsym Mod4
 set $exe exec --no-startup-id
