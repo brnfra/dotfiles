@@ -1,23 +1,8 @@
-/**
- * Author: Blau Araujo
- * Update: 2019-04-20
- */
- 
-configuration {
-    columns:         1;
-    lines:           10;
-    
-    show-icons:      true;
-    drun-icon-theme: "Numix-Circle";
-                     
-    modi:            "drun,window,run";
-    display-drun:    "Menu";
-    display-window:  "Window";
-    display-run:     "Comando";
-                     
-    sidebar-mode:    false;
-    fullscreen:      false;
-}
+  /**
+   * Modified: Brnfra
+   * Original Author: Blau Araujo
+   */
+
 * {
     font-generic: "Open Sans 11";
     font-button:  "Open Sans 10";
@@ -28,9 +13,9 @@ configuration {
     spacing: 0;
     
     text-color:                  #E7E8EB;
-    background-color:            #18192088;
-    lightbg:                     #38394099;
-    mediumbg:                    #28293099;
+    background-color:            #383c4a99;
+    lightbg:                     #8c919c99;
+    mediumbg:                    #4c515c99;
     
     red:                         #C64E44;
     lightred:                    #ff7c7c;
@@ -77,9 +62,8 @@ configuration {
     width:    40%;
     y-offset: -20%;
     padding:  0px;
-    border:   2px;
+    border:   1px;
     border-color: @lightbg; 
-    border-radius: 4px;
 }
 #mainbox {
     border:  0px;

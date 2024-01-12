@@ -21,8 +21,16 @@ set path+=**
 set exrc
 scriptencoding utf-8
 set secure
-set history=5500
 set t_Co=256
+" --- sane text files -------   Encoding ----"
+set termencoding=utf-8
+set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
+set encoding=utf-8
+set fileencodings=utf-8,cp936,gb18030,big5,latin1   
+set ttyfast
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 ""set magic
 "" automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -33,16 +41,17 @@ endif
 "------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
-set undofile " Persistent Undoo
+" ------------------------------------------------------------------------------------------------------------------------------
+" Vim Directories
+" ------------------------------------------------------------------------------------------------------------------------------
+" Persistent Undoo
+set undofile 
 if !has('nvim')
     set viminfo=<500,:100,/50,%,'50,h,f0,s512
     set viminfo+=n~/.vim/.viminfo
 else
     set viminfo+=n~/.vim/.shada
 endif
-" ------------------------------------------------------------------------------------------------------------------------------
-" Vim Directories
-" ------------------------------------------------------------------------------------------------------------------------------
 let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
 set nobackup                                                             
 set noswapfile                                                          
@@ -51,6 +60,10 @@ set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
 set viewdir=$DATA_PATH/view/                                       
 set viewoptions=folds,cursor,curdir,slash,unix                    
+" Local directories 
+set backupdir=~/.vim/backups/
+set directory=~/.vim/backups/swaps/
+set undodir=~/.vim/backups/undo/
 
 " ------------------------------------------------------------------------------------------------------------------------------
 " History saving
@@ -67,7 +80,7 @@ augroup END
 
 " ------------------------------------------------------------------------------------------------------------------------------
 set termguicolors
-set mouse-=a " Enable mouse in all modes
+set mouse=a " Enable mouse in all modes
 set cursorcolumn
 set cursorline
 set splitright " New windows goes right
@@ -107,6 +120,7 @@ set showmatch
 " Searching
 ""---------------------------------------------------------------------------
 
+set hlsearch          " Enable search highlighting
 set ignorecase
 set smartcase 
 set infercase 
@@ -125,6 +139,7 @@ set autoindent      " auto indent
 set smartindent 
 set smarttab  " Be smart when using tabs ;)
 set shiftround 
+set backspace=2       " Allow backspacing over indent, eol, and the start of an insert
 
 if exists('&breakindent')
     set breakindentopt=shift:4,min:20
@@ -133,51 +148,32 @@ endif
 ""---------------------------------------------------------------------------
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
-" Local directories {{{
-set backupdir=~/.vim/backups/
-set directory=~/.vim/backups/swaps/
-set undodir=~/.vim/backups/undo/
-" }}}
 "set nofoldenable " Enable folding
 set foldmethod=marker
 set foldenable " Enable folding
 set foldlevel=0 " Close all folds by default
 set foldnestmax=10
-set termencoding=utf-8
-set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 " By default, without wrapping
 set nowrap
 set title
 set titleold="Terminal"
 set titlestring=%F
-set gcr=a:blinkon0    "" Disable the blinking cursor.
+""set gcr=a:blinkon0    "" Disable the blinking cursor.
 set scrolloff=3
 set modeline          "" Use modeline overrides
 set modelines=2
 set ch=2              " Make command line two lines high
-set backspace=2       " Allow backspacing over indent, eol, and the start of an insert
 set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines from the top and 8" lines from the bottom
 set wildmenu          " Make the command-line completion better
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
-set hlsearch          " Enable search highlighting
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
-" --- sane text files -------   Encoding ----"
-set encoding=utf-8
-set fileencodings=utf-8,cp936,gb18030,big5,latin1   
-set fileencoding=utf-8  
-set ttyfast
-if !has('nvim')
-    set ttymouse=xterm2
-endif
 "------------------------------------End Global stuffs}}}
 "     BEGIN PLUGINS INSTALL  {{{
 "--------------------------------------------------------
 "--AUTOCOMPLETION--
 filetype on                    "Vundle required if installed
-filetype indent on
-filetype plugin on
 filetype plugin indent on
 call plug#begin('~/.vim/bundle')
 Plug 'brnfra/vim-shortcuts'
@@ -205,15 +201,11 @@ Plug 'hecal3/vim-leader-guide'
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'Shougo/deoplete.nvim'
-endif
-" Code Snnipets"
-if has('nvim')
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
     if has('patch-8.1.2269')
 	Plug 'ycm-core/YouCompleteMe' 
     else
@@ -370,10 +362,11 @@ hi VimwikiBold term=bold  ctermfg=204 gui=bold guifg=#E06C75
 hi VimwikiBold guifg=#E06C75
 inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
 inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
-inoremap <C-]> <Plug>VimwikiTablePrevCell
+"Esc conflict"
+""inoremap <C-]> <Plug>VimwikiTablePrevCell
 "inoremap <C-[> <Plug>VimwikiTableNextCell
-nnoremap <C-]> <Plug>VimwikiTablePrevCell
-nnoremap <C-[> <Plug>VimwikiTableNextCell
+""nnoremap <C-]> <Plug>VimwikiTablePrevCell
+""nnoremap <C-[> <Plug>VimwikiTableNextCell
 nnoremap <C-Tab> <Plug>VimwikiPrevLink
 nnoremap <C-n> <Plug>VimwikiDiaryNextDay
 nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
@@ -394,8 +387,10 @@ let g:lmap =  {}
 "=================================================================================================================================
 " Define prefix dictionary
 let g:which_key_map = {}
+let g:which_key_map.b = {}
 let g:which_key_map.c = {}
-
+let g:which_key_map.p = {}
+let g:which_key_map.w = {}
 
 if !exists('which_key#register')
    silent! call which_key#register('\', 'g:which_key_map')
@@ -502,9 +497,6 @@ let g:which_key_map.f = {
     \
     \ }
 
-"let g:which_key_map.f = { 'name' : '+file' }
-"nnoremap <silent> <leader>fd :e $MYVIMRC<CR>
-"let g:which_key_map.f.d = 'open-vimrc'
 let g:which_key_map.b = {                       
        \ 'name' : '+buffer' ,                     
        \ '1' : ['b1'        , 'buffer 1']        ,
@@ -517,6 +509,7 @@ let g:which_key_map.b = {
        \ 'p' : ['bprevious' , 'previous-buffer'] ,
        \ '?' : ['Buffers'   , 'fzf-buffer']      ,
        \ }  
+
 let g:which_key_map.w = {
     \ 'name' : '+VimWiki',
     \
@@ -622,14 +615,15 @@ endfun
 "z  -   z+[direction] move screen on nerdtree
 "x  -   close tree root
 "m  -   menu
-if !has('nvim')
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
-endif
+""if !has('nvim')
+    ""autocmd StdinReadPre * let s:std_in=1
+    "Auto Enter
+    "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
+""endif
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
+let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeTooggle = 1
 set fillchars+=vert:\█ 
@@ -651,25 +645,12 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 "---------------------------------END NERDTree }}}2
 "               VIM-AIRLINE     {{{2
 ""--------------------------------------------------------
-""let g:airline_theme = 'jellybeans'
 let g:airline_theme = 'papercolor'
-" let g:airline_molokai_bright = 1
 let g:airline_symbols_ascii = 1
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#whitespace#enabled = 0 
-let g:airline_skip_empty_sections = 0
+let g:airline_skip_empty_sections = 1
 let g:airline_focuslost_inactive = 1
 let g:airline_skip_empty_sections = 1
-let g:airline_exclude_preview = 0
-let g:airline_detect_modified=1
-let g:airline_inactive_alt_sep=1
-let g:airline_detect_paste=1
-let g:airline_detect_crypt=1
 let g:airline_detect_spell=1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -697,16 +678,12 @@ let g:airline_mode_map = {
 	    \  }
 let g:airline_filetype_overrides = {
 	    \ 'coc-explorer':  [ 'CoC Explorer', '' ],
-	    \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
 	    \ 'gundo': [ 'Gundo', '' ],
 	    \ 'help':  [ 'Help', '%f' ],
 	    \ 'minibufexpl': [ 'MiniBufExplorer', '' ],
-	    \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'NERD'), '' ],
-	    \ 'startify': [ 'startify', '' ],
 	    \ 'vim-plug': [ 'Plugins', '' ],
 	    \ 'vimfiler': [ 'vimfiler', '%{vimfiler#get_status_string()}' ],
 	    \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
-	    \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
 	    \ }
 ""* enable/disable ale integration >
 let airline#extensions#ale#error_symbol         = 'E:'
@@ -731,7 +708,6 @@ let g:airline_symbols.readonly                  = ''
 let g:airline_symbols.linenr                    = ' :'
 let g:airline_symbols.maxlinenr                 = '☰ '
 let g:airline_symbols.dirty                     = '⚡'
-"check :help statusline or airline
 let g:airline_section_c                         = '%r%m%t %-0.50{CurDir()}'
 let g:airline_section_x                         = '%y'
 let g:airline_section_z                         = '%p%% %l Col:%c'
@@ -742,7 +718,7 @@ let g:airline_section_warning                   = ''
 "+-------------------------------------------------------+
 "| https://vimhelp.org/options.txt.html#%27statusline%27 |
 "+-------------------------------------------------------+
-set laststatus=2      "" display Status bar always
+""set laststatus=2      "" display Status bar always
 fun! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir
@@ -751,9 +727,6 @@ endfun
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
 set background=dark
-if (has('win32') || has('win64'))
-    "let g:solarized_termcolors=256
-endif
 if has('unix')
     colorscheme molokai
 else
@@ -762,8 +735,11 @@ endif
 " Terminals that support italics
 let s:terms_italic=[
 	    \"rxvt",
-	    \"gnome-terminal"
-	    \]
+	    \"gnome-terminal",
+	    \"xterm",
+            \"xterm2",
+            \"xfce4-terminal"
+            \]
 ""---------------------------------END COLORSCHEME }}}2
 "             DEOPLETE{{{
 let g:python3_host_prog = "/usr/bin/python3.9"
@@ -906,7 +882,7 @@ let g:easy_align_delimiters = {
 " }}}
 "autocmd vimenter * NERDTree  {{{
 if !has('nvim')
-    "autocmd VimEnter * exec ":loadview"
+    autocmd VimEnter * exec ":loadview"
 endif
 "}}}
 " Arquivos .sh sao sempre bash, e não sh
@@ -919,7 +895,7 @@ au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
 au FileType c setl ofu=ccomplete#CompleteCpp
 au FileType css setl ofu=csscomplete#CompleteCSS
 " C/C++ specific settings
-autocmd FileType c,cpp,cc set cindent
+au FileType c,cpp,cc set cindent
 " Java specific settings
 au BufNewFile,BufRead *.java set ft=java
 " Associate uncommon filetypes
@@ -933,7 +909,14 @@ au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
 au BufRead,BufNewFile *.markdown,*.mdown,*.mkd,*.mkdn,*.md set filetype=markdown
 au BufRead,BufNewFile txt set filetype=text
 au BufRead,BufNewFile config set filetype=bash
+au BufRead,BufNewFile aliases set filetype=bash
+au BufRead,BufNewFile exports set filetype=bash
+au BufRead,BufNewFile input set filetype=bash
+au BufRead,BufNewFile profiles set filetype=bash
+au BufRead,BufNewFile prompt set filetype=bash
+au BufRead,BufNewFile ssh_config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
+au BufRead,BufNewFile *git* set filetype=git
 au BufRead,BufNewFile 'ASCII text' set filetype=bash
 "---------------------------------------------
 " file type detection
@@ -954,9 +937,9 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType java set omnifunc=javacomplete#Complete
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " use syntax complete if nothing else available
-"autocmd FileType html,php,markdown,css,c,java,javascript,js,xml,phyton set foldmethod=indent
+" autocmd FileType html,php,markdown,css,c,java,javascript,js,xml,phyton set foldmethod=indent
 if has("autocmd") && exists("+omnifunc")
     autocmd Filetype *
 		\ if &omnifunc == "" |
@@ -1018,9 +1001,9 @@ cnoreabbrev Qall qall
 "---------------------------------------------
 vnoremap <C-c> :w !xclip -selection clipboard -i<cr><cr>
 "colar area de transferencia xclip"
-noremap <C-v> :r!xclip -o +\%c<cr>
-"inoremap <C-v> <esc>:r!xclip -o +\%c<cr>i
-inoremap <C-v> <esc>:r!xclip -o <cr>i
+noremap <C-p> :r!xclip -o +\%c<cr>
+"inoremap <C-p> <esc>:r!xclip -o +\%c<cr>i
+inoremap <C-p> <esc>:r!xclip -o <cr>i
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
@@ -1129,7 +1112,9 @@ inoremap <leader>s <esc>bcw""<esc>Pi
 inoremap <leader>ss <esc>BcW""<esc>Pi
 inoremap <leader>S <esc>bcw''<esc>Pi
 inoremap <leader>SS <esc>BcW''<esc>Pi
-let s:hidden_all = 1 "by @LukeSmithxyz"
+
+"by @LukeSmithxyz"
+let s:hidden_all = 1 
 function ToggleHidden()
     if s:hidden_all == 0
 	let s:hidden_all = 1

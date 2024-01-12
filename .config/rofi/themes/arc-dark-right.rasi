@@ -1,27 +1,12 @@
-/**
- * Author: Blau Araujo
- * Update: 2019-04-20
- */
- 
-configuration {
-    columns:         1;
-    lines:           10;
-    
-    show-icons:      false;
-    drun-icon-theme: "Numix-Circle";
-                     
-    modi:            "drun,window,run";
-    display-drun:    "Run";
-    display-window:  "Window";
-    display-run:     "Command";
-                     
-    sidebar-mode:    false;
-    fullscreen:      false;
-}
+  /**
+   * Modified: Brnfra
+   * Original Author: Blau Araujo
+   */
+
 * {
-    font-generic: "FontAwesome 11";
+    font-generic: "Open Sans 11";
     font-button:  "Open Sans 10";
-    font-prompt:  "Open Sans Semibold 11";
+    font-prompt:  "Open Sans Semibold 12";
     
     font: @font-generic;
     
@@ -72,11 +57,12 @@ configuration {
     alternate-urgent-background: @background-color;
 }
 #window {
-    anchor:   north;
-    location: north;
-    width:    100%;
+    anchor:   east;
+    location: east;
+    width:    25%;
+    height:   100%;
     padding:  0px;
-    border:   0px 0px 1px 0px;
+    border:   0px 0px 0px 1px;
     border-color: @lightbg; 
 }
 #mainbox {
@@ -94,8 +80,8 @@ configuration {
     background-color: @normal-background;
 }
 #listview {
-    fixed-height: false;
-    dynamic:      true;
+    fixed-height: true;
+    dynamic:      false;
     border:       0;
     padding:      0;
     text-color:   @separatorcolor;

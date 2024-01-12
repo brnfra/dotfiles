@@ -1,36 +1,21 @@
 /**
- * Author: Blau Araujo
- * Update: 2019-04-20
+ * Modified: Brnfra
+ * Original Author: Blau Araujo
  */
- 
-configuration {
-    columns:         1;
-    lines:           10;
-    
-    show-icons:      true;
-    drun-icon-theme: "Numix-Circle";
-                     
-    modi:            "drun,window,run";
-    display-drun:    "Run";
-    display-window:  "Task";
-    display-run:     "Command";
-                     
-    sidebar-mode:    true;
-    fullscreen:      true;
-}
+
 * {
-    font-generic: "Open Sans 13";
-    font-button:  "Open Sans 11";
-    font-prompt:  "Open Sans Semibold 14";
+    font-generic: "Monofur NF 12";
+    font-button:  "Monofur NF 10";
+    font-prompt:  "Monofur NF Semibold 12";
     
     font: @font-generic;
     
     spacing: 0;
     
-    text-color:                  #97989B;
-    background-color:            #181c2aee;
-    lightbg:                     #4c515c99;
-    mediumbg:                    #2c313c99;
+    text-color:                  #E7E8EB;
+    background-color:            #383c4a99;
+    lightbg:                     #8c919c99;
+    mediumbg:                    #4c515c99;
     
     red:                         #C64E44;
     lightred:                    #ff7c7c;
@@ -38,8 +23,8 @@ configuration {
     blue:                        #5294E2; 
     lightblue:                   #92d4f2; 
     
-    bordercolor:                 @lightbg;
-    separatorcolor:              @lightbg;
+    bordercolor:                 @text-color;
+    separatorcolor:              @orange;
     
     foreground:                  @text-color;
     background:                  @background-color;
@@ -47,7 +32,7 @@ configuration {
     normal-foreground:           @text-color;
     normal-background:           @background-color;
     
-    active-foreground:           @blue;
+    active-foreground:           @lightblue;
     active-background:           @background-color;
     
     urgent-foreground:           @red;
@@ -56,11 +41,11 @@ configuration {
     selected-normal-foreground:  @text-color;
     selected-normal-background:  @lightbg;
     
-    selected-active-foreground:  @blue;
+    selected-active-foreground:  @lightblue;
     selected-active-background:  @lightbg;
     
-    selected-urgent-foreground:  @red;
-    selected-urgent-background:  @lighbg;
+    selected-urgent-foreground:  @lightred;
+    selected-urgent-background:  @lightbg;
     
     alternate-normal-foreground: @text-color;
     alternate-normal-background: @background-color;
@@ -71,130 +56,126 @@ configuration {
     alternate-urgent-foreground: @text-color;
     alternate-urgent-background: @background-color;
 }
-#window {
+window {
     anchor:   north;
     location: center;
-    padding:  25% 30%;
-    border:   0px;
+    width:    40%;
+    y-offset: -20%;
+    padding:  0px;
+    border:   2px;
     border-color: @lightbg; 
-    background-color: @background-color;
+    border-radius: 4px;
 }
-#mainbox {
+mainbox {
     border:  0px;
     padding: 0px;
-    background-color: transparent;
+    background-color: @normal-background;
 }
-#message {
+message {
     border:     0;
     text-color: @separatorcolor;
     padding:    5px 10px;
 }
-#textbox {
+textbox {
     text-color: @foreground;
-    background-color: transparent;
+    background-color: @normal-background;
 }
-#listview {
+listview {
     fixed-height: false;
     dynamic:      true;
     border:       0;
     padding:      0;
     text-color:   @separatorcolor;
-    background-color: transparent;
+    background-color: @normal-background;
 }
-#element {
+element {
     border: 0;
     padding: 5px 10px;
     background-color: transparent;
 }
-#element.normal.normal {
+element.normal.normal {
     text-color: @normal-foreground;
     background-color: transparent;
 }
-#element.normal.urgent {
+element.normal.urgent {
     text-color: @urgent-foreground;
     background-color: @urgent-background;
 }
-#element.normal.active {
+element.normal.active {
     text-color: @active-foreground;
     background-color: @active-background;
 }
-#element.selected.normal {
+element.selected.normal {
     text-color: @selected-normal-foreground;
     background-color: @selected-normal-background;
 }
-#element.selected.urgent {
+element.selected.urgent {
     text-color: @selected-urgent-foreground;
     background-color: @selected-urgent-background;
 }
-#element.selected.active {
+element.selected.active {
     text-color: @selected-active-foreground;
     background-color: @selected-active-background;
 }
-#element.alternate.normal {
+element.alternate.normal {
     text-color: @alternate-normal-foreground;
     background-color: transparent;
 }
-#element.alternate.urgent {
+element.alternate.urgent {
     text-color: @alternate-urgent-foreground;
     background-color: @alternate-urgent-background;
 }
-#element.alternate.active {
+element.alternate.active {
     text-color: @alternate-active-foreground;
     background-color: @alternate-active-background;
 }
-#sidebar {
+sidebar {
     padding: 0px;
-    background-color:transparent;
 }
-#button {
+button {
     padding:      5px;
-    border:       1px;
+    border:       1px 1px 0px 1px;
     border-color: @lightbg;
     text-color:   @selected-normal-foreground;
     font:         @font-button;
 }
-#button.selected {
+button.selected {
     background-color: @mediumbg;
 }
-#button.normal {
+button.normal {
     background-color: transparent;
 }
 
-#inputbar {
+inputbar {
     children: [ prompt,textbox-prompt-colon,entry ];
 }
 
-#inputbar {
+inputbar {
     spacing: 0;
     border: 0px 0px 1px 0px;
     border-color: @lightbg;
-    margin:0px 0px 5px 0px;
-    background-color: transparent;
 }
 
-#prompt {
+prompt {
     padding:5px 0px 5px 10px;
     text-color:@blue;
     font: @font-prompt;
-    background-color: transparent;
 }
-#textbox-prompt-colon {
+textbox-prompt-colon {
     expand:     false;
     str:        ":";
     margin:     0px;
     padding:5px 5px 5px 0px;
     font: @font-prompt;
     text-color: @blue;
-    background-color: transparent;
 }
-#entry {
+entry {
     padding:5px;
-    background-color: transparent;
 }
-#case-indicator {
+case-indicator {
     padding:5px;
     text-color:@blue;
     font: @font-prompt;
-    background-color: transparent;
 }
+
 

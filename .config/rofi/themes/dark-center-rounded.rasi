@@ -1,23 +1,8 @@
-/**
- * Author: Blau Araujo
- * Update: 2019-04-20
- */
- 
-configuration {
-    columns:         1;
-    lines:           10;
-    
-    show-icons:      true;
-    drun-icon-theme: "Numix-Circle";
-                     
-    modi:            "drun,window,run";
-    display-drun:    "Run";
-    display-window:  "Window";
-    display-run:     "Command";
-                     
-    sidebar-mode:    false;
-    fullscreen:      false;
-}
+  /**
+   * Modified: Brnfra
+   * Original Author: Blau Araujo
+   */
+
 * {
     font-generic: "Open Sans 11";
     font-button:  "Open Sans 10";
@@ -28,9 +13,9 @@ configuration {
     spacing: 0;
     
     text-color:                  #E7E8EB;
-    background-color:            #383c4a99;
-    lightbg:                     #8c919c99;
-    mediumbg:                    #4c515c99;
+    background-color:            #18192088;
+    lightbg:                     #38394099;
+    mediumbg:                    #28293099;
     
     red:                         #C64E44;
     lightred:                    #ff7c7c;
@@ -72,13 +57,14 @@ configuration {
     alternate-urgent-background: @background-color;
 }
 #window {
-    anchor:   west;
-    location: west;
-    width:    25%;
-    height:   100%;
+    anchor:   north;
+    location: center;
+    width:    40%;
+    y-offset: -20%;
     padding:  0px;
-    border:   0px 1px 0px 0px;
+    border:   2px;
     border-color: @lightbg; 
+    border-radius: 4px;
 }
 #mainbox {
     border:  0px;
@@ -95,8 +81,8 @@ configuration {
     background-color: @normal-background;
 }
 #listview {
-    fixed-height: true;
-    dynamic:      false;
+    fixed-height: false;
+    dynamic:      true;
     border:       0;
     padding:      0;
     text-color:   @separatorcolor;
@@ -147,11 +133,11 @@ configuration {
     padding: 0px;
 }
 #button {
-    padding: 5px;
-    border: 1px 1px 0px 1px;
+    padding:      5px;
+    border:       1px 1px 0px 1px;
     border-color: @lightbg;
-    text-color: @selected-normal-foreground;
-    font: @font-button;
+    text-color:   @selected-normal-foreground;
+    font:         @font-button;
 }
 #button.selected {
     background-color: @mediumbg;
