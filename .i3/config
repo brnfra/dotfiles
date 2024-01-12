@@ -219,6 +219,43 @@ bar {
     mode dock 
     font pango: URWGothic-Book 10
     status_command i3blocks -c $HOME/.i3/i3blocks.conf
+<<<<<<< HEAD
+    colors {
+    background #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
+    }
+}
+||||||| 3003e99
+    colors {
+    background #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
+    }
+}
+bar {
+    id bar-2 
+    position top
+    output nonprimary
+    tray_output none
+    tray_padding 2
+    separator_symbol " "
+    mode dock 
+    font pango: Monofur NF 10
+    status_command i3blocks -c $HOME/.i3/i3blocks_v.conf
+    colors {
+    background #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
+    }
+}
+=======
     i3bar_command i3bar
     colors {
     background #080910
@@ -228,6 +265,7 @@ bar {
     urgent_workspace	#181920      #FFFF00   #181920
     }
 }
+>>>>>>> a955fd2069fda212ca48d160e4c0da0b91ce544a
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
 $exe volumeicon
