@@ -44,6 +44,32 @@ endif
 " ------------------------------------------------------------------------------------------------------------------------------
 " Vim Directories
 " ------------------------------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
+set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp           
+set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set viewdir=$DATA_PATH/view/                                       
+set viewoptions=folds,cursor,curdir,slash,unix                    
+
+" ------------------------------------------------------------------------------------------------------------------------------
+" History saving
+" ------------------------------------------------------------------------------------------------------------------------------
+||||||| aee3355
+let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
+set nobackup                                                             
+set noswapfile                                                          
+set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp           
+set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
+set viewdir=$DATA_PATH/view/                                       
+set viewoptions=folds,cursor,curdir,slash,unix                    
+
+" ------------------------------------------------------------------------------------------------------------------------------
+" History saving
+" ------------------------------------------------------------------------------------------------------------------------------
+=======
+>>>>>>> 3a3754b14d236059dd451b30f5ed87a495e758a4
 " Persistent Undoo
 set undofile 
 if !has('nvim')
@@ -80,7 +106,21 @@ augroup END
 
 " ------------------------------------------------------------------------------------------------------------------------------
 set termguicolors
+<<<<<<< HEAD
+set term=$TERM
+
+if has('xterm')
+    set mouse=a 
+    " Enable mouse in all modes
+else
+    set mouse=nvi
+endif
+||||||| aee3355
+" Enable mouse in all modes
+set mouse=a 
+=======
 set mouse=a " Enable mouse in all modes
+>>>>>>> 3a3754b14d236059dd451b30f5ed87a495e758a4
 set cursorcolumn
 set cursorline
 set splitright " New windows goes right
@@ -169,6 +209,24 @@ set wildmenu          " Make the command-line completion better
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
+<<<<<<< HEAD
+" --- sane text files -------   Encoding ----"
+set encoding=utf-8
+set fileencodings=utf-8,cp936,gb18030,big5,latin1   
+set ttyfast
+if !has('nvim')
+    set ttymouse=xterm
+endif
+||||||| aee3355
+" --- sane text files -------   Encoding ----"
+set encoding=utf-8
+set fileencodings=utf-8,cp936,gb18030,big5,latin1   
+set ttyfast
+if !has('nvim')
+    set ttymouse=xterm2
+endif
+=======
+>>>>>>> 3a3754b14d236059dd451b30f5ed87a495e758a4
 "------------------------------------End Global stuffs}}}
 "     BEGIN PLUGINS INSTALL  {{{
 "--------------------------------------------------------
