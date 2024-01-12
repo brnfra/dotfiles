@@ -74,6 +74,8 @@ function symlink() {
     if [ ! -e "$link" ]; then
 	echo "-----> Symlinking your new $link"
 	ln -s "$file" "$link"
+    else
+	echo "symlink [location] [link_name]"
     fi
 }
 

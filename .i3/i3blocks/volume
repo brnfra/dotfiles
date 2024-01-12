@@ -21,12 +21,12 @@
 source ~/.i3/i3blocks/vars
 
 icon_mute='&#xf026; X'
-icon95='&#xf028; &#x1D11a;'
-icon75='&#xf028; &#x1D119;'
-icon50='&#xf028; &#x1D118;'
-icon25='&#xf027; &#x1D117;'
-icon_low='&#xf027; &#x1D116;'
-icon_zero='&#xf026;  '
+icon95='&#xf028; &#9608;'
+icon75='&#xf028; &#9610;'
+icon50='&#xf028; &#9612;'
+icon25='&#xf027; &#9614;'
+icon_low='&#xf027; &#9615;'
+icon_zero='&#xf026; |  '
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -119,25 +119,25 @@ else
 fi
 get_block() {
     if [ "$vmute" = "$res" ]; then
-	printf "%s\n" "<span $font $red $font_medium >$icon_mute</span>"
+	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
 	exit 0
-    elif (( volume >= 0 )) && (( volume <= 4 )) ; then
-	printf "%s\n" "<span $font $green $font_medium >$icon_zero</span>"
+    elif (( volume >= 0 )) && (( volume <= 5 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon_zero </span>"
 	exit 0
-    elif (( volume >= 5 )) && (( volume <= 15 )) ; then
-	printf "%s\n" "<span $font $green $font_medium >$icon_low</span>"
+    elif (( volume > 5 )) && (( volume <= 15 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon_low </span>"
 	exit 0
-    elif (( volume >= 16 )) && (( volume <= 35 )) ; then
-	printf "%s\n" "<span $font $green $font_medium >$icon25</span>"
+    elif (( volume > 15 )) && (( volume <= 35 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon25 </span>"
 	exit 0
-    elif (( volume >= 36 )) && (( volume <= 65 )) ; then
-	printf "%s\n" "<span $font $green $font_medium >$icon50</span>"
+    elif (( volume > 35 )) && (( volume <= 65 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon50 </span>"
 	exit 0
-    elif (( volume >= 66 )) && (( volume <= 85 )) ; then
-	printf "%s\n" "<span $font $green $font_medium >$icon75</span>"
+    elif (( volume > 66 )) && (( volume <= 85 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon75 </span>"
 	exit 0
-    elif (( volume >= 86 )); then
-	printf "%s\n" "<span $font $green $font_medium >$icon95</span>"
+    elif (( volume > 85 )); then
+	printf "%s\n" "<span $font $green $icon_size > $icon95 </span>"
 	exit 0
     fi
 }

@@ -80,6 +80,9 @@ alias cp='rsync -ah --info=progress2'
 #alias rm='del'
 alias tam='item_size'
 alias myhost='ssh -T user@my.remote.host screen -dAr'
+# IP addresses
+alias ipp="dig +short myip.opendns.com @resolver1.opendns.com"
+
 # }}}
 #git {{{
 #status

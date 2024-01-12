@@ -16,12 +16,12 @@ source ~/.i3/i3blocks/vars
 
 print_in ()
 {
-    printf "%s %s %s" "<span $font $font_medium $1 >" "↓$2" "</span>"
+    printf "%s" "<span $font $size $1 $weight > $2 ↓</span>"
 }
 
 print_out ()
 {
-    printf "%s %s %s\n" "<span $font $font_medium $1 >" "↑$2" "</span>" 
+    printf "%s\n" "<span $font $size $1 $style >↑ $2 </span>" 
 }
 
 # Use the provided interface, otherwise the device used for the default route.
@@ -70,10 +70,10 @@ tx_rate=$(( $tx_diff / $time_diff ))
 rx_kib=$(( $rx_rate / 1024 ))
 if (( rx_rate >= 1048576 )); then
     rx_band="$(echo "scale=2; $rx_kib / 1024" | bc)" 
-    print_in "$orange" "$rx_band M"
+    print_in "$orange" "        $rx_band M"
 elif (( rx_rate >= 1024 )) && (( rx_rate < 1048576 )); then
     rx_band="${rx_kib}" 
-    print_in "$green" "$rx_band K"
+    print_in "$green" "    $rx_band K"
 elif (( rx_rate < 1024 )); then
     print_in "$white" "$rx_rate b"
 fi
@@ -81,10 +81,10 @@ fi
 tx_kib=$(( $tx_rate >> 10 ))
 if (( tx_rate >= 1048576 )); then
     tx_band="$(echo "scale=2; $tx_kib / 1024" | bc)"
-    print_out "$orange" "$tx_band M"
+    print_out "$orange" "$tx_band M          "
 elif (( tx_rate >= 1024 )) && (( tx_rate < 1048576 )); then
     tx_band="${tx_kib}"
-    print_out "$green" "$tx_band K"
+    print_out "$green" "$tx_band K    "
 elif (( tx_rate < 1024 )); then
     print_out "$white" "$tx_rate b"
 fi

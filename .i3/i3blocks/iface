@@ -13,8 +13,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 source ~/.i3/i3blocks/vars
 #------------------------------------------------------------------------
-font_params_ok="$font $font_medium $font_bold $green"
-font_params_fail="$font $font_medium $font_bold $red"
+font_params_ok="$font $size $weight $green $style"
+font_params_fail="$font $size $weight $red $transform"
 site_list='google.com' 
 site_list+=' github.com' 
 site_list+=' www.amazon.com.br'
@@ -34,7 +34,7 @@ fi
 [[ ! -d /sys/class/net/${IF} ]] && exit
 #------------------------------------------------------------------------
 if [[ "$(cat /sys/class/net/$IF/operstate)" = 'down' ]]; then
-    printf "%s%s%s\n" "<span $font_params_fail >" "down" "</span>"
+    printf "%s\n" "<span $font_params_fail > down </span>"
     exit 0;
 fi
 case $1 in
@@ -63,14 +63,14 @@ for Site in $site_list; do
 	#cmOk "$Site" "Reached"
 	reach=$(( reach + 1 ))
 	if (( reach > 2 )); then
-	    printf "%s%s%s\n" "<span $font_params_ok >" "<i>$IPADDR</i>" "</span>"
+	    printf "%s\n" "<span $font_params_ok > $IPADDR  </span>"
 	    exit 0
 	fi
     else
 	#clnError "Can't reach: $Site"
 	errorCnt=$(( errorCnt + 1 ))
 	if (( errorCnt > 2 )); then
-	    printf "%s%s%s\n" "<span $font_params_fail >" "$IPADDR" "</span>"
+	    printf "%s\n" "<span $font_params_fail > $IPADDR  </span>"
 	    exit 1
 	fi
     fi

@@ -59,11 +59,11 @@ END {
 
 out_to_int=${output//\%/}
 if (( out_to_int < alert_high )); then
-      printf "%s\n" "<span $font $green $font_medium >$output</span>"
+      printf "%s\n" "<span $font $green $size $capitalize >  $output $BLOCK_INSTANCE </span>"
   elif (( out_to_int >= alert_high )) && (( out_to_int < critic ))
 then
-      printf "%s\n" "<span $font $orange $font_medium >$output</span>"
+      printf "%s\n" "<span $font $orange $size $capitalize>  $output $BLOCK_INSTANCE </span>"
   elif (( out_to_int >= critic ))
 then
-    printf "%s\n" "<span $font $font_bold $red $font_medium >$output</span>"
+    printf "%s\n" "<span $font $font_bold $red $size $capitalize>  $output $BLOCK_INSTANCE </span>"
 fi      

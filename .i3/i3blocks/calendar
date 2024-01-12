@@ -6,4 +6,4 @@ case "$BLOCK_BUTTON" in
   1|2|3) 
     i3-msg 'exec gsimplecal' > /dev/null ;;
 esac
-echo "<span $font $font_medium >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"
+echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"

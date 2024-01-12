@@ -108,8 +108,16 @@ testRepoExistBinFiles() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} targz not found.			    " "[ -f $dotfiles_dir/bin/targz ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} uninstall_bare_cfg not found.	    " "[ -f $dotfiles_dir/bin/uninstall_bare_cfg ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} videostd not found.		    " "[ -f $dotfiles_dir/bin/videostd ]"
-
 }
+
+testLocalConfigIsValid() {
+    clnInfo "Check I3 config file is valid config(I3 test)"
+
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3 config[HOME] is not valid.                          " "i3 -C -c $HOME/.i3/config"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Script to generate I3 config[HOME] is not valid.       " "$HOME/bin/i3_config"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3block status line config[HOME] is not valid.         " "timeout --preserve-status 3s i3blocks -c $HOME/.i3/i3blocks.conf"
+}
+
 # Load and run shUnit2.
 . shunit2
 
