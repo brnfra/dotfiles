@@ -1,21 +1,27 @@
 
-//@import "themes/debxp-dmenu-top.rasi"
-@import "themes/debxp-arc-dark-center-rounded.rasi"
-
 configuration {
     modi: "window,run,drun,ssh,filebrowser";
-    combi-modes: "run,drun,window,filebrowser";
+    combi-modi: "run,drun,window,filebrowser";
+    display-drun:    "Run";    
+    display-window:  "Window"; 
+    display-run:     "Command";                                                             
+    display-filebrowser: "File";
+    display-combi: [run,drun,window,filebrowser];
+    sidebar-mode:    false; 
+
     dpi: 100;
-    show-icons: true;
+
+
     font: "monofur NF 12";
+    show-icons: true;
+    hover-select: true;
+    sidebar-mode: true;
+    cycle: true;
     window-thumbnail: true;
     location: 0;
-    hover-select: true;
     window-format: "{t}";
     drun-match-fields: "all";
     max-history-size: 25;
-    sidebar-mode: true;
-    cycle: true;
     kb-cancel: "Escape,Alt+F1";
     kb-row-tab: "Alt+Tab";
     kb-page-prev: "Page_Up";
@@ -27,3 +33,7 @@ configuration {
     }
 
 }
+
+@import "/themes/arc-dark-center-rounded.rasi"
+
+
