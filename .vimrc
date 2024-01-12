@@ -32,13 +32,10 @@ endif
 "------------------------------------End System config}}}"
 "                   Global Stuff  {{{
 "-------------------------------------------------------
-set undofile " Persistent Undoo
-if !has('nvim')
-    set viminfo=<500,:100,/50,%,'50,h,f0,s512
-    set viminfo+=n~/.vim/.viminfo
-else
-    set viminfo+=n~/.vim/.shada
-endif
+"---------------------------------------------------------------------------
+" Tip #382: Search for <cword> and replace with input() in all open buffers
+let mapleader="\\" "Map <Leader> to \
+let maplocalleader=";"
 " ------------------------------------------------------------------------------------------------------------------------------
 " Vim Directories
 " ------------------------------------------------------------------------------------------------------------------------------
@@ -54,6 +51,18 @@ set viewoptions=folds,cursor,curdir,slash,unix
 " ------------------------------------------------------------------------------------------------------------------------------
 " History saving
 " ------------------------------------------------------------------------------------------------------------------------------
+" Persistent Undoo
+set undofile 
+if !has('nvim')
+    set viminfo=<500,:100,/50,%,'50,h,f0,s512
+    set viminfo+=n~/.vim/.viminfo
+else
+    set viminfo+=n~/.vim/.shada
+endif
+" Local directories 
+set backupdir=~/.vim/backups/
+set directory=~/.vim/backups/swaps/
+set undodir=~/.vim/backups/undo/
 set history=2000
 augroup user_persistent_undo
     autocmd!
@@ -66,10 +75,12 @@ augroup END
 
 " ------------------------------------------------------------------------------------------------------------------------------
 set termguicolors
-set mouse=a " Enable mouse in all modes
+" Enable mouse in all modes
+set mouse=a 
 set cursorcolumn
 set cursorline
-set splitright " New windows goes right
+" New windows goes right
+set splitright 
 set suffixes=.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll
 " ignore these files while expanding wild chars
 set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
@@ -82,13 +93,13 @@ setlocal wildmode=full
 set linebreak
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
-set cul             " underline active line
-syntax on           " Switch on syntax highlighting.
+set cul         
+syntax on    
 syntax enable
-set showmode        " Show the current mode
-set showcmd         "Exibe comando sendo executado
+set showmode
+set showcmd
 set autoread
-set autowrite       " write buffers automagically when leaving them
+set autowrite 
 ""set vb              " set visual bell --
 "Word completion
 set dictionary+=~/.vim/c_src/tags
@@ -115,14 +126,18 @@ set wrapscan
 " Auto BreakIndent
 ""---------------------------------------------------------------------------
 set textwidth=160
-set expandtab    "no- Use spaces instead of tabs     
-set tabstop=8       " Tabstops are 2 spaces
+"no- Use spaces instead of tabs     
+set expandtab    
+" Tabstops are 2 spaces
+set tabstop=8       
 set shiftwidth=4  
 "set softtabstop=4
 set softtabstop=-1
-set autoindent      " auto indent
+" auto indent
+set autoindent      
 set smartindent 
-set smarttab  " Be smart when using tabs ;)
+" Be smart when using tabs ;)
+set smarttab  
 set shiftround 
 
 if exists('&breakindent')
@@ -132,11 +147,6 @@ endif
 ""---------------------------------------------------------------------------
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
-" Local directories {{{
-set backupdir=~/.vim/backups/
-set directory=~/.vim/backups/swaps/
-set undodir=~/.vim/backups/undo/
-" }}}
 "set nofoldenable " Enable folding
 set foldmethod=marker
 set foldenable " Enable folding
@@ -149,7 +159,7 @@ set nowrap
 set title
 set titleold="Terminal"
 set titlestring=%F
-set gcr=a:blinkon0    "" Disable the blinking cursor.
+""set gcr=a:blinkon0    "" Disable the blinking cursor.
 set scrolloff=3
 set modeline          "" Use modeline overrides
 set modelines=2
@@ -165,7 +175,6 @@ set showfulltag       " When completing by tag, show the whole tag, not just the
 " --- sane text files -------   Encoding ----"
 set encoding=utf-8
 set fileencodings=utf-8,cp936,gb18030,big5,latin1   
-set fileencoding=utf-8  
 set ttyfast
 if !has('nvim')
     set ttymouse=xterm2
@@ -175,8 +184,6 @@ endif
 "--------------------------------------------------------
 "--AUTOCOMPLETION--
 filetype on                    "Vundle required if installed
-filetype indent on
-filetype plugin on
 filetype plugin indent on
 call plug#begin('~/.vim/bundle')
 Plug 'brnfra/vim-shortcuts'
@@ -201,18 +208,14 @@ Plug 'vim-scripts/OmniCppComplete'
 Plug 'vim-scripts/c.vim'
 Plug 'vimwiki/vimwiki' 
 Plug 'hecal3/vim-leader-guide'
-" DEOPLETE"
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'Shougo/deoplete.nvim'
-endif
 " Code Snnipets"
 if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'roxma/nvim-yarp'
+    Plug 'Shougo/deoplete.nvim'
     if has('patch-8.1.2269')
 	Plug 'ycm-core/YouCompleteMe' 
     else
@@ -251,11 +254,7 @@ if has('nvim')
 	return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
     " Use <c-space> to trigger completion.
-    if has('nvim')
-	inoremap <silent><expr> <c-space> coc#refresh()
-    else
-	inoremap <silent><expr> <c-@> coc#refresh()
-    endif
+    inoremap <silent><expr> <c-space> coc#refresh()
     " Make <CR> auto-select the first completion item and notify coc.nvim to
     " format on enter, <cr> could be remapped by other vim plugin
     inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
@@ -393,12 +392,13 @@ let g:lmap =  {}
 "=================================================================================================================================
 " Define prefix dictionary
 let g:which_key_map = {}
+let g:which_key_map.b = {}
 let g:which_key_map.c = {}
-
+let g:which_key_map.p = {}
+let g:which_key_map.w = {}
 
 if !exists('which_key#register')
    silent! call which_key#register('\', 'g:which_key_map')
-
 endif
 
 nnoremap <silent><leader> :WhichKey '\'<CR>
@@ -501,9 +501,6 @@ let g:which_key_map.f = {
     \
     \ }
 
-"let g:which_key_map.f = { 'name' : '+file' }
-"nnoremap <silent> <leader>fd :e $MYVIMRC<CR>
-"let g:which_key_map.f.d = 'open-vimrc'
 let g:which_key_map.b = {                       
        \ 'name' : '+buffer' ,                     
        \ '1' : ['b1'        , 'buffer 1']        ,
@@ -516,6 +513,7 @@ let g:which_key_map.b = {
        \ 'p' : ['bprevious' , 'previous-buffer'] ,
        \ '?' : ['Buffers'   , 'fzf-buffer']      ,
        \ }  
+
 let g:which_key_map.w = {
     \ 'name' : '+VimWiki',
     \
@@ -817,7 +815,7 @@ let g:tagbar_type_markdown = {
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
     autocmd!
-    autocmd BufEnter * :syntax sync maxlines=200
+    autocmd BufEnter * :syntax sync maxlines=1200
 augroup END
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
@@ -887,15 +885,24 @@ let g:easy_align_delimiters = {
 
 " }}}
 "autocmd vimenter * NERDTree  {{{
-if !has('nvim')
-    autocmd VimEnter * exec ":loadview"
-endif
+""if !has('nvim')
+""    autocmd VimEnter * exec ":loadview"
+""endif
 "}}}
 " Arquivos .sh sao sempre bash, e não sh
 "au FileType sh let b:is_bash=1
 "-------------------------------------------END AUTCMD }}}
 "                   SYNTAX Stuffs       {{{
 "-------------------------------------------------------
+if has("autocmd") && exists("+omnifunc")
+    autocmd Filetype *
+		\ if &omnifunc == "" |
+		\   setlocal omnifunc=syntaxcomplete#Complete |
+		\ endif
+endif
+"disable doc preview in omnicomplete
+set cot-=preview	
+
 au FileType ruby,eruby setl ofu=rubycomplete#Complete
 au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
 au FileType c setl ofu=ccomplete#CompleteCpp
@@ -918,7 +925,7 @@ au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
 au BufRead,BufNewFile 'ASCII text' set filetype=bash
 "---------------------------------------------
-" file type detection
+" file type detection syntax
 "---------------------------------------------
 " highlight action script and mxml syntax
 au BufNewFile,BufRead *.mxml set filetype=mxml
@@ -939,13 +946,6 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " use syntax complete if nothing else available
 " autocmd FileType html,php,markdown,css,c,java,javascript,js,xml,phyton set foldmethod=indent
-if has("autocmd") && exists("+omnifunc")
-    autocmd Filetype *
-		\ if &omnifunc == "" |
-		\   setlocal omnifunc=syntaxcomplete#Complete |
-		\ endif
-endif
-set cot-=preview	"disable doc preview in omnicomplete
 "---------------------------------------------
 " for PHP programming
 "---------------------------------------------
@@ -962,10 +962,6 @@ autocmd BufNewFile,BufRead *.sass			set ft=sass.css
 " for edit HTML
 "---------------------------------------------
 autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-"---------------------------------------------------------------------------
-" Tip #382: Search for <cword> and replace with input() in all open buffers
-let mapleader="\\" "Map <Leader> to \
-let maplocalleader=";"
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     
 "-------------------------------------------------------
