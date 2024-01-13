@@ -5,7 +5,7 @@ source ~/.i3/i3blocks/vars
 
 TRASH_DIRECTORY="${BLOCK_INSTANCE}"
 
-if [[ "${TRASH_DIRECTORY}" = "" ]]; then
+if [[ "${BLOCK_INSTANCE}" = "" ]]; then
     TRASH_DIRECTORY="${XDG_DATA_HOME:-${HOME}/.local/share}/Trash/files "
     TRASH_DIRECTORY+="${XDG_DATA_HOME:-${HOME}/.local/share}/Trash/info "
 fi
