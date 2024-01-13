@@ -36,12 +36,19 @@ clean() {
     sudo rm -rf /var/log/syslog* 
     sudo journalctl --vacuum-time=7d
     rm -rf "$HOME/.cache/thumbnails/*"
-    del "$HOME/.vim/.viminfo"
-    del "$HOME/.viminfo"
-    del "$HOME/.vim/.viminfo.tmp"
-    rm -rf "$HOME/.local/share/Trash/files/*"
-    rm -rf "$HOME/.local/share/Trash/files/*"
-    rm -rf "$HOME/.local/share/vifm/Trash/*"
+    rm "$HOME/.vim/.viminfo"
+    rm "$HOME/.viminfo"
+    [ -e "$HOME/.vim/.viminfo.tmp" ]; rm "$HOME/.vim/.viminfo.tmp"
+    rm -rf "$HOME/.local/share/Trash/files"
+    mkdir "$HOME/.local/share/Trash/files"
+    rm -rf "$HOME/.local/share/Trash/files"
+    mkdir "$HOME/.local/share/Trash/files"
+    rm -rf "$HOME/.local/share/vifm/Trash"
+    mkdir "$HOME/.local/share/vifm/Trash"
+    rm -rf "$HOME/.vim/backups/swaps"
+    mkdir "$HOME/.vim/backups/swaps"
+    rm -rf "$HOME/.vim/backups/undo"
+    mkdir "$HOME/.vim/backups/undo"
 }
 # }}}
 # Colorized man pages{{{
