@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
+source $HOME/bin/dotfiles_env
 
 SHUNIT_TEST_PREFIX=' Git Test --> '
 SHUNIT_COLOR="always"
