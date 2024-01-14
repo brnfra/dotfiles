@@ -12,9 +12,15 @@
 [push]
     default = simple
 [pull]
-    rebase = false
+    rebase = true
+    default = current
+    rebasePreserve = true
 [fetch]
     prune = true
+[rebase]
+    autoStash = true
+[rerere]
+    enabled = true
 [diff]
     mnemonicprefix = true
 [branch]
