@@ -52,7 +52,7 @@ Thank you guys for sharing :heart:
 4. The keyboard layout is **PT-BR,ABNT**.
 
 **ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**
-This configuration works with **i3-wm** and **i3status**.  
+This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` files is part of strategy to merge and pull, in this case, rebase is false. 
 
 ## TODO
 

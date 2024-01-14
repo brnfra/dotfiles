@@ -27,14 +27,28 @@ move() {
 }
 
 clean() {
-    sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean;
+    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+	sudo apt-get autoremove -y && sudo apt-get autoclean && sudo apt-get clean;
+    elif [ "$osys" = "manjaro" ]; then
+	echo "for packages run bmenu"
+    fi
     sudo rm -rf /var/log/*.log* 
     sudo rm -rf /var/log/syslog* 
     sudo journalctl --vacuum-time=7d
     rm -rf "$HOME/.cache/thumbnails/*"
-    del "$HOME/.vim/.viminfo"
-    del "$HOME/.vim/.viminfo.tmp"
-    rm -rf "$HOME/.local/share/Trash/files/*"
+    rm "$HOME/.vim/.viminfo"
+    rm "$HOME/.viminfo"
+    [ -e "$HOME/.vim/.viminfo.tmp" ]; rm "$HOME/.vim/.viminfo.tmp"
+    rm -rf "$HOME/.local/share/Trash/files"
+    mkdir "$HOME/.local/share/Trash/files"
+    rm -rf "$HOME/.local/share/Trash/files"
+    mkdir "$HOME/.local/share/Trash/files"
+    rm -rf "$HOME/.local/share/vifm/Trash"
+    mkdir "$HOME/.local/share/vifm/Trash"
+    rm -rf "$HOME/.vim/backups/swaps"
+    mkdir "$HOME/.vim/backups/swaps"
+    rm -rf "$HOME/.vim/backups/undo"
+    mkdir "$HOME/.vim/backups/undo"
 }
 # }}}
 # Colorized man pages{{{
@@ -67,6 +81,8 @@ function symlink() {
     if [ ! -e "$link" ]; then
 	echo "-----> Symlinking your new $link"
 	ln -s "$file" "$link"
+    else
+	echo "symlink [location] [link_name]"
     fi
 }
 
@@ -133,8 +149,7 @@ function vplay () {
 function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
-
-# }}}
+# }}}    
 # search avaliable packages to install {{{
 #
 # }}}
@@ -222,7 +237,7 @@ elif [ "$osys" = "manjaro" ]; then
 	    --hscroll-off=800 \
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview" \
-	    | xargs -ro sudo pacman -S
+	    | cut -d " " -f 1 | xargs -ro sudo pacman -S
 	}
 
 	function fremove () {
@@ -230,11 +245,14 @@ elif [ "$osys" = "manjaro" ]; then
 		| fzf \
 		--multi \
 		--preview 'pacman -Si {1}' \
+		--height=80% \
+		--border \
+		--hscroll-off=800 \
+		--preview-window=wrap \
+		--bind="tab:toggle-preview" \
 		| xargs -ro sudo pacman -Rns
 	    }
 
-    # }}}
-    # autocomplete {{{
 
     function plist () {
 	pacman -Qq \
@@ -247,7 +265,6 @@ elif [ "$osys" = "manjaro" ]; then
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview"
 	}
-    # autocomplete {{{
 
     function auto_complete_pacman() {
 	mapfile -t COMPREPLY < <(pacman -Si "$1");
@@ -258,7 +275,6 @@ elif [ "$osys" = "manjaro" ]; then
     complete -F auto_complete_pacman pinfo
     complete -F auto_complete_pacman plist
 
-    # }}}
 
     # function pinfo ()
     # {
@@ -269,15 +285,15 @@ fi
 # FZF FUNCTIONS {{{
 function open_with_fzf () {
     fd -t f -H -I \
-	| fzf -m \
+	| fzf -e -m \
 	--preview="xdg-mime query default {}" \
-	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} &"    
+	| xargs -ro -d "\n" -I "{}" bash -c "xdg-open {} "    
 	    #2>&-
 	
 }
 
 function cd_with_fzf () {
-    cd $HOME && cd "$(fd -H -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview")"
+    cd $HOME && cd "$(fd -H -t d | fzf -e --preview="tree -L 1 {}" --bind="space:toggle-preview")"
 }
 
 # do not use yet

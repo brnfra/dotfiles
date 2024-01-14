@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Arquivo: mod-temperatures
+# Arquivo: temperatures
 # Autor: Bruno Franco
-# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,20 +8,16 @@
 # depends 'jq' package
 # dont inject shell variables into your jq filter!
 # instead use --argjson
+source ~/.i3/i3blocks/vars
+
 temps_all=$(sensors -j | jq '.' | \
     grep "temp[1-2]_input" | \
     sed 's/[,"]//g; s/^[ \t]*//;s/[ \t]*$//' | \
     cut -d " " -f 2 | \
     awk '{printf "%1.0f\n",$0}')
-#| cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g')
-#temp_max=$(sensors -j | jq '.' | grep "temp[1-9]_max" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
-#temp_crit=$(sensors -j | jq '.' | grep "temp[1-2]_crit" | cut -d ":" -f 2 | cut -d "." -f 1 | sed 's/[, ]//g; 1q')
 icon20="&#xf2ca;"
 icon50="&#xf2c9;"
 icon70="&#xf2c7;"
-red='"#FF0000"'
-green='"#00FF00"'
-orange='"#FFA500"'
 output=""
 get_temp_max=$(( 0 )) 
 
@@ -33,13 +28,13 @@ do
     fi
     if (( temp < 200 )); then
 	if (( temp <= 30 )); then
-	    output="<span font='monofur NF' color='blue'>$icon20 $get_temp_max</span>"
+	    output="<span $font $size $blue > $icon20 $get_temp_max° </span>"
 	elif (( temp >= 31 )) && (( temp <= 54 )); then
-	    output="<span font='monofur NF' color=$green >$icon50 $get_temp_max</span>"
+	    output="<span $font $size $green > $icon50 $get_temp_max° </span>"
 	elif (( temp >= 55 )) && (( temp <= 69 )); then
-	    output="<span font='monofur NF' color=$orange >$icon70 $get_temp_max</span>"
+	    output="<span $font $size $orange > $icon70 $get_temp_max° </span>"
 	elif (( temp >= 70 )); then
-	    output="<span font='monofur NF' color=$red >$icon70 $get_temp_max</span>"
+	    output="<span $font $size $red > $icon70 $get_temp_max° </span>"
 	fi
     fi
 done

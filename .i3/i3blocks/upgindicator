@@ -1,23 +1,16 @@
 #!/usr/bin/env bash
-#script to check if exist upgrades avaliable
+
+source ~/.i3/i3blocks/vars
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     check="$(expr $(apt list --upgradeable | wc -l) - 1)"
-    color="'orange'"
 elif [ "$osys" = "manjaro" ]; then
-    check="$(expr $( pacman -Qu| wc -l) - 1)"
+    check="$(checkupdates | wc -l)"
 fi
-# $ fc-list command to list fonts
-font_face='"monofur NF"'
-#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
-font_size='"medium"'
-font_params_close="</b></span>"
+
 if [ "$check" -lt 1 ]; then
-    color="'#00FF00'"
-    font_params="<span font=$font_face  color=$color size=$font_size ><b>"
-    printf "%s %s %s\n" "$font_params" "No Updates" "$font_params_close"
+    output="<span $font $green $size $weight > No Updates </span>"
 else
-    color="'orange'"
-    font_params="<span font=$font_face  color=$color size=$font_size ><b>"
-    printf "%s %s %s\n" "$font_params" "↑($check Pkgs)" "$font_params_close"
+    output="<span $font $orange $size $weight > ↑($check Pkgs) </span>"
 fi
+echo "$output"
