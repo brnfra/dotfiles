@@ -2,11 +2,6 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-<<<<<<< HEAD
-SHUNIT_TEST_PREFIX=' Packages Instaled Test for Debian or Ubuntu --> '
-||||||| b2cbc42
-SHUNIT_TEST_PREFIX=' Packages Test --> '
-=======
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 if [ "$osys" = "manjaro" ]; then
     SHUNIT_TEST_PREFIX=' Packages Instaled Test for Manjaro --> '
@@ -15,7 +10,6 @@ elif [ "$osys" = "ubuntu" ] || [ "$osys" = "debian" ]; then
     SHUNIT_TEST_PREFIX=' Packages Instaled Test for Debian or Ubuntu --> '
 
 fi
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 SHUNIT_COLOR="always"
 testPkgsInstalledCheck() {
     #debian ubuntu manjaro etc
@@ -55,23 +49,10 @@ testPkgsInstalledCheck() {
     pkges+=" openssl "      
     pkges+=" pcmanfm " 
     pkges+=" ranger "
-<<<<<<< HEAD
-    pkges+=" rar "
     pkges+=" rofi "
-||||||| b2cbc42
-    pkges+=" rar "
-=======
-    pkges+=" rofi "
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
     pkges+=" rsync "        
     pkges+=" scrot "        
     pkges+=" shunit2 "      
-<<<<<<< HEAD
-    pkges+=" openssh-client "          
-||||||| b2cbc42
-    pkges+=" ssh "          
-=======
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
     pkges+=" sysstat "      
     pkges+=" tar "
     pkges+=" unzip "        
@@ -84,13 +65,7 @@ testPkgsInstalledCheck() {
     then
         pkges+=" pulseaudio"
     else
-<<<<<<< HEAD
-	pkges+=" alsa-utils"
-||||||| b2cbc42
-	pkges+=" alsautils"
-=======
         pkges+=" alsa-utils"
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
     fi
 
     for pkg in $pkges 
