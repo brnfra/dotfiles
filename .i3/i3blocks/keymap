@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
 XKB_OUTPUT=$(setxkbmap -query)
 LAYOUT=$(echo "${XKB_OUTPUT}" | grep "layout" | awk -F ':' '{print $2}' | tr -d ' ')
 MODEL=$(echo "${XKB_OUTPUT}" | grep "model" | awk -F ':' '{print $2}' | tr -d ' ')
@@ -12,5 +11,5 @@ fi
  KEYMAP_NAME="${MODEL}*${LAYOUT}"
 
 if [[ "${KEYMAP_NAME}" ]]; then
-  echo "<span $font $size $capitalize $white> ${KEYMAP_NAME} </span>"
+  echo "<span font='monofur NF' color='#FFFFFF'>${KEYMAP_NAME}</span>"
 fi

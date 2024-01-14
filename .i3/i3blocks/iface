@@ -11,10 +11,16 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
+color_ok="'#00FF00'"
+color_fail="'#FF0000'"
+# $ fc-list command to list fonts
+font_face='"monofurNF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
 #------------------------------------------------------------------------
-font_params_ok="$font $size $weight $green $style"
-font_params_fail="$font $size $weight $red $transform"
+font_params_ok="<span font=$font_face color=$color_ok size=$font_size ><b>"
+font_params_fail="<span font=$font_face font-weight='bold' color=$color_fail size=$font_size ><b>"
+font_params_close="</b></span>"
 site_list='google.com' 
 site_list+=' github.com' 
 site_list+=' www.amazon.com.br'
@@ -34,8 +40,10 @@ fi
 [[ ! -d /sys/class/net/${IF} ]] && exit
 #------------------------------------------------------------------------
 if [[ "$(cat /sys/class/net/$IF/operstate)" = 'down' ]]; then
-    printf "%s\n" "<span $font_params_fail > down </span>"
-    exit 0;
+    echo down # full text
+    echo down # short text
+    echo \#FF0000 # color
+	exit
 fi
 case $1 in
     -4)
@@ -52,27 +60,22 @@ case $BLOCK_BUTTON in
 esac
 #------------------------------------------------------------------------
 # by Adam Katz (stackoverflow)
-errorCnt=$(( 0 ))
-reach=$(( 0 ))
 for Site in $site_list; do
-    if nc -z -w 1 -O 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
+    if nc -z -w 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
 	$1 == "SSL" && $2 == "handshake" { handshake = 1 }
 	handshake && $1 == "Verification:" { ok = $2; exit }
 	END { exit ok != "OK" }'
     then
 	#cmOk "$Site" "Reached"
-	reach=$(( reach + 1 ))
-	if (( reach > 2 )); then
-	    printf "%s\n" "<span $font_params_ok > $IPADDR  </span>"
-	    exit 0
-	fi
+	iface_out=$(printf "%s%s%s" "$font_params_ok" "<i>$IPADDR</i>" "$font_params_close")
     else
 	#clnError "Can't reach: $Site"
-	errorCnt=$(( errorCnt + 1 ))
-	if (( errorCnt > 2 )); then
-	    printf "%s\n" "<span $font_params_fail > $IPADDR  </span>"
-	    exit 1
+	errorCnt=$(( errorCnt + 1))
+	if [[ errorCnt -gt 3 ]]; then
+	    iface_out=$(printf "%s%s%s" "$font_params_fail" "$IPADDR" "$font_params_close")
 	fi
     fi
 done
+
+echo "$iface_out"
 

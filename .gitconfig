@@ -12,15 +12,9 @@
 [push]
     default = simple
 [pull]
-    rebase = true
-    default = current
-    rebasePreserve = true
+    rebase = false
 [fetch]
     prune = true
-[rebase]
-    autoStash = true
-[rerere]
-    enabled = true
 [diff]
     mnemonicprefix = true
 [branch]
@@ -32,8 +26,6 @@
 [mergetool]
     prompt	= false
     keepBackup	= false
-[mergetool "vimdiff3"]
-    cmd = vim \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 [branch "main"]
     remote  = origin
     merge   = refs/heads/main

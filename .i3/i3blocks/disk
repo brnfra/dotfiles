@@ -10,8 +10,14 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
+# $ fc-list command to list fonts
 
+font_face='"monofur NF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
+color='"#00FF00"'
+color_alert='"#FFA500"'
+color_critic='"#FF0000"'
 icon="&#xf233;"
 DIR="${BLOCK_INSTANCE:-$HOME}"
 alert_low="${1:-10}" # color will turn red under this value (default: 10%)

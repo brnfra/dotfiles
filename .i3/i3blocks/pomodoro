@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Arquivo: pomodoro
+# Arquivo: mod-pomodoro
 # Autor: Bruno Franco
+# Ultima_modificacao: 30-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -8,8 +9,6 @@
 # Thanks to [Original Author] duckl1ng/bog2n
 # script from https://raw.githubusercontent.com/bog2n/i3blocks-pomodoro/master/pomodoro.sh
 # repo: https://github.com/bog2n/i3blocks-pomodoro
-source ~/.i3/i3blocks/vars
-
 # Config variables (min)
 work_time=30
 work_time=$(( work_time * 60 ))
@@ -17,13 +16,27 @@ break_time=6
 break_time=$(( break_time * 60 ))
 pomos_counter=$(( 0 ))
 counter_file="/tmp/pomos_counter"
-
 #fonts awesomei ->  icons required
-#ico_start="&#xf251;"
-ico_start="&#xf251;"
-ico_work="&#xf262;"
-ico_break="&#xf0f4;"
-
+msg_start="&#xf251; "
+work_prefix="&#xf262; "
+break_prefix="&#xf0f4; "
+start_color='"#FFFFFF"'
+break_color='"#58a814"'
+work_color='"#f39660"'
+# $ fc-list command to list fonts
+font_face='"monofur NF"'
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size='"medium"'
+font_start_params="<span font=$font_face"
+font_start_params+=" color=$start_color "
+font_start_params+=" size=$font_size >"
+font_work_params="<span font=$font_face"
+font_work_params+=" color=$work_color "
+font_work_params+=" size=$font_size >"
+font_break_params="<span font=$font_face"
+font_break_params+=" color=$break_color "
+font_break_params+=" size=$font_size >"
+font_params_close="</span>"
 break_alert="notify-send -t 3000 'Grab a tea'"
 break_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/complete.oga &> /dev/null' 
 work_alert="notify-send -t 3000 'Time to work!'"
@@ -46,14 +59,10 @@ function display () {
     fi
     case $2 in
 	w)
-	    if [[ -e $counter_file ]];then
-		echo "<span $font $orange $size >     $ico_work [$pomos_counter] $min:$sek     </span>"
-	    else
-		echo "<span $font $orange $size >     $ico_work $min:$sek     </span>"
-	    fi
+	    printf "%s %s[%s] %s:%s%s\n"  "$font_work_params" "$work_prefix"  "$pomos_counter"  "$min" "$sek" "$font_params_close"
 	    ;;
 	b)
-	    echo "<span $font $green $size >     $ico_break [$pomos_counter]  $min:$sek     </span>"
+	    printf "%s %s[%s] %s:%s%s\n"  "$font_break_params" "$break_prefix" "$pomos_counter"  "$min" "$sek" "$font_params_close"
 	    ;;
     esac
 }
@@ -96,9 +105,9 @@ then
     display $s $t
 else
     if [[ -e $counter_file ]];then
-	echo "<span $font $white $size > $ico_start [$(cat $counter_file)] </span>"
+	printf "%s %s [%s] %s %s\n" "$font_start_params" "$msg_start" "$(cat $counter_file)" "$font_params_close"
     else
-	echo "<span $font $white $size $transform $style  >    $ico_start     </span>"
+	printf "%s%s%s\n" "$font_start_params" "$msg_start" "$font_params_close"
     fi
 fi
 case $BLOCK_BUTTON in

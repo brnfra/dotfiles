@@ -1,52 +1,38 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
 #From: https://github.com/Anachron/i3blocks
 
 TRASH_DIRECTORY="${BLOCK_INSTANCE}"
 
-if [[ "${BLOCK_INSTANCE}" = "" ]]; then
-    TRASH_DIRECTORY="${XDG_DATA_HOME:-${HOME}/.local/share}/Trash/files "
-    TRASH_DIRECTORY+="${XDG_DATA_HOME:-${HOME}/.local/share}/Trash/info "
+if [[ "${TRASH_DIRECTORY}" = "" ]]; then
+    TRASH_DIRECTORY="${XDG_DATA_HOME:-${HOME}/.local/share}/Trash"
 fi
-if vifm -v &> /dev/null; then
-    TRASH_DIRECTORY+="${XDG_DATA_HOME:-${HOME}/.local/share/vifm}/Trash "
-fi
+
 # Left click
 if [[ "${BLOCK_BUTTON}" -eq 1 ]]; then
-    xdg-open "${HOME}/.local/share/Trash/files"
+    xdg-open "${TRASH_DIRECTORY}/files"
     # Right click
 elif [[ "${BLOCK_BUTTON}" -eq 3 ]]; then
     # Delete all files permanently (unlink them)
-    for Folder in $TRASH_DIRECTORY
-    do
-	rm -r "$Folder"
-	mkdir "$Folder"
-    done
+    rm -r "${TRASH_DIRECTORY}/files"
+    rm -r "${TRASH_DIRECTORY}/info"
+    # Create new directory
+    mkdir "${TRASH_DIRECTORY}/files"
+    mkdir "${TRASH_DIRECTORY}/info"
 fi
 
-if vifm -v &> /dev/null; then
-    for Folder in $TRASH_DIRECTORY
-    do
-	COUNT=$(ls -U -1 "$Folder" | wc -l)
-	TRASH_COUNT=$(( TRASH_COUNT + COUNT ))
-    done
-else
-    COUNT=$(ls -U -1 "${TRASH_DIRECTORY}/files" | wc -l)
-    TRASH_COUNT=$(( TRASH_COUNT + COUNT ))
-    COUNT=$(ls -U -1 "${TRASH_DIRECTORY}/info" | wc -l)
-    TRASH_COUNT=$(( TRASH_COUNT + COUNT ))
-fi
+TRASH_COUNT=$(ls -U -1 "${TRASH_DIRECTORY}/files" | wc -l)
 
 URGENT_VALUE=100
 
+
 if (( TRASH_COUNT == 0 )); then
-    echo  "<span $font $size $white> &#xf014; [${TRASH_COUNT}] </span>"
+    echo  "<span font='monofur NF' color='#FFFFFF'>&#xf48e; [${TRASH_COUNT}]</span>"
 elif (( TRASH_COUNT > 0 )); then
-    echo  "<span $font $size $orange> &#xf1f8; [${TRASH_COUNT}] </span>"
+    echo  "<span font='monofur NF' color='orange'>&#xea81; [${TRASH_COUNT}]</span>"
 
 elif [[ "${TRASH_COUNT}" -ge "${URGENT_VALUE}" ]]; then
-    echo  "<span $font $size $red> &#xf1f8; [${TRASH_COUNT}] </span>"
+    echo  "<span font='monofur NF' color='red'>&#xea81; [${TRASH_COUNT}]</span>"
     exit 33
 fi
 

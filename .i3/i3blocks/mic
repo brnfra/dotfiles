@@ -14,15 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # $ fc-list command to list fonts
-source ~/.i3/i3blocks/vars
+font_face="'monofur NF'"
+#xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+font_size="'medium'"
 
-icon_mute='&#xf131; X'
-icon95='&#xf130; &#9608;'
-icon75='&#xf130; &#9610;'
-icon50='&#xf130; &#9612;'
-icon25='&#xf130; &#9614;'
-icon_low='&#xf130; &#9615;'
-icon_zero='&#xf130; |  '
+color_on="'#FFFFFF'"
+color_mute="'#BF616A'"
+
+icon_mute='&#xf130; X'
+icon95='&#xf130; &#x1D11a;'
+icon75='&#xf130; &#x1D119;'
+icon50='&#xf130; &#x1D118;'
+icon25='&#xf130; &#x1D117;'
+icon_low='&#xf130; &#x1D116;'
+icon_zero='&#xf130;  '
 
 #------------------------------------------------------------------------
 # The second parameter overrides the mixer selection
@@ -118,25 +123,31 @@ capability() { # Return "Capture" if the device is a capture device
     fi
   get_block() {
     if [ "$vmute" = "$res" ]; then
-	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
+	show="<span font=$font_face color=$color_mute size=$font_size >$icon_mute</span>"
+	printf "%s\n" "$show"
 	exit 0
-    elif (( volume >= 0 )) && (( volume <= 5 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon_zero </span>"
+    elif (( volume >= 0 )) && (( volume <= 4 )) ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_zero</span>"
+	printf "%s\n" "$show" 
 	exit 0
-    elif (( volume > 5 )) && (( volume <= 15 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon_low </span>"
+    elif (( volume >= 5 )) && (( volume <= 15 )) ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon_low</span>"
+	printf "%s\n" "$show" 
 	exit 0
-    elif (( volume > 15 )) && (( volume <= 35 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon25 </span>"
+    elif (( volume >= 16 )) && (( volume <= 35 )) ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon25</span>"
+	printf "%s\n" "$show" 
+    elif (( volume >= 36 )) && (( volume <= 65 )) ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon50</span>"
+	printf "%s\n" "$show" 
 	exit 0
-    elif (( volume > 35 )) && (( volume <= 65 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon50 </span>"
+    elif (( volume >= 66 )) && (( volume <= 85 )) ; then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon75</span>"
+	printf "%s\n" "$show" 
 	exit 0
-    elif (( volume > 65 )) && (( volume <= 85 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon75 </span>"
-	exit 0
-    elif (( volume > 85 )); then
-	printf "%s\n" "<span $font $green $icon_size > $icon95 </span>"
+    elif (( volume >= 86 )); then
+	show="<span font=$font_face color=$color_on size=$font_size >$icon95</span>"
+	printf "%s\n" "$show" 
 	exit 0
     fi
 }
