@@ -2,6 +2,7 @@
 
 source ~/.i3/i3blocks/vars
 
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 URGENT_VALUE=90
 
 PREV_TOTAL=0
@@ -25,7 +26,12 @@ LAVG1=$(awk -v x="$LAVG1" 'BEGIN { printf "%1.1f\n",x*100}')
 LAVG5=$(awk -v x="$LAVG5" 'BEGIN { printf "%1.1f\n",x*100}') 
 LAVG15=$(awk -v x="$LAVG15" 'BEGIN { printf "%1.1f\n",x*100}') 
 
-IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 12 | bc -l)  
+if [ "$osys" = "debian" ]; then
+    IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 13 | bc -l)  
+else
+    IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 12 | bc -l)  
+fi
+
 cpu_usage=$(awk -v x="$IDLE" 'BEGIN {y = 100.00 ; z = y-x;  printf "%1.2f\n", z }') # Get the total CPU statistics.
 
 #tests
@@ -42,7 +48,7 @@ elif (( cpu_usage >= t_crit )) || (( LAVG1 >= t_crit )) || (( LAVG5 >= t_crit ))
     printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
     printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
     exit 0
-    fi
+fi
 
 # Print short_text, full_text
 printf "%s\n" "<span $font  $size $green > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"

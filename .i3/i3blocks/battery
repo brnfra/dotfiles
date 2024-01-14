@@ -25,9 +25,9 @@ bat_down_alert="notify-send -t 7000 'Time to charge!'"
 bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &> /dev/null'
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
-    chrg_icon="<span $font $orange $weight $size >$icon_plug</span>"
-    btry_icon="<span $font $orange $weight $size >$icon_bolt</span>"
-    printf "%s%s\n" "$btry_icon" "$chrg_icon" 
+    chrg_icon="<span $font $orange $weight $size >   $icon_plug  </span>"
+    btry_icon="<span $font $orange $weight $size >$icon_bolt   </span>"
+    printf "%s%s\n" "$chrg_icon" "$btry_icon" 
     exit 0
 else
     bat_number=$(acpi -b | grep -v "unavailable" | awk '{print $2}')
