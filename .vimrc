@@ -1,13 +1,6 @@
 "====================================================================
 " Arquivo: .vimrc
 " Autor: Bruno Franco
-<<<<<<< HEAD
-" Ultima_modificacao: 08-01-2024
-||||||| b2cbc42
-" Ultima_modificacao: 31-12-2023
-" Download: git@github.com:brnfra
-=======
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -59,35 +52,6 @@ if !has('nvim')
 else
     set viminfo+=n~/.vim/.shada
 endif
-<<<<<<< HEAD
-" ------------------------------------------------------------------------------------------------------------------------------
-" Vim Directories
-" ------------------------------------------------------------------------------------------------------------------------------
-let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
-set nobackup                                                             
-set noswapfile                                                          
-set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp           
-set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp      
-set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
-set viewdir=$DATA_PATH/view/                                       
-set viewoptions=folds,cursor,curdir,slash,unix                    
-
-" ------------------------------------------------------------------------------------------------------------------------------
-" History saving
-" ------------------------------------------------------------------------------------------------------------------------------
-set history=2000
-augroup user_persistent_undo
-    autocmd!
-    au BufWritePre /tmp/*          setlocal noundofile
-    au BufWritePre COMMIT_EDITMSG  setlocal noundofile
-    au BufWritePre MERGE_MSG       setlocal noundofile
-    au BufWritePre *.tmp           setlocal noundofile
-    au BufWritePre *.bak           setlocal noundofile
-augroup END
-
-" ------------------------------------------------------------------------------------------------------------------------------
-||||||| b2cbc42
-=======
 let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
 set nobackup                                                             
 set noswapfile                                                          
@@ -115,7 +79,6 @@ augroup user_persistent_undo
 augroup END
 
 " ------------------------------------------------------------------------------------------------------------------------------
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 set termguicolors
 set mouse=a " Enable mouse in all modes
 set cursorcolumn
@@ -154,36 +117,6 @@ set lbr
 set showmatch
 
 "---------------------------------------------------------------------------
-<<<<<<< HEAD
-" Searching
-""---------------------------------------------------------------------------
-
-set ignorecase
-set smartcase 
-set infercase 
-set incsearch         " Incrementally match the search
-set wrapscan
-""---------------------------------------------------------------------------
-" Auto BreakIndent
-""---------------------------------------------------------------------------
-set textwidth=160
-set expandtab    "no- Use spaces instead of tabs     
-set tabstop=8       " Tabstops are 2 spaces
-set shiftwidth=4  
-"set softtabstop=4
-set softtabstop=-1
-set autoindent      " auto indent
-set smartindent 
-set smarttab  " Be smart when using tabs ;)
-set shiftround 
-
-if exists('&breakindent')
-    set breakindentopt=shift:4,min:20
-endif
-
-""---------------------------------------------------------------------------
-||||||| b2cbc42
-=======
 " Searching
 ""---------------------------------------------------------------------------
 
@@ -213,7 +146,6 @@ if exists('&breakindent')
 endif
 
 ""---------------------------------------------------------------------------
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
 "set nofoldenable " Enable folding
@@ -234,34 +166,9 @@ set ch=2              " Make command line two lines high
 set scrolloff=8       " When the page starts to scroll, keep the cursor 8 lines from the top and 8" lines from the bottom
 set wildmenu          " Make the command-line completion better
 "set diffopt+=iwhite   " Add ignorance of whitespace to diff
-<<<<<<< HEAD
-set hlsearch          " Enable search highlighting
-||||||| b2cbc42
-set hlsearch          " Enable search highlighting
-set incsearch         " Incrementally match the search
-=======
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 set clipboard+=unnamedplus  " Add the unnamed register to the clipboard
 set lazyredraw        " Don't redraw when we don't have to
 set showfulltag       " When completing by tag, show the whole tag, not just the function name
-<<<<<<< HEAD
-" --- sane text files -------   Encoding ----"
-set encoding=utf-8
-set fileencodings=utf-8,cp936,gb18030,big5,latin1   
-set fileencoding=utf-8  
-set ttyfast
-if !has('nvim')
-    set ttymouse=xterm2
-endif
-||||||| b2cbc42
-" --- sane text files -------   Encoding ----"
-set encoding=utf-8
-set ttyfast
-if !has('nvim')
-    set ttymouse=xterm2
-endif
-=======
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 "------------------------------------End Global stuffs}}}
 "     BEGIN PLUGINS INSTALL  {{{
 "--------------------------------------------------------
@@ -305,45 +212,6 @@ else
 	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
 endif
-<<<<<<< HEAD
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"colorschemes
-""Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
-Plug 'dense-analysis/ale'
-"syntax
-Plug 'hail2u/vim-css3-syntax'
-"c/c++"
-Plug 'vim-scripts/OmniCppComplete'
-Plug 'vim-scripts/c.vim'
-"Table Of Contents[toc]
-Plug 'mzlogin/vim-markdown-toc'
-""let g:plug_url_format = 'git@github.com:%s.git'
-Plug 'brnfra/vim-shortcuts'
-""unlet g:plug_url_format
-Plug 'vimwiki/vimwiki' 
-Plug 'michal-h21/vim-zettel'
-
-||||||| b2cbc42
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"colorschemes
-""Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
-Plug 'dense-analysis/ale'
-"syntax
-Plug 'hail2u/vim-css3-syntax'
-"c/c++"
-Plug 'vim-scripts/OmniCppComplete'
-Plug 'vim-scripts/c.vim'
-"Table Of Contents[toc]
-Plug 'mzlogin/vim-markdown-toc'
-""let g:plug_url_format = 'git@github.com:%s.git'
-Plug 'brnfra/vim-shortcuts'
-""unlet g:plug_url_format
-=======
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 call plug#end()
 "-------------------------------------------------------
 "     END PLUGINS  }}}1
@@ -474,37 +342,6 @@ if has('nvim')
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 endif
 ""}}}
-<<<<<<< HEAD
-"              VIMWIKI {{{
-" Height
-"----------------------------------------------------------------
-hi VimwikiHeader1 guifg=#e5c07b
-hi VimwikiHeader2 guifg=#98c379
-hi VimwikiHeader3 guifg=#c678dd
-""hi VimwikiHeader4 guifg=#FF00FF
-""hi VimwikiHeader5 guifg=#00FFFF
-""hi VimwikiHeader6 guifg=#FFFF00
-hi VimwikiH1Folding guifg=#e5c07b
-hi VimwikiH2Folding guifg=#98c379
-hi VimwikiH3Folding guifg=#c678dd
-""hi VimwikiH4Folding guifg=#8096BF
-""hi VimwikiH5Folding guifg=#8096BF
-""hi VimwikiH6Folding guifg=#8096BF
-hi VimwikiLink guifg=#61afef
-hi VimwikiBold term=bold  ctermfg=204 gui=bold guifg=#E06C75
-hi VimwikiBold guifg=#E06C75
-inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
-inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
-inoremap <C-]> <Plug>VimwikiTablePrevCell
-"inoremap <C-[> <Plug>VimwikiTableNextCell
-nnoremap <C-]> <Plug>VimwikiTablePrevCell
-nnoremap <C-[> <Plug>VimwikiTableNextCell
-nnoremap <C-Tab> <Plug>VimwikiPrevLink
-nnoremap <C-n> <Plug>VimwikiDiaryNextDay
-nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
-"              }}} 
-||||||| b2cbc42
-=======
 "              VIMWIKI {{{
 " Height
 "----------------------------------------------------------------
@@ -729,7 +566,6 @@ let g:which_key_map.w = {
     \ }
 
 "              }}}
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 "              VIM-SENSIBLE {{{
 if has('nvim')
     " automatically open and close the popup menu / preview window
@@ -812,38 +648,9 @@ vnoremap <F2> <esc>:NERDTreeToggle<CR>
 let g:airline_theme = 'papercolor'
 let g:airline_symbols_ascii = 1
 let g:airline_powerline_fonts = 1
-<<<<<<< HEAD
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#whitespace#enabled = 0 
-let g:airline_skip_empty_sections = 0
-let g:airline_focuslost_inactive = 1
-let g:airline_skip_empty_sections = 1
-let g:airline_exclude_preview = 0
-let g:airline_detect_modified=1
-let g:airline_inactive_alt_sep=1
-let g:airline_detect_paste=1
-let g:airline_detect_crypt=1
-||||||| b2cbc42
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline_exclude_preview = 0
-let g:airline_detect_modified=1
-let g:airline_inactive_alt_sep=1
-let g:airline_detect_paste=1
-let g:airline_detect_crypt=1
-=======
 let g:airline_skip_empty_sections = 1
 let g:airline_focuslost_inactive = 1
 let g:airline_skip_empty_sections = 1
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 let g:airline_detect_spell=1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -887,49 +694,6 @@ let airline#extensions#ale#close_lnum_symbol    = ')'
 let g:airline#extensions#keymap#enabled         = 1
 let g:airline#extensions#bookmark#enabled       = 1
 "powerline"
-<<<<<<< HEAD
-let g:airline#extensions#tabline#right_sep      = "\u2591\u2592\u2593"
-let g:airline#extensions#tabline#left_sep       = "\u2593\u2592\u2591"
-let g:airline#extensions#tabline#right_alt_sep  = "\u2593\u2592\u2591"
-let g:airline#extensions#tabline#left_alt_sep   = "\u2593\u2592\u2591"
-let g:airline_right_alt_sep                     = "\u2591\u2592\u2593"
-let g:airline_left_alt_sep                      = "\u2593\u2592\u2591"
-let g:airline_left_sep	                        = "\u2593\u2592\u2591"
-let g:airline_right_sep	                        = "\u2593\u2592\u2591"
-let g:airline_symbols.branch                    = ''
-let g:airline_symbols.colnr                     = ' ℅:'
-let g:airline_symbols.readonly                  = ''
-let g:airline_symbols.linenr                    = ' :'
-let g:airline_symbols.maxlinenr                 = '☰ '
-let g:airline_symbols.dirty                     = '⚡'
-"check :help statusline or airline
-let g:airline_section_c                         = '%r%m%t %-0.50{CurDir()}'
-let g:airline_section_x                         = '%y'
-let g:airline_section_z                         = '%p%% %l Col:%c'
-let g:airline_section_error                     = ''
-let g:airline_section_warning                   = ''
-||||||| b2cbc42
-let g:airline#extensions#tabline#right_sep  =	"\u2591\u2592\u2593"
-let g:airline#extensions#tabline#left_sep   =	"\u2593\u2592\u2591"
-let g:airline#extensions#tabline#right_alt_sep=	"\u2593\u2592\u2591"
-let g:airline#extensions#tabline#left_alt_sep =	"\u2593\u2592\u2591"
-let g:airline_right_alt_sep =			"\u2591\u2592\u2593"
-let g:airline_left_alt_sep  =			"\u2593\u2592\u2591"
-let g:airline_left_sep	=			"\u2593\u2592\u2591"
-let g:airline_right_sep	=			"\u2593\u2592\u2591"
-let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' ℅:'
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' :'
-let g:airline_symbols.maxlinenr = '☰ '
-let g:airline_symbols.dirty='⚡'
-"check :help statusline or airline
-let g:airline_section_c='%r%m%t %-0.50{CurDir()}'
-let g:airline_section_x='%y'
-let g:airline_section_z='%p%% %l Col:%c'
-let g:airline_section_error=''
-let g:airline_section_warning=''
-=======
 let g:airline#extensions#tabline#right_sep      = "\u2591\u2592\u2593"
 let g:airline#extensions#tabline#left_sep       = "\u2593\u2592\u2591"
 let g:airline#extensions#tabline#right_alt_sep  = "\u2593\u2592\u2591"
@@ -949,7 +713,6 @@ let g:airline_section_x                         = '%y'
 let g:airline_section_z                         = '%p%% %l Col:%c'
 let g:airline_section_error                     = ''
 let g:airline_section_warning                   = ''
->>>>>>> b6563ead4c2370e597322b81966fb2946c62f678
 "+-------------------------------------------------------+
 "| Set advanced status line				 |
 "+-------------------------------------------------------+
@@ -1119,7 +882,7 @@ let g:easy_align_delimiters = {
 " }}}
 "autocmd vimenter * NERDTree  {{{
 if !has('nvim')
-    "autocmd VimEnter * exec ":loadview"
+    autocmd VimEnter * exec ":loadview"
 endif
 "}}}
 " Arquivos .sh sao sempre bash, e não sh
