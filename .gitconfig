@@ -5,22 +5,16 @@
     pager	    = less -FRX
     excludesfile    = ~/.gitignore
 [user]
-    name = brnfra
-    email = devlabbr@gmail.com
+	name = brnfra
+	email = devlabbr@gmail.com
     timestampResolution = 4000 nanoseconds
     minRacyThreshold	= 7440 microseconds
 [push]
     default = simple
 [pull]
     rebase = false
-    default = current
-    rebasePreserve = true
 [fetch]
     prune = true
-[rebase]
-    autoStash = true
-[rerere]
-    enabled = true
 [diff]
     mnemonicprefix = true
 [branch]

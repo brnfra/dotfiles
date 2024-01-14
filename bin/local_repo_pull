@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 14-01-2024
+# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -50,7 +50,7 @@ local_repo_pull() {
 
     if [ -d "$dotfiles_dir" ]
     then
-	if  git_repo pull -X theirs origin $branch &>> "$bkpLog" ;then
+	if  git_repo pull origin $branch &>> "$bkpLog" ;then
 	    if tests -a;then
 		cmOk "Files check"
 	    else
