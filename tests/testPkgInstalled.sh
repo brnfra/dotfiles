@@ -82,16 +82,6 @@ testPkgsInstalledCheck() {
         then
             pacman -Qi "$pkg" 1> /dev/null
             assertTrue "${red}${bold}[FAIL]${reset}${LINENO}:$pkg not installed\n\n" $?
-            #ASSERT:[FAIL]71:compton not installed
-            # erro: o pacote "exa" não foi encontrado
-            # erro: o pacote "fd-find" não foi encontrado
-            # erro: o pacote "i3" não foi encontrado
-            # erro: o pacote "i3lock-fancy" não foi encontrado
-            # erro: o pacote "netcat-openbsd" não foi encontrado
-            # erro: o pacote "network-manager-gnome" não foi encontrado
-            # erro: o pacote "rar" não foi encontrado
-            # erro: o pacote "openssh-client" não foi encontrado
-            # erro: o pacote "x11-utils" não foi encontrado
         fi
 
 

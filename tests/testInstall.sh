@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck source=$HOME/bin/dotfiles_env
+# shellcheck source=~/bin/dotfiles_env
 source $HOME/bin/dotfiles_env
 
 SHUNIT_TEST_PREFIX=' Install Script Test --> '
