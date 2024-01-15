@@ -3,7 +3,7 @@
 . dotfiles_env
 
 testByDateDir="$HOME/tests/test_dir"
-SHUNIT_TEST_PREFIX=' F. by Date --> '
+SHUNIT_TEST_PREFIX=' Folders by Date script --> '
 SHUNIT_COLOR="always"
 testExecutionMain() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?

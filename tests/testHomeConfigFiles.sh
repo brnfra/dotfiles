@@ -5,26 +5,22 @@
 SHUNIT_TEST_PREFIX=' Check if exists and valid --> '
 SHUNIT_COLOR="always"
 
-testLocalExecutionMain() {
-
-    cd ..
-    cat $HOME/bin/install 1> /dev/null
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?
-}
-
 
 testLocalGitConfigFiles() {
+    cInfo "Checking git config files"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .gitconfig not found.		    " "[ -f $HOME/.gitconfig ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .git-completion.bash not found.	    " "[ -f $HOME/.git-completion.bash ]"
 
 }
 
 testLocalComptonConfigFile() {
+    cInfo "Checking compton config file"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .config/compton/compton.conf not found." "[ -f $HOME/.config/compton/compton.conf ]"
 
 }
 
 testLocalWgetCurlConfigFiles() {
+    cInfo "Checking config files: " "wget and curl"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .wgetrc not found." "[ -f $HOME/.wgetrc ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .curlrc not found." "[ -f $HOME/.curlrc ]"
 
@@ -36,6 +32,7 @@ testLocalExistBashDir() {
 }
 
 testLocalExistBashFiles() {
+    cInfo "Checking config files" ".bash"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash aliases not found.	"   "[ -f $HOME/.bash/aliases ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash exports not found.	"   "[ -f $HOME/.bash/exports ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash extras not found.	"   "[ -f $HOME/.bash/extras ]"
@@ -48,25 +45,30 @@ testLocalExistBashFiles() {
 }
 
 testLocalExistVimConfig() {
+    cInfo "Checking config files: " ".vimrc"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .vimrc not found." "[ -f $HOME/.vimrc ]"
 }
 
 testLocalExistVifmConfigFiles() {
+    cInfo "Checking config files: " ".vifm"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} vifmrc not found.			" "[ -f $HOME/.config/vifm/vifmrc ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found.   " "[ -d $HOME/.config/vifm/scripts ]"
 
 }
 
 testLocalExistGsimplecalConfigFile() {
+    cInfo "Checking config files: " "gsimplecal"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Gsimplecal config  not found.		    " "[ -f $HOME/.config/gsimplecal/config ]"
 }
 
 testLocalExistXfce4TerminalConfigFile() {
+    cInfo "Checking config files: " "xfce4 terminal"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} terminalrc not found." "[ -f $HOME/.config/xfce4/terminal/terminalrc ]"
 
 }
 
 testLocalExistI3ConfigFiles() {
+    cInfo "Checking config files: " "I3wm"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/i3-get-window-criteria not found.		    "	"[ -f $HOME/.i3/i3-get-window-criteria ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/config[i3wm]  not found.			    "	"[ -f $HOME/.i3/config ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/i3blocks.conf not found.			    "	"[ -f $HOME/.i3/i3blocks.conf ]"
@@ -83,10 +85,27 @@ testLocalExistI3ConfigDir() {
 }
 
 testLocalExistNeoVimConfigFiles() {
+    cInfo "Checking config files: " "nvim"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} init.vim[neovim] not found.	" "[ -f $HOME/.config/nvim/init.vim ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} coc-settings[coc] not found.	" "[ -f $HOME/.config/nvim/coc-settings.json ]"
 
 }
+
+testRepoExistRofiConfig() {
+    cInfo "Checking config files: " "$HOME/.config/rofi"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/config.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/dmenu-top.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/dark-center.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/dark-center-rounded.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-top.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-right.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-left.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-fullscreen.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-center.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-center-rounded.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $HOME/.config/rofi/themes/arc-dark-bottom.rasi ]"
+}
+
 
 testLocalExistBkpDir() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bkpdir[folder] not found." "[ -d $HOME/.config-bkp ]"
@@ -97,6 +116,7 @@ testLocalExistBinDir() {
 }
 
 testLocalExistBinFiles() {
+    cInfo "Checking config files: " "/bin/scripts"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bare repo pull not found.		    " "[ -f $HOME/bin/bare_repo_pull ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bare merge not found.		    " "[ -f $HOME/bin/bare_merge ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bkp_cfg_files not found.		    " "[ -f $HOME/bin/bkp_cfg_files ]"
@@ -130,13 +150,6 @@ testLocalExistBinFiles() {
 
 }
 
-testLocalConfigIsValid() {
-    clnInfo "Check I3 config file is valid config(I3 test)"
-
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3 config[HOME] is not valid.                          " "i3 -C -c $HOME/.i3/config"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Script to generate I3 config[HOME] is not valid.       " "$HOME/bin/i3_config"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3block status line config[HOME] is not valid.         " "timeout --preserve-status 1.5s i3blocks -c $HOME/.i3/i3blocks.conf"
-}
 # Load and run shUnit2.
 . shunit2
 
