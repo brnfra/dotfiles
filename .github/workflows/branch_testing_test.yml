@@ -37,5 +37,6 @@ jobs:
      #  execute a script that is stored in the repository 
       - name: Check branch name is correct for current branch
         run: |
+          ./bin/stage_config sync_branch
           ./tests/testGitConfig.sh
           ./tests/testInstall.sh
