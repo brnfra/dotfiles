@@ -2,7 +2,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-SHUNIT_TEST_PREFIX=" Standarize names --> "
+SHUNIT_TEST_PREFIX=" Standarize names script --> "
 SHUNIT_COLOR="always"
 testDir="$HOME/tests/test_dir"
 fail_msg=" We expect : "

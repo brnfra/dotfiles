@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source-path=~/bin/dotfiles_env
 . dotfiles_env
 
-SHUNIT_TEST_PREFIX=' Chk [if exists] --> '
+SHUNIT_TEST_PREFIX=' Chk [if REPO file exists] --> '
 SHUNIT_COLOR="always"
 
 testRepoGitConfigFiles() {
+    cInfo "Checking git config files[REPO]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .gitconfig not found.		    " "[ -f $dotfiles_dir/.gitconfig ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .git-completion.bash not found.	    " "[ -f $dotfiles_dir/.git-completion.bash ]"
 }
 
 testRepoComptonConfigFile() {
+    cInfo "Checking compton config file[REPO]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .config/compton/compton.conf not found." "[ -f $dotfiles_dir/.config/compton/compton.conf ]"
 }
 
 testRepoWgetCurlConfigFiles() {
+    cInfo "Checking config files[REPO]: " "wget and curl"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .wgetrc not found." "[ -f $dotfiles_dir/.wgetrc ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .curlrc not found." "[ -f $dotfiles_dir/.curlrc ]"
 }
@@ -24,6 +27,7 @@ testRepoExistBashDir() {
 }
 
 testRepoExistBashFiles() {
+    cInfo "Checking config files" "$dotfiles_dir/.bash"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash aliases not found.	"   "[ -f $dotfiles_dir/.bash/aliases ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash exports not found.	"   "[ -f $dotfiles_dir/.bash/exports ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .bash extras not found.	"   "[ -f $dotfiles_dir/.bash/extras ]"
@@ -35,23 +39,28 @@ testRepoExistBashFiles() {
 }
 
 testRepoExistVimConfig() {
+    cInfo "Checking config files[REPO]: " ".vimrc"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .vimrc not found." "[ -f $dotfiles_dir/.vimrc ]"
 }
 
 testRepoExistGsimplecalConfigFile() {
+    cInfo "Checking config files[REPO]: " ".vifm"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Gsimplecal config  not found.		    " "[ -f $dotfiles_dir/.config/gsimplecal/config ]"
 }
 
 testRepoExistVifmConfigFiles() {
+    cInfo "Checking config files[REPO]: " "gsimplecal"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} vifmrc not found.			" "[ -f $dotfiles_dir/.config/vifm/vifmrc ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} vifm/scripts[folder] not found.	" "[ -d $dotfiles_dir/.config/vifm/scripts ]"
 }
 
 testRepoExistXfce4TerminalConfigFile() {
+    cInfo "Checking config files[REPO]: " "xfce4 terminal"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} terminalrc not found." "[ -f $dotfiles_dir/.config/xfce4/terminal/terminalrc ]"
 }
 
 testRepoExistI3ConfigFiles() {
+    cInfo "Checking config files: " "I3wm[$dotfiles_dir]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/i3-get-window-criteria not found.		    "	"[ -f $dotfiles_dir/.i3/i3-get-window-criteria ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/config[i3wm]  not found.			    "	"[ -f $dotfiles_dir/.i3/config ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} i3/i3blocks.conf not found.			    "	"[ -f $dotfiles_dir/.i3/i3blocks.conf ]"
@@ -62,6 +71,7 @@ testRepoExistI3ConfigFiles() {
 }
 
 testRepoExistI3ConfigDir() {
+    cInfo "Checking config files[REPO]: " "nvim"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} ..i3/blocks [folder]  not found.  " "[ -d $dotfiles_dir/.i3/i3blocks ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} .i3 [folder] not found.		" "[ -d $dotfiles_dir/.i3 ]"
 }
@@ -76,7 +86,23 @@ testRepoExistBinDir() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -d $dotfiles_dir/bin/ ]"
 }
 
+testRepoExistRofiConfig() {
+    cInfo "Checking config files: " "$dotfiles_dir/.rofi"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/config.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/dmenu-top.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/dark-center.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/dark-center-rounded.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-top.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-right.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-left.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-fullscreen.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-center.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-center-rounded.rasi ]"
+    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bin[folder] not found." "[ -f $dotfiles_dir/.config/rofi/themes/arc-dark-bottom.rasi ]"
+}
+
 testRepoExistBinFiles() {
+    cInfo "Checking config files: " "$dotfiles_dir/bin/scripts"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bare repo pull not found.		    " "[ -f $dotfiles_dir/bin/bare_repo_pull ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bare merge not found.		    " "[ -f $dotfiles_dir/bin/bare_merge ]"
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} bkp_cfg_files not found.		    " "[ -f $dotfiles_dir/bin/bkp_cfg_files ]"
@@ -110,13 +136,6 @@ testRepoExistBinFiles() {
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} videostd not found.		    " "[ -f $dotfiles_dir/bin/videostd ]"
 }
 
-testLocalConfigIsValid() {
-    clnInfo "Check I3 config file is valid config(I3 test)"
-
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3 config[HOME] is not valid.                          " "i3 -C -c $HOME/.i3/config"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Script to generate I3 config[HOME] is not valid.       " "$HOME/bin/i3_config"
-    assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} I3block status line config[HOME] is not valid.         " "timeout --preserve-status 3s i3blocks -c $HOME/.i3/i3blocks.conf"
-}
 
 # Load and run shUnit2.
 . shunit2

@@ -3,7 +3,7 @@
 . dotfiles_env
 
 testByTypeDir="test_dir"
-SHUNIT_TEST_PREFIX=' F. by Type --> '
+SHUNIT_TEST_PREFIX=' Files put in folders by Type script --> '
 SHUNIT_COLOR="always"
 error_msg="Not Found:  "
 testExecutionMain() {
