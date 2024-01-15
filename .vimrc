@@ -201,11 +201,29 @@ Plug 'hecal3/vim-leader-guide'
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+<<<<<<< HEAD
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/deoplete.nvim'
+||||||| a955fd2
+else
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/deoplete.nvim'
+endif
+" Code Snnipets"
+if has('nvim')
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
+=======
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-yarp'
     Plug 'Shougo/deoplete.nvim'
 else
+>>>>>>> 22302d4563eb311ffca1006722bd1bb7319b1124
     if has('patch-8.1.2269')
 	Plug 'ycm-core/YouCompleteMe' 
     else

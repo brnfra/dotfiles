@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+
+||||||| a955fd2
+
+//@import "themes/debxp-dmenu-top.rasi"
+@import "themes/debxp-arc-dark-center-rounded.rasi"
+
+=======
+>>>>>>> 22302d4563eb311ffca1006722bd1bb7319b1124
 configuration {
     modi: "window,run,drun,ssh,filebrowser";
     combi-modi: "run,drun,window,filebrowser";
