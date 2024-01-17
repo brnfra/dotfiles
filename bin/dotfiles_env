@@ -12,7 +12,7 @@ bkpLog="$HOME/.config-bkp/stage-bkp.log"
 bkpdir="$HOME/.config-bkp"
 #tests
 checkAll="$HOME/test/dotfilesTest.bats"
-checkHome="$HOME/tests/testHomeConfigFiles.sh"
+checkHome="$HOME/test/testHomeConfigFiles.bats"
 # enviroment
 fonts_path="$HOME/.local/share/fonts"
 i3_cfg="$HOME/.i3/config"
