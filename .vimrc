@@ -198,6 +198,9 @@ Plug 'vim-scripts/OmniCppComplete'
 Plug 'vim-scripts/c.vim'
 Plug 'vimwiki/vimwiki' 
 Plug 'hecal3/vim-leader-guide'
+Plug 'vim-scripts/bash-support.vim'
+Plug 'aliou/bats.vim'
+Plug 'vim-scripts/bats.vim'
 " DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }

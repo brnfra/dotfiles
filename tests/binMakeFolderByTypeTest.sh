@@ -2,15 +2,17 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-testByTypeDir="test_dir"
+testByTypeDir="/tmp/test_dir"
 SHUNIT_TEST_PREFIX=' Files put in folders by Type script --> '
 SHUNIT_COLOR="always"
 error_msg="Not Found:  "
 testExecutionMain() {
+    cd "$testByTypeDir" || return
     assertTrue "${LINENO}:${red}${bold}[FAIL]${reset} Error found\n\n" $?
 }
 
 testtype_fold() {
+    cd "$testByTypeDir" || return
     ext='ext1'
     var='file1name.'"$ext"
     expect="$ext/$var"
@@ -47,6 +49,7 @@ testtype_fold() {
 }
 
 testTwicetype_fold() {
+    cd "$testByTypeDir" || return
     ext='sme1'
     var='fileSME1.'"$ext"
     expect="$ext/$var"
@@ -73,6 +76,7 @@ testTwicetype_fold() {
 
 
 testFilesWithDots() {
+    cd "$testByTypeDir" || return
     ext='ext4'
     var='file1.name.'"$ext"
     expect="$ext/$var"
@@ -113,9 +117,8 @@ oneTimeSetUp() {
 	exit 1
     fi
     # Load include to test.
-    mkdir -p "$(pwd)/${testByTypeDir}/level1/level2/level3"
-    cp "$0" "$(pwd)/${testByTypeDir}"
-    cd "$testByTypeDir" || return
+    mkdir -p "${testByTypeDir}/level1/level2/level3"
+    cp "$0" "${testByTypeDir}"
 }
 oneTimeTearDown() {
     cd .. || return
