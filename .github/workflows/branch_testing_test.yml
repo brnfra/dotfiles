@@ -29,7 +29,7 @@ jobs:
       - name: Install shunit tool for bash tests
         run: |
           sudo apt-get update
-          sudo apt-get install shunit2
+          sudo apt-get install bats
       
       - name: Install dotfiles
         run: ./bin/install
@@ -38,5 +38,5 @@ jobs:
       - name: Check branch name is correct for current branch
         run: |
           ./bin/stage_config sync_branch
-          ./tests/testGitConfig.sh
-          ./tests/testInstall.sh
+          bats -F pretty ./tests/testGitConfig.bats
+          bats -F pretty ./tests/testInstall.bats
