@@ -11,7 +11,7 @@ setup() {
 }
 
 @test "Repo i3wm Config test" {
-    if i3 -v; then
+    if ! i3 -v; then
         skip "i3wm isn't installed"
     fi
 
@@ -19,7 +19,7 @@ setup() {
     [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks Config Is Valid" {
-    if i3bar -v; then
+    if ! i3bar -v; then
         skip "i3wm isn't installed"
     fi
 
@@ -27,7 +27,7 @@ setup() {
     [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks_v Config Is Valid" {
-    if i3 -v; then
+    if ! i3 -v; then
         skip "i3wm isn't installed"
     fi
 
