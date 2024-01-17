@@ -11,16 +11,28 @@ setup() {
 }
 
 @test "Repo i3wm Config test" {
-  run i3 -C -c $HOME/.i3/config
-  [ "$status" -eq 0 ]
+    if i3 -v; then
+        skip "i3wm isn't installed"
+    fi
+
+    run i3 -C -c $HOME/.i3/config
+    [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks Config Is Valid" {
+    if i3bar -v; then
+        skip "i3wm isn't installed"
+    fi
+
     run timeout --preserve-status 2.0s i3blocks -c $HOME/.i3/i3blocks.conf
-  [ "$status" -eq 0 ]
+    [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks_v Config Is Valid" {
+    if i3 -v; then
+        skip "i3wm isn't installed"
+    fi
+
     run timeout --preserve-status 1.0s i3blocks -c $HOME/.i3/i3blocks_v.conf
-  [ "$status" -eq 0 ]
+    [ "$status" -eq 0 ]
 }
 
 

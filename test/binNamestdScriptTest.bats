@@ -91,13 +91,16 @@ teardown_file() {
     cd "$local" || return
 }
 
-@test "Standarize folders name test" {
-
+@test "Test script if folder path contains spaces" {
     cd "${BATS_TMPDIR}/$pathTo" || return
     namestd  
     [ -d "${BATS_TMPDIR}/$pathTo/space_dir" ]
     [ -f "${BATS_TMPDIR}/$pathTo/space_in_file" ]
     cd "${BATS_TMPDIR}" || return
+
+}
+@test "Standarize folders name test" {
+
     namestd  
     [ -d "${BATS_TMPDIR}/folder_n_next_line" ]
     [ -d "${BATS_TMPDIR}/._n_am3" ]

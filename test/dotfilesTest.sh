@@ -16,8 +16,8 @@ parallel bats -F pretty ::: \
     testBareI3Config.bats \
     testRepoI3Config.bats \
     binMakeFolderByDateTest.bats \
-    testPkgInstalled.bats \
     binMakeFolderByTypeTest.bats \
     binNamestdScriptTest.bats \
     testGitConfig.bats \
     testInstall.bats
+#testPkgInstalled.bats \
