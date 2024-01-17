@@ -35,5 +35,5 @@ jobs:
      #  execute a script that is stored in the repository 
       - name: Check branch name is correct for current branch
         run: |
-          bats ./tests/testGitConfig.bats
-          bats ./tests/testInstall.bats
+          bats -F pretty ./tests/testGitConfig.bats
+          bats -F pretty ./tests/testInstall.bats
