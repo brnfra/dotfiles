@@ -10,7 +10,7 @@ if [ "$local" = "$HOME" ];then
 fi
 
 
-parallel ./bats/bin/bats -F pretty ::: \
+parallel bats -F pretty ::: \
     testRepoConfigFiles.bats \
     testHomeConfigFiles.bats \
     testBareI3Config.bats \
@@ -21,4 +21,3 @@ parallel ./bats/bin/bats -F pretty ::: \
     binNamestdScriptTest.bats \
     testGitConfig.bats \
     testInstall.bats
-

@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Install shunit tool for bash tests
+      - name: Install bats tool for bash tests
         run: |
           sudo apt-get update
           sudo apt-get install bats
@@ -34,7 +34,7 @@ jobs:
         
 
       #  execute a script that is stored in the repository 
-      - name: Check branch name is correct for current branch
+      - name: Check install script and branch name 
         run: |
           bats ./test/testGitConfig.bats
           bats ./test/testInstall.bats
