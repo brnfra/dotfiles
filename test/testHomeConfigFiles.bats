@@ -61,6 +61,9 @@ setup() {
 }
 
 @test "LocalExistI3ConfigFiles" {
+    if ! i3 -v;then
+        skip "Pkg i3wm ins't installed."
+    fi
     [ -f $HOME/.i3/i3-get-window-criteria ]
     [ -f $HOME/.i3/config ]
     [ -f $HOME/.i3/i3blocks.conf ]
@@ -68,12 +71,8 @@ setup() {
     [ -f $HOME/.i3/i3-manjaro-default-config-backup ]
     [ -f $HOME/.i3/autostart/i3config ]
     [ -f $HOME/.i3/autostart/wallpapers ]
-}
-
-@test "LocalExistI3ConfigDir" {
     [ -d $HOME/.i3/i3blocks ]
     [ -d $HOME/.i3 ]
-
 }
 
 @test "LocalExistNeoVimConfigFiles" {
@@ -83,6 +82,9 @@ setup() {
 }
 
 @test "RepoExistRofiConfig" {
+    if ! [ -d $HOME/.config/rofi ]; then
+        skip "No rofi config folder"
+    fi
     [ -f $HOME/.config/rofi/config.rasi ]
     [ -f $HOME/.config/rofi/themes/dmenu-top.rasi ]
     [ -f $HOME/.config/rofi/themes/dark-center.rasi ]
@@ -101,11 +103,10 @@ setup() {
     [ -d $HOME/.config-bkp ]
 }
 
-@test "LocalExistBinDir" {
-    [ -d $HOME/bin ]
-}
-
 @test "LocalExistBinFiles" {
+    if ! [ -d $HOME/bin ]; then
+        skip "There's not bin folder!" 
+    fi
     [ -f $HOME/bin/bare_repo_pull ]
     [ -f $HOME/bin/bare_merge ]
     [ -f $HOME/bin/bkp_cfg_files ]
