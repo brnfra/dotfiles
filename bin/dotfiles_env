@@ -11,7 +11,7 @@ install_dir="$HOME/.dotfiles"
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 bkpdir="$HOME/.config-bkp"
 #tests
-checkAll="$HOME/test/dotfilesTest.sh"
+checkAll="$HOME/test/dotfilesTest.bats"
 checkHome="$HOME/tests/testHomeConfigFiles.sh"
 # enviroment
 fonts_path="$HOME/.local/share/fonts"
