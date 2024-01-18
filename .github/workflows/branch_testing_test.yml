@@ -36,5 +36,5 @@ jobs:
       - name: Check branch name is correct for current branch
         run: |
           ./bin/stage_config sync_branch
-          bats ./tests/testGitConfig.bats
-          bats ./tests/testInstall.bats
+          bats ./test/testGitConfig.bats
+          bats ./test/testInstall.bats
