@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #requirements for i3blocks and more
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then

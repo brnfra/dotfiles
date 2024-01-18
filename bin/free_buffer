@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 
 # Need execs with privileges
@@ -27,7 +27,6 @@ https://github.com/brnfra/dotfiles
 Licensed under the MIT license.
 HELP
 exit; fi
-
 
 sync;echo "echo 1 > /proc/sys/vm/drop_caches";
 clnInfo "echo 1 executed"

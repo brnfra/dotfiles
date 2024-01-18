@@ -1,61 +1,71 @@
 #!/usr/bin/env bash
+
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #requirements for i3blocks and more
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    sudo apt-get update && sudo apt-get install \
-	acpi \
-	blueman \
-	compton \
-	curl \
-	exa \
-	fd-find \
-	ffmpeg \
-	fzf \
-	ghostscript \
-	git \
-	gsimplecal \
-	i3 \
-	i3blocks \
-	i3lock-fancy \
-	imagemagick \
-	jq \
-	neovim \
-	netcat-openbsd \
-	network-manager-gnome \
-	nitrogen \
-	openssl \
-	pcmanfm \
-	rsync \
-	scrot \
-	shunit2 \
-	ssh \
-	sysstat \
-	unzip \
-	vifm \
-	vim  \
-	neovim \
-	x11-utils \
-	xfce4-power-manager \
-	xfce4-terminal 
-elif [ "$osys" = "manjaro" ]; then
-     sudo pacman -S \
-	 acpi \
-         blueman \
-         fzf \
-         fd-find \
-         jq \
-         netcat-openbsd \
-         gsimplecal \
-         jq \
-         gsimplecal \
-         nitrogen \
-         pcmanfm \
-         picom \
-         scrot \
-         sysstat \
-         unzip \
-         vim neovim vifm \
-         xfce4-power-manager \
-         xfce4-terminal \
-         xorg-xwininfo 
+
+pkges+=" acpi "
+pkges+=" blueman "
+pkges+=" bzip2 "
+pkges+=" curl "
+if [ "$osys" = "manjaro" ]; then
+    pkges+=" fd "
+    pkges+=" picom "
+    pkges+=" xautolock "
+    pkges+=" i3-wm "
+else
+    pkges+=" fd-find "
+    pkges+=" exa "
+    pkges+=" compton"
+    pkges+=" i3 "
+    pkges+=" i3lock-fancy "
+    pkges+=" x11-utils "
+    pkges+=" network-manager-gnome "
+    pkges+=" rar "
+    pkges+=" netcat-openbsd "
+    pkges+=" openssh-client "
 fi
+pkges+=" ffmpeg "
+pkges+=" fzf "
+pkges+=" ghostscript "
+pkges+=" git "
+pkges+=" gsimplecal"
+pkges+=" gzip "
+pkges+=" i3blocks "
+pkges+=" imagemagick "
+pkges+=" jq "
+pkges+=" neovim "
+pkges+=" nitrogen "
+pkges+=" openssl "
+pkges+=" pcmanfm "
+pkges+=" ranger "
+pkges+=" rofi "
+pkges+=" rsync "
+pkges+=" scrot "
+pkges+=" shunit2 "
+pkges+=" sysstat "
+pkges+=" tar "
+pkges+=" unzip "
+pkges+=" vifm "
+pkges+=" vim  "
+pkges+=" xfce4-power-manager "
+pkges+=" xfce4-terminal "
+pkges+=" zip "
+if [ "$osys" = "ubuntu" ]
+then
+    pkges+=" pulseaudio"
+else
+    pkges+=" alsa-utils"
+fi
+for pkg in $pkges 
+do
+    if [ "$osys" = "ubuntu" ] || [ "$osys" = "debian" ]; then
+        if ! dpkg -s "$pkg" ; then 
+            sudo apt-get update && sudo apt-get install "$pkg"
+        fi 
+    elif [ "$osys" = "manjaro" ]; then
+        if ! pacman -Qi "$pkg" ; then 
+            sudo pacman -S  "$pkg"
+        fi
+    fi
+done
+

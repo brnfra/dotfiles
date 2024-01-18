@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Arquivo: videos_merge
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
+# Ultima_modificacao: 18-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #to merge mp4 video files using ffmpeg and concat demux
 #search files in current folder
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 printf "Create a video mp4 file from files(required files in ordered names).\n"
 

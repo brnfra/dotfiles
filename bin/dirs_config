@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Arquivo: dirs_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 10-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 
 

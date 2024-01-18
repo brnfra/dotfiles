@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: namestd
 # Autor: Bruno Franco
-# Ultima_modificacao: 02-11-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,7 +8,7 @@
 #change names for standard. Ex.: 's p c' => s_p_c; and so on...
 #The changes is restrict on the folder where the script was executed
 #first, make some general changes, just in case(remove spaces)
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 
 printf "Normalizing files and folders names\n"
@@ -28,17 +27,17 @@ DESCRIPTION
 
 Examples: 
     To rename all files and folders on current path
-	${0##*/}	
+        ${0##*/}	
     To rename all files and folders recursively inside folders
-	${0##*/} -a	
-	${0##*/} -A	
+        ${0##*/} -a	
+        ${0##*/} -A	
 
 OPTIONS    
     -a, -A	
-	Rename all files and folders recursively inside folders
+        Rename all files and folders recursively inside folders
 
     -h, --help
-	Print help informations
+        Print help informations
 
 See the README for documentation.
 https://github.com/brnfra/dotfiles
@@ -50,6 +49,7 @@ stdnames() {    #{{{
     #	${variable//search/replace}
     local OLD=$1
     local NAME=$1
+    local COUNT=$(( 1 ))
     NAME=${NAME//'$'/_}
     NAME=$(echo "$NAME" | tr -d '[:cntrl:]')
     NAME=$(echo "$NAME" | tr -c '[=.=][=/=][:alnum:]' '_')
@@ -58,29 +58,36 @@ stdnames() {    #{{{
     NAME=$(echo "$NAME" | tr -s '.' '.' )
     NAME=$(echo "$NAME" | sed -r 's/^_//gi; s/_$//gi')
     NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
+    TEST_NAME=$(find "$NAME" -maxdepth 0 |sed 's|\.\/||gi')
     if [[ $NAME == "" ]]; then
-	NAME="new_renamed"
+        NAME="new_renamed"
     fi
-    # coding to ascII remove latin chars
-    if [[ "$NAME" != "$OLD" ]]
-    then
-	eval "cp -r $OLD $HOME/.local/share/Trash/files"  &>/dev/null
-	eval "mv -n $OLD $NAME"  &>/dev/null
-    fi
+
+#    coding to ascII remove latin chars
+if [[ "$NAME" != "$OLD" ]]; then
+    eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
+    eval "mv -n $OLD $NAME"  &>/dev/null
+else
+    while [[ "$TEST_NAME" == "$NAME" ]] && [[ "$NAME" != "$OLD" ]] ; do
+        COUNT=$(( COUNT + 1))
+        NAME=${NAME%-*}
+        NAME="${NAME}-$COUNT"
+        TEST_NAME=$(find "$NAME" -maxdepth 0 | -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + |  sed 's|\.\/||gi')
+        eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
+        eval "mv -n $OLD $NAME"  &>/dev/null
+    done
+fi
+
 }
 #}}}
 show_result() { #{{{
-    printf "\n%s\n" "Changes table"
-    printf "[ ${red}%s${reset} ]" "Before" 
-    printf "%s" "---->" 
-    printf "[ ${green}${bold}%s${reset} ]\n" "After"
 
     if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
-	FILES_AFTER=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
-	FOLDERS_AFTER=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+        FILES_AFTER=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
+        FOLDERS_AFTER=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
     else
-	FILES_AFTER=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
-	FOLDERS_AFTER=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
+        FILES_AFTER=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
+        FOLDERS_AFTER=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
     fi
 
     DEFAULT_IFS=$IFS
@@ -93,22 +100,29 @@ show_result() { #{{{
 
     IFS=$DEFAULT_IFS
 
-    printf "\n%s;\n" "Folder Changes"
     lenght=${#folders_before[@]}
-    for(( i=0; i < lenght; i++))
-    do
-	printf "[ ${red}%s${reset} ]" "${folders_before[$i]}" 
-	printf "%s" "---->" 
-	printf "[ ${green}${bold}%s${reset} ]\n" "${folders_after[$i]}"
-    done
-    printf "\n%s;\n" "Files Changes"
+    if (( lenght > 0 ));then
+        printf "\n%s\n" "Folder Changes"
+        for(( i=0; i < lenght; i++)); do
+            if ! [ "${folders_before[$i]}" = "${folders_after[$i]}" ]; then
+                printf "[ ${red}%s${reset} ]" "${folders_before[$i]}" 
+                printf "%s" "---->"
+                printf "[ ${green}${bold}%s${reset} ]\n" "${folders_after[$i]}"
+            fi
+        done
+
+    fi
     lenght=${#files_before[@]}
-    for(( i=0; i < lenght; i++))
-    do
-	printf "[ ${red}%s${reset} ]" "${files_before[$i]}" 
-	printf "%s" "---->" 
-	printf "[ ${green}${bold}%s${reset} ]\n" "${files_after[$i]}"
-    done
+    if (( lenght > 0 ));then
+        printf "\n%s\n" "Files Changes"
+        for(( i=0; i < lenght; i++)); do
+            if ! [ "${files_before[$i]}" = "${files_after[$i]}" ]; then
+                printf "[ ${red}%s${reset} ]" "${files_before[$i]}" 
+                printf "%s" "---->" 
+                printf "[ ${green}${bold}%s${reset} ]\n" "${files_after[$i]}"
+            fi
+        done
+    fi
     echo
 }
 #}}}

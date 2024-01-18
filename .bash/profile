@@ -46,12 +46,13 @@ complete -o "default" -o "nospace" -W "make_dirs" dirs_config
 complete -o "default" -o "nospace" -W "bkp_cfg_files" bkp_cfg_files
 complete -o "default" -o "nospace" -W "bare_repo_fetch bare_repo_pull" bare_repo_pull
 complete -o "default" -o "nospace" -W "update_branch" bare_merge
+complete -o "default" -o "nospace" -W "config_check" tests packs connect 
 
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-sys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)                                                    
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)                                                    
 #APT aliases {{{
 if [ "$osys" = "debian" ] ; then
     eval "$(~/.rbenv/bin/rbenv init - bash)"

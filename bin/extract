@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 
 if [ -f "$1" ] ; then

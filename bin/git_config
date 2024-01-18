@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Arquivo: git_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 23-12-2023
+# Ultima_modificacao: 18-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
-# shellcheck source=~/bin/dotfiles_env
+# shellcheck source=dotfiles_env
 . dotfiles_env
 
 git_bare() {
