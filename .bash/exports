@@ -744,7 +744,7 @@ export PATH="$PATH:$OPT/flutter/bin"
 export HEROKU="$OPT/heroku"
 export PATH=$HEROKU/bin:$PATH
 # nodejs v-16
-VERSION=v16.14.0
+VERSION=v21.6.0
 DISTRO=linux-x64
 export NODE_REPL_HISTORY=~/.node_history;
 export NODE_REPL_HISTORY_SIZE='2768';

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
-# Ultima_modificacao: 15-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,6 +9,7 @@
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 backto=$(pwd)
+# make executables in src/ visible to PATH
 
 git_config() {
     git --git-dir="$install_dir" --work-tree="$HOME" "$@";
@@ -17,25 +17,30 @@ git_config() {
 #install_check {{{
 install_check() {
     if [ -f "$HOME/bin/dotfiles_env" ]; then
-	# shellcheck source=~/bin/dotfiles_env
-	. dotfiles_env
+        cd "$HOME/bin" || return
+        # shellcheck source=dotfiles_env
+        . dotfiles_env
+
     else
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
-	then
-	    mkdir "$HOME/bin"
-	    # shellcheck source=~/bin/dotfiles_env
-	    . dotfiles_env
-	    mv "$HOME/dotfiles_env" "$HOME/bin/"
-	else
-	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository. Exiting\n"
-	    exit 1
-	fi
+        DIR="$HOME/bin"
+        mkdir "$DIR"
+        cd "$DIR" || return
+        PATH="$DIR/../src:$PATH"
+        
+        if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+        then
+            # shellcheck source=dotfiles_env
+            source dotfiles_env
+        else
+            printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+            exit 1
+        fi
     fi
     if [ -d "$install_dir" ]; then
-	cError "Already instaled. If you trying reinstall, remove"
-	clnItalic "$install_dir" "in order and check outputs log."
+        cError "Already instaled. If you trying reinstall, remove"
+        clnItalic "$install_dir" "in order and check outputs log."
 
-	exit 1
+        exit 0
     fi
 }
 ##}}}
@@ -43,32 +48,35 @@ install_check() {
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
     if git_config checkout; then
-	cmOk "Checkout branch"
-	bash ~/bin/enviroment_config
-	bash ~/bin/config_check
-	cd "$backto" || return
-	exit 0
+        cmOk "Checkout branch"
+        bash ~/bin/enviroment_config
+        bash ~/bin/config_check
+        cd "$backto" || return
+        exit 0
     else
-	cError "Checkout branch:" "$branch" "and backup files."
-	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
-	cmOk "Backup files"
-	clnInfo "Checking branch"
-	if git_config checkout;	then
-	    cmOk "Check branch"
-	    cmOk "Checkout branch"
-	    clnInfo "Installing enviroment_config and backup config files"
-	    source ~/bin/bkp_cfg_files
-	    git_config config status.showUntrackedFiles no
-	    bash ~/bin/enviroment_config
-	    bash ~/bin/bkp_cfg_files
-	    cmOk "Installation script"
-	    bash ~/bin/config_check
-	    cd "$backto" || return
-	    exit 0
-	else
-	    cError "Checkout branch" "$branch" "Exit with error."
-	    exit 1
-	fi
+        DIR="$HOME/bin"
+        cd "$DIR" || return
+        PATH="$DIR/../src:$PATH"
+        cError "Checkout branch:" "$branch" "and backup files."
+        git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+        cmOk "Backup files"
+        clnInfo "Checking branch"
+        if git_config checkout;	then
+            cmOk "Check branch"
+            cmOk "Checkout branch"
+            clnInfo "Installing enviroment_config and backup config files"
+            source bkp_cfg_files
+            git_config config status.showUntrackedFiles no
+            bash enviroment_config
+            bash bkp_cfg_files
+            cmOk "Installation script"
+            bash config_check
+            cd "$backto" || return
+            exit 0
+        else
+            cError "Checkout branch" "$branch" "Exit with error."
+            exit 1
+        fi
     fi
 }
 ##}}}

@@ -198,7 +198,11 @@ Plug 'vim-scripts/OmniCppComplete'
 Plug 'vim-scripts/c.vim'
 Plug 'vimwiki/vimwiki' 
 Plug 'hecal3/vim-leader-guide'
-" Code Snnipets"
+" DEOPLETE"
+Plug 'vim-scripts/bash-support.vim'
+Plug 'aliou/bats.vim'
+Plug 'vim-scripts/bats.vim'
+" DEOPLETE"
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -207,7 +211,6 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-yarp'
     Plug 'Shougo/deoplete.nvim'
-else
     if has('patch-8.1.2269')
 	Plug 'ycm-core/YouCompleteMe' 
     else

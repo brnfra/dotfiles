@@ -2,7 +2,7 @@
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
 
-testByDateDir="$HOME/tests/test_dir"
+testByDateDir="/tmp/tests/test_dir"
 SHUNIT_TEST_PREFIX=' Folders by Date script --> '
 SHUNIT_COLOR="always"
 testExecutionMain() {
@@ -10,6 +10,7 @@ testExecutionMain() {
 }
 
 testFilesByDate_3level() {
+    cd $testByDateDir || return 
     touch  $testByDateDir/level1/level2/level3/200301file4.png
     touch  $testByDateDir/level1/level2/200402file5.jpg
     touch  $testByDateDir/level1/200511file6.mkv
@@ -29,7 +30,7 @@ testFilesByDate_3level() {
 }
 
 testFilesByDate() {
-    
+    cd $testByDateDir || return 
     touch $testByDateDir/200001file1.png
     touch $testByDateDir/200102file2.jpg
     touch $testByDateDir/200211file3.mkv
@@ -54,7 +55,7 @@ oneTimeSetUp() {
 	exit 1
     fi
     # Load include to test.
-    mkdir -p "$testByDateDir/level1/level2/level3"
+    mkdir -p "$testByDateDir/level1/level2/level3/"
 }
 oneTimeTearDown() {
     rm -rf "$testByDateDir"
