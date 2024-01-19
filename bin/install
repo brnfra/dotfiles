@@ -48,6 +48,7 @@ install_check() {
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
+    mkdir -p "$HOME/.config-bkp"
     printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
 
     if git_config checkout &>> "$bkpLog"; then
