@@ -50,6 +50,9 @@ bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
     mkdir -p "$HOME/.config-bkp"
     printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
+    git_config stash save "Save config state[Install]" &>> "$bkpLog"
+    ##use to undo, to recover last saved#
+    ##>>  $ bare stash apply
 
     if git_config checkout &>> "$bkpLog"; then
         cmOk "Checkout branch"
