@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: local_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 19-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -47,7 +46,11 @@ local_repo_pull() {
     cInfo "Git pull in repository folder. Branch:" "$branch" 
     cInfo "in" "$dotfiles_dir"
     cd "$dotfiles_dir" || return
-    
+    git_repo stash save "Save config state[Pull Repo]" &>> "$bkpLog"
+    ##use to undo, to recover last saved#
+    ##>>  $ bare stash apply
+
+
     if [ -d "$dotfiles_dir" ]
     then
 	if  git_repo pull origin $branch &>> "$bkpLog" ;then

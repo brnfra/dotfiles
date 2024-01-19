@@ -128,14 +128,15 @@ alias jstart="bundle exec jekyll serve --livereload"
 alias py="python3 "
 #}}}
 #docker {{{
-alias dstop='docker stop'
-alias dup='docker-compose up'
-alias dexec='docker exec -ti bash'
-alias drun='docker run --entrypoint /bin/bash -ti '
-alias dcon='docker container ls -a'
-alias dimg='docker image ls'
-alias dstop='docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin'
-alias dbuild="docker build ."
+alias dstop="docker stop "
+alias dup="docker-compose up "
+alias dexec="docker exec -ti "
+alias dexec="docker exec -ti bash "
+alias drun="docker run --entrypoint /bin/bash -ti "
+alias dcon="docker container ls -a " 
+alias dimg="docker image ls "
+alias dstop="docker stop deb-mariadb && docker stop deb-php-apache && docker stop deb-php-phpmyadmin "
+alias dbuild="docker build . "
 # }}}
 # Shortcuts map {{{
 alias fonts="fc-list"

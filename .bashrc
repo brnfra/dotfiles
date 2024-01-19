@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 # Arquivo: .bashrc
 # Autor: Bruno Franco
-# Ultima_modificacao: 31-12-2023
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por      eventuais danos
 #           causados pelo uso deste arquivo.
-#
 #
 # If not running interactively, don't do anything
 case $- in
