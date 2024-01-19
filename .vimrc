@@ -516,21 +516,21 @@ let g:which_key_map.b = {
 let g:which_key_map.w = {
     \ 'name' : '+VimWiki',
     \
-    \ "w"    : ['\ww'                                         , 'Go To Index'                           ] ,
+    \ "w"    : ['\\ww'                                         , 'Go To Index'                           ] ,
     \ "n"    : [''                                            , 'Create new wiki page'                  ] ,
-    \ "d"    : [''                                            , 'Delete wiki page'                      ] ,
+    \ "D"    : [''                                            , 'Delete wiki page'                      ] ,
     \ "r"    : [''                                            , 'Rename wiki page'                      ] ,
     \ "v"    : [''                                            , 'Toggle wiki List'                      ] ,
     \ "s"    : [''                                            , 'Search-for-wiki-pattam'                ] ,
     \ "f"    : [''                                            , 'Search-for-wiki-curword'               ] ,
-    \ '1'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
-    \ '2'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
+    \ 'o'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
+    \ 'y'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
     \ '3'    : [ '\w\t'                                       , 'Tab Make Diary Note'                   ] ,
-    \ '4'    : [ '\w\w'                                       , 'Make Diary Note'                       ] ,
-    \ '5'    : [ '\w\i'                                       , 'Diary Generate Links'                  ] ,
-    \ '6'    : [ '\wi'                                        , 'Diary Index'                           ] ,
+    \ 'd'    : [ '\w\w'                                       , 'Make Diary Note'                       ] ,
+    \ 'l'    : [ '\w\i'                                       , 'Diary Generate Links'                  ] ,
+    \ 'I'    : [ '\wi'                                        , 'Diary Index'                           ] ,
     \ '7'    : [ '\ws'                                        , 'UI Select'                             ] ,
-    \ 'I'    : [ '\wt'                                        , 'Tab Index'                             ] ,
+    \ 'b'    : [ '\wt'                                        , 'Tab Index'                             ] ,
     \ '-'    : [ '<C-M>'                                      , 'Diary Prev Day'                        ] ,
     \ '+'    : [ '<C-N>'                                      , 'Diary Next Day'                        ] ,
     \ '<Tab>': [ '<C-Tab>'                                    , 'Prev Link'                             ] ,
@@ -540,7 +540,7 @@ let g:which_key_map.w = {
     \ 'c'    : {
     \ 'name' : '+CheckBox',
     \
-    \ "t"    : ['VimwikiToggleListItem'                       , 'Toggle checkbox On/Off'       ] ,
+    \ "i"    : ['VimwikiToggleListItem'                       , 'Toggle checkbox On/Off'       ] ,
     \ "n"    : ['VimwikiIncrementListItem'                    , 'Toggle checkbox Next/Previous'] ,
     \
     \ },
