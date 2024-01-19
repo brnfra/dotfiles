@@ -9,13 +9,21 @@ README.md.backu
 /doc/tags
 /doc/tags
 VimFlavor.lock
-bin/cliclick
-bin/docker*
-bin/fig
-bin/packer
-bin/packer-*
-bin/terraform
-bin/terraform-*
+/bin/cliclick
+/bin/docker*
+/bin/fig
+/bin/packer
+/bin/packer-*
+/bin/terraform
+/bin/terraform-*
+
+bin/containerd
+bin/containerd-shim-runc-v2
+bin/ctr
+bin/rootlesskit
+bin/rootlesskit-docker-proxy
+bin/runc
+bin/vpnkit
 tags
 xmonad-i386-linux
 xmonad.errors
@@ -24,4 +32,5 @@ xmonad.op
 .config/ranger/plugins
 .config/ranger/__pycache__
 .bash/color_list.txt
+*.i3/config
 
