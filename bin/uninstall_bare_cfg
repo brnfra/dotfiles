@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-#  Arquivo: uninstall
+#  Arquivo: uninstall_bare_cfg
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 12-03-2023
+#  Ultima_modificacao: 21-01-2024
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -26,12 +26,13 @@ restaure_bkp() {
     folders+=".config/compton "
     folders+="bin "
     folders+="tests "
+    folders+="test "
 
     printf "[INFO] Undone configs installation\n"
 
-    find "$bkpdir" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME"
+    find "${bkpdir}/original" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME"
     for Folder in $folders; do
-	find "$bkpdir/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
+	find "${bkpdir}/original/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
     done
     for Folder in $folders; do
 	files=$(find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f)
@@ -54,6 +55,7 @@ rem_dirs() {
     folder_list+=" $HOME/example"
     folder_list+=" $HOME/bin"
     folder_list+=" $HOME/tests"
+    folder_list+=" $HOME/test"
     printf "[INFO] Uninstalling dotfiles\n"
     for Folder in $folder_list
     do
@@ -68,5 +70,5 @@ rem_dirs() {
 
 restaure_bkp
 rem_dirs
-printf "[INFO] Done.\n"
+printf "[INFO] Uninstall Done.\n"
 cd "$HOME" || return

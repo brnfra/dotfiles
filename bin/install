@@ -74,7 +74,7 @@ bare_repo_checkout() {
             source bkp_cfg_files
             git_config config status.showUntrackedFiles no
             bash enviroment_config &>> "$bkpLog" 
-            bash bkp_cfg_files &>> "$bkpLog" 
+            bash bkp_cfg_files install&>> "$bkpLog" 
             cmOk "Installation script"
             bash config_check &>> "$bkpLog" 
             cd "$backto" || return
