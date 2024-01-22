@@ -33,4 +33,5 @@ xmonad.op
 .config/ranger/__pycache__
 .bash/color_list.txt
 *.i3/config
-
+./README.md
+./LICENSE
