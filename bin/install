@@ -19,7 +19,7 @@ install_check() {
     if [ -f "$HOME/bin/dotfiles_env" ]; then
         cd "$HOME/bin" || return
         # shellcheck source=dotfiles_env
-        . dotfiles_env
+        source dotfiles_env
 
     else
         DIR="$HOME/bin"
@@ -47,7 +47,7 @@ install_check() {
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
-    # mkdir -p "$HOME/.config-bkp"
+    mkdir -p "$HOME/.config-bkp"
     printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
     #source bkp_cfg_files
     bash "$HOME/bin/bkp_cfg_files" install &>> "$bkpLog" 
