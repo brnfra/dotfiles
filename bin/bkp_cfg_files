@@ -31,86 +31,87 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
-
 bkp_cfg_files() {
     local DIR_DATE=$(date '+%d_%m_%Y')
     printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
     cInfo "Backup config files:" "bkp_cfg_files"
-    folders=".bash "
-    folders+=".config/nvim "
-    folders+=".config/vifm "
-    folders+=".config/vifm/scripts "
-    folders+=".config/vifm/colors "
-    folders+=".config/xfce4/terminal "
-    folders+=".i3 "
-    folders+=".i3/autostart  "
-    folders+=".i3/i3blocks "
-    folders+=".config/rofi "
-    folders+=".config/rofi/themes "
-    folders+=".config/compton "
-    folders+="bin "
-    folders+="test "
-    folders+="tests "
-    clnInfo "Checking backup folders."
-    if [[ "$1" == "install" ]]; then
-        for Folder in $folders
-        do
-            if [ -d "${bkpdir}/original/$Folder" ]
-            then
-                cInfo "Folder" "${bkpdir}/original/$Folder" "Already exists."
-            else
-                mkdir -p "${bkpdir}/original/$Folder"
-                cInfo "Folder" "${bkpdir}/original/$Folder" "Folders created."
-            fi
-        done
-        cmOk "Folders"
-        cInfo "Backup to files to" "${bkpdir}/original"
+    
+    # bash
+    files='.bashrc .bash/ '
+    files+='README.md '
+    # vim
+    files+='.vimrc .config/nvim/ '
+    # vifm
+    files+='.config/vifm/vifmrc  '
+    files+='.config/vifm/scripts/ '
+    files+='.config/vifm/colors/ '
+    # terminalrc=
+    files+='.config/xfce4/terminal/terminalrc '
+    # i3
+    files+='.i3/ '
+    files+='.i3/autostart/ '
+    files+='.i3/i3blocks/ '
+    # rofi
+    files+='.config/rofi/ .config/rofi/themes/ '
+    # gsimplecal
+    files+='.config/gsimplecal/config '
+    # systemrc
+    files+='.wgetrc .curlrc  '
+    # git
+    files+='.gitconfig '
+    files+='.git-completion.bash '
+    # compton
+    files+='.config/compton/ '
+    # tmux
+    files+='.tmux.conf '
+    # scripts
+    files+='bin/ '
+    # test
+    files+='tests/ '
+    files+='test/ '
+    for file in $files; do
+	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
+	newDir="${bkpdir}/${DIR_DATE}/${file}"
+	mkdir -p "$(echo ${newDir%/*})"
+	#rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "${HOME}/$file" "${newDir}/$file" \
+	cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	echo >>"$bkpLog"
+    done
+   
+    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 
-        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original" &>> "$bkpLog"
+    # cInfo "Backup to files to" "$bkpdir"
+    
+    # clnInfo "Checking backup folders."
+    # for Folder in $folders
+    # do
+	# if [ -d "$bkpdir/$Folder" ]
+	# then
+	    # cInfo "Folder" "$bkpdir/$Folder" "Already exists."
+	# else
+	    # mkdir -p "$bkpdir/$Folder"
+	    # cInfo "Folder" "$bkpdir/$Folder" "Folders created."
+	# fi
+    # done
+    
+    # cmOk "Folders"
 
-        for Folder in $folders; do
-            cInfo "Moving to:" "${bkpdir}/original/$Folder"
-            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original/$Folder" &>> "$bkpLog"
+    # find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir" &>> "$bkpLog"
 
-            then
-                wait $!
-            else
-                continue
-            fi
+    # for Folder in $folders; do
+	# cInfo "Moving to:" "$bkpdir/$Folder"
+	# if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder" &>> "$bkpLog"
 
-            wait 
-        done
+	# then
+	    # wait $!
+	# else
+	    # continue
+	# fi
 
-    else
-        for Folder in $folders
-        do
-            if [ -d "${bkpdir}/${DIR_DATE}/$Folder" ]
-            then
-                cInfo "Folder" "${bkpdir}/${DIR_DATE}/$Folder" "Already exists."
-            else
-                mkdir -p "${bkpdir}/${DIR_DATE}/$Folder"
-                cInfo "Folder" "${bkpdir}/${DIR_DATE}/$Folder" "Folders created."
-            fi
-        done
-        cmOk "Folders"
-        cInfo "Backup to files to" "${bkpdir}/${DIR_DATE}"
+	# wait 
+    # done
 
-        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/${DIR_DATE}" &>> "$bkpLog"
-
-        for Folder in $folders; do
-            cInfo "Moving to:" "${bkpdir}/${DIR_DATE}/$Folder"
-            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/${DIR_DATE}/$Folder" &>> "$bkpLog"
-
-            then
-                wait $!
-            else
-                continue
-            fi
-
-            wait 
-        done
-    fi
-printf "[INFO]### %s all done ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    # printf "[INFO]### %s all done ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
 }
 
 "$@"

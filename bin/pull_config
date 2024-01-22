@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 22-01-2024
+# Ultima_modificacao: 19-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -42,6 +42,7 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
+
 for file in ~/bin/{config_check,bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
@@ -52,6 +53,7 @@ if config_check connect ;then
     git_config stash save "Save config state[Pull Bare]" &>> "$bkpLog"
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
+
 
     #try pull or undo changes
     if bare_repo_pull;then
