@@ -74,7 +74,7 @@ bkp_cfg_files() {
 	newDir="${bkpdir}/${DIR_DATE}/${file}"
 	mkdir -p "$(echo ${newDir%/*})"
 	#rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "${HOME}/$file" "${newDir}/$file" \
-	cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
    
