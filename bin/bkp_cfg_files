@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bkp_cfg_files
 # Autor: Bruno Franco
+# Ultima_modificacao: 18-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -33,7 +34,6 @@ exit; fi
 
 
 bkp_cfg_files() {
-    local DIR_DATE=$(date '+%d_%m_%Y')
     printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
     cInfo "Backup config files:" "bkp_cfg_files"
     folders=".bash "
@@ -52,64 +52,33 @@ bkp_cfg_files() {
     folders+="test "
     folders+="tests "
     clnInfo "Checking backup folders."
-    if [[ "$1" == "install" ]]; then
-        for Folder in $folders
-        do
-            if [ -d "${bkpdir}/original/$Folder" ]
-            then
-                cInfo "Folder" "${bkpdir}/original/$Folder" "Already exists."
-            else
-                mkdir -p "${bkpdir}/original/$Folder"
-                cInfo "Folder" "${bkpdir}/original/$Folder" "Folders created."
-            fi
-        done
-        cmOk "Folders"
-        cInfo "Backup to files to" "${bkpdir}/original"
+    for Folder in $folders
+    do
+	if [ -d "$bkpdir/$Folder" ]
+	then
+	    cInfo "Folder" "$bkpdir/$Folder" "Already exists."
+	else
+	    mkdir -p "$bkpdir/$Folder"
+	    cInfo "Folder" "$bkpdir/$Folder" "Folders created."
+	fi
+    done
+    cmOk "Folders"
+    cInfo "Backup to files to" "$bkpdir"
 
-        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original" &>> "$bkpLog"
+    find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir" &>> "$bkpLog"
 
-        for Folder in $folders; do
-            cInfo "Moving to:" "${bkpdir}/original/$Folder"
-            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original/$Folder" &>> "$bkpLog"
+    for Folder in $folders; do
+	cInfo "Moving to:" "$bkpdir/$Folder"
+	if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder" &>> "$bkpLog"
 
-            then
-                wait $!
-            else
-                continue
-            fi
+	then
+	    wait $!
+	else
+	    continue
+	fi
 
-            wait 
-        done
-
-    else
-        for Folder in $folders
-        do
-            if [ -d "${bkpdir}/${DIR_DATE}/$Folder" ]
-            then
-                cInfo "Folder" "${bkpdir}/${DIR_DATE}/$Folder" "Already exists."
-            else
-                mkdir -p "${bkpdir}/${DIR_DATE}/$Folder"
-                cInfo "Folder" "${bkpdir}/${DIR_DATE}/$Folder" "Folders created."
-            fi
-        done
-        cmOk "Folders"
-        cInfo "Backup to files to" "${bkpdir}/${DIR_DATE}"
-
-        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/${DIR_DATE}" &>> "$bkpLog"
-
-        for Folder in $folders; do
-            cInfo "Moving to:" "${bkpdir}/${DIR_DATE}/$Folder"
-            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/${DIR_DATE}/$Folder" &>> "$bkpLog"
-
-            then
-                wait $!
-            else
-                continue
-            fi
-
-            wait 
-        done
-    fi
+	wait 
+    done
 printf "[INFO]### %s all done ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
 }
 
