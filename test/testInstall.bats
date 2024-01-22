@@ -12,14 +12,14 @@ setup() {
 
 @test "InstallParams Home Check" {
     
-    BranchGetFromTest="$(cat $HOME/bin/install | sed '/curl/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g' | cut -d "\"" -f 2)"
+    BranchGetFromTest="$(cat $HOME/bin/install | sed '/curl/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
     result="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     cInfo "Check install script bare Home branch" "$result"
 	 [ "${BranchGetFromTest}" = "${result}" ]
     }
 
 @test "InstallSiteCheckHome" {
-    site="$(cat $HOME/bin/install | sed '/curl/!d' | cut -d "\"" -f 2)"
+    site="$(cat $HOME/bin/install | sed '/curl/!d;q' | cut -d "\"" -f 2)"
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
     result="200"
 	[ "${response}" = "${result}" ]
