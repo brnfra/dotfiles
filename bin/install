@@ -81,10 +81,9 @@ backup_cfg_files() {
     files+='bin/ '
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
-	newDir=$dotfiles_dir/$file
+	newDir=${bkpdir}/original/$file
 	mkdir -p "$(echo ${newDir%/*})"
-	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$file" "${bkpdir}/original/${file}" \
-	    | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp "$HOME"/"$file" "${bkpdir}/original/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
