@@ -19,14 +19,14 @@ install_check() {
     if [ -f "$HOME/bin/dotfiles_env" ]; then
         cd "$HOME/bin" || return
         # shellcheck source=dotfiles_env
-        . dotfiles_env
+        source dotfiles_env
 
     else
         DIR="$HOME/bin"
         mkdir "$DIR"
         cd "$DIR" || return
         PATH="$DIR/../src:$PATH"
-        
+
         if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
         then
             # shellcheck source=dotfiles_env
@@ -46,9 +46,8 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    mkdir -p "$HOME/.config-bkp/original"
-    local BKPDIR="$HOME/.config-bkp/original"
-    printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    mkdir -p "$HOME/.config-bkp"
+    printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
     cInfo "Backup config files:" "bkp_cfg_files"
     # bash
     files='.bashrc .bash/ '
@@ -82,9 +81,9 @@ backup_cfg_files() {
     files+='bin/ '
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
-	newDir="${BKPDIR}/$file"
+	newDir=${bkpdir}/original/$file
 	mkdir -p "$(echo ${newDir%/*})"
-	cp -r "${HOME}/$file" "${newDir}" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp "$HOME"/"$file" "${bkpdir}/original/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
@@ -93,8 +92,8 @@ backup_cfg_files() {
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
-    backup_cfg_files
     printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
+    backup_cfg_files
     git_config stash save "Save config state[Install]" &>> "$bkpLog"
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
@@ -118,9 +117,9 @@ bare_repo_checkout() {
             cmOk "Checkout branch"
             clnInfo "Installing enviroment_config and backup config files"
             source bkp_cfg_files
+            bash bkp_cfg_files install &>> "$bkpLog" 
             git_config config status.showUntrackedFiles no
             bash enviroment_config &>> "$bkpLog" 
-            bash bkp_cfg_files &>> "$bkpLog" 
             cmOk "Installation script"
             bash config_check &>> "$bkpLog" 
             cd "$backto" || return
@@ -135,7 +134,7 @@ bare_repo_checkout() {
 cd "$HOME" || return
 install_check
 cInfo "Git clone (--bare):" "$branch"
-if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
+if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
