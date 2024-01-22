@@ -47,10 +47,10 @@ install_check() {
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
-    mkdir -p "$HOME/.config-bkp"
+    # mkdir -p "$HOME/.config-bkp"
     printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
-    source bkp_cfg_files
-    bash bkp_cfg_files install &>> "$bkpLog" 
+    #source bkp_cfg_files
+    bash "$HOME/bin/bkp_cfg_files" install &>> "$bkpLog" 
     
     git_config stash save "Save config state[Install]" &>> "$bkpLog"
     ##use to undo, to recover last saved#
