@@ -1,68 +1,74 @@
 #!/usr/bin/env bash
-#  Arquivo: uninstall
+#  Arquivo: uninstall_bare_cfg
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 12-03-2023
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
 #            causados pelo uso deste arquivo.
 
-bkpdir="$HOME"/.config-bkp
+bkpdir="$HOME"/.config-bkp/original
 
 # restaure *.backup
 restaure_bkp() {
-    folders=".bash "
-    folders+=".config/nvim "
-    folders+=".config/vifm "
-    folders+=".config/vifm/scripts "
-    folders+=".config/vifm/colors "
-    folders+=".config/xfce4/terminal "
-    folders+=".i3 "
-    folders+=".i3/autostart  "
-    folders+=".i3/i3blocks "
-    folders+=".config/rofi "
-    folders+=".config/rofi/themes "
-    folders+=".config/ranger "
-    folders+=".config/compton "
-    folders+="bin "
-    folders+="tests "
+    printf "[INFO]%s uninstalling. All done at %s \n" "${FUNCNAME[0]}" "$DATE" 
+    # bash
+    files='.bashrc .bash/ '
+    files+='README.md '
+    # vim
+    files+='.vimrc .config/nvim/ '
+    # vifm
+    files+='.config/vifm/vifmrc  '
+    files+='.config/vifm/scripts/ '
+    files+='.config/vifm/colors/ '
+    # terminalrc=
+    files+='.config/xfce4/terminal/terminalrc '
+    # i3
+    files+='.i3/ '
+    files+='.i3/autostart/ '
+    files+='.i3/i3blocks/ '
+    # rofi
+    files+='.config/rofi/ .config/rofi/themes/ '
+    # gsimplecal
+    files+='.config/gsimplecal/config '
+    # systemrc
+    files+='.wgetrc .curlrc  '
+    # git
+    files+='.gitconfig '
+    files+='.git-completion.bash '
+    # compton
+    files+='.config/compton/ '
+    # tmux
+    files+='.tmux.conf '
+    for file in $files; do
+	printf "[INFO] Files or folder to back: (%s)\n" "$file" 
+	mv -f "${bkpdir}/$file" "${HOME}/$file" 
+    done
 
-    printf "[INFO] Undone configs installation\n"
-
-    find "$bkpdir" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME"
-    for Folder in $folders; do
-	find "$bkpdir/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
-    done
-    for Folder in $folders; do
-	files=$(find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f)
-	for File in $files; do
-	    name=${File%.backup}
-	    mv "$File" "$name"
-	done
-    done
-    files=$(find "$HOME" -maxdepth 1 -name "*.backup" -type f)
-    for File in $files; do
-	name=${File%.backup}
-	mv "$File" "$name"
-    done
 }
 # clean
 rem_dirs() {
-    folder_list="$HOME/.wallpapers"
-    folder_list+=" $HOME/.config-bkp"
-    folder_list+=" $HOME/.dotfiles"
-    folder_list+=" $HOME/example"
-    folder_list+=" $HOME/bin"
-    folder_list+=" $HOME/tests"
+    list="$HOME/.wallpapers "
+    list+=" $HOME/.config-bkp "
+    list+=" $HOME/.dotfiles "
+    list+=" $HOME/example "
+    list+=" $HOME/bin "
+    list+=" $HOME/tests "
+    list+=" $HOME/test "
+    list+=" $HOME/.github "
+    list+=" $HOME/LICENSE "
+    list+=" $HOME/README.md "
+    list+=" $HOME/Dockerfile "
+    list+=" $HOME/docker-compose.yml "
     printf "[INFO] Uninstalling dotfiles\n"
-    for Folder in $folder_list
+    for item in $list
     do
-	if [ -d "$Folder" ]
-	then
-	    rm -rf "$Folder"
-	else
-	    printf "%s not found.\n" "$Folder"
-	fi
+	if [ -d "$item" ];then
+	    rm -rf "$item"
+        elif [ -f "$item" ]; then
+	    rm -rf "$item"
+        else
+	    printf "%s not found.\n" "$item"
+        fi
     done
 }
 

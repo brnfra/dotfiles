@@ -46,7 +46,8 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    mkdir -p "$HOME/.config-bkp"
+    mkdir -p "$HOME/.config-bkp/original"
+    local BKPDIR="$HOME/.config-bkp/original"
     printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
     cInfo "Backup config files:" "bkp_cfg_files"
     # bash
@@ -81,9 +82,9 @@ backup_cfg_files() {
     files+='bin/ '
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
-	newDir=${bkpdir}/original/$file
+	newDir="${BKPDIR}/$file"
 	mkdir -p "$(echo ${newDir%/*})"
-	cp "$HOME"/"$file" "${bkpdir}/original/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp -r "$HOME"/"$file" "${BKPDIR}/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
