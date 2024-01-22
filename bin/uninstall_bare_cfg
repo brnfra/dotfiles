@@ -10,7 +10,6 @@ bkpdir="$HOME"/.config-bkp/original
 
 # restaure *.backup
 restaure_bkp() {
-    printf "[INFO]%s uninstalling. All done at %s \n" "${FUNCNAME[0]}" "$DATE" 
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
@@ -47,6 +46,7 @@ restaure_bkp() {
 }
 # clean
 rem_dirs() {
+    printf "[INFO]%s uninstalling. All done at %s \n" "${FUNCNAME[0]}" "$DATE" 
     list="$HOME/.wallpapers "
     list+=" $HOME/.config-bkp "
     list+=" $HOME/.dotfiles "
@@ -63,9 +63,9 @@ rem_dirs() {
     for item in $list
     do
 	if [ -d "$item" ];then
-	    rm -rf "$item"
+	    rm -r "$item"
         elif [ -f "$item" ]; then
-	    rm -rf "$item"
+	    rm "$item"
         else
 	    printf "%s not found.\n" "$item"
         fi
@@ -74,5 +74,5 @@ rem_dirs() {
 
 restaure_bkp
 rem_dirs
-printf "[INFO] Done.\n"
+printf "[INFO]%s uninstalling. All done at %s \n" "${FUNCNAME[0]}" "$(date)" 
 cd "$HOME" || return

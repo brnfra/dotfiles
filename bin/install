@@ -84,7 +84,7 @@ backup_cfg_files() {
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir="${BKPDIR}/$file"
 	mkdir -p "$(echo ${newDir%/*})"
-	cp -r "$HOME"/"$file" "${BKPDIR}/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp -r "${HOME}/$file" "${newDir}" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
     printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
