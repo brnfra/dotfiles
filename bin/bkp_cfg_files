@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: bkp_cfg_files
 # Autor: Bruno Franco
-# Ultima_modificacao: 21-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -67,11 +66,11 @@ bkp_cfg_files() {
         cmOk "Folders"
         cInfo "Backup to files to" "${bkpdir}/original"
 
-        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/original" &>> "$bkpLog"
+        find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original" &>> "$bkpLog"
 
         for Folder in $folders; do
             cInfo "Moving to:" "${bkpdir}/original/$Folder"
-            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "${bkpdir}/original/$Folder" &>> "$bkpLog"
+            if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} cp {} "${bkpdir}/original/$Folder" &>> "$bkpLog"
 
             then
                 wait $!
@@ -83,7 +82,6 @@ bkp_cfg_files() {
         done
 
     else
-
         for Folder in $folders
         do
             if [ -d "${bkpdir}/${DIR_DATE}/$Folder" ]

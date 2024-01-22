@@ -46,6 +46,7 @@ make_dirs() {
     folder_list+=" $HOME/.vim/bundle"
     folder_list+=" $HOME/.vim/autoload"
     folder_list+=" $HOME/.config-bkp"
+    folder_list+=" $HOME/.config-bkp/original"
 
     cInfo "Check directories"
     for Folder in $folder_list
