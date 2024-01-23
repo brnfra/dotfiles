@@ -12,7 +12,6 @@ setup() {
     PATH="$DIR/../src:$PATH"
     # Load include to test.
     local=$(pwd)
-    export BATS_NO_PARALLELIZE_WITHIN_FILE=true
     mkdir -p "${BATS_TMPDIR}"
     cd "${BATS_TMPDIR}" || return
     if [ "$(pwd)" = "$HOME" ];then
