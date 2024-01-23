@@ -47,7 +47,7 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    printf "[INFO]%s [START] \n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    printf "[INFO]%s [START] \n" "${0##*/} - ${FUNCNAME[0]}" 
     mkdir -p "$HOME/.config-bkp/original"
     local BKPDIR="$HOME/.config-bkp/original"
     cInfo "Backup config files:" "bkp_cfg_files"
@@ -82,58 +82,57 @@ backup_cfg_files() {
     # scripts
     files+='bin/ '
     for file in $files; do
-	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
+	printf "[INFO] Files or folder to stage: (%s)\n" "$file" 
 	newDir="${BKPDIR}/$file"
 	mkdir -p "$(echo ${newDir%/*})"
-	cp -r "${HOME}/$file" "${newDir}" | sed '/^$/d;/./!d' &>> "$bkpLog"
-	echo >>"$bkpLog"
+	cp -r "${HOME}/$file" "${newDir}" &> /dev/null
     done
-    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
 }
 ##}}}
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
-    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
 
     backup_cfg_files
     
-    git_config stash save "Save config state[Install]" &>> "$bkpLog"
+    git_config stash save "Save config state[Install]" 
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
 
-    if git_config checkout &>> "$bkpLog"; then
+    if git_config checkout; then
         cmOk "Checkout branch"
-        bash ~/bin/enviroment_config &>> "$bkpLog" 
-        bash ~/bin/config_check &>> "$bkpLog"
-        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+        bash ~/bin/enviroment_config 
+        bash ~/bin/config_check 
+        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
         cd "$backto" || return
         exit 0
     else
-        printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
-        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+        printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}" 
+        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
         DIR="$HOME/bin"
         cd "$DIR" || return
         PATH="$DIR/../src:$PATH"
         cError "Checkout branch:" "$branch" "and backup files."
-        git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup &>> "$bkpLog" 
+        git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
         cmOk "Backup files"
         cInfo "Checking branch: " "$branch"
-        if git_config checkout  &>> "$bkpLog" ;	then
+        if git_config checkout  ;then
             cmOk "Check branch"
             cmOk "Checkout branch"
             clnInfo "Installing enviroment_config and backup config files"
             source bkp_cfg_files
             git_config config status.showUntrackedFiles no
-            bash enviroment_config &>> "$bkpLog" 
-            bash bkp_cfg_files &>> "$bkpLog" 
+            bash enviroment_config 
+            bash bkp_cfg_files 
             cmOk "Installation script"
-            bash config_check &>> "$bkpLog"
-            printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+            bash config_check 
+            printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
             cd "$backto" || return
             exit 0
         else
-            printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+            printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}" 
             cError "Checkout branch" "$branch" "Exit with error."
             exit 1
         fi
@@ -141,17 +140,17 @@ bare_repo_checkout() {
 }
 ##}}}
 cd "$HOME" || return
+printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  
 install_check
-printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  > "$bkpLog"
 cInfo "Git clone (--bare):" "$branch"
 if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
-    printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
+    printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  
 else
     cError "Can't clone repository"
-    printf "[ERROR] Can't clone repository.  ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
+    printf "[ERROR] Can't clone repository.  ##### %s - [DONE] #####\n" "${0##*/}" 
     exit 1
 fi
 cd "$backto" || return

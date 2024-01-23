@@ -40,7 +40,7 @@ cInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and downlo
 make_dirs
 git_env
 ssh_env
-i3_config
+bash -c "$HOME/bin/i3_config"
 if git clone "$repository" "$dotfiles_dir"; then
     cmOk "Clone remote in: " "$dotfiles_dir"
 else

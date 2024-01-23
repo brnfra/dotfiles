@@ -22,7 +22,4 @@ RUN bash -c "bats $HOME/test/testHomeConfigFiles.bats"
 RUN bash -c "bats $HOME/test/testInstall.bats"
 RUN bash -c "bats $HOME/test/testRepoConfigFiles.bats"
 
-WORKDIR $HOME
-
-ENTRYPOINT ["/bin/bash", "-c", "echo", "Am I a container?"]
-
+ENTRYPOINT ["/bin/bash"]
