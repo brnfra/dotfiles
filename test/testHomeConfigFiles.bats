@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck source=~/bin/dotfiles_env
+
 setup() {
     source $HOME/bin/dotfiles_env
     # get the containing directory of this file
@@ -9,7 +9,6 @@ setup() {
     # make executables in src/ visible to PATH
     PATH="$DIR/../src:$PATH"
 }
-
 
 @test "LocalGitConfigFiles" {
     [ -f $HOME/.gitconfig ]
@@ -97,7 +96,6 @@ setup() {
     [ -f $HOME/.config/rofi/themes/arc-dark-center-rounded.rasi ]
     [ -f $HOME/.config/rofi/themes/arc-dark-bottom.rasi ]
 }
-
 
 @test "LocalExistBkpDir" {
     [ -d $HOME/.config-bkp ]

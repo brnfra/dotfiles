@@ -85,9 +85,7 @@ setup() {
 }
 
 teardown_file() {
-    cd "/tmp" || return
-    rm -rf "tests"
-    cd "$local" || return
+    rm -r "/tmp/namestd"
 }
 
 @test "Test script if folder path contains spaces" {

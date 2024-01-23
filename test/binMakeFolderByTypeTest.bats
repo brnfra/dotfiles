@@ -26,9 +26,7 @@ setup() {
 }
 
 teardown_file() {
-    cd "/tmp" || return
-    rm -rf "tests"
-    cd "$local" || return
+    rm -r "/tmp/type_fold"
 }
 
 

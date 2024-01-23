@@ -33,7 +33,8 @@ exit; fi
 
 bkp_cfg_files() {
     local DIR_DATE=$(date '+%d_%m_%Y')
-    printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
+    printf "\n[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
+    echo >>"$bkpLog"
     cInfo "Backup config files:" "bkp_cfg_files"
     
     # bash
@@ -67,18 +68,17 @@ bkp_cfg_files() {
     # scripts
     files+='bin/ '
     # test
-    files+='tests/ '
     files+='test/ '
     for file in $files; do
-	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
-	newDir="${bkpdir}/${DIR_DATE}/${file}"
+	printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
+	newDir="${bkpdir}/${DIR_DATE}"
 	mkdir -p "$(echo ${newDir%/*})"
 	#rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "${HOME}/$file" "${newDir}/$file" \
 	cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
-	echo >>"$bkpLog"
     done
+    echo >>"$bkpLog"
    
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    printf "[INFO]%s all done at %s ### backup ###\n\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 
     # cInfo "Backup to files to" "$bkpdir"
     

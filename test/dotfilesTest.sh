@@ -9,7 +9,6 @@ if [ "$local" = "$HOME" ];then
     exit 1
 fi
 
-
 parallel -P 2 -j 20 bats ::: \
     testRepoConfigFiles.bats \
     testHomeConfigFiles.bats \

@@ -18,8 +18,7 @@ setup() {
 }
 
 teardown_file() {
-    cd "/tmp" || return
-    rm -rf "tests"
+    rm -r "/tmp/date_fold"
 }
 
 @test "FilesByDate_3_sub_levels" { 
