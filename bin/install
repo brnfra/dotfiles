@@ -40,9 +40,6 @@ install_check() {
     if [ -d "$install_dir" ]; then
         cError "Already instaled. If you trying reinstall, remove"
         clnItalic "$install_dir" "in order and check outputs log."
-        printf "[ERROR]  Already instaled. If you trying reinstall, remove\n"   >> "$bkpLog"
-        printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
-
         exit 0
     fi
     printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
@@ -144,8 +141,8 @@ bare_repo_checkout() {
 }
 ##}}}
 cd "$HOME" || return
-printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  > "$bkpLog"
 install_check
+printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  > "$bkpLog"
 cInfo "Git clone (--bare):" "$branch"
 if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
@@ -158,6 +155,3 @@ else
     exit 1
 fi
 cd "$backto" || return
-
-
-
