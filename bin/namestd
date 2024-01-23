@@ -57,7 +57,7 @@ stdnames() {    #{{{
     NAME=$(echo "$NAME" | tr -s '_' '_' )
     NAME=$(echo "$NAME" | tr -s '.' '.' )
     NAME=$(echo "$NAME" | sed -r 's/^_//gi; s/_$//gi')
-    NAME=$(iconv -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
+    NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
     TEST_NAME=$(find "$NAME" -maxdepth 0 |sed 's|\.\/||gi')
     if [[ $NAME == "" ]]; then
         NAME="new_renamed"

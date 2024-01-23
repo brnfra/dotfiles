@@ -16,6 +16,7 @@ git_config() {
 }
 #install_check {{{
 install_check() {
+    printf "[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"
     if [ -f "$HOME/bin/dotfiles_env" ]; then
         cd "$HOME/bin" || return
         # shellcheck source=dotfiles_env
@@ -39,16 +40,19 @@ install_check() {
     if [ -d "$install_dir" ]; then
         cError "Already instaled. If you trying reinstall, remove"
         clnItalic "$install_dir" "in order and check outputs log."
+        printf "[ERROR]  Already instaled. If you trying reinstall, remove\n"   >> "$bkpLog"
+        printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
 
         exit 0
     fi
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
 }
 ##}}}
 ## backup {{{
 backup_cfg_files() {
+    printf "[INFO]%s [START] \n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
     mkdir -p "$HOME/.config-bkp/original"
     local BKPDIR="$HOME/.config-bkp/original"
-    printf "[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
     cInfo "Backup config files:" "bkp_cfg_files"
     # bash
     files='.bashrc .bash/ '
@@ -87,14 +91,16 @@ backup_cfg_files() {
 	cp -r "${HOME}/$file" "${newDir}" | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 ##}}}
 ##bare_repo_checkout {{{
 bare_repo_checkout() {
     cInfo "Git checkout" "$branch"
+    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+
     backup_cfg_files
-    printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
+    
     git_config stash save "Save config state[Install]" &>> "$bkpLog"
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
@@ -103,16 +109,19 @@ bare_repo_checkout() {
         cmOk "Checkout branch"
         bash ~/bin/enviroment_config &>> "$bkpLog" 
         bash ~/bin/config_check &>> "$bkpLog"
+        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
         cd "$backto" || return
         exit 0
     else
+        printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
         DIR="$HOME/bin"
         cd "$DIR" || return
         PATH="$DIR/../src:$PATH"
         cError "Checkout branch:" "$branch" "and backup files."
         git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup &>> "$bkpLog" 
         cmOk "Backup files"
-        clnInfo "Checking branch"
+        cInfo "Checking branch: " "$branch"
         if git_config checkout  &>> "$bkpLog" ;	then
             cmOk "Check branch"
             cmOk "Checkout branch"
@@ -122,10 +131,12 @@ bare_repo_checkout() {
             bash enviroment_config &>> "$bkpLog" 
             bash bkp_cfg_files &>> "$bkpLog" 
             cmOk "Installation script"
-            bash config_check &>> "$bkpLog" 
+            bash config_check &>> "$bkpLog"
+            printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
             cd "$backto" || return
             exit 0
         else
+            printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
             cError "Checkout branch" "$branch" "Exit with error."
             exit 1
         fi
@@ -133,14 +144,17 @@ bare_repo_checkout() {
 }
 ##}}}
 cd "$HOME" || return
+printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  > "$bkpLog"
 install_check
 cInfo "Git clone (--bare):" "$branch"
 if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
+    printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
 else
-    clnError "Can't clone repository"
+    cError "Can't clone repository"
+    printf "[ERROR] Can't clone repository.  ##### %s - [DONE] #####\n" "${0##*/}"  >> "$bkpLog"
     exit 1
 fi
 cd "$backto" || return

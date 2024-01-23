@@ -20,5 +20,5 @@ if [ -f "$1" ] ; then
 	*)           clnError "don't know how to extract '$1'..." ;;
     esac
 else
-    clnError "'$1' is not a valid file!"
+    cError "It is not a valid file: " "$1"
 fi

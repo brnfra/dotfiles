@@ -32,7 +32,8 @@ exit; fi
 
 
 make_dirs() {
-    clnInfo "${0##*/}"
+    cInfo "${0##*/} - ${FUNCNAME[0]}"
+    printf "\n[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     printf "Create folders to current config files \n"
     folder_list="$HOME/.local/opt"
     folder_list+=" $HOME/.local/share/fonts"
@@ -45,19 +46,21 @@ make_dirs() {
     folder_list+=" $HOME/.vim/backups/undo"
     folder_list+=" $HOME/.vim/bundle"
     folder_list+=" $HOME/.vim/autoload"
-    folder_list+=" $HOME/.config-bkp"
+    folder_list+=" $HOME/.config-bkp/original"
 
-    cInfo "Check directories"
     for Folder in $folder_list
     do
 	if [ -d "$Folder" ]
 	then
-	    cInfo "Already exists:" "$Folder" 
+	    cInfo "Already exists:" "$Folder" >> "$bkpLog" 
 	else
 	    mkdir -p "$Folder"
-	    cInfo "Folders created." "$Folder" 
+	    cInfo "Folders created." "$Folder" >> "$bkpLog"
 	fi
     done
+    cmOk "${0##*/} - ${FUNCNAME[0]}"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+
 }
 
 "$@"

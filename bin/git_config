@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: git_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -31,16 +30,20 @@ git_env() {
 	    git config --global user.email "$email"
 	    git config --global user.name "$user_name"
 	    cmOk "Edit git enviroments. Username and e-mail."
+            printf "[INFO]%s - OK \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	else
-	    clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
+	    cError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
+            printf "[ERROR]%s - Git not found. \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	    exit 1
 	fi
     elif [ "$osys" = "manjaro" ]; then
 	if git config --global user.email "$email"; then
 	    git config --global user.name "$user_name"
 	    cmOk "Edit git enviroments. Username and e-mail."
+            printf "[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	else
-	    clnError "Add git config: Git installation needed. Run pacman install git or read output for problems"
+	    cError "Add git config: Git installation needed. Run pacman install git or read output for problems"
+            printf "[ERROR]%s - Git not found. \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	    exit 1
 	fi
     fi

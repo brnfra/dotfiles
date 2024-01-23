@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 22-01-2024
+#  Ultima_modificacao: 23-01-2024
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -14,7 +14,9 @@ unset file;
 #add and commit {{{
 commit_last ()
 {
-    printf "[INFO]%s at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    
     bareModfied=$(git_bare status -s | awk '{print $2}')
     repoModfied=$(git_repo status -s | awk '{print $2}')
 
@@ -36,13 +38,15 @@ commit_last ()
     git_bare commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
     git_repo commit -m "${1:-"refact: update dot files, dir or scripts"}" &>> "$bkpLog"
     cInfo "Commit message:" "${1:-"refact: update dot files, dir or scripts"}"
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 ##}}}
 #sync_branch {{{ 
 sync_branch ()
 {
-    printf "[INFO]%s at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
     BranchHome="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
     RepoBranch="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
 
@@ -76,13 +80,15 @@ sync_branch ()
 	clnInfo "Branch name and dotfiles_env branch definition aren't the same:"
 	sed -i "s/branch=\"$Repo_dotfile_branch\"/branch=\"$RepoBranch\"/" "$repo_env_dotfiles"
     fi
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 ##}}}
 #function for backup {{{ 
 sync_copy ()
 {
-    printf "[INFO]%s beginning at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
@@ -114,7 +120,6 @@ sync_copy ()
     # scripts
     files+='bin/ '
     # test
-    files+='tests/ '
     files+='test/ '
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
@@ -124,12 +129,14 @@ sync_copy ()
 	    | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 ##}}}
 #prepare{{{
 prepare() {
-    printf "[INFO]%s beginning at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
     cInfo "Pull last changes and Sync bare and cloned configs" "Stage config"
     backto=$(pwd)
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
@@ -171,9 +178,11 @@ prepare() {
 	cd "$backto" || return
 	exit 5
     fi
-    printf "[INFO]%s all done at %s ### stage ###\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+    printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 #}}}
+
 case $1 in
     commit_last) "$@"; exit;;
     prepare) "$@"; exit;;

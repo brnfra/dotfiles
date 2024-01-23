@@ -33,9 +33,8 @@ exit; fi
 
 bkp_cfg_files() {
     local DIR_DATE=$(date '+%d_%m_%Y')
-    printf "\n[INFO]### %s beginning ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog" 
-    echo >>"$bkpLog"
-    cInfo "Backup config files:" "bkp_cfg_files"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Backup config files:" "${0##*/} - ${FUNCNAME[0]}"
     
     # bash
     files='.bashrc .bash/ '
@@ -73,45 +72,12 @@ bkp_cfg_files() {
 	printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
 	newDir="${bkpdir}/${DIR_DATE}"
 	mkdir -p "$(echo ${newDir%/*})"
-	#rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "${HOME}/$file" "${newDir}/$file" \
 	cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
     done
     echo >>"$bkpLog"
    
-    printf "[INFO]%s all done at %s ### backup ###\n\n" "${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
-
-    # cInfo "Backup to files to" "$bkpdir"
-    
-    # clnInfo "Checking backup folders."
-    # for Folder in $folders
-    # do
-	# if [ -d "$bkpdir/$Folder" ]
-	# then
-	    # cInfo "Folder" "$bkpdir/$Folder" "Already exists."
-	# else
-	    # mkdir -p "$bkpdir/$Folder"
-	    # cInfo "Folder" "$bkpdir/$Folder" "Folders created."
-	# fi
-    # done
-    
-    # cmOk "Folders"
-
-    # find "$HOME" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir" &>> "$bkpLog"
-
-    # for Folder in $folders; do
-	# cInfo "Moving to:" "$bkpdir/$Folder"
-	# if find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$bkpdir/$Folder" &>> "$bkpLog"
-
-	# then
-	    # wait $!
-	# else
-	    # continue
-	# fi
-
-	# wait 
-    # done
-
-    # printf "[INFO]### %s all done ### backup config file ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
-}
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+   }
 
 "$@"

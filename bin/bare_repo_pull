@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 23-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -15,9 +15,10 @@ unset file;
 #backup conflicts{{{
 bkp_conflict ()
 {
-    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"                                                                                                                                           
+    printf "\n[INFO]  %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     conflicts=$(git_config pull origin "$branch" 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
     #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+    cInfo "Backup conflicts files: " "${0##*/} - ${FUNCNAME[0]}"
     echo "conflicts $conflicts" >> "$bkpLog"
     for file in $conflicts
     do     
@@ -27,13 +28,14 @@ bkp_conflict ()
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files  
     cmOk "Clean"
-    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    printf "[INFO] %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 ##}}}
 #{{{ fetch
 bare_repo_fetch() {
-    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"                                                                                                                                           
-    cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--bare-repo] "
+    printf "\n[INFO] ##### %s #####[START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    cInfo "We are in branch:" "$branch"
+    cInfo "Get config from remote(fetch): " "${0##*/} - ${FUNCNAME[0]}"
     backto=$(pwd)
     cd "$HOME" || return
     git_config rebase --abort
@@ -51,17 +53,18 @@ bare_repo_fetch() {
 	cmOk "Git pull"
     else
 	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Exit with error."
-	printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+        printf "[INFO] ##### %s ##### [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	exit 1
     fi
     cd "$backto" || return
-    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    printf "[INFO] ##### %s ##### [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 ##}}}
 #pull {{{
 bare_repo_pull() {
-    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"                                                                                                                                           
-    cInfo "Get config from remote(pull) to:" "pull --bare-repo"
+    printf "\n[INFO] ##### %s #####[START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    cInfo "We are in branch:" "$branch"
+    cInfo "Get config from remote(pull): " "${0##*/} - ${FUNCNAME[0]}"
     backto=$(pwd)
     cd "$HOME" || return
     sync_branch    
@@ -90,7 +93,7 @@ bare_repo_pull() {
 	fi
     fi
     cd "$backto" || return
-    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    printf "[INFO] ##### %s ##### [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 #}}}
 

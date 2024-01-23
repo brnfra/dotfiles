@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Arquivo: config_check
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,8 +11,9 @@ for file in ~/bin/{ssh_config,dotfiles_env,git_config}; do
 done;
 unset file;
 
+
 tests() {
-    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     backto=$(pwd)
     cd "$HOME/test" || return
 
@@ -24,13 +24,13 @@ tests() {
             if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
                 cmOk "I3config and i3 scripts"
             else
-                clnError "I3config not found. Installing config file "
+                cError "I3config not found. Installing config file "
                 if ! "$i3_scpt" "$bkpdir"; then
                     cError "I3config "
                     cItalic "$i3_cfg" " isn't installed "
                     clnItalic "$i3_scpt" "exec fail or not found."
                 fi
-                clnInfo "I3config file installed."
+                cInfo "I3config file installed."
             fi
         else
             bash "$checkAll" | awk '/test|OK|FAILED/{print $0}'
@@ -38,7 +38,7 @@ tests() {
             cmOk "Config files and folders checked"
         fi
     else
-        clnInfo "Config check /home" &>> "$bkpLog"
+        cInfo "Config check" "/home" &>> "$bkpLog"
         if bats "$checkHome"| awk '/not ok|failed|line/{print $0}' &>> "$bkpLog";
         then
             if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
@@ -50,7 +50,7 @@ tests() {
                     cItalic "$i3_cfg" " isn't installed "
                     clnItalic "$i3_scpt" "exec fail or not found."
                 fi
-                clnInfo "I3config file installed."
+                cInfo "I3config file installed."
             fi
         else
             bats "$checkHome" | awk '/not ok|failed|line/{print $0}'
@@ -59,12 +59,11 @@ tests() {
         fi
     fi
     cd "$backto" || return
-    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 packs() {
-    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
-
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 
     #debian ubuntu manjaro etc
@@ -151,11 +150,11 @@ packs() {
         fi
     done
 
-    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 connect() {
-    printf "[INFO]%s beginning  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog" 
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     if connection &>> "$bkpLog" && ssh_connect &>> "$bkpLog"; then
         cmOk "Connection and ssh_connect check:"
     elif ! connection &> /dev/null; then
@@ -168,7 +167,7 @@ connect() {
         cError "Check your connection and your ssh-agent." &>> "$bkpLog"
         exit 4
     fi
-    printf "[INFO]%s all done  ### config_check ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 case $1 in

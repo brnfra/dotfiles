@@ -918,9 +918,10 @@ au BufRead,BufNewFile input set filetype=bash
 au BufRead,BufNewFile profiles set filetype=bash
 au BufRead,BufNewFile prompt set filetype=bash
 au BufRead,BufNewFile ssh_config set filetype=bash
-au BufRead,BufNewFile *_config set filetype=bash
+au BufRead,BufNewFile *_config, git_config set filetype=bash
+au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile sh set filetype=bash
-au BufRead,BufNewFile *git* set filetype=git
+au BufRead,BufNewFile .git* set filetype=git
 au BufRead,BufNewFile 'ASCII text' set filetype=bash
 "---------------------------------------------
 " file type detection

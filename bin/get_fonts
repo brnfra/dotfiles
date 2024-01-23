@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: get_fonts
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 23-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -33,10 +33,9 @@ exit; fi
 
 
 get_fonts() {
-    clnInfo "${0##*/}"
-    printf "Get roboto, codenewroman and nerdfont\n"
+    cInfo "${0##*/}" 
+    cInfo "Get roboto, codenewroman and nerdfont\n"
     nowIn=$(pwd)
-    clnInfo "Getting fonts."
     cd "$fonts_path" || return
     nerdfont="3270.zip"
     codeNewRoman="CodeNewRoman.zip"
@@ -46,26 +45,26 @@ get_fonts() {
     then
 	if [ "$(pwd)" = "$fonts_path" ]
 	then
-	    clnInfo "Getting fonts"
+	    cInfo "Getting fonts"
 	    curl -# -C - -Lko "$nerdfont" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip"
-	    clnInfo "Unpack downloaded font"
+	    cInfo "Unpack downloaded font"
 	    unzip -uo "$nerdfont"
 	    curl -# -C - -Lko "$codeNewRoman" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
-	    clnInfo "Unpack downloaded fonts."
+	    cInfo "Unpack downloaded fonts."
 	    unzip -uo "$codeNewRoman"
 	    curl -# -C - -Lko "$monofur" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
-	    clnInfo "Unpack downloaded fonts."
+	    cInfo "Unpack downloaded fonts."
 	    unzip -uo "$monofur"
 	    fc-cache -f -v
 	    cd "$nowIn" || return
-	    clnInfo "All done! Exit"
+	    cInfo "All done! ${0##*/} - ${FUNCNAME[0]}"
 	else
-	    clnError "Wrong local installation."
-	    cItalic "$(pwd)" "now. "
-	    clnItalic "$fonts_path" "the correct"
+	    cError "Wrong local installation."
+	    cInfo "$(pwd)" "now. "
+	    cInfo "$fonts_path" "the correct"
 	fi
     else
-	clnError "The package Unzip is not installed. Please install unzip."
+	cError "The package Unzip is not installed. Please install unzip."
 	cd "$nowIn" || return
     fi
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_merge
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 23-01-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -48,7 +48,7 @@ exit; fi
 # merge from updated branch
 update_branch() 
 {
-    printf "[INFO]### %s beginning ### bare_merge ###\n" "${FUNCNAME[0]}" >> "$bkpLog"   
+printf "[INFO]%s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     cInfo "Get config from last updates(merge) to:" "merge recursive(theirs) from $branch"
     backto=$(pwd)
     if git_config checkout "$1" &>> "$bkpLog" && git_config fetch --all &>> "$bkpLog"; then
@@ -69,7 +69,7 @@ update_branch()
 	exit 1
     fi
     cd "$backto" || return
-    printf "[INFO]### %s all done ### bare_merge ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 case $1 in
