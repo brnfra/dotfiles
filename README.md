@@ -16,7 +16,7 @@ _This code was provided by_ ;
 - originally by user ___StreakyCobra___ in an [Hacker News thread](https://news.ycombinator.com/item?id=11070797)
 - In a wonderful tutorial by ___[Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles)___
 Thank you guys for sharing :heart:
-- Tests by [Shunit2](https://github.com/kward/shunit2)
+- Tests by __[Bats](https://github.com/bats-core/bats-core)__
 <br>
 
 ## Sumary
@@ -40,7 +40,7 @@ Thank you guys for sharing :heart:
 
 ### Main config
 
-1. Tested in Gnu/Linux based distro(**Debian based**, pls check first).
+1. Tested in Gnu/Linux based distro(**Debian based** and **Manjaro**, pls check first).
 2. Pls check ```~/.i3/autostart/i3config``` . There's change in keyboard layout and resolution.
 3. The keyboard layout is **US-INT**.
 
@@ -57,6 +57,7 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 ## TODO
 
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
+- [x] Script to generate I3 config 
 - [ ] Add new tests
 
 <br>
@@ -79,7 +80,7 @@ Install config tracking in your **$HOME** following the command;
 3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
 
 
-If Desktop/Virtual/Notebooks, copy/paste in terminal;
+If Desktop/Virtual/Notebooks, copy/paste in terminal [EDIT YOUR_USER_NAME];
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
@@ -197,7 +198,8 @@ For some features depends some packages, if get some error related, this list ma
 - openssl 
 - rsync
 - scrot (print screen)
-- shunit2 (tests)
+- bats (tests)
+- parallel (tests)
 - ssh
 - sysstat (cpu info)
 - vim
