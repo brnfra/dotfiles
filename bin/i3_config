@@ -559,7 +559,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 
 elif [ "$system_id" = "manjaro" ]; then
 #}}}
-    ################################################################################################
+################################################################################################
     ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##{{{
     ################################################################################################
     options="${options}\$exe volumeicon\n"
@@ -598,7 +598,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
     if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe bash \$HOME/.config/conky/start_conky_maia\n"
     else
 	options="${options}\$exe start_conky_maia\n"
     fi
