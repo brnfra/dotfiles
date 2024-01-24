@@ -598,7 +598,7 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
     if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe bash \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
     else
 	options="${options}\$exe start_conky_maia\n"
     fi

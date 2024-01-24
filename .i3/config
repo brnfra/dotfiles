@@ -246,7 +246,7 @@ $exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe clipit
 $exe xautolock -time 10 -locker blurlock
 $exe pamac-tray
-$exe bash $HOME/.config/conky/start_conky_maia
+$exe $HOME/.config/conky/start_conky_maia
 $exe ff-theme-util
 $exe fix_xcursor
 $exe_always xrdb -load ~/.Xresources
