@@ -81,6 +81,26 @@ setup() {
     touch "${BATS_TMPDIR}/$var"
     var='2123   456'
     touch "${BATS_TMPDIR}/$var"
+    var='r________a````````p'
+    touch "${BATS_TMPDIR}/${var}"
+    var='._t_a_p_'
+    touch "${BATS_TMPDIR}/$var"
+    var='_._V_a_p_'
+    touch "${BATS_TMPDIR}/$var"
+    var='.q a p'
+    touch "${BATS_TMPDIR}/$var"
+    var='.q  a  p'
+    touch "${BATS_TMPDIR}/$var"
+    var='.q  a     p'
+    touch "${BATS_TMPDIR}/$var"
+    var='m a n'
+    touch "${BATS_TMPDIR}/$var"
+    var='m  a  n'
+    touch "${BATS_TMPDIR}/$var"
+    var='m  a   n'
+    touch "${BATS_TMPDIR}/$var"
+    var='m   a    n'
+    touch "${BATS_TMPDIR}/$var"
 
 }
 
@@ -100,8 +120,8 @@ teardown_file() {
 
     namestd  
     [ -d "${BATS_TMPDIR}/folder_n_next_line" ]
-    [ -d "${BATS_TMPDIR}/._n_am3" ]
-    [ -d "${BATS_TMPDIR}/._n_am3._folder" ]
+    [ -d "${BATS_TMPDIR}/.n_am3" ]
+    [ -d "${BATS_TMPDIR}/.n_am3._folder" ]
     [ -d "${BATS_TMPDIR}/underln_dir" ]
     [ -d "${BATS_TMPDIR}/hashtag_dir" ]
     [ -d "${BATS_TMPDIR}/space_in_dir" ]
@@ -118,17 +138,27 @@ teardown_file() {
     [ -f "${BATS_TMPDIR}/name.dot.file" ]
     [ -f "${BATS_TMPDIR}/.name.dot.file2" ]
     [ -f "${BATS_TMPDIR}/file_n_next_line" ]
-    [ -f "${BATS_TMPDIR}/name_symbols" ]
+    [ -f "${BATS_TMPDIR}/name_-_symbols" ]
     [ -f "${BATS_TMPDIR}/name4123_symbols2" ]
     [ -f "${BATS_TMPDIR}/parentesys_0_space" ]
     [ -f "${BATS_TMPDIR}/file_space1" ]
     [ -f "${BATS_TMPDIR}/file_space.pdf" ]
-    [ -f "${BATS_TMPDIR}/5123_456" ]
+    [ -f "${BATS_TMPDIR}/5123_-_456" ]
     [ -f "${BATS_TMPDIR}/4123_456" ]
     [ -f "${BATS_TMPDIR}/3123_456" ]
     [ -f "${BATS_TMPDIR}/2123_456" ]
     [ -f "${BATS_TMPDIR}/123._456" ]
     [ -f "${BATS_TMPDIR}/brn.123._456" ]
+    [ -f "${BATS_TMPDIR}/r_a_p" ]
+    [ -f "${BATS_TMPDIR}/.t_a_p" ]
+    [ -f "${BATS_TMPDIR}/.V_a_p" ]
+    [ -f "${BATS_TMPDIR}/.q_a_p" ]
+    [ -f "${BATS_TMPDIR}/.q_a_p-2" ]
+    [ -f "${BATS_TMPDIR}/.q_a_p-3" ]
+    [ -f "${BATS_TMPDIR}/m_a_n" ]
+    [ -f "${BATS_TMPDIR}/m_a_n-2" ]
+    [ -f "${BATS_TMPDIR}/m_a_n-3" ]
+    [ -f "${BATS_TMPDIR}/m_a_n-4" ]
 
 }
 
