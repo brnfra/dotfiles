@@ -12,7 +12,7 @@
 . dotfiles_env
 
 printf "Normalizing files and folders names\n"
-
+#Help {{{
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
 
@@ -44,12 +44,15 @@ https://github.com/brnfra/dotfiles
 Licensed under the MIT license.
 HELP
 exit; fi
-
+#}}}
 stdnames() {    #{{{
     #	${variable//search/replace}
     local OLD=$1
     local NAME=$1
     local COUNT=$(( 1 ))
+    NAME=${NAME//'\302\264'/_}
+    NAME=${NAME//'\302\264'/_}
+    NAME=${NAME//'\302\140'/_}
     NAME=${NAME//'$'/_}
     NAME=$(echo "$NAME" | tr -d '[:cntrl:]')
     NAME=$(echo "$NAME" | tr -c '[=.=][=/=][:alnum:]' '_')
@@ -136,16 +139,16 @@ if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     FILES_BEFORE=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
     FOLDERS_BEFORE=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 
-    NAMES=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
+    NAMES=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
     NAMES+=$'\n'
-    NAMES+=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
+    NAMES+=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi'| sort)
 else
     FILES_BEFORE=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort)
     FOLDERS_BEFORE=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 
-    NAMES=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi')
+    NAMES=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
     NAMES+=$'\n'
-    NAMES+=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi')
+    NAMES+=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p' | sed 's|\.\/||gi; s|\/$||gi' | sort)
 
 fi
 
