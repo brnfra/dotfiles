@@ -76,13 +76,14 @@ whichfunc() {
 # Create a SymLink {{{
 function symlink() {
     #Original code from https://github.com/lewagon/dotfiles/blob/master/install.sh
-    file=$1
-    link=$2
-    if [ ! -e "$link" ]; then
-	echo "-----> Symlinking your new $link"
-	ln -s "$file" "$link"
+    TARGET=$1
+    TARGET=${TARGET%/}
+    LINK=${TARGET##*/}
+    if [ ! -e "$LINK" ] && [ -e "$TARGET" ]; then
+	echo "Symlink: $LINK ---> $TARGET"
+	ln -s "$TARGET" "$LINK"
     else
-	echo "symlink [location] [link_name]"
+	echo "[ERROR] Symlink $LINK already exists or $TARGET doesn't exist"
     fi
 }
 
