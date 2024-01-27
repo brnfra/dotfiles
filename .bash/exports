@@ -646,6 +646,7 @@ export PYTHONIOENCODING='UTF-8';
 export HISTSIZE='2768';
 export HISTFILESIZE="${HISTSIZE}";
 export HISTCONTROL='ignoreboth';
+OPT="$HOME/.local/share"
 # Android
 if [ "$osys" = "debian" ]; then 
     export BROWSER="firefox-esr '%s' &"
@@ -653,31 +654,16 @@ if [ "$osys" = "debian" ]; then
     export GEM_HOME="$HOME/.rbenv/shims/gem"
     export PATH="$HOME/gems/bin:$PATH"
     export PATH=$PATH:$HOME/bin/composer
-    OPT="$HOME/.local/opt"
-    export ANDROID_HOME="/media/SamsungHDD/AndroidProjects/Android/Sdk"
-    export ANDROID_USER_HOME="/media/SamsungHDD/AndroidProjects/.android/"
-    export ANDROID_EMULATOR_HOME="/media/SamsungHDD/AndroidProjects/.android/"
-elif [ "$osys" = "ubuntu" ]; then 
-# Install Ruby Gems to ~/gems
-    export GEM_HOME="$HOME/gems"
-    export PATH="$HOME/gems/bin:$PATH"
-    export PATH=$PATH:$HOME/bin/composer
-    export BROWSER="firefox '%s' &"
-    OPT="$HOME/.local/opt"
-    export ANDROID_HOME="$HOME/AndroidProjects/Android/Sdk"
-    export ANDROID_USER_HOME="$HOME/AndroidProjects/.android/"
-    export ANDROID_EMULATOR_HOME="$HOME/AndroidProjects/.android/"
-elif [ "$osys" = "manjaro" ]; then
+elif [ "$osys" = "ubuntu" ] || [ "$osys" = "manjaro" ]; then
     # Install Ruby Gems to ~/gems
     export GEM_HOME="$HOME/gems"
     export PATH="$HOME/gems/bin:$PATH"
     export PATH=$PATH:$HOME/bin/composer
-    OPT="$HOME/.local/share"
     export BROWSER="firefox '%s' &"
-    export ANDROID_HOME="$HOME/AndroidProjects/Android/Sdk"
-    export ANDROID_USER_HOME="$HOME/AndroidProjects/.android/"
-    export ANDROID_EMULATOR_HOME="$HOME/AndroidProjects/.android/"
 fi
+export ANDROID_HOME="$HOME/AndroidProjects/Android/Sdk"
+export ANDROID_EMULATOR_HOME="$HOME/.android/"
+export ANDROID_USER_HOME="$HOME/.android/"
 export PATH="$HOME/.local/opt/android-studio/bin:$PATH"
 export ANDROID_SDK_ROOT="$ANDROID_HOME/Sdk/"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
