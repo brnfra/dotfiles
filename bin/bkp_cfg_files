@@ -71,8 +71,11 @@ bkp_cfg_files() {
     for file in $files; do
 	printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
 	newDir="${bkpdir}/${DIR_DATE}"
-	mkdir -p "$(echo ${newDir%/*})"
-	cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	if mkdir -p "${newDir}" ; then
+	    cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+    else
+        cError "Cannot create dir: " "$newDir" 
+    fi
     done
     echo >>"$bkpLog"
    
