@@ -1,9 +1,0 @@
-{
-    "editor.fontSize": 16,
-    "editor.fontFamily": "'monofur', 'monospace', monospace",
-    "files.autoSave": "afterDelay",
-    "editor.cursorStyle": "block",
-    "editor.wordWrap": "bounded",
-    "editor.accessibilityPageSize": 17,
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true
-}
