@@ -23,7 +23,7 @@ DESCRIPTION
     A simple script to backup my config files copy to defined in dotfiles_env (~/bin/dotfiles_env) backup folder.
 
     -h, --help
-	Print help informations
+        Print help informations
 
 See the README for documentation.
 https://github.com/brnfra/dotfiles
@@ -35,7 +35,7 @@ bkp_cfg_files() {
     local DIR_DATE=$(date '+%d_%m_%Y')
     printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Backup config files:" "${0##*/} - ${FUNCNAME[0]}"
-    
+
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
@@ -69,18 +69,18 @@ bkp_cfg_files() {
     # test
     files+='test/ '
     for file in $files; do
-	printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
-	newDir="${bkpdir}/${DIR_DATE}"
-	if mkdir -p "${newDir}" ; then
-	    cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
-    else
-        cError "Cannot create dir: " "$newDir" 
-    fi
+        printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
+        newDir="${bkpdir}/${DIR_DATE}"
+        if mkdir -p "${newDir}" ; then
+            cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+        else
+            cError "Cannot create dir: " "$newDir" 
+        fi
     done
     echo >>"$bkpLog"
-   
+
     printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
-   }
-
+}
+backup
 "$@"
