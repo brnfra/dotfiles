@@ -35,3 +35,4 @@ xmonad.op
 *.i3/config
 ./README.md
 ./LICENSE
+.vscode/settings.json
