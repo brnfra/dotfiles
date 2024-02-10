@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-for file in ~/.bash/{path,aliases,prompt,exports,functions,input,extras}; do
+for file in ~/.bash/{aliases,prompt,exports,functions,input,extras}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -50,7 +50,6 @@ complete -o "default" -o "nospace" -W "config_check" tests packs connect
 
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)                                                    
 #APT aliases {{{
@@ -60,3 +59,5 @@ if [ "$osys" = "debian" ] ; then
     eval "$(rbenv init - )"
     export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 fi
+# must be in the end
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

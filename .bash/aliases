@@ -187,3 +187,4 @@ alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
 alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
+alias android-calculator="cd /home/devlab/Documents/Projects/git/android-calculator"

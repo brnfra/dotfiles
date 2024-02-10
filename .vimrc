@@ -348,21 +348,20 @@ endif
 "              VIMWIKI {{{
 " Height
 "----------------------------------------------------------------
-hi VimwikiHeader1 guifg=#e5c07b
-hi VimwikiHeader2 guifg=#98c379
-hi VimwikiHeader3 guifg=#c678dd
-""hi VimwikiHeader4 guifg=#FF00FF
-""hi VimwikiHeader5 guifg=#00FFFF
-""hi VimwikiHeader6 guifg=#FFFF00
-hi VimwikiH1Folding guifg=#e5c07b
-hi VimwikiH2Folding guifg=#98c379
-hi VimwikiH3Folding guifg=#c678dd
-""hi VimwikiH4Folding guifg=#8096BF
-""hi VimwikiH5Folding guifg=#8096BF
-""hi VimwikiH6Folding guifg=#8096BF
-hi VimwikiLink guifg=#61afef
-hi VimwikiBold term=bold  ctermfg=204 gui=bold guifg=#E06C75
-hi VimwikiBold guifg=#E06C75
+"hi VimwikiHeader1 term=none  cterm=bold  ctermfg=0   guifg=#006FFD  gui=bold 
+"hi VimwikiHeader2 term=none  cterm=bold  ctermfg=0   guifg=#229379  gui=bold
+"hi VimwikiHeader3 term=none  cterm=bold  ctermfg=0   guifg=#aa0000  gui=bold
+"hi VimwikiHeader4 guifg=#FF00FF
+"hi VimwikiHeader5 guifg=#00FFFF
+"hi VimwikiHeader6 guifg=#FFFF00
+"hi VimwikiH1Folding  term=bold  cterm=bold  ctermfg=204  guifg=#e5c07b gui=bold 
+"hi VimwikiH2Folding  term=bold  cterm=bold  ctermfg=204  guifg=#98c379 gui=bold
+"hi VimwikiH3Folding  term=bold  cterm=bold  ctermfg=204  guifg=#c678dd gui=bold
+"hi VimwikiH4Folding guifg=#8096BF
+"hi VimwikiH5Folding guifg=#8096BF
+"hi VimwikiH6Folding guifg=#8096BF
+"hi VimwikiLink  term=bold  cterm=bold,italic  ctermfg=204  guifg=#00655D gui=bold
+"hi VimwikiBold  term=bold  cterm=bold  ctermfg=204  guifg=#E06C75 gui=bold
 inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
 inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
 "Esc conflict"
@@ -729,9 +728,9 @@ endfun
 "------------------------------------END VIM-AIRLINE }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
-set background=dark
+set background=light
 if has('unix')
-    colorscheme molokai
+    colorscheme papayadroid
 else
     silent!colorscheme base16-ateliercave
 endif
