@@ -45,13 +45,21 @@ gen_nitrogen_cfg() {
     nitrogen_cfg="${nitrogen_cfg}icon_caps=false\n"
     nitrogen_cfg="${nitrogen_cfg}dirs=$wallpapers_dir;"
     if [ -f "$bgconfig_file" ]; then
-	printf "[ERROR] Config file already created\n" 
+	printf "[INFO] BgConfig file already created\n" 
+	printf "[INFO] Backup\n"
+        mv "$bgconfig_file" "${bgconfig_file}.backup" 
+	printf "$bgconfig%s" > "$bgconfig_file"
+	printf "[INFO] Created new %s config file\n" "$bgconfig_file"
     else
 	printf "$bgconfig%s" > "$bgconfig_file"
 	printf "[INFO] Created %s config file\n" "$bgconfig_file"
     fi
     if [ -f "$nitrogen_cfg_file" ]; then
-	printf "[ERROR] Config file already created\n" 
+	printf "[INFO] Nitrogen Config file already created\n" 
+	printf "[INFO] Backup\n"
+	mv "$nitrogen_cfg_file" "${nitrogen_cfg_file}.backup"
+        printf "$nitrogen_cfg%s" > "$nitrogen_cfg_file"
+	printf "[INFO] Created new %s config file\n" "$nitrogen_cfg_file"
     else
 	printf "$nitrogen_cfg%s" > "$nitrogen_cfg_file"
 	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"

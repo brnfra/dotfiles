@@ -662,15 +662,15 @@ elif [ "$osys" = "ubuntu" ] || [ "$osys" = "manjaro" ]; then
     export BROWSER="firefox '%s' &"
 fi
 
-export GRADLE_USER_HOME="$HOME/.sdkman/candidates/gradle/current"
-export GRADLE_LOCAL_JAVA_HOME="$HOME/.sdkman/candidates/java/current"
-export JAVA_HOME="$HOME/.sdkman/candidates/java/current/bin/"
-export JRE_HOME="$HOME/.sdkman/candidates/java/current/bin/"
+export GRADLE_USER_HOME="$SDKMAN_DIR/candidates/gradle/current"
+export GRADLE_LOCAL_JAVA_HOME="$SDKMAN_DIR/candidates/java/current"
+export JAVA_HOME="$SDKMAN_DIR/candidates/java/current/bin/"
+export JRE_HOME="$SDKMAN_DIR/candidates/java/current/bin/"
 
-export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_HOME="$HOME/Android/"
 export ANDROID_EMULATOR_HOME="$HOME/.android/"
-export ANDROID_USER_HOME="$HOME/.android/"
-export PATH="$HOME/.local/opt/android-studio/bin:$PATH"
+export ANDROID_USER_HOME="$ANDROID_HOME/.android/"
+export PATH="$OPT/android-studio/bin:$PATH"
 export ANDROID_SDK_ROOT="$ANDROID_HOME/Sdk/"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
@@ -679,7 +679,9 @@ export PATH=$JAVA_HOME/bin:$PATH
 export PATH_TO_FX="$HOME/.jdks/javafx-sdk-17.0.1/lib"
 # fzf need to fd-find ripgrep packs
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
-
+# Android-Studio
+STUDIO_JDK=$JAVA_HOME
+STUDIO_GRADLE_JDK=$GRADLE_USER_HOME
 # export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude_standard | fd --type f --type i $FD_OPTIONS"
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f \
   --exclude .git \
@@ -722,13 +724,13 @@ export FZF_ALT_C_COMMAND='fd --hidden --type directory --exclude ".git"'
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 # export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
 
+# sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 # python
 export NVIM_PYTHON_LOG_FILE=/tmp/log
 export NVIM_PYTHON_LOG_LEVEL=DEBUG
-# sdkman
-export SDKMAN_DIR="$HOME/.sdkman"
 # Flutter
 export PATH="$PATH:$OPT/flutter/bin"
 # heroku

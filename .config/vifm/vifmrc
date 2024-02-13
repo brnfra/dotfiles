@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: vifmrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 27-12-2023
+" Ultima_modificacao: 12-02-2024
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -15,7 +15,7 @@
 ""   \_/ |_|_| |_| |_| |_|_|  \___|
 ""                                
 """====================================================================
-set vicmd=vim
+set vicmd=nvim
 set syscalls
 set trash
 set history=100
