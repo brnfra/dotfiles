@@ -583,7 +583,7 @@ options="${options}\$exe nm-applet --indicator\n"
 #change config for my preferences
 options="${options}\$exe $cfg_dir/autostart/i3config\n"
 options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
-options="${options}\$exe compton --config ~/.config/compton.conf\n"
+options="${options}\$exe compton --config ~/.config/compton/compton.conf\n"
 options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
 #Apps autoexec on start
 options="${options}\$exe goldendict\n"

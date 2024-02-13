@@ -238,7 +238,7 @@ $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
-$exe compton --config ~/.config/compton.conf
+$exe compton --config ~/.config/compton/compton.conf
 $exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
