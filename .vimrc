@@ -389,8 +389,6 @@ nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
 " Define prefix dictionary
 let g:lmap =  {}
 
-
-
 "}}}
 "             VIM-WITCH-KEY {{{
 "=================================================================================================================================
@@ -524,13 +522,13 @@ let g:which_key_map.b = {
 let g:which_key_map.w = {
     \ 'name' : '+VimWiki',
     \
-    \ "w"    : ['\\ww'                                         , 'Go To Index'                           ] ,
+    \ "w"    : ['\\ww'                                        , 'Go To Index'                           ] ,
     \ "n"    : [''                                            , 'Create new wiki page'                  ] ,
     \ "D"    : [''                                            , 'Delete wiki page'                      ] ,
     \ "r"    : [''                                            , 'Rename wiki page'                      ] ,
     \ "v"    : [''                                            , 'Toggle wiki List'                      ] ,
-    \ "s"    : [''                                            , 'Search-for-wiki-pattam'                ] ,
-    \ "f"    : [''                                            , 'Search-for-wiki-curword'               ] ,
+    \ "s"    : ['VimwikiSearchTags'                           , 'Search-for-wiki-TAGS'                  ] ,
+    \ "S"    : ['VimwikiSearch '                              , 'Search /pattern/'                      ] ,
     \ 'o'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
     \ 'y'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
     \ '3'    : [ '\w\t'                                       , 'Tab Make Diary Note'                   ] ,
@@ -553,10 +551,11 @@ let g:which_key_map.w = {
     \
     \ },
     \
-    \ 't'    : {
+    \ 'T'    : {
     \ 'name' : '+Tables',
     \
-    \ "t"    : ['VimwikiTable'                                , 'Create Table'                             ] ,
+    \ "1"    : ['VimwikiTable'                                , 'Create Table'                             ] ,
+    \ "t"    : ['VimwikiTOC'                                  , 'Create Table Of Contents(TOC)'            ] ,
     \ "h"    : ['<Plug>VimwikiTableMoveColumnLeft'            , 'Move current column to the left'          ] ,
     \ "l"    : ['<Plug>VimwikiTableMoveColumnRight'           , 'Move current column to the Right'         ] ,
     \
