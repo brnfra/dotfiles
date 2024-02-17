@@ -36,11 +36,13 @@ ShortcutsNoHelpkey=TRUE
 ShortcutsNoMenukey=TRUE
 ShortcutsNoMnemonics=TRUE
 FontName=Monofur NF 15
-ScrollingOnOutput=FALSE
 ScrollingBar=TERMINAL_SCROLLBAR_NONE
 ColorCursorForeground=#9999c1c1f1f1
 ColorSelection=#f6f6f5f5f4f4
 ColorSelectionBackground=#4dad4a114f5b
 ColorBoldIsBright=FALSE
 ScrollingLines=9000
+BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
+MiscRightClickAction=TERMINAL_RIGHT_CLICK_ACTION_CONTEXT_MENU
+BackgroundDarkness=0.800000
 
