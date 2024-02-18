@@ -31,15 +31,14 @@ FROM archlinux as arch
 
 LABEL maintainer="brnfra"
 ARG TARGETPLATFORM
-
 ARG CACHEBUST=1
 
 RUN uname -m && \
     pacman-key --init
 
-RUN [[ "${TARGETPLATFORM}" == "linux/amd64" ]] || exit 0 && \
-    pacman -Syyu --noconfirm --needed archlinux-keyring && \
-    pacman-key --populate archlinux
+#RUN [[ "${TARGETPLATFORM}" == "linux/amd64" ]] || exit 0 && \
+#    pacman -Syyu --noconfirm --needed archlinux-keyring && \
+#    pacman-key --populate archlinux
 
 RUN pacman -Syy --noconfirm --needed curl \
     git \
