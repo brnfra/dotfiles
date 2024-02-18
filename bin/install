@@ -100,12 +100,15 @@ bare_repo_checkout() {
     git_config stash save "Save config state[Install]" 
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
+    cInfo "To revert this, use: " "bare stash apply"
 
     if git_config checkout; then
         cmOk "Checkout branch"
         bash ~/bin/enviroment_config 
         bash ~/bin/config_check 
         printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
+        cInfo "Logs can be check in: " "$bkpLog"
+
         cd "$backto" || return
         exit 0
     else
@@ -129,11 +132,14 @@ bare_repo_checkout() {
             cmOk "Installation script"
             bash config_check 
             printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
+            cInfo "Logs can be check in: " "$bkpLog"
             cd "$backto" || return
             exit 0
         else
             printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}" 
             cError "Checkout branch" "$branch" "Exit with error."
+            cInfo "Logs can be check in: " "$bkpLog"
+
             exit 1
         fi
     fi

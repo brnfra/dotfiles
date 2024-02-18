@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 23-01-2024
+#  Ultima_modificacao: 18-02-2024
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -72,7 +72,10 @@ if prepare "$1"; then
 else
     printf "[ERROR] stage config error ###\n" >> "$bkpLog"
     cError "$?:stage_config error."
+    cInfo "Logs can be check in: " "$bkpLog"
     exit 2
 fi
 printf "\n[INFO] ##########     Push config - END     ###########\n"   >> "$bkpLog"
+cInfo "Logs can be check in: " "$bkpLog"
+
 cd "$backto" || return
