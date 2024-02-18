@@ -39,13 +39,16 @@ bkp_cfg_files() {
     # bash
     files='.bashrc .bash/ '
     files+='README.md '
+    files+='.config/ '
     # vim
     files+='.vimrc .config/nvim/ '
     # vifm
+    files+='.config/vifm/  '
     files+='.config/vifm/vifmrc  '
     files+='.config/vifm/scripts/ '
     files+='.config/vifm/colors/ '
     # terminalrc=
+    files+='.config/xfce4/terminal/ '
     files+='.config/xfce4/terminal/terminalrc '
     # i3
     files+='.i3/ '
@@ -54,6 +57,7 @@ bkp_cfg_files() {
     # rofi
     files+='.config/rofi/ .config/rofi/themes/ '
     # gsimplecal
+    files+='.config/gsimplecal/ '
     files+='.config/gsimplecal/config '
     # systemrc
     files+='.wgetrc .curlrc  '
@@ -62,6 +66,7 @@ bkp_cfg_files() {
     files+='.git-completion.bash '
     # compton
     files+='.config/compton/ '
+    files+='.config/compton/compton '
     # tmux
     files+='.tmux.conf '
     # scripts
@@ -71,9 +76,11 @@ bkp_cfg_files() {
     for file in $files; do
         printf "[INFO] Files or folder to backup: (%s)\n" "$file" &>> "$bkpLog"
         newDir="${bkpdir}/${DIR_DATE}"
+
         if mkdir -p "${newDir}" ; then
             cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
         else
+            cp -r "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
             cError "Cannot create dir: " "$newDir" 
         fi
     done

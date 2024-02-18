@@ -42,8 +42,7 @@ git_env
 ssh_env
 #get_fonts
 i3_config
-bash -c "$HOME/bin/i3_config"
-if git clone "$repository" "$dotfiles_dir"; then
+if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
     cmOk "Clone remote in: " "$dotfiles_dir"
 else
     clnError "Can't clone repository"

@@ -128,9 +128,9 @@ bare_repo_checkout() {
             source bkp_cfg_files
             git_config config status.showUntrackedFiles no
             bash enviroment_config 
-            bash bkp_cfg_files 
+            bash bkp_cfg_files bkp_cfg_files
             cmOk "Installation script"
-            bash config_check 
+            bash config_check tests 
             printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
             cInfo "Logs can be check in: " "$bkpLog"
             cd "$backto" || return
@@ -149,7 +149,13 @@ cd "$HOME" || return
 printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  
 install_check
 cInfo "Git clone (--bare):" "$branch"
+<<<<<<< HEAD
 if git clone --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
+||||||| 0f25a60
+if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
+=======
+if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
+>>>>>>> ec96ac259e70222eae752ec9ba4b26619dc8a891
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
