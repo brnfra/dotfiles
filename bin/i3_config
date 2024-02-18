@@ -12,7 +12,7 @@
 
 cInfo "Script: " "${0##*/}"
 
-if ! i3 -v; then
+if ! i3 -v &> /dev/null; then
     cInfo "i3wm isn't installed" "Skipped"
     exit 1
 fi
