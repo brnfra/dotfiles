@@ -12,6 +12,10 @@
 
 cInfo "Script: " "${0##*/}"
 
+if ! i3 -v &> /dev/null; then
+    cInfo "i3wm isn't installed" "Skipped"
+    exit 1
+fi
 ################################################################################################
 ## definitions                                                                                ##{{{
 ################################################################################################
@@ -611,11 +615,8 @@ elif [ "$system_id" = "manjaro" ]; then
 fi
 #}}}
 #### config ends in this line
-if ! i3 -v &> /dev/null; then
-    cInfo "i3wm isn't installed" "Skipped"
-else
-    printf "$options%s" > "$i3_cfg"
-fi
+
+printf "$options%s" > "$i3_cfg"
 
 if [ -f "$i3_cfg" ]; then
     cmOk "i3 config file"
