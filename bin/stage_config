@@ -93,10 +93,8 @@ sync_copy ()
     files='.bashrc .bash/ '
     files+='README.md '
     #zsh
-    files+='.zsh '
     files+='.zsh/ '
     #conky
-    files+='.config/conky '
     files+='.config/conky/conky1.10_shortcuts_maia '
     files+='.config/conky/conky_maia '
     files+='.config/conky/start_conky_maia '
