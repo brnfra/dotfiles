@@ -36,3 +36,5 @@ xmonad.op
 ./README.md
 ./LICENSE
 .vscode/settings.json
+.zcompdump
+.zcompdump*
