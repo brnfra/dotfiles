@@ -12,6 +12,8 @@ PCONF+='/.i3/autostart'
 KEYB='setxkbmap -model pc104 -layout us_intl'
 KEYB_ABNT2_BR='setxkbmap -model abnt2 -layout br'
 LOC="$(hostname)"
+num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
+
 if [ "$LOC" = "debian-tablet" ]; then
      $KEYB_ABNT2_BR
      xrandr --newmode 1360x768_60 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
@@ -19,21 +21,13 @@ if [ "$LOC" = "debian-tablet" ]; then
      xrandr --output "$SCR" --mode 1360x768_60
     exit 0
 fi
-if [ "$LOC" = "ubuntu-ideapad3" ]; then
+if [ $num_monitors == 1 ]; then
      $KEYB_ABNT2_BR
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
      xrandr --addmode "$SCR" 1920x1080_60
      xrandr --output "$SCR" --mode 1920x1080_60
     exit 0
-fi
-if [ "$LOC" = "manjaro-ideapad3" ]; then
-     $KEYB_ABNT2_BR
-     xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR" 1920x1080_60
-     xrandr --output "$SCR" --mode 1920x1080_60
-    exit 0
-fi
-if [ "$LOC" = "debian-r5-desktop" ] || [ "$LOC" = "manjaro-r5-desktop" ]; then
+elif [ $num_monitors == 2 ]; then
      $KEYB
     #set primary
      xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
@@ -47,17 +41,5 @@ if [ "$LOC" = "debian-r5-desktop" ] || [ "$LOC" = "manjaro-r5-desktop" ]; then
      xrandr --output "$SCR1" --primary
     #turn left and put right of rotate the screen of your preference here SCR1 e SCR2
      xrandr --output "$SCR1" --auto --rotate normal --output "$SCR2" --auto --rotate right --right-of "$SCR1" 2>/dev/null
-    exit 0
-fi
-if [ "$LOC" = "virtual" ]; then
-     "$KEYB"
-     xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR1" 1920x1080_60
-     xrandr --output "$SCR1" --mode 1920x1080_60
-    exit 0
-else
-     xrandr --newmode 1360x768_60 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
-     xrandr --addmode "$SCR1" 1360x768_60
-     xrandr --output "$SCR1" --mode 1360x768_60
     exit 0
 fi

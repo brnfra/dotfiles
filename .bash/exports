@@ -752,6 +752,16 @@ export NODE_REPL_HISTORY_SIZE='2768';
 export NODE_REPL_MODE='sloppy';
 export NODE="$OPT/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
-export PATH=$PATH:$HOME/.local/bin
+
+# nodejs v-21
+VERSION=v21.6.2
+DISTRO=linux-x64
+export NODE_REPL_HISTORY=~/.node_history;
+export NODE_REPL_HISTORY_SIZE='2768';
+export NODE_REPL_MODE='sloppy';
+export NODE="$OPT/node-$VERSION-$DISTRO" 
+export PATH=$NODE/bin:$PATH
+
 export TOOLBOX="$OPT/JetBrains/Toolbox"
+export PATH=$PATH:$HOME/.local/bin
 export PATH=$TOOLBOX/scripts:$PATH

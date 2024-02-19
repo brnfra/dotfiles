@@ -20,7 +20,8 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 elif [ "$osys" = "manjaro" ]; then
     # update and upgrade
     alias up='sudo pacman -Sy'
-    alias upg='sudo pacman -Syu'
+    alias upg='sudo pacman -Syu --noconfirm'
+    alias upgl='checkupdates'
     alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
     alias upgrade-distro='sudo pacman -Syyu'
@@ -186,5 +187,3 @@ alias py="python3 "
 alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 # }}}
-alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
-alias android-calculator="cd /home/devlab/Documents/Projects/git/android-calculator"

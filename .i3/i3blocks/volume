@@ -31,37 +31,29 @@ icon_zero='&#xf026; |  '
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
 [ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
-MIXER="${2:-$MIXER}"
+MIXER="${1:-$MIXER}"
 # The instance option sets the control to report and configure
 # This defaults to the first control of your selected mixer
 # For a list of the available, use `amixer -D $Your_Mixer scontrols`
-SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
-    sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
-    head -n1
-    )}"
-    #debian ubuntu manjaro etc
-    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-    #------------------------------------------------------------------------
-    # The first parameter sets the step to change the volume by (and units to display)
-    # This may be in in % or dB (eg. 5% or 3dB)
-    STEP="${1:-5%}"
-    #------------------------------------------------------------------------
-    #Using pactl  {{{
-    nsinks=$(pactl list short sinks | wc -l)
-    if [[ $nsinks -gt 1 ]];then
-	#bluez
-	pa_sink="$(pactl list short sinks | sed -n '2p' | awk '{print $1}')"
-	pa_adpt="$(pactl list short sinks | sed -n '2p' | awk '{print $2}')"
-    else
-	pa_sink="$(pactl list short sinks |  awk '{print $1}' | sed '1q; s/\s//g')"
-	pa_adpt="$(pactl list short sinks |  awk '{print $2}')"
-    fi
+if amixer -h &> /dev/null; then
+    SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols \
+        | sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" \
+        | head -n1)}"
+fi
+#------------------------------------------------------------------------
+# The first parameter sets the step to change the volume by (and units to display)
+# This may be in in % or dB (eg. 5% or 3dB)
+STEP="${1:-5%}"
+#------------------------------------------------------------------------
+#Using pactl  {{{
 
-    #pa_sink="${pa_sink:0:1}"
-    pa-volume() {
+pa_adpt=$(pactl get-default-sink)
+pa_sink="$(pactl list short sinks | awk /$pa_adpt/'{print $1}')"
+
+pa-volume() {
     #out
     pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
-    vol=$(pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}')
+    vol=$(pactl get-sink-volume "$pa_sink" | awk /Volume/'{print $5}')
     vol=${vol%\%*}
     if [[ $vol -ge 95 ]]
     then
@@ -69,8 +61,8 @@ SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
     fi
 }
 pa-mute() {
-#is mute?
-pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
+    #is mute?
+    pactl get-sink-mute "$pa_sink" | cut -d ":" -f 2
 }
 #}}}
 #------------------------------------------------------------------------
@@ -89,34 +81,36 @@ format() {
     perl -ne "$perl_filter"
 }
 #------------------------------------------------------------------------
-if [ "$osys" = "ubuntu" ]
-then
+if pactl --version &> /dev/null; then
     case $BLOCK_BUTTON in
-	3) pactl set-sink-mute $pa_sink toggle ;;  # right click, mute/unmute
+	3) pactl set-sink-mute $pa_sink toggle  ;;  # right click, mute/unmute
 	4) pactl set-sink-volume $pa_sink  +${STEP}  ;; # scroll up, increase
 	5) pactl set-sink-volume $pa_sink  -${STEP}  ;; # scroll down, decrease
     esac
-else
+elif amixer -h &> /dev/null; then
     case $BLOCK_BUTTON in
 	3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
 	4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
 	5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
     esac
+else
+    printf "%s\n" "<span $font $red $icon_size > FAIL </span>"
+    exit 1    
 fi
 #------------------------------------------------------------------------
-if [ "$osys" = "ubuntu" ]
-then
-    vmute="$(pa-mute)"
+if pactl --version &> /dev/null; then
+    vmute=$(pa-mute)
     vmute=$(echo $vmute| sed 's/^\s//g;s/\s$//g')
     volume="$(pa-volume)"
     volume=$(echo $volume| sed 's/^\s//g;s/\s$//g')
     volume="${volume::-1}"
-    res="yes"
-else
+    res="${yes:-sim}"
+elif amixer -h &> /dev/null; then
     vmute="$(volume | format)"
     volume="${vmute::-1}"
     res="MUTE"
 fi
+
 get_block() {
     if [ "$vmute" = "$res" ]; then
 	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
