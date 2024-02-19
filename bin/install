@@ -149,13 +149,7 @@ cd "$HOME" || return
 printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  
 install_check
 cInfo "Git clone (--bare):" "$branch"
-<<<<<<< HEAD
-if git clone --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
-||||||| 0f25a60
-if git clone --depth 1 --branch "$branch" --bare "$repository" "$install_dir"; then
-=======
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
->>>>>>> ec96ac259e70222eae752ec9ba4b26619dc8a891
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
