@@ -33,8 +33,25 @@ clean() {
 	echo "for packages run bmenu"
     fi
     sudo rm -rf /var/log/*.log* 
-    sudo rm -rf /var/log/syslog* 
+    sudo rm -rf /var/log/syslog*
+    
+    printf "%s" "~/.cache/ [Before]: "
+    du -sh ~/.cache/ | awk '{print $1}'
+    
+    find ~/.cache/ -type f -atime +100 -delete
+    
+    printf "%s" "~/.cache/ [After]: "
+    du -sh ~/.cache/ | awk '{print $1}'
+    
+    printf "%s" "Before: "
+    sudo journalctl --disk-usage
+    
+    sudo journalctl --vacuum-size=50M
     sudo journalctl --vacuum-time=7d
+    
+    printf "%s" "After: "
+    sudo journalctl --disk-usage
+    
     rm -rf "$HOME/.cache/thumbnails/*"
     rm "$HOME/.vim/.viminfo"
     rm "$HOME/.viminfo"
