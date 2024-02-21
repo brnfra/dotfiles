@@ -71,8 +71,50 @@ for_window [class="knotes"] floating enable resize set 500 500
 for_window [class="GParted"] floating enable border normal set 800 800
 for_window [title="Calculator"] floating enable move position center
 for_window [class="Virt-manager"] fullscreen enable
+gaps inner 2
+gaps outer 2
+smart_gaps on
+smart_borders on
+smart_gaps on
+smart_borders on
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0    gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
 bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+q kill
+bindsym $mod+Ctrl+d $exe dmenu_recency
 bindsym $mod+d $exe rofi -show drun
 bindsym $mod+y focus left
 bindsym $mod+j focus down
@@ -136,32 +178,24 @@ bindsym $mod+Shift+b workspace back_and_forth
 bindsym $mod+Ctrl+u [urgent=latest] focus
 bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Ctrl+l $exe i3lock-fancy -p
-bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
-mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own" {
-	bindsym t $exe systemctl restart NetworkManager, mode default
-	bindsym e $exe i3-msg exit , mode default
-	bindsym s $exe systemctl suspend, mode default
-	bindsym r $exe systemctl reboot , mode default
-	bindsym d $exe systemctl poweroff, mode default
-	bindsym Return mode default
-	bindsym Escape mode default
+bindsym $mod+Ctrl+l $exe blurlock
+bindsym $mod+Escape mode "$mode_system"
+set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l $exe i3exit lock, mode "default"
+    bindsym e $exe i3exit logout, mode "default"
+    bindsym u $exe i3exit switch_user, mode "default"
+    bindsym s $exe i3exit suspend, mode "default"
+    bindsym h $exe i3exit hibernate, mode "default"
+    bindsym r $exe i3exit reboot, mode "default"
+    bindsym Shift+s $exe i3exit shutdown, mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
-bindsym $mod+Ctrl+r mode resize
-mode resize {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    bindsym Return mode default
-    bindsym Escape mode default
-    bindsym $mod+r mode default
-}
-bindsym Ctrl+1 exec firefox-esr
+bindsym Ctrl+1 exec firefox
+bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
+bindsym $mod+z $exe morc_menu
+bindsym $mod+Shift+m exec xfce4-terminal -x 'bmenu'
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+2 exec xfce4-terminal -x vifm
@@ -212,11 +246,9 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
-set $vol_signal pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
-bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
-bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
-bindsym XF86HomePage         $exe pavucontrol
+$exe volumeicon
+bindsym Ctrl+F2 exec pavucontrol
+$exe pulseaudio
 $exe_always xset b off
 $exe numlockx on
 $exe xfce4-power-manager
@@ -224,8 +256,12 @@ $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
 $exe compton --config ~/.config/compton/compton.conf
-$exe goldendict
+$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+$exe clipit
+$exe xautolock -time 10 -locker blurlock
+$exe pamac-tray
 $exe blueman-applet
-$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
-$exe diodon
+$exe $HOME/.config/conky/start_conky_maia
+$exe ff-theme-util
+$exe fix_xcursor
+$exe_always xrdb -load ~/.Xresources
