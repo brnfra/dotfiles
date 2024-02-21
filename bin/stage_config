@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 21-02-2024
+#  Ultima_modificacao: 19-02-2024
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -93,9 +93,13 @@ sync_copy ()
     files='.bashrc .bash/ '
     files+='README.md '
     #zsh
+    files+='.zsh '
     files+='.zsh/ '
     #conky
-    files+='.config/conky/ '
+    files+='.config/conky '
+    files+='.config/conky/conky1.10_shortcuts_maia '
+    files+='.config/conky/conky_maia '
+    files+='.config/conky/start_conky_maia '
     # vim
     files+='.vimrc .config/nvim/ '
     # vifm
