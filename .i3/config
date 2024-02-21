@@ -199,7 +199,6 @@ bindsym $mod+Shift+m exec xfce4-terminal -x 'bmenu'
 bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
 bindsym Ctrl+3 exec pcmanfm
 bindsym Ctrl+2 exec xfce4-terminal -x vifm
-bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
@@ -247,25 +246,25 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
-$exe volumeicon
-bindsym $mod+Ctrl+m exec pavucontrol
-exec --no-startup-id pulseaudio
-exec --no-startup-id pa-applet
-$exe_always xset b off
+bindsym Ctrl+F2 exec pavucontrol
+$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+$exe ff-theme-util
+$exe fix_xcursor
 $exe numlockx on
+$exe_always xset b off
+$exe compton --config ~/.config/compton/compton.conf
+$exe_always xrdb -load ~/.Xresources
+$exe pa-applet
+$exe pulseaudio
+$exe volumeicon
 $exe xfce4-power-manager
 $exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
-$exe compton --config ~/.config/compton/compton.conf
+$exe $HOME/.i3/autostart/wallpapers &>> ~/.config-bkp/wallpapers.log
 $exe $HOME/bin/rm_linedup ~/.bash_history
+$exe $HOME/.config/conky/start_conky_maia
 $exe goldendict
 $exe blueman-applet
-$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe clipit
-$exe xautolock -time 10 -locker blurlock
 $exe pamac-tray
-$exe $HOME/.config/conky/start_conky_maia
-$exe ff-theme-util
-$exe fix_xcursor
-$exe_always xrdb -load ~/.Xresources
+$exe xautolock -time 10 -locker blurlock

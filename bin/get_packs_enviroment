@@ -12,6 +12,9 @@ if [ "$osys" = "manjaro" ]; then
     pkges+=" picom "
     pkges+=" xautolock "
     pkges+=" i3-wm "
+    pkges+=" cmake "
+    pkges+=" ttf-font-awesome "
+    pkges+=" otf-font-awesome "
 else
     pkges+=" fd-find "
     pkges+=" exa "

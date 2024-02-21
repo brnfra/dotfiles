@@ -111,3 +111,9 @@ function stopwatch () {
     done
 }
 # }}}
+# logs
+function logs ()
+{
+    cat ~/.config-bkp/stage-bkp.log
+    cat ~/.config-bkp/wallpapers.log
+}

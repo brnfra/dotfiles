@@ -246,7 +246,7 @@ function depends() {
 #
 elif [ "$osys" = "manjaro" ]; then
     function psearch () {
-	pacman -Ss \
+	pacman -Ss | sed '/^[[:space:]]/d' \
 	    | fzf \
 	    --multi \
 	    --preview 'pacman -Si {1}' \
@@ -255,7 +255,7 @@ elif [ "$osys" = "manjaro" ]; then
 	    --hscroll-off=800 \
 	    --preview-window=wrap \
 	    --bind="tab:toggle-preview" \
-	    | cut -d " " -f 1 | xargs -ro sudo pacman -S
+	    | xargs -ro sudo pacman -S
 	}
 
 	function fremove () {

@@ -418,7 +418,6 @@ fi
 options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+3 exec pcmanfm\n"
 options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
-options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
 options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
 options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
@@ -540,11 +539,13 @@ elif [ "$system_id" = "manjaro" ]; then
     ################################################################################################
     options="${options}\$exe volumeicon\n"
     if amixer -h &> /dev/null; then
-        options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
+        options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
+        #options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
     elif pactl --version &> /dev/null; then
-        options="${options}bindsym \$mod+Ctrl+m exec pavucontrol\n"
-        options="${options}exec --no-startup-id pulseaudio\n"
-        options="${options}exec --no-startup-id pa-applet\n"
+        options="${options}bindsym Ctrl+F2 exec pavucontrol\n"
+        #options="${options}bindsym \$mod+Ctrl+m exec pavucontrol\n"
+        options="${options}\$exe pulseaudio\n"
+#        options="${options}\$exe pa-applet\n"
         #bindsym $mod+Ctrl+m exec pavucontrol
     fi
 fi
@@ -564,11 +565,11 @@ options="${options}\$exe nm-applet --indicator\n"
 options="${options}\$exe $cfg_dir/autostart/i3config\n"
 options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
 options="${options}\$exe compton --config ~/.config/compton/compton.conf\n"
-options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
+#options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
 #Apps autoexec on start
-options="${options}\$exe goldendict\n"
-options="${options}\$exe blueman-applet\n"
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+    options="${options}\$exe goldendict\n"
+    options="${options}\$exe blueman-applet\n"
     options="${options}\$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1\n"
     options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
     options="${options}\$exe diodon\n"
@@ -577,6 +578,12 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}\$exe clipit\n"
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
+    if pacman -Qi blueman &> /dev/null; then
+        options="${options}\$exe blueman-applet\n"
+    fi
+    if pacman -Qi goldendict &> /dev/null; then
+        options="${options}\$exe goldendict\n"
+    fi
     if [ -e ~/.config/conky/ ];then
 	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
     else

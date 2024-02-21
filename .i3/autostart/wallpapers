@@ -17,22 +17,25 @@ gen_nitrogen_cfg() {
     nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
     bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
     nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
-    if [ "$nxin" = "1" ]
-    then
-	bgconfig="[xin_0]\n"
+    
+    if [ "$nxin" = "1" ]; then
+    echo "monitor n=1"
+        bgconfig="[xin_0]\n"
 	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
 	bgconfig="${bgconfig}mode=0\n"
 	bgconfig="${bgconfig}bgcolor=#000000\n\n"
     else
+    echo "monitor n=2"
 	bgconfig="[xin_0]\n"
 	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
 	bgconfig="${bgconfig}mode=0\n"
 	bgconfig="${bgconfig}bgcolor=#000000\n\n"
-	bgconfig="[xin_1]\n"
-	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}[xin_1]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/wall.jpg\n"
 	bgconfig="${bgconfig}mode=0\n"
 	bgconfig="${bgconfig}bgcolor=#000000"
     fi
+    
     nitrogen_cfg="[geometry]\n"
     nitrogen_cfg="${nitrogen_cfg}posx=640\n"
     nitrogen_cfg="${nitrogen_cfg}posy=0\n"
@@ -44,6 +47,7 @@ gen_nitrogen_cfg() {
     nitrogen_cfg="${nitrogen_cfg}sort=alpha\n"
     nitrogen_cfg="${nitrogen_cfg}icon_caps=false\n"
     nitrogen_cfg="${nitrogen_cfg}dirs=$wallpapers_dir;"
+    
     if [ -f "$bgconfig_file" ]; then
 	printf "[INFO] BgConfig file already created\n" 
 	printf "[INFO] Backup\n"
@@ -54,6 +58,7 @@ gen_nitrogen_cfg() {
 	printf "$bgconfig%s" > "$bgconfig_file"
 	printf "[INFO] Created %s config file\n" "$bgconfig_file"
     fi
+    
     if [ -f "$nitrogen_cfg_file" ]; then
 	printf "[INFO] Nitrogen Config file already created\n" 
 	printf "[INFO] Backup\n"
@@ -65,6 +70,7 @@ gen_nitrogen_cfg() {
 	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"
     fi
 }
+
 render_images() {
     local delay1
     local delay2
@@ -72,6 +78,8 @@ render_images() {
     local files2
     local process_id
     local nxin 
+    local nitro_opt
+    nitro_opt="--set-zoom-fill"
     nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
     nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
     bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
@@ -83,29 +91,34 @@ render_images() {
     cd "$wallpapers_dir" || return
     delay1=1200
     delay2=600
-    files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
-     if [ "$nxin" = "1" ]
-    then
-	nitrogen --restore --head=0;
+    files1=$(find ${wallpapers_dir} -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+    
+    if [ "$nxin" = "1" ]; then
+	echo "${FUNCNAME[0]}:${LINENO}:nitrogen restore head 0" &> ~/.config-bkp/wallpapers.log
+        nitrogen --restore --head=0 &>> ~/.config-bkp/wallpapers.log
     else
-	nitrogen --restore --head=0;
-	nitrogen --restore --head=1;
+	echo "${FUNCNAME[0]}:${LINENO}:nitrogen restore head 0" &> ~/.config-bkp/wallpapers.log
+        nitrogen --restore --head=0 &>> ~/.config-bkp/wallpapers.log
+	echo "${FUNCNAME[0]}:${LINENO}:nitrogen restore head 1" &>> ~/.config-bkp/wallpapers.log
+        nitrogen --restore --head=1 &>> ~/.config-bkp/wallpapers.log
     fi
 
     #monitor1
     while :
     do
 	for I in $files1; do
-	    nitrogen --set-scaled --head=0  "$I"
+	    echo "${FUNCNAME[0]}:${LINENO}:nitrogen set wallpaper head 0" &>> ~/.config-bkp/wallpapers.log
+	    nitrogen ${nitro_opt} --head=0 "$I" &>> ~/.config-bkp/wallpapers.log
 	    sleep $delay2        
 	    #monitor2
-	    files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+	    files2=$(find ${wallpapers_dir} -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
 	    for J in $files2; do
 		if [ "$I" == "$J" ]; then
 		    continue
 		else
-		    nitrogen --set-scaled --head=1  "$J"
-		    break
+	            echo "${FUNCNAME[0]}:${LINENO}:nitrogen set wallpaper head 1" &>> ~/.config-bkp/wallpapers.log
+                    nitrogen ${nitro_opt} --head=1 "$J" &>> ~/.config-bkp/wallpapers.log
+	            break
 		fi
 	    done
 	    sleep $delay1
@@ -114,8 +127,7 @@ render_images() {
 	done
     done
 }
-if nitrogen -h
-then
+if nitrogen -h &> /dev/null; then
     if [ -d "$nitrogen_cfg_dir" ]; then
 	gen_nitrogen_cfg
     else
