@@ -71,7 +71,7 @@ bkp_cfg_files() {
     files+='.git-completion.bash '
     # compton
     files+='.config/compton/ '
-    files+='.config/compton/compton '
+    files+='.config/compton/compton.conf '
     # tmux
     files+='.tmux.conf '
     # scripts
@@ -94,5 +94,5 @@ bkp_cfg_files() {
     printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
 }
-backup
+bkp_cfg_files
 "$@"
