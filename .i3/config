@@ -249,19 +249,19 @@ bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
 $exe volumeicon
 bindsym Ctrl+F2 exec pavucontrol
 $exe pulseaudio
+$exe compton --config ~/.config/compton/compton.conf
 $exe_always xset b off
+$exe nm-applet --indicator
 $exe numlockx on
 $exe xfce4-power-manager
-$exe nm-applet --indicator
-$exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
-$exe compton --config ~/.config/compton/compton.conf
 $exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe clipit
 $exe xautolock -time 10 -locker blurlock
 $exe pamac-tray
-$exe blueman-applet
-$exe $HOME/.config/conky/start_conky_maia
 $exe ff-theme-util
 $exe fix_xcursor
 $exe_always xrdb -load ~/.Xresources
+$exe blueman-applet
+$exe $HOME/.config/conky/start_conky_maia
+$exe $HOME/.i3/autostart/i3config
+$exe $HOME/.i3/autostart/wallpapers
