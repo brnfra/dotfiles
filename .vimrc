@@ -15,7 +15,7 @@
 "====================================================================
 "                  System Config {{{
 "-------------------------------------------------------
-set nocompatible    " be iMproved, required
+"set nocompatible    " be iMproved, required
 set shell=$SHELL\ -f
 set path+=**
 set exrc
@@ -131,10 +131,11 @@ set wrapscan
 ""---------------------------------------------------------------------------
 set textwidth=160
 set expandtab    "no- Use spaces instead of tabs     
-set tabstop=8       " Tabstops are 2 spaces
+""set tabstop=8       " Tabstops are 2 spaces
+set ts=8 noet       " Tabstops are 2 spaces
 set shiftwidth=4  
 "set softtabstop=4
-set softtabstop=-1
+""set softtabstop=-1
 set autoindent      " auto indent
 set smartindent 
 set smarttab  " Be smart when using tabs ;)
@@ -292,7 +293,7 @@ if has('nvim')
     " Formatting selected code.
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
-    augroup mygroup
+    augroup CocGroup
 	autocmd!
 	" Setup formatexpr specified filetype(s).
 	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
@@ -410,10 +411,11 @@ nnoremap <silent><leader> :WhichKey '\'<CR>
 vnoremap <silent><leader> :WhichKeyVisual '\'<CR>
 
 let g:which_key_default_group_name = ''
-
+augroup Vimwiki
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
 "-----------------------------------------------------------------
 let g:which_key_sep = '→'
 ""let g:which_key_sep = ' ◆ '
@@ -997,7 +999,7 @@ noremap =v :source ~/.vimrc<CR>:redraw!<cr>
 noremap =V :source ~/.vimrc<CR>:redraw!<cr> 
 noremap <leader>v :e ~/.vimrc<CR>  
 noremap <leader>V :e ~/.vimrc<CR> 
-"" this shortcuts will make improve type errors
+"" this shortcuts will make word type errors
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
 cnoreabbrev Qall! qall!
@@ -1019,6 +1021,20 @@ inoremap <C-p> <esc>:r!xclip -o <cr>i
 "---------------------------------------------
 "                   EDITING
 "---------------------------------------------
+"<M-...>		alt-key or meta-key		meta alt <M-
+"<D-...>		command-key (Mac) / super (GTK)	<D-
+inoremap <M-BS> <Esc><Right>dwi
+inoremap <BS>   <Esc><Right>dbi
+inoremap <M-z>  <Esc>0i
+inoremap <M-x>  <Esc>$i<Right>
+inoremap <M-a>  <S-Left>
+inoremap <M-w>  <S-Right>
+inoremap <M-Down>  <Esc>5<Down>i<Right>
+inoremap <M-Up>    <Esc>5<Up>i<Right>
+inoremap <M-Left>  <Esc>5bi<Right>
+inoremap <M-Right> <Esc>5wi<Right>
+
+inoremap <c-g> <esc>
 " show number on/off""
 noremap <F3> :call ToggleHidden()<CR>10h          
 "toggle show spaces"
@@ -1109,6 +1125,7 @@ noremap +L O<ESC>:echo<CR>
 inoremap <c-space> <c-n>
 " Ativa fechamento automático para parêntese
 " Set automatic expansion of parenthesis/brackets
+
 inoremap ( ()<left>
 inoremap { {}<left>
 inoremap [ []<left>
