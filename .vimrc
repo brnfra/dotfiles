@@ -134,8 +134,8 @@ set expandtab    "no- Use spaces instead of tabs
 ""set tabstop=8       " Tabstops are 2 spaces
 set ts=8 noet       " Tabstops are 2 spaces
 set shiftwidth=4  
-"set softtabstop=4
-""set softtabstop=-1
+"set 
+"set softtabstop=-1
 set autoindent      " auto indent
 set smartindent 
 set smarttab  " Be smart when using tabs ;)
@@ -358,20 +358,6 @@ endif
 "              VIMWIKI {{{
 " Height
 "----------------------------------------------------------------
-"hi VimwikiHeader1 term=none  cterm=bold  ctermfg=0   guifg=#006FFD  gui=bold 
-"hi VimwikiHeader2 term=none  cterm=bold  ctermfg=0   guifg=#229379  gui=bold
-"hi VimwikiHeader3 term=none  cterm=bold  ctermfg=0   guifg=#aa0000  gui=bold
-"hi VimwikiHeader4 guifg=#FF00FF
-"hi VimwikiHeader5 guifg=#00FFFF
-"hi VimwikiHeader6 guifg=#FFFF00
-"hi VimwikiH1Folding  term=bold  cterm=bold  ctermfg=204  guifg=#e5c07b gui=bold 
-"hi VimwikiH2Folding  term=bold  cterm=bold  ctermfg=204  guifg=#98c379 gui=bold
-"hi VimwikiH3Folding  term=bold  cterm=bold  ctermfg=204  guifg=#c678dd gui=bold
-"hi VimwikiH4Folding guifg=#8096BF
-"hi VimwikiH5Folding guifg=#8096BF
-"hi VimwikiH6Folding guifg=#8096BF
-"hi VimwikiLink  term=bold  cterm=bold,italic  ctermfg=204  guifg=#00655D gui=bold
-"hi VimwikiBold  term=bold  cterm=bold  ctermfg=204  guifg=#E06C75 gui=bold
 inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
 inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
 "Esc conflict"
@@ -969,14 +955,14 @@ autocmd FileType php set errorformat=%m\ in\ %f\ on\ line\ %l
 "---------------------------------------------
 " for edit CSS
 "---------------------------------------------
-autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType css setlocal expandtab shiftwidth=4 ts=4 noet 
 " make CSS omnicompletion work for SASS and SCSS
 autocmd BufNewFile,BufRead *.scss			set ft=scss.css
 autocmd BufNewFile,BufRead *.sass			set ft=sass.css
 "---------------------------------------------
 " for edit HTML
 "---------------------------------------------
-autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType html,xhtml setlocal expandtab shiftwidth=4 ts=4 noet 
 "---------------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
 let mapleader="\\" "Map <Leader> to \
@@ -1125,22 +1111,23 @@ noremap +L O<ESC>:echo<CR>
 inoremap <c-space> <c-n>
 " Ativa fechamento automático para parêntese
 " Set automatic expansion of parenthesis/brackets
-
 inoremap ( ()<left>
 inoremap { {}<left>
 inoremap [ []<left>
 inoremap ' ''<left>
 inoremap " ""<left>
-"surround "" ou '' ss or SS for surround special chars
+""surround "" ou '' ss or SS for surround special chars"
 "only words s or S
-nnoremap <leader>s bcw""<esc>P
-nnoremap <leader>ss BcW""<esc>P
-nnoremap <leader>S bcw''<esc>P
-nnoremap <leader>SS BcW''<esc>P
-inoremap <leader>s <esc>bcw""<esc>Pi
-inoremap <leader>ss <esc>BcW""<esc>Pi
-inoremap <leader>S <esc>bcw''<esc>Pi
-inoremap <leader>SS <esc>BcW''<esc>Pi
+nnoremap <M-s> bcw""<esc>P
+nnoremap <M-c> 0i"<esc>$i<Right>"<esc>
+nnoremap <M-S> bcw''<esc>P
+nnoremap <M-C> 0i'<esc>$i<Right>'<esc>
+inoremap <M-s> <esc>bcw""<esc>Pi
+inoremap <M-c> <esc>0i"<esc>$i<Right>"<esc>
+inoremap <M-S> <esc>bcw''<esc>Pi
+inoremap <M-C> <esc>0i'<esc>$i<Right>'<esc>
+
+vnoremap <silent> <M-C> :call SurroundQuotes()<CR>
 
 "by @LukeSmithxyz"
 let s:hidden_all = 1 
@@ -1211,14 +1198,14 @@ nnoremap <S-t> :tabnew<CR>
 "" Custom configs
 "-------------------------------------------------------
 " c
-autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd FileType c setlocal ts=4 noet shiftwidth=4 expandtab
+autocmd FileType cpp setlocal ts=4 noet shiftwidth=4 expandtab
 " javascript
 let g:javascript_enable_domhtmlcss = 1
 " vim-javascript
 augroup vimrc-javascript
     autocmd!
-    autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
+    autocmd FileType javascript setl ts=4 noet|setl shiftwidth=4|setl expandtab 
 augroup END
 " for error highlight
 highlight clear SpellBad

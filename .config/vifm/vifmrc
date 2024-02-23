@@ -1,7 +1,7 @@
 "====================================================================
 " Arquivo: vifmrc
 " Autor: Bruno Franco
-" Ultima_modificacao: 12-02-2024
+" Ultima_modificacao: 23-02-2024
 " Download: git@github.com:brnfra
 " Licence:Este arquivo é de domínio público
 " Garantia: O autor não se responsabiliza por eventuais danos
@@ -340,7 +340,14 @@ nnoremap gb :file &<cr>l
 nnoremap yd :!echo %d | xclip %i<cr>
 
 " Yank current file path into the clipboard
-nnoremap yf :!echo %c:p | xclip %i<cr>
+" nnoremap yf :!echo %c:p | xclip %i<cr>
+nnoremap yf :!printf "\n%%s" %f:p | tail -c+2 | xclip -selection clipboard %i<cr>
+" yank currently selected filenames with path
+vnoremap yf :!printf "\n%%s" %f:p | tail -c+2 | xclip -selection clipboard %i<cr>
+" yank currently selected filenames without path
+vnoremap yn :!printf "\n%%s" %f | tail -c+2 | xclip -selection clipboard %i<cr>
+" yank currently selected filenames
+vnoremap yy :yank<cr>
 
 " Mappings for faster renaming
 nnoremap I cw<c-a>

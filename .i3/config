@@ -194,61 +194,20 @@ bar {
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
-<<<<<<< HEAD
 set $vol_signal pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
 bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
 bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
 bindsym XF86HomePage         $exe pavucontrol
-||||||| 8f12ecb
-$exe volumeicon
-bindsym $mod+Ctrl+m exec xfce4-terminal -e 'alsamixer'
-=======
-$exe volumeicon
-bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
 $exe compton --config ~/.config/compton/compton.conf
->>>>>>> 123acc26c8ce86aff6a35103174b86e20bad91b5
 $exe_always xset b off
 $exe nm-applet --indicator
 $exe numlockx on
 $exe xfce4-power-manager
-<<<<<<< HEAD
-$exe nm-applet --indicator
-$exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
-$exe compton --config ~/.config/compton.conf
-$exe $HOME/bin/rm_linedup ~/.bash_history
 $exe goldendict
 $exe blueman-applet
 $exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 $exe xautolock -time 10 -locker "i3lock-fancy -p -g"
 $exe diodon
-||||||| 8f12ecb
-$exe nm-applet --indicator
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
-$exe compton --config ~/.config/compton.conf
-$exe $HOME/bin/rm_linedup ~/.bash_history
-$exe goldendict
-$exe blueman-applet
-$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-$exe clipit
-$exe xautolock -time 10 -locker blurlock
-$exe pamac-tray
-$exe $HOME/.config/conky/start_conky_maia
-$exe ff-theme-util
-$exe fix_xcursor
-$exe_always xrdb -load ~/.Xresources
-=======
-$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-$exe clipit
-$exe xautolock -time 10 -locker blurlock
-$exe pamac-tray
-$exe ff-theme-util
-$exe fix_xcursor
-$exe_always xrdb -load ~/.Xresources
-$exe blueman-applet
-$exe $HOME/.config/conky/start_conky_maia
-$exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
->>>>>>> 123acc26c8ce86aff6a35103174b86e20bad91b5
