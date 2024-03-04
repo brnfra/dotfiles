@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env bash
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
@@ -20,7 +20,8 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 elif [ "$osys" = "manjaro" ]; then
     # update and upgrade
     alias up='sudo pacman -Sy'
-    alias upg='sudo pacman -Syu'
+    alias upg='sudo pacman -Syu --noconfirm'
+    alias upgl='checkupdates'
     alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
     alias upgrade-distro='sudo pacman -Syyu'
@@ -152,16 +153,16 @@ alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
 alias i3bl="    cd ~/.i3/i3blocks"
 alias dotbash=" cd ~/.bash"
 alias hosts="sudo vim /etc/hosts"
-alias promptrc=" vim ~/.bash/prompt"
-alias profilerc="vim ~/.bash/profile"
-alias aliasrc="  vim ~/.bash/aliases"
-alias funcrc="   vim ~/.bash/functions"
-alias pathrc="   vim ~/.bash/exports"
-alias bashrc="   vim ~/.bashrc"
-alias vimrc="    vim ~/.vimrc"
-alias i3rc="     vim ~/.i3/config"
-alias vifmrc="   vim ~/.config/vifm/vifmrc"
-alias blocksrc=" vim ~/.i3/i3blocks.conf"
+alias promptrc=" nvim ~/.bash/prompt"
+alias profilerc="nvim ~/.bash/profile"
+alias aliasrc="  nvim ~/.bash/aliases"
+alias funcrc="   nvim ~/.bash/functions"
+alias pathrc="   nvim ~/.bash/exports"
+alias bashrc="   nvim ~/.bashrc"
+alias vimrc="    nvim ~/.vimrc"
+alias i3rc="     nvim ~/.i3/config"
+alias vifmrc="   nvim ~/.config/vifm/vifmrc"
+alias blocksrc=" nvim ~/.i3/i3blocks.conf"
 # }}}
 # Apps exec {{{
 alias anki="    cd ~/ && setsid ./Anki &>/dev/null"
@@ -178,12 +179,11 @@ alias nvi=" nvim "
 alias snv=" sudo nvim"
 alias cim=" vim "
 alias VIM=" vim "
-alias vi="  vim "
 alias v="   vim "
 alias sv="  sudo vim"
 alias vifm="vifm ."
 alias py="python3 "
 alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
+alias ssha="ssh-add "
 # }}}
-alias rottenpotatoes-rails-intro="cd $HOME/Documents/Projects/git/rottenpotatoes-rails-intro"
