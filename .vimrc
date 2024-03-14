@@ -1009,8 +1009,10 @@ inoremap <C-p> <esc>:r!xclip -o <cr>i
 "---------------------------------------------
 "<M-...>		alt-key or meta-key		meta alt <M-
 "<D-...>		command-key (Mac) / super (GTK)	<D-
+"vimwiki problem
 inoremap <M-BS> <Esc><Right>dwi
-inoremap <BS>   <Esc><Right>dbi
+inoremap <S-BS> <Esc><Right>dbi
+
 inoremap <M-z>  <Esc>0i
 inoremap <M-x>  <Esc>$i<Right>
 inoremap <M-a>  <S-Left>
