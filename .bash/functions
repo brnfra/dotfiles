@@ -246,7 +246,7 @@ function depends() {
 #
 elif [ "$osys" = "manjaro" ]; then
     function psearch () {
-	pacman -Ss | sed '/^[[:space:]]/d' \
+	pacman -Ss | sed '/^[[:space:]]/d' | awk '{print $1}' \
 	    | fzf \
 	    --multi \
 	    --preview 'pacman -Si {1}' \

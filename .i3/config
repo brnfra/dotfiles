@@ -264,4 +264,4 @@ $exe_always xrdb -load ~/.Xresources
 $exe blueman-applet
 $exe $HOME/.config/conky/start_conky_maia
 $exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
+$exe nohup $HOME/.i3/autostart/wallpapers &
