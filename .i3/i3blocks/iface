@@ -14,7 +14,7 @@
 source ~/.i3/i3blocks/vars
 #------------------------------------------------------------------------
 font_params_ok="$font $size $weight $green $style"
-font_params_fail="$font $size $weight $red $transform"
+font_params_fail="$font $size $weight $color_on $transform"
 site_list='google.com' 
 site_list+=' github.com' 
 site_list+=' www.amazon.com.br'
