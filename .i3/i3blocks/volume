@@ -55,9 +55,9 @@ pa-volume() {
     pactl get-sink-volume "$pa_sink" | grep Volume | awk '{print $5}'
     vol=$(pactl get-sink-volume "$pa_sink" | awk /Volume/'{print $5}')
     vol=${vol%\%*}
-    if [[ $vol -ge 95 ]]
+    if [[ $vol -ge 110 ]]
     then
-	pactl set-sink-volume "$pa_sink" 95%
+	pactl set-sink-volume "$pa_sink" 105%
     fi
 }
 pa-mute() {

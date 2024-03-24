@@ -57,9 +57,9 @@ pa-volume-mic() {
     pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
     vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
     vol=${vol%\%*}
-    if [[ $vol -ge 95 ]]
+    if [[ $vol -ge 110 ]]
     then
-	pactl set-source-volume "$pa_source_mic" 95%
+	pactl set-source-volume "$pa_source_mic" 105%
     fi
 }
 pa-mute-mic() {
