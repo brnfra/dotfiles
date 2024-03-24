@@ -95,10 +95,11 @@ alias gr='git restore '
 #commit
 alias gc='git commit'
 alias gcm='git commit -m'
+alias gcm='git commit -m'
 #push
-#alias gpush='git push -u origin master'
+alias gpush='git push origin'
 #pull
-#alias gpull='git pull'
+alias gpull='git pull origin'
 #config
 alias guser='git config --global user.name '
 alias gmail='git config --global user.email '
