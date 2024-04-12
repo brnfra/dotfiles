@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 # Arquivo: type_fold
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 12-04-2024
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
 #   Tem o proposito de organizar os arquivos que tem nome padrão começando com
-#   o template AAAAmmdd, sendo AAAA para digito do ano, mm para digitos do mes, 
-#   dd para digito do dia
-#   cria pasta no padrão ./AAAA/mm e insere os arquivos 
-#   não se aplica a pastas ou nomes diferentes do padrão
+#   o template name.type
+#   cria pasta no padrão ./type/ e insere name.type nela 
+#
 # shellcheck source=dotfiles_env
 . dotfiles_env
 
@@ -23,11 +22,12 @@ NAME
     ${0##*/}  - Foldering files by type
 	
 SYNOPSIS
-    ${0##*/} [-h] --help
+    ${0##*/} [local|-h] --help
 
 DESCRIPTION
     Move files in current folder to new folders by type, inside current folder.
-
+    local
+	Move files to new path
     -h, --help
 	Print help informations
 
@@ -38,9 +38,13 @@ HELP
 exit; fi
 
 filesByExt=$(find . -maxdepth 1 -type f -name '*.*' | sed 's|\.\/||gi')
-today_year=$(date +%Y)
-today_year=$((today_year + 1))
-saveIn=${1:-'.'}
+
+saveIn=${1:-$(pwd)}
+if ! [ -d $saveIn ]
+then
+    cError "Directory not found." "$Dir"
+    exit 1
+fi
 
 foldering_by_type() {
     local Dir="$1"

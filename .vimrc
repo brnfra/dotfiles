@@ -1113,7 +1113,6 @@ noremap +L O<ESC>:echo<CR>
 inoremap <c-space> <c-n>
 " Ativa fechamento automático para parêntese
 " Set automatic expansion of parenthesis/brackets
-
 inoremap ( ()<left>
 inoremap { {}<left>
 inoremap [ []<left>

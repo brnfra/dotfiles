@@ -34,22 +34,22 @@ alias neofetch='neofetch --block_range 0 15'
 # }}}
 # List directories contents aliasesc {{{
 # Long form no user group, color sort by name, directories first
-alias l='ls -Agophv --color=always --group-directories-first'
+alias l='ls -Aphvl --color=always --group-directories-first'
 # Long form with user group, color sort by name, directories first
-alias ll='ls -AGophv --color=always --group-directories-first'
+alias ll='ls -Aphvl --color=always --group-directories-first'
 # Order by last modified, long form no user group, color
-alias lt='ls -Atogph --color=auto --group-directories-first'
+alias lt='ls -Atphl --color=auto --group-directories-first'
 # List all dirs with size
 alias lv='du -h --max-depth=1 | sort -h'
 # List order by type
-alias lx='ls -Agxoph | grep -e "[^\/]$"'
+alias lx='ls -Axphl | grep -e "[^\/]$"'
 # some more ls aliases
 #show hiddens only
-alias l.='ls -ApGv --group-directories-first | grep --regexp="^[.]"'
+alias l.='ls -Apvl --group-directories-first | grep --regexp="^[.]"'
 #show links only
-alias li='ls -AFohL --color=always | grep --regexp="^[l]"'
+alias li='ls -AFhL --color=always | grep --regexp="^[l]"'
 #show directories
-alias ld='ls -ApGoh --color=always | grep --regexp="[\/]$"'
+alias ld='ls -Aph --color=always | grep --regexp="[\/]$"'
 #exa aliases
 alias x='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
 #alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
