@@ -129,6 +129,7 @@ alias jstart="bundle exec jekyll serve --livereload"
 #}}}
 # python {{{
 alias py="python3 "
+alias pip="~/.cache/pip/bin/pip"
 #}}}
 #docker {{{
 alias dstop="docker stop "

@@ -765,3 +765,6 @@ export PATH=$NODE/bin:$PATH
 export TOOLBOX="$OPT/JetBrains/Toolbox"
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$TOOLBOX/scripts:$PATH
+
+
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
