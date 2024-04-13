@@ -736,6 +736,7 @@ export PATH="$PATH:$OPT/flutter/bin"
 # heroku
 export HEROKU="$OPT/heroku"
 export PATH=$HEROKU/bin:$PATH
+
 # nodejs v-16
 VERSION=v16.14.0
 DISTRO=linux-x64
@@ -744,6 +745,7 @@ export NODE_REPL_HISTORY_SIZE='2768';
 export NODE_REPL_MODE='sloppy';
 export NODE="$OPT/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
+
 # nodejs v-20
 VERSION=v20.11.0
 DISTRO=linux-x64
@@ -765,6 +767,5 @@ export PATH=$NODE/bin:$PATH
 export TOOLBOX="$OPT/JetBrains/Toolbox"
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$TOOLBOX/scripts:$PATH
-
 
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH

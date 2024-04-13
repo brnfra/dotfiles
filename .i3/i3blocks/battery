@@ -20,9 +20,9 @@ icon75="&#xf241;"
 icon90="&#xf240;"
 
 bat_up_alert="notify-send -t 7000 'Recommend plug-off charger.'"
-bat_up_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/suspend-error.oga &> /dev/null'
+bat_up_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message.oga &> /dev/null'
 bat_down_alert="notify-send -t 7000 'Time to charge!'"
-bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &> /dev/null'
+bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message-new-instant.oga &> /dev/null'
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
     chrg_icon="<span $font $orange $weight $size >   $icon_plug  </span>"
