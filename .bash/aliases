@@ -100,7 +100,7 @@ alias gcm='git commit -m'
 alias gpush='git push origin'
 #pull
 alias gpull='git pull origin'
-alias galias='cat ~/.gitconfig'
+#alias gpull='git pull'
 #config
 alias guser='git config --global user.name '
 alias gmail='git config --global user.email '
