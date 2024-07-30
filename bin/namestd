@@ -63,7 +63,7 @@ stdnames() {    #{{{
     NAME=$(echo "$NAME" | sed -r 's/^_//gi;s/_$//gi')
     NAME=$(echo "$NAME" | sed -E 's/^\._*/./')
     NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
-    TEST_NAME=$(find "$NAME" -maxdepth 0 |sed 's|\.\/||gi')
+    TEST_NAME="$NAME"
     if [[ $NAME == "" ]]; then
         NAME="new_renamed"
     fi
@@ -72,12 +72,12 @@ if [[ "$NAME" != "$OLD" ]] && ! [ -e "$NAME" ]; then
     eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
     eval "mv -n $OLD $NAME"  &>/dev/null
 elif [[ "$NAME" != "$OLD" ]] && [ -e "$NAME" ]; then
-    while [[ "$TEST_NAME" == "$NAME" ]] ; do
+    while [ -e "$TEST_NAME" ] ; do
         NAME=${NAME%-*}
         COUNT=$(( COUNT + 1 ))
         NAME="${NAME}-${COUNT}"
-        TEST_NAME=$(find "$NAME" -maxdepth 0 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + |  sed 's|\.\/||gi')
-        eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
+	TEST_NAME="$NAME"
+	eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
         eval "mv -n $OLD $NAME"  &>/dev/null
     done
 fi
