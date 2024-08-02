@@ -18,6 +18,13 @@
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
+requirement1="xsetwacom"
+
+if ! command -v "$requirement1" &> /dev/null
+then
+    clnError "$requirement1 is not installed. Please install $requirement1 it and try again."
+    exit 2
+fi
 
 for ID in $(xsetwacom list | cut -f2 | cut -d ' ' -f2)
 do 
