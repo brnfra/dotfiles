@@ -1,0 +1,26 @@
+#!/bin/bash - 
+#===============================================================================
+#
+#          FILE: wacom-monitor-toggle.sh
+# 
+#         USAGE: ./wacom-monitor-toggle.sh 
+# 
+#   DESCRIPTION: to change working monitor in wacom devices 
+# 
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: https://www.youtube.com/watch?v=IeDDOjhP_vA;(Age of Aspargus channel)
+#  ORGANIZATION: 
+#       CREATED: 02/08/2024 09:41
+#      REVISION:  ---
+#===============================================================================
+
+set -o nounset                              # Treat unset variables as an error
+
+for ID in $(xsetwacom list | cut -f2 | cut -d ' ' -f2)
+do 
+    xsetwacom set "$ID" maptooutput next
+done
+    
