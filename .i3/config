@@ -254,6 +254,8 @@ $exe_always xset b off
 $exe nm-applet --indicator
 $exe numlockx on
 $exe xfce4-power-manager
+bindsym Ctrl+r $exe $HOME/bin/wacom-rotate-toggle
+bindsym Ctrl+m $exe $HOME/bin/wacom-monitor-toggle
 $exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 $exe clipit
 $exe xautolock -time 10 -locker blurlock
