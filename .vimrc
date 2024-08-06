@@ -28,9 +28,9 @@ set fileencodings=ucs-bom,utf-8,gbk,big5,latin1
 set encoding=utf-8
 set fileencodings=utf-8,cp936,gb18030,big5,latin1   
 set ttyfast
-if !has('nvim')
-    set ttymouse=xterm2
-endif
+""if !has('nvim')
+""    set ttymouse=xterm2
+""endif
 ""set magic
 "" automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -49,21 +49,27 @@ set undofile
 if !has('nvim')
     set viminfo=<500,:100,/50,%,'50,h,f0,s512
     set viminfo+=n~/.vim/.viminfo
+
+    " Local directories 
+    set backupdir=~/.vim/backups/
+    set directory=~/.vim/backups/swaps/
+    set undodir=~/.vim/backups/undo/
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
 else
-    set viminfo+=n~/.vim/.shada
+    set viminfo+=n~/.config/nvim/.shada
+    " Local directories need to create
+    set backupdir=~/.config/nvim/backups/
+    set directory=~/.config/nvim/backups/swaps/
+    set undodir=~/.config/nvim/backups/undo/
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim') 
 endif
-let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim') 
-set nobackup                                                             
-set noswapfile                                                          
+""set nobackup                                                             
+""set noswapfile                                                          
 set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp           
 set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp      
 set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp      
 set viewdir=$DATA_PATH/view/                                       
 set viewoptions=folds,cursor,curdir,slash,unix                    
-" Local directories 
-set backupdir=~/.vim/backups/
-set directory=~/.vim/backups/swaps/
-set undodir=~/.vim/backups/undo/
 
 " ------------------------------------------------------------------------------------------------------------------------------
 " History saving
@@ -178,7 +184,7 @@ filetype on                    "Vundle required if installed
 filetype plugin indent on
 call plug#begin('~/.vim/bundle')
 Plug 'brnfra/vim-shortcuts'
-Plug 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
 Plug 'flazz/vim-colorschemes'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -904,7 +910,7 @@ au BufRead,BufNewFile .rspec set filetype=eruby
 au BufRead,BufNewFile *.workflow set filetype=hcl
 au BufRead,BufNewFile *.acl set filetype=vcl
 au BufRead,BufNewFile vifminfo,vifmrc set filetype=vim
-au BufRead,BufNewFile *.markdown,*.mdown,*.mkd,*.mkdn,*.md set filetype=markdown
+au BufRead,BufNewFile *.wiki,*.markdown,*.mdown,*.mkd,*.mkdn,*.md set filetype=markdown
 au BufRead,BufNewFile txt set filetype=text
 au BufRead,BufNewFile config set filetype=bash
 au BufRead,BufNewFile aliases set filetype=bash
@@ -970,10 +976,12 @@ let maplocalleader=";"
 "-------------------------------------------END SYNTAX }}}
 "                     COMPLETE MAPS     
 "-------------------------------------------------------
+
 noremap <C-q> :q<cr>
 noremap <C-Q> :q!<cr>
 noremap <C-s> :wall<cr>:mkview<cr>
 inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
+
 "--------------------------------------------------------
 ""                 Abbreviations
 "--------------------------------------------------------
@@ -1120,16 +1128,31 @@ inoremap ' ''<left>
 inoremap " ""<left>
 ""surround "" ou '' ss or SS for surround special chars"
 "only words s or S
-nnoremap <M-s> bcw""<esc>P
-nnoremap <M-c> 0i"<esc>$i<Right>"<esc>
-nnoremap <M-S> bcw''<esc>P
-nnoremap <M-C> 0i'<esc>$i<Right>'<esc>
-inoremap <M-s> <esc>bcw""<esc>Pi
-inoremap <M-c> <esc>0i"<esc>$i<Right>"<esc>
-inoremap <M-S> <esc>bcw''<esc>Pi
-inoremap <M-C> <esc>0i'<esc>$i<Right>'<esc>
+nnoremap <S-s> bcw''<esc>P
+nnoremap <S-s>S bcw""<esc>P
+nnoremap <S-b> <esc>bcw**<esc>Pi
+nnoremap <S-i> <esc>bcw__<esc>Pi
+nnoremap <S-t> <esc>bcw==<esc>Pi
+"all line"
+nnoremap <S-a> 0i'<esc>$i<Right>'<esc>
+nnoremap <S-a>A 0i"<esc>$i<Right>"<esc>
+nnoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
+nnoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
+nnoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
+""only words s or S
+inoremap <S-s> <esc>bcw''<esc>Pi
+inoremap <S-s>S <esc>bcw""<esc>Pi
+inoremap <S-b> <esc>bcw**<esc>Pi
+inoremap <S-i> <esc>bcw__<esc>Pi
+inoremap <S-t> <esc>bcw==<esc>Pi
+""all line"
+inoremap <S-a> <esc>0i'<esc>$i<Right>'<esc>
+inoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
+inoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
+inoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
+inoremap <S-a>A <esc>0i"<esc>$i<Right>"<esc>
 
-vnoremap <silent> <M-C> :call SurroundQuotes()<CR>
+vnoremap <silent> <S-C> :call SurroundQuotes()<CR>
 
 "by @LukeSmithxyz"
 let s:hidden_all = 1 
@@ -1172,9 +1195,9 @@ function OneLineAllText()
     :%j
 endfunction    
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+xnoremap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+nnoremap ga <Plug>(EasyAlign)
 inoremap <S-down> <esc>ddp<esc>i
 nnoremap <S-down> <esc>ddp<esc>
 inoremap <S-up> <esc>ddkP<esc>i
