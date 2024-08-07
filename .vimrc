@@ -1124,15 +1124,16 @@ inoremap <c-space> <c-n>
 inoremap ( ()<left>
 inoremap { {}<left>
 inoremap [ []<left>
-inoremap ' ''<left>
-inoremap " ""<left>
+"inoremap ' ''<left>
+"inoremap " ""<left>
+
 ""surround "" ou '' ss or SS for surround special chars"
 "only words s or S
 nnoremap <S-s> bcw''<esc>P
 nnoremap <S-s>S bcw""<esc>P
-nnoremap <S-b> <esc>bcw**<esc>Pi
-nnoremap <S-i> <esc>bcw__<esc>Pi
-nnoremap <S-t> <esc>bcw==<esc>Pi
+nnoremap ** <esc>bcw**<esc>Pi
+nnoremap __ <esc>bcw__<esc>Pi
+nnoremap == <esc>bcw==<esc>Pi
 "all line"
 nnoremap <S-a> 0i'<esc>$i<Right>'<esc>
 nnoremap <S-a>A 0i"<esc>$i<Right>"<esc>
@@ -1140,17 +1141,17 @@ nnoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
 nnoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
 nnoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
 ""only words s or S
-inoremap <S-s> <esc>bcw''<esc>Pi
-inoremap <S-s>S <esc>bcw""<esc>Pi
-inoremap <S-b> <esc>bcw**<esc>Pi
-inoremap <S-i> <esc>bcw__<esc>Pi
-inoremap <S-t> <esc>bcw==<esc>Pi
+inoremap ' <esc>bcw''<esc>Pi
+inoremap " <esc>bcw""<esc>Pi
+inoremap ** <esc>bcw**<esc>Pi
+inoremap __ <esc>bcw__<esc>Pi
+inoremap == <esc>bcw==<esc>Pi
 ""all line"
-inoremap <S-a> <esc>0i'<esc>$i<Right>'<esc>
-inoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
-inoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
-inoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
-inoremap <S-a>A <esc>0i"<esc>$i<Right>"<esc>
+inoremap <localleader>' <esc>0i'<esc>$i<Right>'<esc>i
+inoremap <localleader>" <esc>0i"<esc>$i<Right>"<esc>i
+inoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>i
+inoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>i
+inoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>i
 
 vnoremap <silent> <S-C> :call SurroundQuotes()<CR>
 
