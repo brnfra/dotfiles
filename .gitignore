@@ -38,3 +38,11 @@ xmonad.op
 .vscode/settings.json
 .zcompdump
 .zcompdump*
+./.config/nvim/%*
+./.config/nvim/'*
+./.config/nvim/.*
+./.config/nvim/.*
+./.config/nvim/view
+./.config/nvim/view
+./.config/nvim/backups
+./.config/nvim/backups/*
