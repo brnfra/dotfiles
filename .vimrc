@@ -363,17 +363,17 @@ endif
 ""}}}
 "              VIMWIKI {{{
 " Height
-"----------------------------------------------------------------
-inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
-inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
+"""----------------------------------------------------------------
+"inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
+""inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
 "Esc conflict"
 ""inoremap <C-]> <Plug>VimwikiTablePrevCell
 "inoremap <C-[> <Plug>VimwikiTableNextCell
 ""nnoremap <C-]> <Plug>VimwikiTablePrevCell
+"nnoremap <C-Tab> <Plug>VimwikiPrevLink
+"nnoremap <C-n> <Plug>VimwikiDiaryNextDay
+"nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
 ""nnoremap <C-[> <Plug>VimwikiTableNextCell
-nnoremap <C-Tab> <Plug>VimwikiPrevLink
-nnoremap <C-n> <Plug>VimwikiDiaryNextDay
-nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
 "              }}}
 " VIM-LEADER-GUIDE{{{
 "=================================================================================================================================
@@ -1071,7 +1071,7 @@ inoremap <S-Up> <esc>ddkP<esc>i
 nnoremap <S-Up> <esc>ddkP<esc>
 
 "close tags
-inoremap <leader>/ </<C-X><C-O>
+inoremap <localleader>/ </<C-X><C-O>
 inoremap <C-up> <esc>5ki
 inoremap <C-down> <esc>5ji
 inoremap <C-left> <esc>hbi
@@ -1106,14 +1106,14 @@ nnoremap <C-a> ggVG
 "call goyo-plugin"
 noremap ,g :Goyo 120x90%<CR>
 "delete blank spaces"
-noremap <leader>d :%s/\s\+$//<CR>    
+noremap <localleader>d :%s/\s\+$//<CR>    
 "delete blank lines
-noremap <leader>DD :g/^\s*$/d<CR>
-noremap <leader>D :%s!\n\n\n\+!\r\r!g<CR>
+noremap <localleader>DD :g/^\s*$/d<CR>
+noremap <localleader>D :%s!\n\n\n\+!\r\r!g<CR>
 "noremap <leader>D :%!cat: -s<CR>
 "manual entry
-noremap <leader>M :call <SNR>44_PreGetPage(0)<CR>
-inoremap <leader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
+noremap <localleader>M :call <SNR>44_PreGetPage(0)<CR>
+inoremap <localleader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
 " inserir linhas e continuar em modo normal
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
@@ -1128,25 +1128,26 @@ inoremap [ []<left>
 "inoremap " ""<left>
 
 ""surround "" ou '' ss or SS for surround special chars"
-"only words s or S
+"only words s or "S
 nnoremap <S-s> bcw''<esc>P
 nnoremap <S-s>S bcw""<esc>P
 nnoremap ** <esc>bcw**<esc>Pi
 nnoremap __ <esc>bcw__<esc>Pi
 nnoremap == <esc>bcw==<esc>Pi
-"all line"
+"''"all line"''
 nnoremap <S-a> 0i'<esc>$i<Right>'<esc>
 nnoremap <S-a>A 0i"<esc>$i<Right>"<esc>
 nnoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
 nnoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
 nnoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
-""only words s or S
-inoremap ' <esc>bcw''<esc>Pi
-inoremap " <esc>bcw""<esc>Pi
+"Problem when no words
+"inoremap ' <esc>bcw''<esc>Pi
+"inoremap " <esc>bcw""<esc>Pi
+"''""only words s or S''
 inoremap ** <esc>bcw**<esc>Pi
 inoremap __ <esc>bcw__<esc>Pi
 inoremap == <esc>bcw==<esc>Pi
-""all line"
+"''""all line"''
 inoremap <localleader>' <esc>0i'<esc>$i<Right>'<esc>i
 inoremap <localleader>" <esc>0i"<esc>$i<Right>"<esc>i
 inoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>i
@@ -1204,10 +1205,10 @@ nnoremap <S-down> <esc>ddp<esc>
 inoremap <S-up> <esc>ddkP<esc>i
 nnoremap <S-up> <esc>ddkP<esc>
 " terminal emulation
-nnoremap <silent> <leader>l :terminal<CR>
+nnoremap <silent> <localleader>l :terminal<CR>
 " split window"
-nnoremap <leader>/ :split<cr>
-nnoremap <leader>- :vsplit<cr>
+nnoremap <localleader>/ :split<cr>
+nnoremap <localleader>- :vsplit<cr>
 "" Switching windows buffer(NerdTree)
 nnoremap <C-down> <C-W>j    "v
 nnoremap <C-up> <C-W>k   "^
