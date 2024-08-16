@@ -8,14 +8,17 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-180
-normal! zo
-let s:l = 198 - ((197 * winheight(0) + 25) / 51)
+let s:l = 4 - ((3 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 198
-normal! 03|
+keepjumps 4
+let s:c = 271 - ((236 * winwidth(0) + 119) / 239)
+if s:c > 0
+  exe 'normal! ' . s:c . '|zs' . 271 . '|'
+else
+  normal! 0271|
+endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
 nohlsearch
