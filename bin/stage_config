@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 21-02-2024
+#  Ultima_modificacao: 17-08-2024
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -97,7 +97,8 @@ sync_copy ()
     #conky
     files+='.config/conky/ '
     # vim
-    files+='.vimrc .config/nvim/ '
+    files+='.vimrc .config/nvim/coc-settings.json '
+    files+='.vimrc .config/nvim/init.vim '
     # vifm
     files+='.config/vifm/vifmrc  '
     files+='.config/vifm/scripts/ '
