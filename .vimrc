@@ -186,40 +186,40 @@ call plug#begin('~/.vim/bundle')
 Plug 'brnfra/vim-shortcuts'
 "Plug 'dense-analysis/ale'
 Plug 'flazz/vim-colorschemes'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align'
+"Plug 'hail2u/vim-css3-syntax'
+"Plug 'jistr/vim-nerdtree-tabs'
+"Plug 'junegunn/fzf'
+"Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/vim-easy-align'
 Plug 'liuchengxu/vim-which-key' 
-Plug 'michal-h21/vim-zettel'
-Plug 'mzlogin/vim-markdown-toc'
+"Plug 'michal-h21/vim-zettel'
+"Plug 'mzlogin/vim-markdown-toc'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
+"Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-sensible'
+"Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-scripts/OmniCppComplete'
-Plug 'vim-scripts/c.vim'
+"Plug 'vim-scripts/OmniCppComplete'
+"Plug 'vim-scripts/c.vim'
 Plug 'vimwiki/vimwiki' 
-Plug 'hecal3/vim-leader-guide'
-Plug 'vim-scripts/bash-support.vim'
-Plug 'aliou/bats.vim'
-Plug 'vim-scripts/bats.vim'
+"Plug 'hecal3/vim-leader-guide'
+"Plug 'vim-scripts/bash-support.vim'
+"Plug 'aliou/bats.vim'
+"Plug 'vim-scripts/bats.vim'
 " DEOPLETE"
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'roxma/nvim-yarp'
-    Plug 'Shougo/deoplete.nvim'
+    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    "Plug 'roxma/vim-hug-neovim-rpc'
+    "Plug 'roxma/nvim-yarp'
+    "Plug 'Shougo/deoplete.nvim'
 else
     if has('patch-8.1.2269')
-	Plug 'ycm-core/YouCompleteMe' 
+	"Plug 'ycm-core/YouCompleteMe' 
     else
-	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
+	"Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
 endif
 call plug#end()
@@ -367,7 +367,7 @@ endif
 "inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
 ""inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
 "Esc conflict"
-""inoremap <C-]> <Plug>VimwikiTablePrevCell
+"inoremap <C-]> <Plug>VimwikiTablePrevCell
 "inoremap <C-[> <Plug>VimwikiTableNextCell
 ""nnoremap <C-]> <Plug>VimwikiTablePrevCell
 "nnoremap <C-Tab> <Plug>VimwikiPrevLink
@@ -977,14 +977,15 @@ let maplocalleader=";"
 "                     COMPLETE MAPS     
 "-------------------------------------------------------
 
+"--------------------------------------------------------
+""                 Abbreviations{{{
+
+"--------------------------------------------------------
 noremap <C-q> :q<cr>
 noremap <C-Q> :q!<cr>
 noremap <C-s> :wall<cr>:mkview<cr>
 inoremap <C-s> <esc><esc>:w<CR>:mkview<cr>
 
-"--------------------------------------------------------
-""                 Abbreviations
-"--------------------------------------------------------
 " Permite recarregar o vim para que modificações no
 " próprio vimrc seja ativadas com o mesmo sendo editado
 nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc reloaded!"<CR>
@@ -1004,8 +1005,9 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
+" }}}
 "---------------------------------------------
-"           copy to system buffer
+"           copy to system buffer 
 "---------------------------------------------
 vnoremap <C-c> :w !xclip -selection clipboard -i<cr><cr>
 "colar area de transferencia xclip"
@@ -1031,6 +1033,8 @@ inoremap <M-Left>  <Esc>5bi<Right>
 inoremap <M-Right> <Esc>5wi<Right>
 
 inoremap <c-g> <esc>
+"vim-shortcuts
+vnoremap <silent> <S-C> :call SurroundQuotes()<CR>
 " show number on/off""
 noremap <F3> :call ToggleHidden()<CR>10h          
 "toggle show spaces"
@@ -1044,6 +1048,7 @@ noremap <F5> :set wrap! wrap?<CR>
 "toggle wrap"
 inoremap <F5> <esc>:set wrap! wrap?<CR>li
 set pastetoggle=<F6>
+""vim-shortcuts
 noremap <F7> :call ToggleFold()<cr>
 inoremap <F7> <esc>:call ToggleFold()<cr>i
 noremap <F8> :call OneLineAllText()<cr>v$
@@ -1064,39 +1069,16 @@ vnoremap <C-d> VOyP`[v`]
 "repeate line bellow
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
 nnoremap <C-d> $v0y$o<esc>p<up>$<esc>
-
+"move line
 inoremap <S-Down> <esc>ddp<esc>i
 nnoremap <S-Down> <esc>ddp<esc>
 inoremap <S-Up> <esc>ddkP<esc>i
 nnoremap <S-Up> <esc>ddkP<esc>
-
-"close tags
-inoremap <localleader>/ </<C-X><C-O>
+"move insert mode
 inoremap <C-up> <esc>5ki
 inoremap <C-down> <esc>5ji
 inoremap <C-left> <esc>hbi
 inoremap <C-right> <esc>lwi
-" Visual
-nnoremap <silent> vi" ?"<CR><space>v/"<CR><BS>
-nnoremap <silent> vi' ?'<CR><space>v/'<CR><BS>
-nnoremap <silent> vi` ?`<CR><space>v/`<CR><BS>
-nnoremap <silent> va" ?"<CR>v/"<CR>
-nnoremap <silent> va' ?'<CR>v/'<CR>
-nnoremap <silent> va` ?`<CR>v/`<CR>
-" Delete
-nnoremap <silent> di" ?"<CR><space>v/"<CR><BS>d
-nnoremap <silent> di' ?'<CR><space>v/'<CR><BS>d
-nnoremap <silent> di` ?`<CR><space>v/`<CR><BS>d
-nnoremap <silent> da" ?"<CR>v/"<CR>d
-nnoremap <silent> da' ?'<CR>v/'<CR>d
-nnoremap <silent> da` ?`<CR>v/`<CR>d
-" Change
-nnoremap <silent> ci" ?"<CR><space>v/"<CR><BS>c
-nnoremap <silent> ci' ?'<CR><space>v/'<CR><BS>c
-nnoremap <silent> ci` ?`<CR><space>v/`<CR><BS>c
-nnoremap <silent> ca" ?"<CR>v/"<CR>c
-nnoremap <silent> ca' ?'<CR>v/'<CR>c
-nnoremap <silent> ca` ?`<CR>v/`<CR>c
 "Yank"
 nnoremap Y y$
 "redo"
@@ -1124,78 +1106,7 @@ inoremap <c-space> <c-n>
 inoremap ( ()<left>
 inoremap { {}<left>
 inoremap [ []<left>
-"inoremap ' ''<left>
-"inoremap " ""<left>
 
-""surround "" ou '' ss or SS for surround special chars"
-"only words s or "S
-nnoremap <S-s> bcw''<esc>P
-nnoremap <S-s>S bcw""<esc>P
-nnoremap ** <esc>bcw**<esc>Pi
-nnoremap __ <esc>bcw__<esc>Pi
-nnoremap == <esc>bcw==<esc>Pi
-"''"all line"''
-nnoremap <S-a> 0i'<esc>$i<Right>'<esc>
-nnoremap <S-a>A 0i"<esc>$i<Right>"<esc>
-nnoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>
-nnoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>
-nnoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>
-"Problem when no words
-"inoremap ' <esc>bcw''<esc>Pi
-"inoremap " <esc>bcw""<esc>Pi
-"''""only words s or S''
-inoremap ** <esc>bcw**<esc>Pi
-inoremap __ <esc>bcw__<esc>Pi
-inoremap == <esc>bcw==<esc>Pi
-"''""all line"''
-inoremap <localleader>' <esc>0i'<esc>$i<Right>'<esc>i
-inoremap <localleader>" <esc>0i"<esc>$i<Right>"<esc>i
-inoremap <S-b>B <esc>0i*<esc>$i<Right>*<esc>i
-inoremap <S-i>I <esc>0i_<esc>$i<Right>_<esc>i
-inoremap <S-t>T <esc>0i=<esc>$i<Right>=<esc>i
-
-vnoremap <silent> <S-C> :call SurroundQuotes()<CR>
-
-"by @LukeSmithxyz"
-let s:hidden_all = 1 
-function ToggleHidden()
-    if s:hidden_all == 0
-	let s:hidden_all = 1
-	set number
-	set ruler
-	set relativenumber
-	set laststatus=2
-	set list
-    else
-	let s:hidden_all = 0
-	set nonumber
-	set noruler
-	set norelativenumber
-	set laststatus=0
-	set nolist
-    endif
-endfunction
-let s:fold_all = 1 
-function ToggleFold()
-    if s:fold_all == 0
-	let s:fold_all = 1
-	:%foldclose!
-    else
-	let s:fold_all = 0
-	:%foldopen!
-    endif
-endfunction
-function ToggleCreateFold()
-    if foldclosed(".") < 0
-	let s:make_fold = 0
-	:'<,'>fold
-    else
-	:normal zd
-    endif
-endfunction
-function OneLineAllText()
-    :%j
-endfunction    
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xnoremap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
@@ -1205,7 +1116,7 @@ nnoremap <S-down> <esc>ddp<esc>
 inoremap <S-up> <esc>ddkP<esc>i
 nnoremap <S-up> <esc>ddkP<esc>
 " terminal emulation
-nnoremap <silent> <localleader>l :terminal<CR>
+nnoremap <localleader>l :terminal<CR>
 " split window"
 nnoremap <localleader>/ :split<cr>
 nnoremap <localleader>- :vsplit<cr>
