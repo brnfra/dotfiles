@@ -62,6 +62,7 @@ else
     set directory=~/.config/nvim/backups/swaps/
     set undodir=~/.config/nvim/backups/undo/
     let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim') 
+
 endif
 ""set nobackup                                                             
 ""set noswapfile                                                          
@@ -209,17 +210,21 @@ Plug 'vimwiki/vimwiki'
 "Plug 'aliou/bats.vim'
 "Plug 'vim-scripts/bats.vim'
 " DEOPLETE"
+" Track the engine.
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
 if has('nvim')
-    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     "Plug 'roxma/vim-hug-neovim-rpc'
     "Plug 'roxma/nvim-yarp'
-    "Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim'
 else
     if has('patch-8.1.2269')
-	"Plug 'ycm-core/YouCompleteMe' 
+	Plug 'ycm-core/YouCompleteMe' 
     else
-	"Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
+	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
     endif
 endif
 call plug#end()
@@ -362,7 +367,14 @@ if has('nvim')
 endif
 ""}}}
 "              VIMWIKI {{{
-" Height
+let wiki = {}
+let wiki.path = '~/vimwiki'
+let wiki.syntax = 'default'
+let wiki.ext = '.wiki'
+set runtimepath+=~/vimwiki
+set runtimepath+=~/vimwiki/ultisnips
+set runtimepath+=~/vimwiki/vim-snippets
+
 """----------------------------------------------------------------
 "inoremap <C-z> <Plug>VimwikiDecreaseLvlSingleItem
 ""inoremap <C-x> <Plug>VimwikiIncreaseLvlSingleItem
@@ -375,19 +387,12 @@ endif
 "nnoremap <C-m> <Plug>VimwikiDiaryPrevDay
 ""nnoremap <C-[> <Plug>VimwikiTableNextCell
 "              }}}
-" VIM-LEADER-GUIDE{{{
-"=================================================================================================================================
-" Which Key Map  settings
-"=================================================================================================================================
-" Define prefix dictionary
-let g:lmap =  {}
-
-"}}}
 "             VIM-WITCH-KEY {{{
 "=================================================================================================================================
 " Which Key Map  settings
 "=================================================================================================================================
 " Define prefix dictionary
+let g:lmap =  {}
 let g:which_key_map = {}
 let g:which_key_map.b = {}
 let g:which_key_map.c = {}
