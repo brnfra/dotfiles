@@ -769,3 +769,5 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$TOOLBOX/scripts:$PATH
 
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+export PATH=$PATH:$HOME/.mozilla/driver
+                  

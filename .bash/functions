@@ -348,7 +348,14 @@ function fman () {
 	    | awk '{print $1}' | xargs -r man
 	}
 
-function fhistory () {
-	    eval "$(cat < ~/.bash_history | fzf -m -i)"
+function fh () {
+    eval "$(cat < ~/.bash_history | fzf -m -i)"  
 	}
+function fgrep () {
+	cat "$1" | fzf -m \
+	    --preview "grep -Rnw -A 7 -B 7 --color=always -e {..} ${1}" \
+	    --preview-window=wrap \
+	    --border
+
+}
 	# }}}
