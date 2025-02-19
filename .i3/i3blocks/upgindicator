@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
 source ~/.i3/i3blocks/vars
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+opensuse="\"opensuse-tumbleweed\""
+
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     check="$(expr $(apt list --upgradeable | wc -l) - 1)"
-elif [ "$osys" = "manjaro" ]; then
+elif [ "$system_id" = "manjaro" ]; then
     check="$(checkupdates | wc -l)"
+elif [ "$system_id" = "$opensuse" ]; then
+    check="$(expr $(zypper list-updates | wc -l) - 3)"
 fi
 
 if [ "$check" -lt 1 ]; then
