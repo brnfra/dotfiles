@@ -226,6 +226,24 @@ bar {
     urgent_workspace	#181920      #FFFF00   #181920
     }
 }
+bar {
+    id bar-2 
+    position top
+    output nonprimary
+    tray_output none
+    tray_padding 2
+    separator_symbol " "
+    mode dock 
+    font pango: Monofur NF 11
+    status_command i3blocks -c $HOME/.i3/i3blocks_v.conf
+    colors {
+    background #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
+    }
+}
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
 $exe volumeicon
@@ -236,9 +254,10 @@ $exe nm-applet --indicator
 $exe numlockx on
 bindsym Ctrl+r $exe $HOME/bin/wacom-rotate-toggle
 bindsym Ctrl+m $exe $HOME/bin/wacom-monitor-toggle
-$exe $HOME/.config/conky/start_conky_maia
 $exe xautolock -time 10 -locker blurlock
-$exe ff-theme-util
 $exe_always xrdb -load ~/.Xresources
+$exe blueman-applet
+$exe goldendict
+$exe $HOME/.config/conky/start_conky_maia
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers

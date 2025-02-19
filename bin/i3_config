@@ -574,7 +574,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 
 ################################################################################################
     ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##{{{
-    ################################################################################################
+################################################################################################
 elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe volumeicon\n"
     if amixer -h &> /dev/null; then
@@ -605,17 +605,6 @@ options="${options}\$exe numlockx on\n"
 #Apps autoexec on start
 options="${options}bindsym Ctrl+r \$exe \$HOME/bin/wacom-rotate-toggle\n"
 options="${options}bindsym Ctrl+m \$exe \$HOME/bin/wacom-monitor-toggle\n"
-if pacman -Qi blueman &> /dev/null; then
-    options="${options}\$exe blueman-applet\n"
-fi
-if pacman -Qi goldendict &> /dev/null; then
-    options="${options}\$exe goldendict\n"
-fi
-if [ -e ~/.config/conky/ ];then
-    options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
-else
-    options="${options}\$exe start_conky_maia\n"
-fi
 # exec_always --no-startup-id sbxkb
 #$exe start_conky_green
 
@@ -633,10 +622,31 @@ elif [ "$system_id" = "manjaro" ] ;then
     options="${options}\$exe pamac-tray\n"
     options="${options}\$exe ff-theme-util\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
+    if pacman -Qi blueman &> /dev/null; then
+	options="${options}\$exe blueman-applet\n"
+    fi
+    if pacman -Qi goldendict &> /dev/null; then
+	options="${options}\$exe goldendict\n"
+    fi
+    if [ -e ~/.config/conky/ ];then
+	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+    else
+	options="${options}\$exe start_conky_maia\n"
+    fi
 elif [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
-    options="${options}\$exe ff-theme-util\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
+    if blueman-adapters -h &> /dev/null; then
+	options="${options}\$exe blueman-applet\n"
+    fi
+    if goldendict -h &> /dev/null; then
+	options="${options}\$exe goldendict\n"
+    fi
+    if [ -e ~/.config/conky/ ] && conky -h &> /dev/null; then
+	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+    else
+	options="${options}\$exe start_conky_maia\n"
+    fi
 fi
 
 options="${options}\$exe $cfg_dir/autostart/i3config\n"

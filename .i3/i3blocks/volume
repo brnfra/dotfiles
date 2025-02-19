@@ -20,13 +20,13 @@
 # or you may use hw:# where # is the number of the card desired
 source ~/.i3/i3blocks/vars
 
-icon_mute='&#xf026; X'
-icon95='&#xf028; &#9608;'
-icon75='&#xf028; &#9610;'
-icon50='&#xf028; &#9612;'
-icon25='&#xf027; &#9614;'
-icon_low='&#xf027; &#9615;'
-icon_zero='&#xf026; |  '
+icon_mute='&#xf026;  [XX]'
+icon95='&#xf028;'
+icon75='&#xf028;'
+icon50='&#xf028;'
+icon25='&#xf027;'
+icon_low='&#xf027;'
+icon_zero='&#xf026;'
 
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
@@ -104,7 +104,7 @@ if pactl --version &> /dev/null; then
     volume="$(pa-volume)"
     volume=$(echo $volume| sed 's/^\s//g;s/\s$//g')
     volume="${volume::-1}"
-    res="${yes:-sim}"
+    res="${sim:-yes}"
 elif amixer -h &> /dev/null; then
     vmute="$(volume | format)"
     volume="${vmute::-1}"
@@ -116,22 +116,22 @@ get_block() {
 	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
 	exit 0
     elif (( volume >= 0 )) && (( volume <= 5 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon_zero </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon_zero [0$volume%]</span>"
 	exit 0
     elif (( volume > 5 )) && (( volume <= 15 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon_low </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon_low [$volume%]</span>"
 	exit 0
     elif (( volume > 15 )) && (( volume <= 35 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon25 </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon25 [$volume%]</span>"
 	exit 0
     elif (( volume > 35 )) && (( volume <= 65 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon50 </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon50 [$volume%]</span>"
 	exit 0
     elif (( volume > 66 )) && (( volume <= 85 )) ; then
-	printf "%s\n" "<span $font $green $icon_size > $icon75 </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon75 [$volume%]</span>"
 	exit 0
     elif (( volume > 85 )); then
-	printf "%s\n" "<span $font $green $icon_size > $icon95 </span>"
+	printf "%s\n" "<span $font $green $icon_size > $icon95 [$volume%]</span>"
 	exit 0
     fi
 }
