@@ -1085,10 +1085,10 @@ vnoremap <C-d> VOyP`[v`]
 inoremap <C-d> <esc>$v0y$o<esc>p<up>$<esc>i
 nnoremap <C-d> $v0y$o<esc>p<up>$<esc>
 "move line
-inoremap <S-Down> <esc>ddp<esc>i
-nnoremap <S-Down> <esc>ddp<esc>
-inoremap <S-Up> <esc>ddkP<esc>i
-nnoremap <S-Up> <esc>ddkP<esc>
+inoremap <S-down> <esc>ddp<esc>i
+nnoremap <S-down> <esc>ddp<esc>
+inoremap <S-up> <esc>ddkP<esc>i
+nnoremap <S-up> <esc>ddkP<esc>
 "move insert mode
 inoremap <C-up> <esc>5ki
 inoremap <C-down> <esc>5ji
@@ -1126,10 +1126,12 @@ inoremap [ []<left>
 xnoremap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nnoremap ga <Plug>(EasyAlign)
-inoremap <S-down> <esc>ddp<esc>i
-nnoremap <S-down> <esc>ddp<esc>
-inoremap <S-up> <esc>ddkP<esc>i
-nnoremap <S-up> <esc>ddkP<esc>
+"conflict editing command
+"inoremap <S-down> <esc>ddp<esc>i
+"nnoremap <S-down> <esc>ddp<esc>
+"inoremap <S-up> <esc>ddkP<esc>i
+"nnoremap <S-up> <esc>ddkP<esc>
+
 " terminal emulation
 nnoremap <localleader>l :terminal<CR>
 " split window"

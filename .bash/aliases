@@ -33,6 +33,10 @@ elif [ "$system_id" = "manjaro" ]; then
     #alias fd='fdfind'
 elif [ "$system_id" = "$opensuse" ]; then
     alias browser="firefox"
+    alias remove="sudo zypper remove"
+    alias get="sudo zypper install"
+    alias dist-upgrade="sudo zypper dist-upgrade"
+    alias upgl="zypper list-updates"
 fi
 # #}}}
 #Neofetch {{{

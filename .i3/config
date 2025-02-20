@@ -256,6 +256,7 @@ bindsym Ctrl+r $exe $HOME/bin/wacom-rotate-toggle
 bindsym Ctrl+m $exe $HOME/bin/wacom-monitor-toggle
 $exe xautolock -time 10 -locker blurlock
 $exe_always xrdb -load ~/.Xresources
+$exe /usr/libexec/polkit-kde-authentication-agent-1
 $exe blueman-applet
 $exe goldendict
 $exe $HOME/.config/conky/start_conky_maia
