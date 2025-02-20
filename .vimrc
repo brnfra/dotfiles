@@ -438,7 +438,15 @@ highlight default link WhichKeyFloating  Pmenu
 " By default timeoutlen is 1000 ms
 set timeoutlen=300
 let g:which_key_map = {
-    \ 'name'	: '+General commands',
+    \
+    \ '<F2>'    : [ ''                                               , 'Toggle NERDTree'             ] ,
+    \ '<F3>'    : [ ''                                               , 'Toggle Number'               ] ,
+    \ '<F4>'    : [ ''                                               , 'AutoIndent'                  ] ,
+    \ '<F5>'    : [ ''                                               , 'Wrap Lines'                  ] ,
+    \ '<F6>'    : [ ''                                               , 'Toggle Paste'                ] ,
+    \ '<F7>'    : [ ''                                               , 'Toggle Fold'                 ] ,
+    \ '<F8>'    : [ ''                                               , 'Turn OneLine All'            ] ,
+    \ '<F9>'    : [ ''                                               , 'Toggle Local BreakIndent'    ] ,
     \ '\'       : [ ''                                               , 'Search <++> and enter'       ] ,
     \ 'D'       : [ '\\DD'                                           , 'Delete break lines'          ] ,
     \ 'd'       : [ '\\D'                                            , 'Delete blank lines'          ] ,
@@ -454,26 +462,8 @@ let g:which_key_map = {
     \ 'q'       : [ '<C-Q>'                                          , 'Exit vim           '         ] ,
     \ 'L'       : [ '+L'                                             , 'Add a line before'           ] ,
     \ }
-
-let g:which_key_map.k = {
-    	\ 'name'	: '+Keyboard +F +commands',
-	\
-    \ '<F1>'    : [ ''                                               , 'Help'             ] ,
-    \ '<F2>'    : [ ''                                               , 'Toggle NERDTree'             ] ,
-    \ '<F3>'    : [ ''                                               , 'Toggle Number'               ] ,
-    \ '<F4>'    : [ ''                                               , 'AutoIndent'                  ] ,
-    \ '<F5>'    : [ ''                                               , 'Wrap Lines'                  ] ,
-    \ '<F6>'    : [ ''                                               , 'Toggle Paste'                ] ,
-    \ '<F7>'    : [ ''                                               , 'Toggle Fold'                 ] ,
-    \ '<F8>'    : [ ''                                               , 'Turn OneLine All'            ] ,
-    \ '<F9>'    : [ ''                                               , 'Toggle Local BreakIndent'    ] ,
-    \ '<F10>'    : [ ''                                               , 'No set'    ] ,
-    \ '<F11>'    : [ ''                                               , 'No set'    ] ,
-    \ '<F12>'    : [ ''                                               , 'No set'    ] ,
-	\ 
-      \ }
 let g:which_key_map.c = {
-    \ 'name'    : '+Man_Page',
+    \ 'name'    : '+Commands',
     \
     \ '1'   : [ '\\K'                                                , 'Get Man page 1'              ] ,
     \ '2'   : [ '\\M'                                                , 'Get Man Page 2'              ] ,
@@ -1036,12 +1026,12 @@ inoremap <C-p> <esc>:r!xclip -o <cr>i
 "<D-...>		command-key (Mac) / super (GTK)	<D-
 "vimwiki problem
 inoremap <M-BS> <Esc><Right>dwi
-inoremap <M-BS> <Esc><Right>dbi
+inoremap <S-BS> <Esc><Right>dbi
 
 inoremap <M-z>  <Esc>0i
 inoremap <M-x>  <Esc>$i<Right>
 inoremap <M-a>  <S-Left>
-inoremap <M-s>  <S-Right>
+inoremap <M-w>  <S-Right>
 inoremap <M-Down>  <Esc>5<Down>i<Right>
 inoremap <M-Up>    <Esc>5<Up>i<Right>
 inoremap <M-Left>  <Esc>5bi<Right>

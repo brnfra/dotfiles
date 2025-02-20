@@ -8,7 +8,7 @@
 source ~/.i3/i3blocks/vars
 
 icon_disch="&#x21af;-"
-#icon_disch="&#xf103;-"
+#icon_disch="&#xf103;"
 icon_plug="&#xF1E6;"
 icon_bolt="&#xF0E7;" 
 #icon_ch="&#xf102;"
@@ -30,7 +30,7 @@ then
     printf "%s%s\n" "$chrg_icon" "$btry_icon" 
     exit 0
 else
-    bat_number=$(acpi -b | sed /unavailable/d | awk '{print $2}')
+    bat_number=$(acpi -b | grep -v "unavailable" | awk '{print $2}')
     bat_number=${bat_number:0:1}
 fi
 status=$(acpi -b | grep "Battery $bat_number" | awk '{print $3}')
@@ -45,7 +45,7 @@ if [ "$status" = 'Discharging' ]
 then
     chrg_icon="<span $font $red $weight $icon_size >$icon_disch </span>"
 else
-    chrg_icon="<span $font $green $weight $icon_size >$icon_plug </span>"
+    chrg_icon="<span $font $green $weight $icon_size >$icon_ch </span>"
 fi
 
 if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 5 )); then
@@ -72,4 +72,4 @@ elif (( bat_percent_int >= 81 )); then
     btry_icon="<span $font $white $size >$icon90 $bat_percent [$timeto] </span>"
 fi
 
-printf " %s%s\n" "$chrg_icon" "$btry_icon" 
+printf " %s%s\n" " $chrg_icon" "$btry_icon" 

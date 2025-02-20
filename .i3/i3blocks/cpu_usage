@@ -2,9 +2,7 @@
 
 source ~/.i3/i3blocks/vars
 
-system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-opensuse="\"opensuse-tumbleweed\""
-
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 URGENT_VALUE=90
 
 PREV_TOTAL=0
@@ -28,21 +26,11 @@ LAVG1=$(awk -v x="$LAVG1" 'BEGIN { printf "%1.1f\n",x*100}')
 LAVG5=$(awk -v x="$LAVG5" 'BEGIN { printf "%1.1f\n",x*100}') 
 LAVG15=$(awk -v x="$LAVG15" 'BEGIN { printf "%1.1f\n",x*100}') 
 
-case $system_id in
-    
-    "debian")
+if [ "$osys" = "debian" ]; then
     IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 13 | bc -l)  
-    ;;
-
-    "$opensuse")
-    IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 13 | bc -l) 
-    ;;
-
-    "manjaro")
+else
     IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 12 | bc -l)  
-    ;;
-
-esac
+fi
 
 cpu_usage=$(awk -v x="$IDLE" 'BEGIN {y = 100.00 ; z = y-x;  printf "%1.2f\n", z }') # Get the total CPU statistics.
 
