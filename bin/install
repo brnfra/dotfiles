@@ -104,6 +104,8 @@ bare_repo_checkout() {
 
     if git_config checkout; then
         cmOk "Checkout branch"
+	cInfo "Set to don´t show untracked files"
+	git_config config status.showUntrackedFiles no
         bash ~/bin/enviroment_config 
         bash ~/bin/config_check 
         printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
@@ -122,15 +124,15 @@ bare_repo_checkout() {
         cmOk "Backup files"
         cInfo "Checking branch: " "$branch"
         if git_config checkout  ;then
-            cmOk "Check branch"
             cmOk "Checkout branch"
             clnInfo "Installing enviroment_config and backup config files"
             source bkp_cfg_files
+	    cInfo "Set to don´t show untracked files"
             git_config config status.showUntrackedFiles no
             bash enviroment_config 
             bash bkp_cfg_files bkp_cfg_files
             cmOk "Installation script"
-            bash config_check tests 
+            bash config_check tests
             printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
             cInfo "Logs can be check in: " "$bkpLog"
             cd "$backto" || return
