@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+opensuse="\"opensuse-tumbleweed\""
 #APT aliases {{{
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     #list dependencies
     alias pdeps="apt depends"
     #source edit
@@ -13,11 +14,13 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     alias get='sudo apt-get install'
     alias remove='sudo apt-get remove --purge'
     alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
-   alias fd='fdfind'
+    alias fd='fdfind'
+    alias browser="firefox-esr"
+
     # }}}
     # {{{ pacman alias
     #
-elif [ "$osys" = "manjaro" ]; then
+elif [ "$system_id" = "manjaro" ]; then
     # update and upgrade
     alias up='sudo pacman -Sy'
     alias upg='sudo pacman -Syu --noconfirm'
@@ -25,6 +28,8 @@ elif [ "$osys" = "manjaro" ]; then
     alias get='sudo pacman -S'
     alias remove='sudo pacman -R'
     alias upgrade-distro='sudo pacman -Syyu'
+    alias browser="firefox"
+
     #alias fd='fdfind'
 elif [ "$system_id" = "$opensuse" ]; then
     alias browser="firefox"
@@ -32,7 +37,7 @@ elif [ "$system_id" = "$opensuse" ]; then
     alias get="sudo zypper install"
     alias dist-upgrade="sudo zypper dist-upgrade"
     alias upgl="zypper list-updates"
-|fi
+fi
 # #}}}
 #Neofetch {{{
 alias neofetch='neofetch --block_range 0 15'
@@ -189,7 +194,6 @@ alias v="   vim "
 alias sv="  sudo vim"
 alias vifm="vifm ."
 alias py="python3 "
-alias firefox="firefox-esr"
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
 alias ssha="ssh-add "
 # }}}

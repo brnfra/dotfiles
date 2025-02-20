@@ -20,7 +20,7 @@ mod_button="Mod4"
 # Initializing the variable. 0 = true
 use_gaps="true"
 system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
+opensuse="\"opensuse-tumbleweed\""
 # Settings.
 #gaps
 gaps_inner=2
@@ -46,12 +46,32 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #font
+font="Monofur NF 11"
+
 #Apps
 if xfce4-terminal -V &> /dev/null;then
     Terminal="xfce4-terminal"
 else
     Terminal="i3-sensible-terminal"
 fi
+
+case $system_id in
+
+    "debian" | "ubuntu")
+    browser="firefox-esr"
+    fileManager="pcmanfm"
+    ;;
+
+    "manjaro")
+    browser="firefox"
+    fileManager="pcmanfm"
+    ;;
+    $opensuse)
+    browser="firefox"
+    fileManager="dolphin"
+    ;;
+
+esac
 
 # Get OS and hostname.
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
@@ -67,7 +87,6 @@ fi
 options="# i3 config. Auto generate\n"
 options="${options}# Check ~/bin/i3_config\n"
 options="${options}set \$mod $mod_button\n"
-font="URWGothic-Book 10"
 options="${options}font pango:$font\n"
 
 #}}}
@@ -83,42 +102,42 @@ options="${options}set \$exe_always exec_always --no-startup-id\n"
 # Open specific applications in floating mode
 # Disable title bars.
 options="${options}for_window [class=\"^.*\"] border pixel 2\n"
-options="${options}assign [class=\"Firefox-esr\"] \$ico_firefox\n"
-options="${options}assign [class=\"firefox\"] \$ico_firefox\n"
-options="${options}assign [class=\"Firefox\"] \$ico_firefox\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
 options="${options}assign [class=\"calibre\"] \$ico_calibre\n"
 options="${options}assign [class=\"okular\"] \$ico_pdf\n"
-options="${options}assign [class=\"Pcmanfm\"] \$ico_window\n"
-options="${options}assign [instance=\"pcmanfm\"] \$ico_window\n"
+options="${options}assign [class=\"$fileManager\"] \$ico_window\n"
+options="${options}assign [instance=\"$fileManager\"] \$ico_window\n"
 options="${options}assign [instance=\"pamac-manager\"] \$ico_package\n"
 options="${options}assign [class=\"Virt-manager\"] \$ico_monitor\n"
 #icons
-options="${options}set \$ico_bank     <span font='Font Awesome'>&#xf155;</span>\n"
-options="${options}set \$ico_chat     <span font='Font Awesome'>&#xf27b;</span>\n"
-options="${options}set \$ico_chrome   <span font='Font Awesome'>&#xf268;</span>\n"
-options="${options}set \$ico_code     <span font='Font Awesome'>&#xf121;</span>\n"
-options="${options}set \$ico_document <span font='Font Awesome'>&#xf0f6;</span>\n"
-options="${options}set \$ico_pdf      <span font='Font Awesome'>&#xf1c1;</span>\n" 
-options="${options}set \$ico_editor   <span font='Font Awesome'>&#xf044;</span>\n"
-options="${options}set \$ico_email    <span font='Font Awesome'>&#xf003;</span>\n"
-options="${options}set \$ico_firefox  <span font='Font Awesome'>&#xf269;</span>\n"
-options="${options}set \$ico_folder   <span font='Font Awesome'>&#xf115;</span>\n"
-options="${options}set \$ico_github   <span font='Font Awesome'>&#xf09b;</span>\n"
-options="${options}set \$ico_hangouts <span font='Font Awesome'>&#xf10e;</span>\n"
-options="${options}set \$ico_menu     <span font='Font Awesome'>&#xf0c9;</span>\n"
-options="${options}set \$ico_monitor  <span font='Font Awesome'>&#xf26c;</span>\n"
-options="${options}set \$ico_music    <span font='Font Awesome'>&#xf001;</span>\n"
-options="${options}set \$ico_news     <span font='Font Awesome'>&#xf09e;</span>\n"
-options="${options}set \$ico_package  <span font='Font Awesome'>&#xf1c6;</span>\n"
-options="${options}set \$ico_play     <span font='Font Awesome'>&#xf01d;</span>\n"
-options="${options}set \$ico_table    <span font='Font Awesome'>&#xf0ce;</span>\n"
-options="${options}set \$ico_telegram <span font='Font Awesome'>&#xf1d9;</span>\n"
-options="${options}set \$ico_terminal <span font='Font Awesome'>&#xf120;</span>\n"
-options="${options}set \$ico_video    <span font='Font Awesome'>&#xf008;</span>\n"
-options="${options}set \$ico_volume   <span font='Font Awesome'>&#xf028;</span>\n"
-options="${options}set \$ico_whatsapp <span font='Font Awesome'>&#xf232;</span>\n"
-options="${options}set \$ico_window   <span font='Font Awesome'>&#xf2d0;</span>\n"
-options="${options}set \$ico_calibre   <span font='Font Awesome'>&#xf212;</span>\n"
+options="${options}set \$ico_bank     <span font=\"$font\">&#xf155;</span>\n"
+options="${options}set \$ico_chat     <span font=\"$font\">&#xf27b;</span>\n"
+options="${options}set \$ico_chrome   <span font=\"$font\">&#xf268;</span>\n"
+options="${options}set \$ico_code     <span font=\"$font\">&#xf121;</span>\n"
+options="${options}set \$ico_document <span font=\"$font\">&#xf0f6;</span>\n"
+options="${options}set \$ico_pdf      <span font=\"$font\">&#xf1c1;</span>\n" 
+options="${options}set \$ico_editor   <span font=\"$font\">&#xf044;</span>\n"
+options="${options}set \$ico_email    <span font=\"$font\">&#xf003;</span>\n"
+options="${options}set \$ico_firefox  <span font=\"$font\">&#xf269;</span>\n"
+options="${options}set \$ico_folder   <span font=\"$font\">&#xf115;</span>\n"
+options="${options}set \$ico_github   <span font=\"$font\">&#xf09b;</span>\n"
+options="${options}set \$ico_hangouts <span font=\"$font\">&#xf10e;</span>\n"
+options="${options}set \$ico_menu     <span font=\"$font\">&#xf0c9;</span>\n"
+options="${options}set \$ico_monitor  <span font=\"$font\">&#xf26c;</span>\n"
+options="${options}set \$ico_music    <span font=\"$font\">&#xf001;</span>\n"
+options="${options}set \$ico_news     <span font=\"$font\">&#xf09e;</span>\n"
+options="${options}set \$ico_package  <span font=\"$font\">&#xf1c6;</span>\n"
+options="${options}set \$ico_play     <span font=\"$font\">&#xf01d;</span>\n"
+options="${options}set \$ico_table    <span font=\"$font\">&#xf0ce;</span>\n"
+options="${options}set \$ico_telegram <span font=\"$font\">&#xf1d9;</span>\n"
+options="${options}set \$ico_terminal <span font=\"$font\">&#xf120;</span>\n"
+options="${options}set \$ico_video    <span font=\"$font\">&#xf008;</span>\n"
+options="${options}set \$ico_volume   <span font=\"$font\">&#xf028;</span>\n"
+options="${options}set \$ico_whatsapp <span font=\"$font\">&#xf232;</span>\n"
+options="${options}set \$ico_window   <span font=\"$font\">&#xf2d0;</span>\n"
+options="${options}set \$ico_calibre   <span font=\"$font\">&#xf212;</span>\n"
 # exec shortener 
 # Use Mouse+$mod to drag floating windows to their wanted position.
 options="${options}floating_modifier \$mod\n"
@@ -250,7 +269,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     #options="${options}bindsym \$mod+d \$exe dmenu_run -b -l 15 -fn monofur\n"
     #options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
     options="${options}bindsym \$mod+d \$exe rofi -show drun\n"
-elif [ "$system_id" = "manjaro" ]; then
+elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
     #dmenu
     options="${options}bindsym \$mod+Ctrl+d \$exe dmenu_recency\n"
     options="${options}bindsym \$mod+d \$exe rofi -show drun\n"
@@ -347,7 +366,9 @@ options="${options}bindsym \$mod+Shift+d reload\n"
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3).
 options="${options}bindsym \$mod+Shift+r restart\n"
 # exit i3 labed (logs you out of your X session) 
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+case  $system_id in
+
+    "debian" | "ubuntu")
     options="${options}bindsym \$mod+Ctrl+l \$exe i3lock-fancy -p\n"
     options="${options}bindsym \$mod+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'\"\n"
 
@@ -379,8 +400,9 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}    bindsym Escape mode default\n"
     options="${options}    bindsym \$mod+r mode default\n"
     options="${options}}\n"
-
-elif [ "$system_id" = "manjaro" ]; then
+    ;;
+    
+    "manjaro" | $opensuse)
     options="${options}bindsym \$mod+Ctrl+l \$exe blurlock\n"
     # exit i3 (logs you out of your X session)
     #options="${options}bindsym \$mod+Shift+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'\"\n"
@@ -401,22 +423,39 @@ elif [ "$system_id" = "manjaro" ]; then
     options="${options}    bindsym Return mode \"default\"\n"
     options="${options}    bindsym Escape mode \"default\"\n"
     options="${options}}\n"
-fi
+    ;;
+esac
+
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
+case $system_id in
 
-if [ "$system_id" = "ubuntu" ] || [ "$system_id" = "debian" ]; then
-    options="${options}bindsym Ctrl+1 exec firefox-esr\n"
-elif [ "$system_id" = "manjaro" ]; then
-    options="${options}bindsym Ctrl+1 exec firefox\n"
+    "ubuntu" | "debian") 
+    options="${options}bindsym Ctrl+1 exec $browser\n"
+    ;;
+
+    "manjaro") 
+    options="${options}bindsym Ctrl+1 exec $browser\n"
     options="${options}bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf\n"
     # start program launcher
     # launch categorized menu
     options="${options}bindsym \$mod+z \$exe morc_menu\n"
     options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
-fi
+    ;;
+
+    "$opensuse") 
+    options="${options}bindsym Ctrl+1 exec $browser\n"
+    options="${options}bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf\n"
+    # start program launcher
+    # launch categorized menu
+    options="${options}bindsym \$mod+z \$exe morc_menu\n"
+    options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
+    ;;
+
+esac
+
 options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
-options="${options}bindsym Ctrl+3 exec pcmanfm\n"
+options="${options}bindsym Ctrl+3 exec $fileManager\n"
 options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
 options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
@@ -532,8 +571,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     options="${options}bindsym XF86AudioMute        \$exe pactl set-sink-mute \$pa_sink toggle && \$vol_signal\n"
     options="${options}bindsym XF86HomePage         \$exe pavucontrol\n"
 
-elif [ "$system_id" = "manjaro" ]; then
-#}}}
+
 ################################################################################################
     ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##{{{
 ################################################################################################
@@ -562,26 +600,27 @@ options="${options}\$exe_always xset b off\n"
 options="${options}\$exe nm-applet --indicator\n"
 #Keyboard settings
 options="${options}\$exe numlockx on\n"
-options="${options}\$exe xfce4-power-manager\n"
 #change config for my preferences
 #options="${options}\$exe $binaries/rm_linedup ~/.bash_history\n"
 #Apps autoexec on start
 options="${options}bindsym Ctrl+r \$exe \$HOME/bin/wacom-rotate-toggle\n"
 options="${options}bindsym Ctrl+m \$exe \$HOME/bin/wacom-monitor-toggle\n"
+# exec_always --no-startup-id sbxkb
+#$exe start_conky_green
 
 if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
-    options="${options}\$exe goldendict\n"
+    options="${options}\$exe xfce4-power-manager\n"
     options="${options}\$exe blueman-applet\n"
     options="${options}\$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1\n"
     options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
     options="${options}\$exe diodon\n"
-elif [ "$system_id" = "manjaro" ]; then
+elif [ "$system_id" = "manjaro" ] ;then
+    options="${options}\$exe xfce4-power-manager\n"
     options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
         options="${options}\$exe clipit\n"
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
     options="${options}\$exe ff-theme-util\n"
-    options="${options}\$exe fix_xcursor\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     if pacman -Qi blueman &> /dev/null; then
 	options="${options}\$exe blueman-applet\n"
@@ -610,23 +649,8 @@ elif [ "$system_id" = "$opensuse" ]; then
     else
 	options="${options}\$exe start_conky_maia\n"
     fi
-elif [ "$system_id" = "$opensuse" ]; then
-    options="${options}\$exe xautolock -time 10 -locker blurlock\n"
-    options="${options}\$exe_always xrdb -load ~/.Xresources\n"
-    if pacman -Qi blueman &> /dev/null; then
-        options="${options}\$exe blueman-applet\n"
-    fi
-    if pacman -Qi goldendict &> /dev/null; then
-        options="${options}\$exe goldendict\n"
-    fi
-    if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
-    else
-	options="${options}\$exe start_conky_maia\n"
-    fi
-    # exec_always --no-startup-id sbxkb
-    #$exe start_conky_green
 fi
+
 options="${options}\$exe $cfg_dir/autostart/i3config\n"
 options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
 #}}}

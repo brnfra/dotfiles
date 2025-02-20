@@ -19,7 +19,7 @@ yellow_code='    "'#FFED00'"'
 orange_code='    "'#FFA500'"'
 
 # fc-list command to list fonts 
-font='font="monofur NF"'
+font='font="Monofur NF"'
 
 # normal bold [100; - thin 400; - normal 900; - heavy(black)]
 weight='font-weight="bold"'
