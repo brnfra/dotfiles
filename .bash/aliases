@@ -31,17 +31,12 @@ elif [ "$system_id" = "manjaro" ]; then
     alias browser="firefox"
 
     #alias fd='fdfind'
-#}}}
-#{{{opensuse aliases
 elif [ "$system_id" = "$opensuse" ]; then
     alias browser="firefox"
     alias remove="sudo zypper remove"
     alias get="sudo zypper install"
-    alias dist-upgrade="sudo zypper refresh && sudo zypper dist-upgrade"
-    # only for specific packages if you dont want hole system upgrade
-    alias up="sudo zypper update"
-    alias upl="zypper list-updates"
-    alias upg-list="zypper ps -s"
+    alias dist-upgrade="sudo zypper dist-upgrade"
+    alias upgl="zypper list-updates"
 fi
 # #}}}
 #Neofetch {{{
