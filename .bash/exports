@@ -669,7 +669,7 @@ export JRE_HOME="$SDKMAN_DIR/candidates/java/current/bin/"
 
 export ANDROID_HOME="$HOME/Android/"
 export ANDROID_EMULATOR_HOME="$HOME/.android/"
-export ANDROID_USER_HOME="$ANDROID_HOME/.android/"
+export ANDROID_USER_HOME="$ANDROID_HOME"
 export PATH="$OPT/android-studio/bin:$PATH"
 export ANDROID_SDK_ROOT="$ANDROID_HOME/Sdk/"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
