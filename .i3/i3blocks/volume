@@ -127,7 +127,7 @@ get_block() {
     elif (( volume > 35 )) && (( volume <= 65 )) ; then
 	printf "%s\n" "<span $font $green $icon_size > $icon50 [$volume%]</span>"
 	exit 0
-    elif (( volume > 66 )) && (( volume <= 85 )) ; then
+    elif (( volume > 65 )) && (( volume <= 85 )) ; then
 	printf "%s\n" "<span $font $green $icon_size > $icon75 [$volume%]</span>"
 	exit 0
     elif (( volume > 85 )); then
