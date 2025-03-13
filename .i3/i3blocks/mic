@@ -49,8 +49,8 @@ fi
 STEP="${1:-5%}"
 #------------------------------------------------------------------------
 #Using pactl    {{{
-pa_source_adp="$(pactl get-default-sink)"
-pa_source_mic="$(pactl list short sinks | awk /$pa_source_adp/'{print $1}')"
+pa_source_adp="$(pactl get-default-source)"
+pa_source_mic="$(pactl list short sources | awk /$pa_source_adp/'{print $1}')"
 
 pa-volume-mic() {
     #in

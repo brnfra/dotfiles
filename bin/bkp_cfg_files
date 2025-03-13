@@ -123,7 +123,6 @@ bkp_cfg_files() {
     files+=' .i3/i3-manjaro-default-config-backup '
     files+=' .i3/i3blocks.conf '
     files+=' .i3/i3blocks_v.conf '
-    files+=' .i3/i3status.conf '
     # rofi
     Dirs+=' .config/rofi/ '
     files+=' .config/rofi/config.rasi '
