@@ -40,7 +40,7 @@ fi
 complete -o "default" -o "nospace" -W "packs tests" config_check
 complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"
 complete -o "default" -o "nospace" -W "commit_last sync_branch sync_copy prepare" stage_config
-complete -o "default" -o "nospace" -W "-a --all -l --local -h --help" namestd
+complete -o "default" -o "nospace" -W "-a -A -h --help" namestd
 complete -o "default" -o "nospace" -W "-a --all -h --help" rm_linedup
 complete -o "default" -o "nospace" -W "make_dirs" dirs_config
 complete -o "default" -o "nospace" -W "bkp_cfg_files" bkp_cfg_files

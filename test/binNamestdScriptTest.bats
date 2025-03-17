@@ -110,7 +110,7 @@ teardown_file() {
 
 @test "Test script if folder path contains spaces" {
     cd "${BATS_TMPDIR}/$pathTo" || return
-    namestd -a 
+    namestd  
     [ -d "${BATS_TMPDIR}/$pathTo/space_dir" ]
     [ -f "${BATS_TMPDIR}/$pathTo/space_in_file" ]
     cd "${BATS_TMPDIR}" || return

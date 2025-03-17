@@ -1,16 +1,9 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
-
-if $(type gsimplecal &>/dev/null); then
-    EXEC="gsimplecal"
-elif $(type kdialog >/dev/null); then
-    EXEC="kdialog --geometry 300x250 --calendar \"\""
-fi
+source ~/.i3/i3blocks/vars 
 
 case "$BLOCK_BUTTON" in
   1|2|3) 
-    i3-msg exec "$EXEC" > /dev/null
-  ;;
+    i3-msg 'exec gsimplecal' > /dev/null ;;
 esac
-echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M:%S') </span>"
+echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"

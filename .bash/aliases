@@ -57,11 +57,11 @@ alias ll='ls -Aphvlt --hyperlink --color=always --group-directories-first'
 alias lt='ls -Axphl --hyperlink | grep -e "[^\/]$"'
 # some more ls aliases
 #show hiddens only
-alias l.='ls -Apv --group-directories-first | sed -n "/^\./p"'
+alias l.='ls -Apvlt --hyperlink --group-directories-first | grep -e "\.[a-zA-Z]*"'
 #show links only
 alias li='ls -AFhL --hyperlink --color=always | grep -e "->"'
 #show directories
-alias lsd='fd . -d 1 -t d -u -c auto'
+alias ld='ls -Aphvlt --hyperlink --color=always | grep -e "[\/]$"'
 alias ldu='du -h --max-depth=1 | sort -hr'
 #exa aliases
 alias x='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
@@ -70,7 +70,7 @@ alias x.='exa -aF1 --sort name | grep "^[.]"'                                   
 alias xt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
 alias xr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
 # grep
-alias grep="grep -i --color=auto -A 15 -B 15"
+alias grep="grep -i --color=auto -A 5 -B 5"
 #alias to nav directories
 alias ..="cd .."
 alias ...="cd ../.."
