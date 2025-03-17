@@ -416,13 +416,16 @@ function fman () {
 	}
 
 function fh () {
-    eval "$(cat < ~/.bash_history | fzf -m -i)"  
-	}
-function fgrep () {
-	cat "$1" | fzf -m \
-	    --preview "grep -Rnw -A 7 -B 7 --color=always -e {..} ${1}" \
-	    --preview-window=wrap \
-	    --border
+	cat ~/.bash_history | sort -u| fzf -m -i 
+}
 
+function search_in () {
+	cat "$1" | fzf -m -e \
+	    --preview "grep -nw -A 14 -B 14 --color=always -e {..} $1" \
+	    --preview-window=wrap \
+	    --height=80% \
+	    --bind="tab:toggle-preview" \
+	    --border \
+	    
 }
 	# }}}
