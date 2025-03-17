@@ -683,7 +683,7 @@ export ANDROID_SDK_ROOT="$ANDROID_HOME/Sdk/"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd/"
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
 # Java - SDK 12
-export JAVA_HOME="/home/devlab/.sdkman/candidates/java/current/"
+export JAVA_HOME="$HOME/.sdkman/candidates/java/current/"
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH_TO_FX="$HOME/.jdks/javafx-sdk-17.0.1/lib"
 # fzf need to fd-find ripgrep packs
