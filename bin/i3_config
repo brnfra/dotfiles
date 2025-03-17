@@ -509,7 +509,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}}\n"
     options="${options}bar {\n"
     options="${options}    id bar-2 \n"
-    options="${options}    position top\n"
+    options="${options}    position bottom\n"
     options="${options}    output nonprimary\n"
     options="${options}    tray_output none\n"
     options="${options}    tray_padding 2\n"
