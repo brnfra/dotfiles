@@ -40,16 +40,8 @@ Thank you guys for sharing :heart:
 
 ### Main config
 
-1. Tested in Gnu/Linux based distro(**Debian based** and **Manjaro**, pls check first).
-2. Pls check ```~/.i3/autostart/i3config``` . There's change in keyboard layout and resolution.
-3. The keyboard layout is **US-INT**.
-
-### Mingw32(git-for-windows) config(mingw32-w8 branch)
-
-1. Config files for Gnu/Linux based distro systems(git-bash.exe).
-2. Remove scripts for programs for linux systems.
-3. Remove .config/ folder and some configurations.
-4. The keyboard layout is **PT-BR,ABNT**.
+1. Tested in Gnu/Linux based distro(**Debian based**, **Manjaro** and **openSUSE**  pls check first).
+2. Pls check ```~/.i3/autostart/i3config``` . There's changes in keyboard layout and resolution.
 
 **ATTENTION**: Please, DO NOT copy/run any file here in your system **if you do not fully understand what it does**. Seriously, **DON'T do it!**
 This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` files is part of strategy to merge and pull, in this case, rebase is false. 
@@ -58,7 +50,7 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 
 - [ ] Make scripts to generate configs(i3blocks, vim,  etc)
 - [x] Script to generate I3 config 
-- [ ] Add new tests
+- [x] Add new tests
 
 <br>
 
@@ -80,7 +72,7 @@ Install config tracking in your **$HOME** following the command;
 3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
 
 
-If Desktop/Virtual/Notebooks, copy/paste in terminal [EDIT YOUR_USER_NAME];
+If Desktop/Virtual/Notebooks, after clone, copy/paste in terminal [EDIT YOUR_USER_NAME];
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
@@ -93,11 +85,6 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 If _testing_, copy/paste in terminal(*DEFAULT*);
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/install)";
-```
-
-If _Mingw_ for Windows, copy/paste in terminal;
-```bash
- bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/mingw32-w8/bin/install-mingw-cfg)"; bash ~/bin/install_enviroment
 ```
 
 <br>
@@ -116,14 +103,14 @@ Attention on ssh-key problems, just in case, check your email and user, you find
 If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
 
-1. Clone this repo in another local.(here the default is ```~/documents/projects/git/ ``` )
+1. Clone this repo in another local.(here the default is ```~/Documents/projects/git/ ``` )
 2. Change to the correspondent branch by ```git switch [main or mingw32-w8]``` 
-3. Make the changes and push to remote repo in correspondent branch. 
+3. Make the changes and push to remote repo in correspondent branch in cloned folder. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
 Run ```$ push_local_config "COMMIT MESSAGE" ``` gonna make copy my edited config files to
 **dotfiles** folder created in ```enviroment script``` and push to your remote repository[auto].
-- Will push only if tests are passed.
+- Will push, only if, tests are passed.
 
 Run ```$ stage-local-config``` gonna only make copy, without push, the edited config files to
 **dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes[manual].
@@ -131,7 +118,7 @@ Run ```$ stage-local-config``` gonna only make copy, without push, the edited co
 
 ```bash
 
-$ git push origin [main/testing/mingw32-w8]
+$ git push origin [main/testing]
 
 ```
 
@@ -172,7 +159,7 @@ $ bash ~/bin/uninstall_bare_cfg
 
 ```
 
-## Dependencies
+## Packages in use
 
 Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**.
 For some features depends some packages, if get some error related, this list maybe help;
@@ -314,28 +301,29 @@ Get some help before execute scripts ```[script-name] -h```.
 <details>
   <summary><strong> Scripts List </strong></summary>
 
-  | Script Name | Description |
-  | :-  | :-  |
-  | **audio_to_opus**			   | Compact audio to opus format
-  | **compress_img**			    | Compress img
-  | **config_check**			    | Check if config is fine(make tests too)
-  | **connection**			      | Simple test to check connectivity
-  | **date_fold**			       | Fold files for date(name pattern required)
-  | **extract**		    			   | Extract compact files in current folder
-  | **free_buffer**			     | Clear swap and ram buffer
-  | **i3-scrot**			    		  | Print screen(nice with i3 key bindings)
-  | **i3_config**			       | Generate my i3 config files
-  | **item_size**			       | Show size(file/folder)
-  | **namestd**				        | Rename all files in folder(remove special chars)
-  | **pdfstd**				         | Compact and normalize pdf files(extra larges)
-  | **pull_config**				    | Get config from remote repo and update local config files.
-  | **push_config**				    | Push config files from local to remote repo.
-  | **rm_linedup**				     | Remove dupe lines in file
-  | **targz**					         | Compact file/folder	
-  | **type_fold**				      | Fold files for type
-  | **uninstall_bare_cfg**	| Uninstall this config and restore previous files
-  | **videos_merge**				   | Merge videos files in current folder
-  | **videostd**					      | Compact and normalize video files(extra larges)
+| Script Name            |                        Description                         |
+| :-                     |                             :-                             |
+|                        |                                                            |
+| **audio_to_opus**      |                Compact audio to opus format                |
+| **compress_img**       |                        Compress img                        |
+| **config_check**       |          Check if config is fine(make tests too)           |
+| **connection**         |             Simple test to check connectivity              |
+| **date_fold**          |         Fold files for date(name pattern required)         |
+| **extract**            |          Extract compact files in current folder           |
+| **free_buffer**        |                 Clear swap and ram buffer                  |
+| **i3-scrot**           |          Print screen(nice with i3 key bindings)           |
+| **i3_config**          |                Generate my i3 config files                 |
+| **item_size**          |                   Show size(file/folder)                   |
+| **namestd**            |      Rename all files in folder(remove special chars)      |
+| **pdfstd**             |       Compact and normalize pdf files(extra larges)        |
+| **pull_config**        | Get config from remote repo and update local config files. |
+| **push_config**        |        Push config files from local to remote repo.        |
+| **rm_linedup**         |                 Remove dupe lines in file and sort them                |
+| **targz**              |                    Compact file/folder                     |
+| **type_fold**          |                    Fold files for type                     |
+| **uninstall_bare_cfg** |      Uninstall this installation config and restore previous files      |
+| **videos_merge**       |            Merge videos files in current folder            |
+| **videostd**           |      Compact and normalize video files(extra larges)       |
 
 </details>
 
@@ -348,8 +336,8 @@ If you get the error message
 after install or trying update your local configs, try this;
 
 1. Delete, in your home folder, ```~/.dotfiles/``` .
-
-2. Re-run the command curl for install again.
+						    
+2. Re-run the command for install again.
 
 For other problems, again, check your name and email in install_enviroment or comment.
 

@@ -4,9 +4,9 @@
  */
 
 * {
-    font-generic: "Monofur NF 12";
+    font-generic: "Monofur NF 10";
     font-button:  "Monofur NF 10";
-    font-prompt:  "Monofur NF Semibold 12";
+    font-prompt:  "Monofur NF Semibold 10";
     
     font: @font-generic;
     
@@ -59,8 +59,8 @@
 window {
     anchor:   north;
     location: center;
-    width:    40%;
-    y-offset: -20%;
+    width:    70%;
+    y-offset: -30%;
     padding:  0px;
     border:   2px;
     border-color: @lightbg; 

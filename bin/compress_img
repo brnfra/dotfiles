@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: compress_img
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 26-03-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -64,7 +64,7 @@ if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
 	    output="compressed/${file%.*}_compressed.${file##*.}"
 
 	# Compress the image
-	convert "$file" -quality 25% "$output"
+	magick "$file" -quality 25% "$output"
 
 	# Print success message
 	cInfo "Image compressed and saved as"
@@ -83,7 +83,7 @@ else
     output="${1%.*}_compressed.${1##*.}"
 
     # Compress the image
-    convert "$1" -quality 25% "$output"
+    magick "$1" -quality 25% "$output"
 
     # Print success message
     cInfo "Image compressed and saved as"

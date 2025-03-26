@@ -249,34 +249,35 @@ if has('nvim')
 	set signcolumn=yes
     endif
     " other plugin before putting this into your config.
+    function! CheckBackspace() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 
-    inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+    inoremap <silent><expr><TAB>
+		\ coc#pum#visible() ? coc#pum#next(1) :
+		\ CheckBackspace() ? "\<TAB>" :
+		\ coc#refresh()
+
+    
+"    inoremap <expr><TAB> coc#pum#visible() ? coc#pum#next(1) : "\<C-h>"
     inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-    inoremap <silent><expr> <C-v> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
-    function! CheckBackspace() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-    
+    " Make <CR> to accept selected completion item or notify coc.nvim to format
+    " <C-g>u breaks current undo, please make your own choice
+    "inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
+    "                          \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    " Make <CR> auto-select the first completion item and notify coc.nvim to
+    " format on enter, <cr> could be remapped by other vim plugin
+    inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm()
+		\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+   
     " Use <c-space> to trigger completion.
     if has('nvim')
 	inoremap <silent><expr> <c-space> coc#refresh()
     else
 	inoremap <silent><expr> <c-@> coc#refresh()
     endif
-    " Make <CR> auto-select the first completion item and notify coc.nvim to
-    " format on enter, <cr> could be remapped by other vim plugin
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-		\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -364,6 +365,7 @@ if has('nvim')
     nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list.
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
 endif
 ""}}}
 "              VIMWIKI {{{
@@ -400,7 +402,7 @@ let g:which_key_map.p = {}
 let g:which_key_map.w = {}
 
 if !exists('which_key#register')
-   silent! call which_key#register('\', 'g:which_key_map')
+    silent! call which_key#register('\', 'g:which_key_map')
 
 endif
 
@@ -409,9 +411,9 @@ vnoremap <silent><leader> :WhichKeyVisual '\'<CR>
 
 let g:which_key_default_group_name = ''
 augroup Vimwiki
-autocmd! FileType which_key
-autocmd  FileType which_key set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    autocmd! FileType which_key
+    autocmd  FileType which_key set laststatus=0 noshowmode noruler
+		\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 "-----------------------------------------------------------------
 let g:which_key_sep = '→'
@@ -438,151 +440,151 @@ highlight default link WhichKeyFloating  Pmenu
 " By default timeoutlen is 1000 ms
 set timeoutlen=300
 let g:which_key_map = {
-    \ 'name'	: '+General commands',
-    \ '\'       : [ ''                                               , 'Search <++> and enter'       ] ,
-    \ 'D'       : [ '\\DD'                                           , 'Delete break lines'          ] ,
-    \ 'd'       : [ '\\D'                                            , 'Delete blank lines'          ] ,
-    \ 'h'       : [ '\\d'                                            , 'Delete spaces in the end'    ] ,
-    \ 'V'       : [ '=v'                                             , 'Redraw vimrc'                ] ,
-    \ 'v'       : [ '0v'                                             , 'Reload Vimrc '               ] ,
-    \ 'e'       : [ '\\v'                                            , 'Edit Vimrc '                 ] ,
-    \ 'l'       : [ '+l'                                             , 'Add a line after'            ] ,
-    \ '1'       : [ '<C-L>'                                          , 'Diff update search '         ] ,
-    \ '2'       : [ '<C-F12>'                                        , 'ctags -R           '         ] ,
-    \ 'C'       : [ '<C-C>'                                          , 'Copy to xclip (visual)'      ] ,
-    \ 's'       : [ '<C-S>'                                          , 'Save current file  '         ] ,
-    \ 'q'       : [ '<C-Q>'                                          , 'Exit vim           '         ] ,
-    \ 'L'       : [ '+L'                                             , 'Add a line before'           ] ,
-    \ }
+	    \ 'name'	: '+General commands',
+	    \ '\'       : [ ''                                               , 'Search <++> and enter'       ] ,
+	    \ 'D'       : [ '\\DD'                                           , 'Delete break lines'          ] ,
+	    \ 'd'       : [ '\\D'                                            , 'Delete blank lines'          ] ,
+	    \ 'h'       : [ '\\d'                                            , 'Delete spaces in the end'    ] ,
+	    \ 'V'       : [ '=v'                                             , 'Redraw vimrc'                ] ,
+	    \ 'v'       : [ '0v'                                             , 'Reload Vimrc '               ] ,
+	    \ 'e'       : [ '\\v'                                            , 'Edit Vimrc '                 ] ,
+	    \ 'l'       : [ '+l'                                             , 'Add a line after'            ] ,
+	    \ '1'       : [ '<C-L>'                                          , 'Diff update search '         ] ,
+	    \ '2'       : [ '<C-F12>'                                        , 'ctags -R           '         ] ,
+	    \ 'C'       : [ '<C-C>'                                          , 'Copy to xclip (visual)'      ] ,
+	    \ 's'       : [ '<C-S>'                                          , 'Save current file  '         ] ,
+	    \ 'q'       : [ '<C-Q>'                                          , 'Exit vim           '         ] ,
+	    \ 'L'       : [ '+L'                                             , 'Add a line before'           ] ,
+	    \ }
 
 let g:which_key_map.k = {
-    	\ 'name'	: '+Keyboard +F +commands',
-	\
-    \ '<F1>'    : [ ''                                               , 'Help'             ] ,
-    \ '<F2>'    : [ ''                                               , 'Toggle NERDTree'             ] ,
-    \ '<F3>'    : [ ''                                               , 'Toggle Number'               ] ,
-    \ '<F4>'    : [ ''                                               , 'AutoIndent'                  ] ,
-    \ '<F5>'    : [ ''                                               , 'Wrap Lines'                  ] ,
-    \ '<F6>'    : [ ''                                               , 'Toggle Paste'                ] ,
-    \ '<F7>'    : [ ''                                               , 'Toggle Fold'                 ] ,
-    \ '<F8>'    : [ ''                                               , 'Turn OneLine All'            ] ,
-    \ '<F9>'    : [ ''                                               , 'Toggle Local BreakIndent'    ] ,
-    \ '<F10>'    : [ ''                                               , 'No set'    ] ,
-    \ '<F11>'    : [ ''                                               , 'No set'    ] ,
-    \ '<F12>'    : [ ''                                               , 'No set'    ] ,
-	\ 
-      \ }
+	    \ 'name'	: '+Keyboard +F +commands',
+	    \
+	    \ '<F1>'    : [ ''                                               , 'Help'             ] ,
+	    \ '<F2>'    : [ ''                                               , 'Toggle NERDTree'             ] ,
+	    \ '<F3>'    : [ ''                                               , 'Toggle Number'               ] ,
+	    \ '<F4>'    : [ ''                                               , 'AutoIndent'                  ] ,
+	    \ '<F5>'    : [ ''                                               , 'Wrap Lines'                  ] ,
+	    \ '<F6>'    : [ ''                                               , 'Toggle Paste'                ] ,
+	    \ '<F7>'    : [ ''                                               , 'Toggle Fold'                 ] ,
+	    \ '<F8>'    : [ ''                                               , 'Turn OneLine All'            ] ,
+	    \ '<F9>'    : [ ''                                               , 'Toggle Local BreakIndent'    ] ,
+	    \ '<F10>'    : [ ''                                               , 'No set'    ] ,
+	    \ '<F11>'    : [ ''                                               , 'No set'    ] ,
+	    \ '<F12>'    : [ ''                                               , 'No set'    ] ,
+	    \ 
+	    \ }
 let g:which_key_map.c = {
-    \ 'name'    : '+Man_Page',
-    \
-    \ '1'   : [ '\\K'                                                , 'Get Man page 1'              ] ,
-    \ '2'   : [ '\\M'                                                , 'Get Man Page 2'              ] ,
-    \ }
+	    \ 'name'    : '+Man_Page',
+	    \
+	    \ '1'   : [ '\\K'                                                , 'Get Man page 1'              ] ,
+	    \ '2'   : [ '\\M'                                                , 'Get Man Page 2'              ] ,
+	    \ }
 
 let g:which_key_map.p = {
-    \ 'name' : '+From_Plugins',
-    \
-    \ '['       : [ '<Plug>(MatchitNormalMultiBackward)'  , '(MatchitNormalMultiBackward)   ' ] ,
-    \ ']'       : [ '<Plug>(MatchitNormalMultiForward)'   , '(MatchitNormalMultiForward)    ' ] ,
-    \ 'S'       : [ '<Plug>CSurround'                     , 'Changes surroundings           ' ] ,
-    \ 's'       : [ '<Plug>Csurround'                     , 'Substitute cs!} !->}           ' ] ,
-    \ 'd'       : [ '<Plug>Dsurround'                     , 'Delete surround ds"            ' ] ,
-    \ 'g'       : [ '<Plug>(MatchitNormalBackward)'       , 'Matchit Normal Backward        ' ] ,
-    \ 'u'       : [ '<Plug>Commentary<Plug>Commentary'    , 'Undo Commentary                ' ] ,
-    \ 'c'       : [ '<Plug>CommentaryLine'                , 'Commentary Line                ' ] ,
-    \ 'C'       : [ '<Plug>Commentary'                    , 'Commentary                     ' ] ,
-    \ 'a'       : [ '\a'                                  , 'EasyAlign delim -> <Space>,=, :, ., |, &, #, and ,' ] ,
-    \ 'e'       : [ 'EasyAlign'                           , 'EasyAlign command Start        ' ] ,
-    \ 'l'       : [ 'LiveEasyAlign'                       , 'Live interactive mode          ' ] ,
-    \
-    \ }
+	    \ 'name' : '+From_Plugins',
+	    \
+	    \ '['       : [ '<Plug>(MatchitNormalMultiBackward)'  , '(MatchitNormalMultiBackward)   ' ] ,
+	    \ ']'       : [ '<Plug>(MatchitNormalMultiForward)'   , '(MatchitNormalMultiForward)    ' ] ,
+	    \ 'S'       : [ '<Plug>CSurround'                     , 'Changes surroundings           ' ] ,
+	    \ 's'       : [ '<Plug>Csurround'                     , 'Substitute cs!} !->}           ' ] ,
+	    \ 'd'       : [ '<Plug>Dsurround'                     , 'Delete surround ds"            ' ] ,
+	    \ 'g'       : [ '<Plug>(MatchitNormalBackward)'       , 'Matchit Normal Backward        ' ] ,
+	    \ 'u'       : [ '<Plug>Commentary<Plug>Commentary'    , 'Undo Commentary                ' ] ,
+	    \ 'c'       : [ '<Plug>CommentaryLine'                , 'Commentary Line                ' ] ,
+	    \ 'C'       : [ '<Plug>Commentary'                    , 'Commentary                     ' ] ,
+	    \ 'a'       : [ '\a'                                  , 'EasyAlign delim -> <Space>,=, :, ., |, &, #, and ,' ] ,
+	    \ 'e'       : [ 'EasyAlign'                           , 'EasyAlign command Start        ' ] ,
+	    \ 'l'       : [ 'LiveEasyAlign'                       , 'Live interactive mode          ' ] ,
+	    \
+	    \ }
 
 let g:which_key_map.f = {
-    \ "name" : "+FZF",
-    \
-    \ "f"    : ['Files'                                        , 'Search Files'                ] ,
-    \ "l"    : ['BLines'                                       , 'Search Lines Buffers'        ] ,
-    \ "o"    : ['Colors'                                       , 'Search Color Themes'         ] ,
-    \ "t"    : ['BTags'                                        , 'Search Tags'                 ] ,
-    \ "b"    : ['Buffers'                                      , 'Search Open Buffers'         ] ,
-    \ "i"    : ['GFiles'                                       , 'Search Git-Files'            ] ,
-    \ "g"    : ['GFiles?'                                      , 'Search Modified-Git-Files'   ] ,
-    \ "a"    : ['Ag'                                           , 'Search Ag'                   ] ,
-    \ "r"    : ['Rg'                                           , 'Search Rg'                   ] ,
-    \ "m"    : ['Marks'                                        , 'Search Marks'                ] ,
-    \ "w"    : ['Windows'                                      , 'Search Windows'              ] ,
-    \ "c"    : ['Commands'                                     , 'Search Commands'             ] ,
-    \
-    \ }
+	    \ "name" : "+FZF",
+	    \
+	    \ "f"    : ['Files'                                        , 'Search Files'                ] ,
+	    \ "l"    : ['BLines'                                       , 'Search Lines Buffers'        ] ,
+	    \ "o"    : ['Colors'                                       , 'Search Color Themes'         ] ,
+	    \ "t"    : ['BTags'                                        , 'Search Tags'                 ] ,
+	    \ "b"    : ['Buffers'                                      , 'Search Open Buffers'         ] ,
+	    \ "i"    : ['GFiles'                                       , 'Search Git-Files'            ] ,
+	    \ "g"    : ['GFiles?'                                      , 'Search Modified-Git-Files'   ] ,
+	    \ "a"    : ['Ag'                                           , 'Search Ag'                   ] ,
+	    \ "r"    : ['Rg'                                           , 'Search Rg'                   ] ,
+	    \ "m"    : ['Marks'                                        , 'Search Marks'                ] ,
+	    \ "w"    : ['Windows'                                      , 'Search Windows'              ] ,
+	    \ "c"    : ['Commands'                                     , 'Search Commands'             ] ,
+	    \
+	    \ }
 
 let g:which_key_map.b = {                       
-       \ 'name' : '+buffer' ,                     
-       \ '1' : ['b1'        , 'buffer 1']        ,
-       \ '2' : ['b2'        , 'buffer 2']        ,
-       \ 'd' : ['bd'        , 'delete-buffer']   ,
-       \ 'f' : ['bfirst'    , 'first-buffer']    ,
-       \ 'h' : ['Startify'  , 'home-buffer']     ,
-       \ 'l' : ['blast'     , 'last-buffer']     ,                                             
-       \ 'n' : ['bnext'     , 'next-buffer']     ,
-       \ 'p' : ['bprevious' , 'previous-buffer'] ,
-       \ '?' : ['Buffers'   , 'fzf-buffer']      ,
-       \ }  
+	    \ 'name' : '+buffer' ,                     
+	    \ '1' : ['b1'        , 'buffer 1']        ,
+	    \ '2' : ['b2'        , 'buffer 2']        ,
+	    \ 'd' : ['bd'        , 'delete-buffer']   ,
+	    \ 'f' : ['bfirst'    , 'first-buffer']    ,
+	    \ 'h' : ['Startify'  , 'home-buffer']     ,
+	    \ 'l' : ['blast'     , 'last-buffer']     ,                                             
+	    \ 'n' : ['bnext'     , 'next-buffer']     ,
+	    \ 'p' : ['bprevious' , 'previous-buffer'] ,
+	    \ '?' : ['Buffers'   , 'fzf-buffer']      ,
+	    \ }  
 
 let g:which_key_map.w = {
-    \ 'name' : '+VimWiki',
-    \
-    \ "w"    : ['\\ww'                                        , 'Go To Index'                           ] ,
-    \ "n"    : [''                                            , 'Create new wiki page'                  ] ,
-    \ "D"    : [''                                            , 'Delete wiki page'                      ] ,
-    \ "r"    : [''                                            , 'Rename wiki page'                      ] ,
-    \ "v"    : [''                                            , 'Toggle wiki List'                      ] ,
-    \ "s"    : ['VimwikiSearchTags'                           , 'Search-for-wiki-TAGS'                  ] ,
-    \ "S"    : ['VimwikiSearch '                              , 'Search /pattern/'                      ] ,
-    \ 'o'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
-    \ 'y'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
-    \ '3'    : [ '\w\t'                                       , 'Tab Make Diary Note'                   ] ,
-    \ 'd'    : [ '\w\w'                                       , 'Make Diary Note'                       ] ,
-    \ 'l'    : [ '\w\i'                                       , 'Diary Generate Links'                  ] ,
-    \ 'I'    : [ '\wi'                                        , 'Diary Index'                           ] ,
-    \ '7'    : [ '\ws'                                        , 'UI Select'                             ] ,
-    \ 'b'    : [ '\wt'                                        , 'Tab Index'                             ] ,
-    \ '-'    : [ '<C-M>'                                      , 'Diary Prev Day'                        ] ,
-    \ '+'    : [ '<C-N>'                                      , 'Diary Next Day'                        ] ,
-    \ '<Tab>': [ '<C-Tab>'                                    , 'Prev Link'                             ] ,
-    \ '0'    : [ '<C-[>'                                      , 'Table Next Cell'                       ] ,
-    \ '9'    : [ '<C-]>'                                      , 'Table Prev Cell'                       ] ,
-    \
-    \ 'c'    : {
-    \ 'name' : '+CheckBox',
-    \
-    \ "i"    : ['VimwikiToggleListItem'                       , 'Toggle checkbox On/Off'       ] ,
-    \ "n"    : ['VimwikiIncrementListItem'                    , 'Toggle checkbox Next/Previous'] ,
-    \
-    \ },
-    \
-    \ 'T'    : {
-    \ 'name' : '+Tables',
-    \
-    \ "1"    : ['VimwikiTable'                                , 'Create Table'                             ] ,
-    \ "t"    : ['VimwikiTOC'                                  , 'Create Table Of Contents(TOC)'            ] ,
-    \ "h"    : ['<Plug>VimwikiTableMoveColumnLeft'            , 'Move current column to the left'          ] ,
-    \ "l"    : ['<Plug>VimwikiTableMoveColumnRight'           , 'Move current column to the Right'         ] ,
-    \
-    \ },
-    \
-    \ 'z'    : {
-    \ 'name' : '+Zettel',
-    \
-    \ "b"    : ['ZettelBackLinks'                             , 'add-backlineks'                           ] ,
-    \ "n"    : ['ZettelNew'                                   , 'add-new'                                  ] ,
-    \ "o"    : ['ZettelOpen'                                  , 'Search fulltext use FZF'                  ] ,
-    \ "i"    : ['ZettelInsertNote'                            , 'Using FZF and insert in the current'      ] ,
-    \ "s"    : ['ZettelSearch'                                , 'Search the content of your zettelkasten'  ] ,
-    \ "y"    : ['ZettelYankName'                              , 'Copy the current zettel file name'        ] ,
-    \
-    \ },
-    \
-    \ }
+	    \ 'name' : '+VimWiki',
+	    \
+	    \ "w"    : ['\\ww'                                        , 'Go To Index'                           ] ,
+	    \ "n"    : [''                                            , 'Create new wiki page'                  ] ,
+	    \ "D"    : [''                                            , 'Delete wiki page'                      ] ,
+	    \ "r"    : [''                                            , 'Rename wiki page'                      ] ,
+	    \ "v"    : [''                                            , 'Toggle wiki List'                      ] ,
+	    \ "s"    : ['VimwikiSearchTags'                           , 'Search-for-wiki-TAGS'                  ] ,
+	    \ "S"    : ['VimwikiSearch '                              , 'Search /pattern/'                      ] ,
+	    \ 'o'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,
+	    \ 'y'    : [ '\w\y'                                       , 'Make Yesterday Diary Note'             ] ,
+	    \ '3'    : [ '\w\t'                                       , 'Tab Make Diary Note'                   ] ,
+	    \ 'd'    : [ '\w\w'                                       , 'Make Diary Note'                       ] ,
+	    \ 'l'    : [ '\w\i'                                       , 'Diary Generate Links'                  ] ,
+	    \ 'I'    : [ '\wi'                                        , 'Diary Index'                           ] ,
+	    \ '7'    : [ '\ws'                                        , 'UI Select'                             ] ,
+	    \ 'b'    : [ '\wt'                                        , 'Tab Index'                             ] ,
+	    \ '-'    : [ '<C-M>'                                      , 'Diary Prev Day'                        ] ,
+	    \ '+'    : [ '<C-N>'                                      , 'Diary Next Day'                        ] ,
+	    \ '<Tab>': [ '<C-Tab>'                                    , 'Prev Link'                             ] ,
+	    \ '0'    : [ '<C-[>'                                      , 'Table Next Cell'                       ] ,
+	    \ '9'    : [ '<C-]>'                                      , 'Table Prev Cell'                       ] ,
+	    \
+	    \ 'c'    : {
+	    \ 'name' : '+CheckBox',
+	    \
+	    \ "i"    : ['VimwikiToggleListItem'                       , 'Toggle checkbox On/Off'       ] ,
+	    \ "n"    : ['VimwikiIncrementListItem'                    , 'Toggle checkbox Next/Previous'] ,
+	    \
+	    \ },
+	    \
+	    \ 'T'    : {
+	    \ 'name' : '+Tables',
+	    \
+	    \ "1"    : ['VimwikiTable'                                , 'Create Table'                             ] ,
+	    \ "t"    : ['VimwikiTOC'                                  , 'Create Table Of Contents(TOC)'            ] ,
+	    \ "h"    : ['<Plug>VimwikiTableMoveColumnLeft'            , 'Move current column to the left'          ] ,
+	    \ "l"    : ['<Plug>VimwikiTableMoveColumnRight'           , 'Move current column to the Right'         ] ,
+	    \
+	    \ },
+	    \
+	    \ 'z'    : {
+	    \ 'name' : '+Zettel',
+	    \
+	    \ "b"    : ['ZettelBackLinks'                             , 'add-backlineks'                           ] ,
+	    \ "n"    : ['ZettelNew'                                   , 'add-new'                                  ] ,
+	    \ "o"    : ['ZettelOpen'                                  , 'Search fulltext use FZF'                  ] ,
+	    \ "i"    : ['ZettelInsertNote'                            , 'Using FZF and insert in the current'      ] ,
+	    \ "s"    : ['ZettelSearch'                                , 'Search the content of your zettelkasten'  ] ,
+	    \ "y"    : ['ZettelYankName'                              , 'Copy the current zettel file name'        ] ,
+	    \
+	    \ },
+	    \
+	    \ }
 
 "              }}}
 "              VIM-SENSIBLE {{{
@@ -635,9 +637,9 @@ endfun
 "x  -   close tree root
 "m  -   menu
 ""if !has('nvim')
-    ""autocmd StdinReadPre * let s:std_in=1
-    "Auto Enter
-    "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
+""autocmd StdinReadPre * let s:std_in=1
+"Auto Enter
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree |   endif
 ""endif
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
@@ -745,6 +747,7 @@ endfun
 "------------------------------------END VIM-AIRLINE }}}2
 "              COLORSCHEME {{{2
 ""------------------------------------------------------
+" vim-shortcuts define final colors	
 set background=light
 if has('unix')
     colorscheme papayadroid
@@ -756,9 +759,9 @@ let s:terms_italic=[
 	    \"rxvt",
 	    \"gnome-terminal",
 	    \"xterm",
-            \"xterm2",
-            \"xfce4-terminal"
-            \]
+	    \"xterm2",
+	    \"xfce4-terminal"
+	    \]
 ""---------------------------------END COLORSCHEME }}}2
 "             DEOPLETE{{{
 let g:python3_host_prog = "/usr/bin/python3.9"
@@ -873,29 +876,29 @@ augroup easy_align_config
 augroup END
 "----------------------------------------------------------------
 let g:easy_align_delimiters = {
-    \ '>': { 'pattern': '>>\|=>\|>'  },
-    \ '/': {
-    \     'pattern':         '//\+\|/\*\|\*/',
-    \     'delimiter_align': 'l',
-    \     'ignore_groups':   ['!Comment'] },
-    \ ']': {
-    \     'pattern':       '[[\]]',
-    \     'left_margin':   0,
-    \     'right_margin':  0,
-    \     'stick_to_left': 0
-    \   },
-    \ ')': {
-    \     'pattern':       '[()]',
-    \     'left_margin':   0,
-    \     'right_margin':  0,
-    \     'stick_to_left': 0
-    \   },
-    \ 'd': {
-    \     'pattern':      ' \(\S\+\s*[;=]\)\@=',
-    \     'left_margin':  0,
-    \     'right_margin': 0
-    \   }
-    \ }
+	    \ '>': { 'pattern': '>>\|=>\|>'  },
+	    \ '/': {
+	    \     'pattern':         '//\+\|/\*\|\*/',
+	    \     'delimiter_align': 'l',
+	    \     'ignore_groups':   ['!Comment'] },
+	    \ ']': {
+	    \     'pattern':       '[[\]]',
+	    \     'left_margin':   0,
+	    \     'right_margin':  0,
+	    \     'stick_to_left': 0
+	    \   },
+	    \ ')': {
+	    \     'pattern':       '[()]',
+	    \     'left_margin':   0,
+	    \     'right_margin':  0,
+	    \     'stick_to_left': 0
+	    \   },
+	    \ 'd': {
+	    \     'pattern':      ' \(\S\+\s*[;=]\)\@=',
+	    \     'left_margin':  0,
+	    \     'right_margin': 0
+	    \   }
+	    \ }
 
 
 " }}}
@@ -904,6 +907,7 @@ if !has('nvim')
     autocmd VimEnter * exec ":loadview"
 endif
 "}}}
+
 " Arquivos .sh sao sempre bash, e não sh
 "au FileType sh let b:is_bash=1
 "-------------------------------------------END AUTCMD }}}

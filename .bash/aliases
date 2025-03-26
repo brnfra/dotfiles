@@ -83,6 +83,7 @@ alias cd..="cd .."
 alias EXIT="exit"
 alias quit="exit"
 alias out="exit"
+alias OUT="exit"
 #alias cp='cp -i'
 alias cp='rsync -ah --info=progress2'
 # functions

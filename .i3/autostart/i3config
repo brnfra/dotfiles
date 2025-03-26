@@ -1,45 +1,105 @@
 #!/usr/bin/env bash
 
 #Script to adapt the i3config for virtual machines in pre defined resolution
-SCR="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | cut -d "-" -f1 | sed s/1//)"
+SCR="$(xrandr -q 2>/dev/null | awk -F' ' /connected/'{print}' | cut -d "-" -f1 | sed s/1//)"
 #get primary screeen
-SCR1="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | head -n 1)"
+SCR1="$(xrandr -q 2>/dev/null | awk -F' ' /connected/'{print $1}'| head -n 1)"
 #get secondary screen
-SCR2="$(xrandr -q 2>/dev/null | grep -w connected | cut -d " " -f1 | tail -n 1)"
-PCONF="$HOME"
-PCONF+='/.i3/autostart'
+SCR2="$(xrandr -q 2>/dev/null | awk -F' ' /connected/'{print $1}'| tail -n 1)"
+
+MODE1="1920x1080"
+MODE2="1080x1920"
+MODE_1920x1080="$(cvt 1920 1080 60 | awk -F' ' /Modeline/'{for(i=2; i<=NF; i++) printf "%s ", $i; printf "%s\n", ""}')"
+MODE_1080x1920="$(cvt 1080 1920 60 | awk -F' ' /Modeline/'{for(i=2; i<=NF; i++) printf "%s ", $i; printf "%s\n", ""}')"
+MODE_NAME_1920x1080="$(echo $MODE_1920x1080 | awk -F' ' '{print $1}')"
+MODE_NAME_1080X1920="$(echo $MODE_1080x1920 | awk -F' ' '{print $1}')"
+
+# 0 = horizontal ; 1 = vertical
+VERTICAL=$(( 0 ))
+# --rotate rotation ->    Rotation can be one of 'normal', 'left', 'right' or 'inverted'
+R_RIGHT="--auto --rotate right"
+R_LEFT="--auto --rotate left"
+R_NORMAL="--auto --rotate normal"
+
+PCONF="$HOME/.i3/autostart"
 # KEYBOARD config
 KEYB='setxkbmap -model pc104 -layout us_intl'
 KEYB_ABNT2_BR='setxkbmap -model abnt2 -layout br'
-LOC="$(hostname)"
+LOC="$(hostname | cut -d "-" -f1)"
+
 num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
 
 if [ "$LOC" = "debian-tablet" ]; then
-     $KEYB_ABNT2_BR
-     xrandr --newmode 1360x768_60 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
-     xrandr --addmode "$SCR" 1360x768_60
-     xrandr --output "$SCR" --mode 1360x768_60
+    $KEYB_ABNT2_BR
+    xrandr --newmode 1360x768_60 84.75  1360 1432 1568 1776  768 771 781 798 -hsync +vsync
+    xrandr --addmode "$SCR" 1360x768_60
+    xrandr --output "$SCR" --mode 1360x768_60
     exit 0
 fi
 if [ $num_monitors == 1 ]; then
-     $KEYB_ABNT2_BR
-     xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR" 1920x1080_60
-     xrandr --output "$SCR" --mode 1920x1080_60
+    $KEYB_ABNT2_BR
+    xrandr --newmode "$MODE_1920x1080"
+    xrandr --addmode "$SCR1" "$MODE_NAME_1920x1080"
+    xrandr --output "$SCR1" --mode "$MODE_NAME_1920x1080"
     exit 0
 elif [ $num_monitors == 2 ]; then
-     $KEYB
+    $KEYB
+    if [ "$LOC" = "idp3" ]; then
+	$KEYB_ABNT2_BR
+    fi
     #set primary
-     xrandr --newmode 1920x1080_60  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-     xrandr --addmode "$SCR1" 1920x1080_60
-     xrandr --output "$SCR1" --mode 1920x1080_60
+    if xrandr --newmode $MODE_1920x1080; then
+	echo "new mode 1920x1080"
+    else
+	echo "Line-${LINENO}:fail to create --new mode 1920x1080"
+    fi
+
+    if xrandr --addmode "$SCR1" $MODE_NAME_1920x1080; then
+	echo "mode 1920x1080 added to $SCR1"
+    else
+	echo "Line-${LINENO}:fail --addmode 1920x1080 to $SCR1"
+    fi
+    if xrandr --output "$SCR1" --mode $MODE_NAME_1920x1080; then
+	xrandr --output "$SCR1" --primary
+	echo "set output $SCR1 mode 1920x1080[Primary]"
+    else
+	echo "Line-${LINENO}:fail --output 1920x1080"
+    fi
+    #xrandr --output "$SCR1" "$R_NORMAL"
     #M2
-     xrandr --newmode 1080x1920_60  176.50  1080 1168 1280 1480  1920 1923 1933 1989 -hsync +vsync
-     xrandr --addmode "$SCR2" 1080x1920_60
-     xrandr --output "$SCR2" --mode 1080x1920_60
+    case $VERTICAL in
+	0)
+	    if xrandr --output "$SCR2" --mode "$MODE_NAME_1920x1080";then
+		echo "set output $SCR2 mode 1920x1080"
+	    else
+		echo "Line-${LINENO}:fail to set output $SCR2 mode 1920x1080"
+	    fi
+	    #position : --left-of, --right-of, --above, --below, --same-as another-output
+	    xrandr --output "$SCR1" $R_NORMAL --output "$SCR2" $R_NORMAL --above "$SCR1" 
+
+	    ;;
+	1)
+	    if xrandr --newmode "$MODE_1080x1920";then
+		echo "new mode 1080x1920"
+	    else
+		echo "Line-${LINENO}:fail --newmode 2"
+	    fi
+	    if xrandr  --addmode "$SCR2" "$MODE_NAME_1080X1920";then
+		echo "mode 1080x1920 added to $SCR2"
+	    else
+		echo "Line-${LINENO}:fail to add 1080x1920 mode to $SCR2"
+	    fi
+	    if xrandr  --output "$SCR2" --mode "$MODE_NAME_1080X1920";then
+		echo "fail to set output $SCR2 mode 1080x1920"
+	    else
+		echo "Line-${LINENO}:fail --output 2"
+	    fi
+	    xrandr --output "$SCR1" $R_NORMAL --output "$SCR2" $R_RIGHT --right-of "$SCR1" 
+
+	    ;;
+    esac
+
     #set position
-     xrandr --output "$SCR1" --primary
     #turn left and put right of rotate the screen of your preference here SCR1 e SCR2
-     xrandr --output "$SCR1" --auto --rotate normal --output "$SCR2" --auto --rotate right --right-of "$SCR1" 2>/dev/null
     exit 0
 fi

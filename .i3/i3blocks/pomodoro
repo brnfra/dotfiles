@@ -11,9 +11,9 @@
 source ~/.i3/i3blocks/vars
 
 # Config variables (min)
-work_time=30
+work_time=25
 work_time=$(( work_time * 60 ))
-break_time=6
+break_time=5
 break_time=$(( break_time * 60 ))
 pomos_counter=$(( 0 ))
 counter_file="/tmp/pomos_counter"
