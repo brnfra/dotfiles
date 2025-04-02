@@ -1,8 +1,8 @@
 #!/bin/bash
 
-W3MIMGDISPLAY="/usr/bin/feh -g 640x480"
-FONTH=5 # Size of one terminal row
-FONTW=5 # Size of one terminal column
+W3MIMGDISPLAY="/usr/bin/catimg"
+FONTH=15 # Size of one terminal row
+FONTW=7 # Size of one terminal column
 
 X=$1
 Y=$2

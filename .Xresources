@@ -1,127 +1,216 @@
-Xft.dpi: 96
-Xft.antialias: true
-Xft.hinting: true
-Xft.rgba: rgb
-Xft.autohint: true
-Xft.hintstyle: hintfull
-Xft.lcdfilter: lcdfilter
+Xft.dpi: 	100
+Xft.antialias: 	true
+Xft.hinting: 	true
+Xft.rgba: 	rgb
+Xft.autohint: 	true
+Xft.hintstyle: 	hintfull
+Xft.lcdfilter: 	lcdfilter
+*.locale: true
+*.termName: xterm-256color
+*.allowSendEvents: true
 
-URxvt*transparent: true
-URxvt.shading:      25
-XTerm*renderFont: true
-XTerm*faceName: CodeNewRoman NF 
-rxvt*faceName:  CodeNewRoman NF 
+Xcursor.theme: 	Adwaita
+Xcursor.size: 	24
 
-rxvt-unicode*faceName:  CodeNewRoman NF 
+*.transparent: 	false
+*.shading:      10
 
-XTerm*faceSize: 12
-XTerm*utf8: 2
-XTerm*locale: true
-
-URxvt.cursorBlink:True
-URxvt.pointerBlank:True
-URxvt.pointerBlankDelay:1
-URxvt.cursorUnderline:True
+*.toolBar: 		true
+*.cursorBlink:		true
+*.pointerBlank:		true
+*.pointerBlankDelay:	1
+*.cursorUnderline:	true
+*.buffered: 		true
+*.saveLines: 		4096
+*.scrollBar: 		false
+*.scrollWithBuffer: 	true
+*.scrollTtyOutput:	false
+*.scrollKey: 		true
 
 ! Every shell is a login shell by default (for inclusion of all necessary environment variables)
-XTerm*loginshell: true
-rxvt-unicode*loginshell: true
+*.loginshell: 		true
 
-!! Font prefferenes
-URxvt*imLocale: pt_BR.UTF-8
-URxvt*termName: rxvt-unicode-256color
-URxvt*buffered: false
-URxvt.intensityStyles: false
-URxvt.font:xft:UbuntuMono Nerd:size=10, \
-          :xft:Inconsolata Nerd Font Mono:size=10, \
-          :xft:DejaVuSansMono Nerd Font:size=10, \
-          :xft:DroidSansMono Nerd Font:size=10, \
-          :xft:FuraMono Nerd Font:size=10, \
-          :xft:RobotoMono Nerd Font:pixelsize=15, \
-          :xft:Font Awesome 5 Brand Regular:pixelsize=15, \
-          :xft:Noto Sans Mono:size=10, \
-          :xft:Monospace:style=Medium:size=10   
-urxvt.font: xft:CodeNewRoman NF:size=13
-rxvt.font: xft:CodeNewRoman NF:size=13
-rxvt-unicode.font: xft:CodeNewRoman NF:size=13
+!! Font preferences{{{
+*.renderFont: true
+*.Locale: pt_BR.UTF-8
+*.utf8: 1
+*.colorBDMode: true
+*.colorULMode: true
+*.boldMode: true
+*.intensityStyles: true
+*.faceSize: 12
+*.assumeAllChars: true
 
-URxvt.saveLines: 200000
-URxvt.scrollBar: false
-URxvt.cursorColor: white
-URxvt*scrollWithBuffer: true
-URxvt*scrollTtyOutput:true
-!
-!! Yeah, I am one of those, who use these keys in Vim :-(
-urxvt.keysym.Home:          \033[1~
-urxvt.keysym.End:           \033[4~
-urxvt.keysym.Control-Up:    \033[1;5A
-urxvt.keysym.Control-Down:  \033[1;5B
-urxvt.keysym.Control-Left:  \033[1;5D
-urxvt.keysym.Control-Right: \033[1;5C
+*.faceName: xft:Lekton Nerd Font Mono
+!:style=Thin
+!*.utf8Fonts.font: xft:CodeNewRoman NFM
+!urxvt.font: xft:Source Code Pro:style=Light:size=14
+!urxvt.font:xft:3270 Nerd Font:size=14
+
+
+!from www.futurile.net
+! VT Font Menu: Unreadable
+!*.faceSize1: 8
+
+! VT font menu: Tiny
+!*.faceSize2: 10
+
+!VT font menu: Medium
+!*.faceSize3: 12
+
+! VT font menu: Large
+!*.faceSize4: 16
+
+! VT font menu: Huge
+!*.faceSize5: 22
+
+*.Translations: #override \
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d)
+    Shift <KeyPress> Insert: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
+    Ctrl <Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
+
+*.font: 12x24
+*.utf8Fonts.font: 12x24
+*.reverseVideo: false
+!}}}
+
 !! Copy Paste & Other Extensions
-URxvt.perl-ext-common: default,matcher,clipboard-osc,selection,selection-to-clipboard,selection-pastebin,selection-popup,confirm-paste,resize-font
+!xterm*VT100.Translations: #override \
+
+*.clipboard.autocopy: 	false
+*.iso14755: 		true
+*.iso14755_52: 		true
+*.iso10646-1: 		true
+
+! Only select text
+*.highlightSelection: 	true
+! Remove trailing spaces
+*.trimSelection: true
+*.keysym.C-question:  	resize-font:show
+*.resize-font.step: 	2
+*.urlLauncher: 		firefox
+*.underlineURLs: 	true
+*.urlButton: 		1
+!! URxvt{{{
+!
+!URxvt.font: 		xft:Iosevka:size=12
+!URxvt.boldFont: 	xft:Iosevka Fixed SS15 Thin:style=Bold:size=13
+!URxvt.italicFont: 	xft:Iosevka Fixed SS15 Thin:style=Thin,Italic:size=13
+!URxvt.boldItalicFont: 	xft:Iosevka Fixed SS15 Thin:style=Bold Italic:size=13
+URxvt.font:  xft:Lekton Nerd Font Mono
+
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: 	true
+URxvt.depth: 		32
+URxvt.iso14755: 	true
+URxvt.iso10646-1: 	true
+
+URxvt.keysym.M-Escape: 		perl:keyboard-select:activate
+URxvt.keysym.C-minus:     	resize-font:smaller
+URxvt.keysym.C-plus:     	resize-font:bigger
+URxvt.keysym.C-equal:     	resize-font:reset
 !paste Shift+insert
 URxvt.copyCommand: xclip -i -selection clipboard
 URxvt.pasteCommand: xclip -o -selection clipboard
-
-URxvt.clipboard.autocopy: true
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym.C-minus:     resize-font:smaller
-URxvt.keysym.C-plus:      resize-font:bigger
-URxvt.keysym.C-equal:     resize-font:reset
-URxvt.keysym.C-question:  resize-font:show
-URxvt.resize-font.step: 2
-URxvt.urlLauncher: firefox
+URxvt.perl-ext-common: default,matcher,clipboard-osc,selection,selection-to-clipboard,selection-pastebin,selection-popup,confirm-paste,resize-font
 URxvt.underlineURLs: true
-URxvt.urlButton: 1
+URxvt.background: 	[100]#232627
 
-! Colorscheme
 
-!! URxvt Appearance
-URxvt.letterSpace: -1
-URxvt.lineSpace:  -1
-Rxvt.lineSpace:  -1
-URxvt.geometry: 92x24
-URxvt.internalBorder: 14
+!!}}}
+! Colorscheme{{{
+
+*.letterSpace: 		-1
+*.lineSpace:  		-1
+*.internalBorder: 	14
+!*.geometry: 		92x24
 
 ! special
-URxvt*depth: 32
-*.foreground: #daffc2
-*.background: #222200
-*.cursorColor: #feffcf
+!*.depth: 32
+*.dynamicColors: false
+! special
+*.foreground:   #c8c8c8
+*.background:   #383838
+*.cursorColor:  #c8c8c8
 
 ! black
-*.color0: #052a4e
-*.color8: #000000
+*.color0:       #282828
+*.color8:       #173a55
 
 ! red
-*.color1: #d12f2c
-*.color9: #fa3935
+*.color1:       #bd4040
+*.color9:       #cc7b7b
 
 ! green
-*.color2: #559f00
-*.color10: #83f047
+*.color2:       #b1bd3e
+*.color10:      #b7bd79
 
 ! yellow
-*.color3: #999747
-*.color11: #dede58
+*.color3:       #c97032
+*.color11:      #cfb27a
 
 ! blue
-*.color4: #2587cc
-*.color12: #2ca2f5
+*.color4:       #3682c0
+*.color12:      #81a2be
 
 ! magenta
-*.color5: #696ebf
-*.color13: #8086e8
+*.color5:       #b17ec2
+*.color13:      #a250bb
 
 ! cyan
-*.color6: #289c93
-*.color14: #33c5ba
+*.color6:       #2cb4a3
+*.color14:      #8abeb7
 
 ! white
-*.color7: #fff6e0
-*.color15: #ffffff
+*.color7:       #8d98a2
+*.color15:      #acb4bc
 
+
+!*.foreground: 	#ffefc2
+!*.background: 	#232627
+!*.cursorColor: 	#467685
+!
+!! black
+!*.color0: #000000
+!*.color8: #052a4e
+!
+!! red
+!*.color1: #fe6060
+!*.color9: #fa3935
+!
+!! green
+!*.color2: #11d116
+!*.color10:#559f00
+!
+!! yellow
+!*.color3: #f67400
+!*.color11:#fdbc4b
+!
+!! blue
+!*.color4: #14659e
+!*.color12:#3daee9
+!
+!! magenta
+!*.color5: #884fa2
+!*.color13:#ae65ce
+!
+!! cyan
+!*.color6: #1abc9c
+!*.color14:#1dd5b0
+!
+!! white
+!*.color7: #c8c8c8
+!*.color15:#ffffff
+!}}}

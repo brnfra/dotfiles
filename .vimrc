@@ -249,19 +249,19 @@ if has('nvim')
 	set signcolumn=yes
     endif
     " other plugin before putting this into your config.
-    function! CheckBackspace() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction
+"    function! CheckBackspace() abort
+"	let col = col('.') - 1
+"	return !col || getline('.')[col - 1]  =~ '\s'
+"    endfunction
 
-    inoremap <silent><expr><TAB>
-		\ coc#pum#visible() ? coc#pum#next(1) :
-		\ CheckBackspace() ? "\<TAB>" :
-		\ coc#refresh()
+   " inoremap <silent><expr><TAB>
+"		\ CheckBackspace() ? "\<TAB>" :
+"		\ coc#pum#visible() ? coc#pum#next(1) :
+"		\ coc#refresh()
 
     
-"    inoremap <expr><TAB> coc#pum#visible() ? coc#pum#next(1) : "\<C-h>"
-    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+    inoremap <expr><TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#next(1) : "\<C-h>"
 
     " Make <CR> to accept selected completion item or notify coc.nvim to format
     " <C-g>u breaks current undo, please make your own choice
@@ -365,6 +365,10 @@ if has('nvim')
     nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list.
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+    hi CocFloating ctermbg=DarkGrey  	" Floating menu bg color
+    "hi CocMenuSel guibg=fg guifg=bg     " Menu selection bg color
+    hi CocMenuSel guibg=109 guifg=bg ctermbg=10 guibg=#98971a
+    hi CocSearch guibg=109 guifg=bg ctermbg=10 guibg=#98971a
 
 endif
 ""}}}
@@ -607,9 +611,9 @@ let g:netrw_browse_split=4  " open in prior window
 let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 " hide gitignore'd files
-let g:netrw_list_hide=netrw_gitignore#Hide()
+"let g:netrw_list_hide=netrw_gitignore#Hide()
 " hide dotfiles by default (this is the string toggled by netrw-gh)
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+"let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 if shownetrw
     let g:netrw_menu=1
     let g:netrw_preview=1
@@ -1041,7 +1045,6 @@ inoremap <C-p> <esc>:r!xclip -o <cr>i
 "vimwiki problem
 inoremap <M-BS> <Esc><Right>dwi
 inoremap <M-BS> <Esc><Right>dbi
-
 inoremap <M-z>  <Esc>0i
 inoremap <M-x>  <Esc>$i<Right>
 inoremap <M-a>  <S-Left>
@@ -1050,6 +1053,7 @@ inoremap <M-Down>  <Esc>5<Down>i<Right>
 inoremap <M-Up>    <Esc>5<Up>i<Right>
 inoremap <M-Left>  <Esc>5bi<Right>
 inoremap <M-Right> <Esc>5wi<Right>
+inoremap <C-k> <Esc>ld$i
 
 inoremap <c-g> <esc>
 "vim-shortcuts

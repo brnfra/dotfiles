@@ -3,6 +3,7 @@ for file in ~/.bash/{aliases,prompt,exports,functions,input,extras}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+
 shopt -s autocd
 shopt -s checkwinsize
 shopt -s nocaseglob;
@@ -51,6 +52,8 @@ complete -o "default" -o "nospace" -W "ssh_env ssh_connect" ssh_config
 
 complete -o "nospace" -W "Finder Firefox Firefox-esr java SystemUIServer Terminal" killall;
 
+export GTK_THEME=Adwaita-dark
+export GDK_SCALE=1
 
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)                                                    
 #APT aliases {{{

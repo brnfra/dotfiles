@@ -212,7 +212,6 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	    | xargs -ro sudo apt-get install
 	}
 
-    # }}}
     # Show installed packages 
     function plist () {
 	apt list --installed \
@@ -252,7 +251,7 @@ function depends() {
     complete -F auto_complete_apt plist
     complete -F auto_complete_apt pdeps
 
-# 
+#}}} 
 # {{{ pacman alias
 #
 elif [ "$osys" = "manjaro" ]; then
@@ -416,7 +415,13 @@ function fman () {
 	}
 
 function fh () {
-	cat ~/.bash_history | sort -u| fzf -m -i 
+	cat ~/.bash_history \
+	    | sort -u \
+	    | fzf -i \
+	    | xargs -ro -d "\n" -I "{}"  bash -c "echo {} | xclip -i -selection clipboard" 
+
+	xclip -o -selection "clipboard" | xargs -ro -d "\n" -I "{}"  bash -c "{}" 
+ 
 }
 
 function search_in () {

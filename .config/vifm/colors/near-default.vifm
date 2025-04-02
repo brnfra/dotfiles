@@ -78,19 +78,9 @@ highlight {*.patch,*.diff,*.py,*.[ch]pp,*.mk,*.c,*.h,*.[ch]pp,*.cc,*.hs,*.php}
 
 finish
 
-" alternative colors
-"228,155
-"218,219,155,119
-"111,109,204,173
-"222,187,218,203,174,211,219,144,145,147,152,193,182,213,112
-"117,39
-"177,225,189,219,187,79,43,223,217
+
 "highlight OtherLine  cterm=none                   ctermfg=default ctermbg=default
-"208,magenta
-"209,210
-"81,cyan,45,51,87
-"228
-"119,156
+
 " highlight Selected   cterm=bold                   ctermfg=255 ctermbg=magenta
 "highlight OtherLine  cterm=reverse                ctermfg=234 ctermbg=default
 
@@ -105,6 +95,7 @@ finish
 " file name specific highlight
 " highlight {*.djvu,*.html,*.xml} cterm=underline ctermfg=188 ctermbg=default
 " highlight /.*authors$|.*bugs$|.*todo$/ cterm=underline ctermfg=187 ctermbg=default
+
 
 highlight BrokenLink cterm=bold ctermfg=red ctermbg=default
 highlight Device cterm=bold ctermfg=yellow ctermbg=default

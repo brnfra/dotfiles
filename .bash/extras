@@ -112,8 +112,49 @@ function stopwatch () {
 }
 # }}}
 # logs
-function logs ()
-{
+function logs() {
+    # Color
+    local E='\e['
+
+    local italic="${E}3m"
+    local reset="${E}0m"
+    local blink="${E}5m"
+    local inverted="${E}7m"
+    local bold="${E}1m"
+    # Set foreground colors
+    local cyan="${E}96m"
+    local violet="${E}95m"
+    local white="${E}99m"
+    local red="${E}31m"
+    local green="${E}32m"
+    local yellow="${E}33m"
+    local blue="${E}34m"
+    local lgray="${E}37m"
+       
+    echo -e "\n${yellow}Stage backup${reset}\n"
     cat ~/.config-bkp/stage-bkp.log
+    echo -e "\n${yellow}Wallpapers${reset}\n"
     cat ~/.config-bkp/wallpapers.log
+    echo -e "\n${yellow}Upgrade logs${reset}\n"
+    cat ~/.cache/is_upgraded
+    cat ~/.cache/upgrade-distro-cron.sh-refresh-note-cron.log
+    echo -e "\n${yellow}Cron logs${reset}\n"
+    cat /var/log/upgrade-distro-cron.sh-refresh-dry-run.log
+    cat /var/log/upgrade-distro-note-cron.log
+    cat /var/log/refresh-note-cron.log
+
+    unset E
+    unset italic
+    unset reset
+    unset blink
+    unset inverted
+    unset bold
+    unset cyan
+    unset violet
+    unset white
+    unset red
+    unset green
+    unset yellow
+    unset blue
+    unset lgray
 }

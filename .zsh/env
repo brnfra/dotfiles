@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-for file in ~/.zsh/.{zaliases,zprofile,zinput,zextras,zfunctions,zprompt}; do
+for file in ~/.zsh/{aliases,profile,input,extras,functions,logout}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;

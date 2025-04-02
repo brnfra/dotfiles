@@ -184,8 +184,7 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	    | xargs -ro sudo apt-get install
 	}
 
-    # }}}
-    # Show installed packages {{{
+    # Show installed packages 
     function plist () {
 	apt list --installed \
 	    | awk '{print $1}' \
@@ -199,8 +198,7 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	    --bind="tab:toggle-preview" ;
 	}
 
-    # }}}
-#package info dependencies  {{{
+#package info dependencies  
 function depends() {
     apt list --installed \
 	| awk '{print $1}' \
@@ -214,10 +212,67 @@ function depends() {
 	--bind="tab:toggle-preview" ;
     }
 
-    function auto_complete_apt() {
-	mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+function auto_complete_apt() {
+    mapfile -t COMPREPLY < <(apt-cache --no-generate pkgnames "$2");
+}
+
+
+#}}}
+#{{{ opensuse
+elif [ "$osys" = "$opensuse" ]; then
+        function psearch () {
+	    zypper search | cut -d '|' -f2 \
+		| fzf \
+		--multi \
+		--preview 'zypper info {1}' \
+		--height=80% \
+		--border \
+		--hscroll-off=800 \
+		--preview-window=wrap \
+		--bind="tab:toggle-preview" \
+		| xargs -ro sudo zypper install
+	}
+
+	function fremove () {
+	    zypper search --installed-only | cut -d '|' -f2 \
+		| fzf \
+		--multi \
+		--preview 'zypper if {1}' \
+		--height=80% \
+		--border \
+		--hscroll-off=800 \
+		--preview-window=wrap \
+		--bind="tab:toggle-preview" \
+		| xargs -ro sudo zypper rm
+	    }
+
+
+        function plist () {
+	    zypper packages | cut -d '|' -f3  \
+		| fzf \
+		--multi \
+		--preview 'zypper if {1}' \
+		--height=80% \
+		--border \
+		--hscroll-off=800 \
+		--preview-window=wrap \
+		--bind="tab:toggle-preview"
+	}
+
+    function auto_complete_pacman() {
+	mapfile -t COMPREPLY < <(zypper if "$1");
     }
 
+    complete -F auto_complete_zp get
+    complete -F auto_complete_zp pdeps
+    complete -F auto_complete_zp pinfo
+    complete -F auto_complete_zp plist
+
+
+    # function pinfo ()
+    # {
+    # pacman -Si | fzf --multi --preview 'pacman -Qi {1}' --height=80% --border --hscroll-off=800 --preview-window=wrap --bind="tab:toggle-preview"
+    # }
 
 # }}}
 # {{{ pacman alias
@@ -320,7 +375,24 @@ function fman () {
 	    | awk '{print $1}' | xargs -r man
 	}
 
-function fhistory () {
-	    eval "$(cat < ~/.bash_history | fzf -m -i)"
-	}
+function fh () {
+	cat ~/.bash_history \
+	    | sort -u \
+	    | fzf -i \
+	    | xargs -ro -d "\n" -I "{}"  bash -c "echo {} | xclip -i -selection clipboard" 
+
+	xclip -o -selection "clipboard" | xargs -ro -d "\n" -I "{}"  bash -c "{}" 
+ 
+}
+
+function search_in () {
+	cat "$1" | fzf -m -e \
+	    --preview "grep -nw -A 14 -B 14 --color=always -e {..} $1" \
+	    --preview-window=wrap \
+	    --height=80% \
+	    --bind="tab:toggle-preview" \
+	    --border \
+	    
+}
+	
 	# }}}

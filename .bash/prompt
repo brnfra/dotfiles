@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 bind '"\C-f":"cd_with_fzf\n"'
 bind '"\C-o":"open_with_fzf\n"'
-bind '"\C-v":"nvim\n"'
+bind '"\C-n":"nvim\n"'
+#bind '"\C-m":"vim\n"'
 #Prompt git					    {{{
 git_branch() {
     local s='';

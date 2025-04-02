@@ -30,7 +30,7 @@ i3darker="#080910"
 dark="#181920"
 i3black="#2C323E"
 #darkgray="#3B4252"
-i3gray="#E7E8EB"
+i3gray="#8f8f8f"
 i3white="#F5F6F7"
 i3red="#F74336"
 #orange="#FF6600"
@@ -46,11 +46,11 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #font
-font="Monofur NF 11"
-
+font="3270 Nerd Font 9"
+term="xfce4-terminal"
 #Apps
-if xfce4-terminal -V &> /dev/null;then
-    Terminal="xfce4-terminal"
+if which $term &> /dev/null;then
+    Terminal="$term"
 else
     Terminal="i3-sensible-terminal"
 fi
@@ -497,7 +497,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darker\n"
+    options="${options}    background $i3gray\n"
     #options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
 			       #                border     backgr      text
@@ -518,7 +518,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darker\n"
+    options="${options}    background $i3gray\n"
     #options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
 			       #                border     backgr      text
@@ -579,7 +579,7 @@ elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe volumeicon\n"
     if amixer -h &> /dev/null; then
         options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
-        #options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
+        #options="${options}bindsym \$mod+Ctrl+m exec $Terminal -x \'alsamixer\'\n"
     elif pactl --version &> /dev/null; then
         options="${options}bindsym Ctrl+F2 exec pavucontrol\n"
         #options="${options}bindsym \$mod+Ctrl+m exec pavucontrol\n"
@@ -590,11 +590,11 @@ elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
 fi
 
     #}}}
-################################################################################################
+################################################################################################}}}
 ## Session startup                                                                            ##{{{
 ################################################################################################
 #OFF bell on preference for X
-options="${options}\$exe compton --config ~/.config/compton/compton.conf\n"
+#options="${options}\$exe picom --config ~/.config/picom.conf\n"
 options="${options}\$exe_always xset b off\n"
 #Networkmanager wicd and NM do not work together
 options="${options}\$exe nm-applet --indicator\n"
@@ -637,14 +637,16 @@ elif [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     options="${options}\$exe /usr/libexec/polkit-kde-authentication-agent-1\n"
-
-    if blueman-adapters -h &> /dev/null; then
+    if which qlipper &> /dev/null;then
+	options="${options}\$exe qlipper\n"
+    fi 
+    if which blueman-applet &> /dev/null; then
 	options="${options}\$exe blueman-applet\n"
     fi
-    if goldendict -h &> /dev/null; then
+    if which goldendict  &> /dev/null; then
 	options="${options}\$exe goldendict\n"
     fi
-    if [ -e ~/.config/conky/ ] && conky -h &> /dev/null; then
+    if [ -e ~/.config/conky/ ] && which conky &> /dev/null; then
 	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
     else
 	options="${options}\$exe start_conky_maia\n"
