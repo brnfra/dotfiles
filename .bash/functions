@@ -430,7 +430,7 @@ function search_in () {
 	    --preview-window=wrap \
 	    --height=80% \
 	    --bind="tab:toggle-preview" \
-	    --border \
+	    --border 
 	    
 }
 	# }}}
