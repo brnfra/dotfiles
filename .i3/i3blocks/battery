@@ -9,15 +9,15 @@ source ~/.i3/i3blocks/vars
 
 icon_disch="&#x21af;-"
 #icon_disch="&#xf103;-"
-icon_plug=" &#xF1E6;  "
+icon_plug="&#xF1E6;"
 icon_bolt="&#xF0E7;" 
 #icon_ch="&#xf102;"
 icon_ch="&#x1d97d;+"
-icon_low="&#xf244; "
-icon25="&#xf243; "
-icon50="&#xf242; "
-icon75="&#xf241; "
-icon90="&#xf240; "
+icon_low="&#xf244;"
+icon25="&#xf243;"
+icon50="&#xf242;"
+icon75="&#xf241;"
+icon90="&#xf240;"
 
 bat_up_alert="notify-send -t 7000 'Recommend plug-off charger.'"
 bat_up_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message.oga &> /dev/null'
@@ -25,8 +25,8 @@ bat_down_alert="notify-send -t 7000 'Time to charge!'"
 bat_down_alert+=';ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message-new-instant.oga &> /dev/null'
 if [ -z "$(ls -A /sys/class/power_supply/)" ]
 then
-    chrg_icon="<span $font $orange $weight $size >$icon_plug</span>"
-    btry_icon="<span $font $orange $weight $size >$icon_bolt</span>"
+    chrg_icon="<span $font $yellow $weight $size >$icon_plug</span>"
+    btry_icon="<span $font $yellow $weight $size >$icon_bolt</span>"
     printf "%s%s\n" "$chrg_icon" "$btry_icon" 
     exit 0
 else
@@ -40,18 +40,18 @@ timeto=$(acpi -b | awk -F':|,' /"Battery $bat_number"/'{print $4":"$5}' | sed 's
 bat_percent_int=${bat_percent%\%*}
 if [ "$status" = 'Discharging' ]
 then
-    chrg_icon="<span $font $orange $weight $icon_size >$icon_disch</span>"
+    chrg_icon="<span $font $yellow $weight $icon_size >$icon_disch</span>"
 elif [ "$status" = 'Not charging' ]
 then
-    chrg_icon="<span $font $red $weight $icon_size >$icon_plug</span>"
+    chrg_icon="<span $font $dark_red $weight $icon_size >$icon_plug</span>"
 else
     chrg_icon="<span $font $green $weight $icon_size >$icon_plug</span>"
 fi
 
 if (( bat_percent_int >= 0 )) && (( bat_percent_int <= 5 )); then
-    btry_icon="<span $font $red $size > $icon_low $bat_percent [$timeto]</span>"
+    btry_icon="<span $font $dark_red $size > $icon_low $bat_percent [$timeto]</span>"
 elif (( bat_percent_int >= 6 )) && (( bat_percent_int <= 14 )); then
-    btry_icon="<span $font $orange $size > $icon_low $bat_percent [$timeto]</span>"
+    btry_icon="<span $font $dark_red $size > $icon_low $bat_percent [$timeto]</span>"
 elif (( bat_percent_int >= 15 )) && (( bat_percent_int <= 35 )); then
     # BU-808: How to Prolong Lithium-based Batteries
     # https://batteryuniversity.com/article/bu-808-how-to-prolong-lithium-based-batteries

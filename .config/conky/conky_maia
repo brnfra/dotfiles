@@ -8,7 +8,7 @@ conky.config = {
 	font = 'Bitstream Vera Sans:size=9',
 	draw_shades = false,
 	gap_x = 25,
-	gap_y = 13,
+	gap_y = 35,
 	minimum_width = 200,
 	no_buffers = true,
         xftalpha = 1,
@@ -22,33 +22,80 @@ conky.config = {
 	own_window = true ,
 	own_window_type = 'override' ,
 	own_window_transparent = false ,
-	update_interval = 1,
+	update_interval = 2,
 	use_xft = true,
 }
 conky.text = [[
+#HEAD{{{
 ${voffset 8}$color2${font Bitstream Vera Sans:size=16}${time %A}$font\
 ${voffset -8}$alignr$color${font Bitstream Vera Sans:size=38}${time %e}$font
 $color${voffset -30}$color${font Bitstream Vera Sans:size=18}${time %b}$font\
 ${voffset -3} $color${font Bitstream Vera Sans:size=20}${time %Y}$font$color2$hr
-#
-${voffset 20}${goto 40}${color}CPU${font Bitstream Vera Sans:bold:size=8}$alignr$cpu%
-${voffset 5}${goto 40}$font$color2${top name 1}$alignr$color${top cpu 1}%
-${goto 40}$color2${top name 2}$alignr$color${top cpu 2}%
-${goto 40}$color2${top name 3}$alignr$color${top cpu 3}%
-${goto 40}$color2${top name 4}$alignr$color${top cpu 4}%
-# ${goto 40}$color2${top name 5}$alignr$color${top cpu 5}%
-#
-${voffset 10}${goto 40}${color}RAM${font Bitstream Vera Sans:bold:size=8}$alignr$mem$font
-${goto 40}${voffset 5}$color2${top_mem name 1}$alignr$color${top_mem mem_res 1}
-${goto 40}$color2${top_mem name 2}$alignr$color${top_mem mem_res 2}
-${goto 40}$color2${top_mem name 3}$alignr$color${top_mem mem_res 3}
-${goto 40}$color2${top_mem name 4}$alignr$color${top_mem mem_res 4}
-# ${goto 40}$color2${top_mem name 5}$alignr$color${top_mem mem_res 5}
-#
-${voffset 10}${goto 40}${color}Swap${font Bitstream Vera Sans:bold:size=8}$alignr${swap}/ ${swapfree}
-${voffset 15}$font$alignr${execi 10000 awk -F= '/TION/ {print $2}' /etc/lsb-release |sed 's/"//g'} \
-${execi 10000 awk -F= '/EASE=/ {printf $2" "} /NAME/ {print $2}' /etc/lsb-release}
-${voffset 10}${color2}${alignr}${execi 1200 whoami}@${nodename}
-${alignr}${color2}${font Bitstream Vera Sans:size=8}uptime: ${color}${uptime_short}
-${voffset 5}${color2}${font Bitstream Vera Sans:size=8}${alignr}kernel: ${color}${kernel}
+#comom
+${color2}${alignr}${nodename}${color5}:${color}${alignr}$machine
+${alignr}${color2}${font Bitstream Vera Sans:size=10}uptime: ${color}${uptime_short}
+${color2}${font Bitstream Vera Sans:size=10}${alignr}kernel: ${color}${kernel}
+#}}}
+#CPU{{{
+${color grey}${font Bitstream Vera Sans:size=11}CPU Load: ${color}$cpu% ${color3}$cpubar
+${color grey}${cpugraph cpu0 25,260 #d4a8ff #d4a8ff}
+${color grey}Freq ${font IBM Plex Mono:size=10.5}$alignr${color}$freq_g Ghz
+#}}}
+#RAM{{{
+${color grey}RAM$alignr${color}$mem/$memmax
+${color #BEC8CB}${membar 5}
+${color grey}SWAP$alignr${swap}/${swapfree}
+${color #BEC8CB}${swapbar 5}
+#}}}
+#DISKS{{{
+
+${color grey}Root${goto 143.5}${color grey}Home
+${color #BEC8CB}${fs_bar 5,120 /}${alignr}${fs_bar 5,120 /home}
+${color grey}${fs_used /}/${fs_size /}${goto 143.5}${color grey}${fs_used /home}/${fs_size /home}
+
+${color grey}Shared Data Drive
+${color #BEC8CB}${fs_bar 5,120 /data/shared_data/}
+${color grey}${fs_used /data/shared_data/}/${fs_size /data/shared_data/}
+#}}}
+#DISK_IO{{{
+
+${color grey}Disk Read${goto 143.5}${color grey}Disk Write
+$color2${diskiograph_read 25,120 BDEDFF eb3464 -t }${goto 143.5}$color2${diskiograph_write 25,120 BDEDFF eb3464 -t }
+${color}$diskio_read${goto 143.5}${color grey}${color}$diskio_write
+#}}}
+#BATTERY{{{
+
+${color grey}Battery ${alignr}${color}${if_existing /sys/class/power_supply/BAT0/status Charging}${color #7CFC00}Charging${else}${if_existing /sys/class/power_supply/BAT0/status Discharging}${color #ffd000}Discharging${else}${if_existing /sys/class/power_supply/BAT0/status Not charging}${color #e46600}Not Charging${endif}${endif}${endif}${color grey}${font IBM Plex Mono:size=11} ~ ${color}${battery_percent}%
+${color #BEC8CB}${battery_bar 5}
+#}}}
+#NETWORK{{{
+$alignc${color grey}NETWORK
+$alignc${if_up wlp1s0}${color cyan}${exec nmcli -t device | awk -F':' 'NR==1{print $4}'} ${color} (WIFI)${else}${color #e66529}No wifi connection${endif}
+$alignc${if_up eth0}${color cyan}${exec nmcli -t device | awk -F':' 'NR==1{print $4}'} ${color} (WIFI)${else}${color #e66529}No wired connection${endif}
+${if_up wlp1s0}${color grey}Up${goto 143.5}${color grey}Down
+${color #BEC8CB}${upspeedgraph wlp1s0 25,120 #ffd4a8 #ffd4a8}${alignr}${downspeedgraph wlp1s0 25,120 #a8ffa8 #a8ffa8}
+${color grey}${upspeedf wlp1s0} kib/s${goto 143.5}${color grey}${downspeedf wlp1s0} kib/s${endif}
+#}}}
+#TEMPERATURE{{{
+
+${color grey}GPU Adapter Temp${goto 143.5}${alignr}${color}CPU Temperature
+${color}${exec sensors -j 2>/dev/null | jq | awk -F':' '/temp1_input/{printf "%1.1f\n",$2}' | awk 'NR==1{print}' }°C${goto 143.5}${color}${exec sensors -j 2>/dev/null | jq | awk -F':' '/temp1_input/{printf "%1.1f\n",$2}' | awk 'NR==2{print}' }°C
+${execigraph -t  echo 100}
+#}}}
+#PROCESSES{{{
+${color grey}Processes $alignr${color grey}PID      RAM
+${color}${top name 1} $alignr${top pid 1} ${color2}$alignr$color${top_mem mem_res 1}
+${color}${top name 2} $alignr${top pid 2} ${color2}$alignr$color${top_mem mem_res 2}
+${color}${top name 3} $alignr${top pid 3} ${color2}$alignr$color${top_mem mem_res 3}
+${color}${top name 4} $alignr${top pid 4} ${color2}$alignr$color${top_mem mem_res 4}
+${color}${top name 5} $alignr${top pid 5} ${color2}$alignr$color${top_mem mem_res 5}
+
+${color grey}Processes $alignr${color grey}PID    CPU%
+${color}${top name 1} $alignr${top pid 1}  ${color2}$alignr$color${top cpu 1}%
+${color}${top name 2} $alignr${top pid 2}  ${color2}$alignr$color${top cpu 2}%
+${color}${top name 3} $alignr${top pid 3}  ${color2}$alignr$color${top cpu 3}%
+${color}${top name 4} $alignr${top pid 4}  ${color2}$alignr$color${top cpu 4}%
+${color}${top name 5} $alignr${top pid 5}  ${color2}$alignr$color${top cpu 5}%
+#}}}
+
 ]]
