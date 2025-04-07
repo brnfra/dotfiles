@@ -41,12 +41,12 @@ fi
 URGENT_VALUE=100
 
 if (( TRASH_COUNT == 0 )); then
-    echo  "<span $font $size $white> &#xf014; [${TRASH_COUNT}]</span>"
+    echo  "<span $font $size $white> &#xf014; [${TRASH_COUNT}] </span>"
 elif (( TRASH_COUNT > 0 )); then
-    echo  "<span $font $size $yellow> &#xf1f8; [${TRASH_COUNT}]</span>"
+    echo  "<span $font $size $orange> &#xf1f8; [${TRASH_COUNT}] </span>"
 
 elif [[ "${TRASH_COUNT}" -ge "${URGENT_VALUE}" ]]; then
-    echo  "<span $font $size $red> &#xf1f8; [${TRASH_COUNT}]</span>"
+    echo  "<span $font $size $red> &#xf1f8; [${TRASH_COUNT}] </span>"
     exit 33
 fi
 

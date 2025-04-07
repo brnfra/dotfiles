@@ -16,12 +16,12 @@ source ~/.i3/i3blocks/vars
 
 print_in ()
 {
-    printf "%s" "<span $font $size $1 $weight >$2↓|</span>"
+    printf "%s" "<span $font $size $1 $weight >      $2 ↓</span>"
 }
 
 print_out ()
 {
-    printf "%s\n" "<span $font $size $1 $style >↑$2</span>" 
+    printf "%s\n" "<span $font $size $1 $style >↑ $2      </span>" 
 }
 
 # Use the provided interface, otherwise the device used for the default route.

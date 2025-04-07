@@ -94,7 +94,7 @@ elif amixer -h &> /dev/null; then
 	5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
     esac
 else
-    printf "%s\n" "<span $font $yellow $icon_size > FAIL </span>"
+    printf "%s\n" "<span $font $red $icon_size > FAIL </span>"
     exit 1    
 fi
 #------------------------------------------------------------------------
@@ -113,7 +113,7 @@ fi
 
 get_block() {
     if [ "$vmute" = "$res" ]; then
-	printf "%s\n" "<span $font $yellow $icon_size > $icon_mute </span>"
+	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
 	exit 0
     elif (( volume >= 0 )) && (( volume <= 5 )) ; then
 	printf "%s\n" "<span $font $green $icon_size > $icon_zero [0$volume%]</span>"
@@ -127,7 +127,7 @@ get_block() {
     elif (( volume > 35 )) && (( volume <= 65 )) ; then
 	printf "%s\n" "<span $font $green $icon_size > $icon50 [$volume%]</span>"
 	exit 0
-    elif (( volume > 66 )) && (( volume <= 85 )) ; then
+    elif (( volume > 65 )) && (( volume <= 85 )) ; then
 	printf "%s\n" "<span $font $green $icon_size > $icon75 [$volume%]</span>"
 	exit 0
     elif (( volume > 85 )); then

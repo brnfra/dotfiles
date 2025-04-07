@@ -81,7 +81,6 @@ bkp_cfg_files() {
     files+=' .config/nvim/init.vim '
 
     files+=' .vimrc '
-    files+=' .vim/configs/ '
     
     # vifm
     Dirs+=' .config/vifm/ '
@@ -95,9 +94,7 @@ bkp_cfg_files() {
     
     # terminalrc=
     Dirs+=' .config/xfce4/terminal/ '
-    Dirs+=' .local/share/konsole/ '
     files+=' .config/xfce4/terminal/terminalrc '
-    files+=' .config/konsolerc '
     
     # i3
     Dirs+=' .i3/ '

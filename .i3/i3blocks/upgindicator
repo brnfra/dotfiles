@@ -13,10 +13,8 @@ elif [ "$system_id" = "$opensuse" ]; then
 fi
 
 if [ "$check" -lt 1 ]; then
-    output="<span $font $green $size $weight >No Updates</span>"
-elif [ "$check" -gt 100 ]; then
-    output="<span $font $yellow $size $weight >↑(+99 Pkgs)</span>"
+    output="<span $font $green $size $weight > No Updates </span>"
 else
-    output="<span $font $yellow $size $weight >↑($check Pkgs)</span>"
+    output="<span $font $orange $size $weight > ↑($check Pkgs) </span>"
 fi
 echo "$output"

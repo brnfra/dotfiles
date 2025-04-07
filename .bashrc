@@ -11,10 +11,6 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-
-#crtl+q // ctrl+s (experimental) controle de fluxo XON/XOFF
-#stty -ixon
-
 if [ -f ~/.bash/profile ]; then
     . ~/.bash/profile
 fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 06-04-2025
+#  Ultima_modificacao: 31-03-2025
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -42,8 +42,8 @@ commit_last ()
     printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 ##}}}
-#branch_sync - check if bare branch = cloned branch {{{ 
-branch_sync ()
+#sync_branch {{{ 
+sync_branch ()
 {
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
     printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
@@ -84,7 +84,7 @@ branch_sync ()
     printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 }
 ##}}}
-#sync_copy - function for backup {{{ 
+#function for backup {{{ 
 sync_copy ()
 {
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
@@ -100,17 +100,13 @@ sync_copy ()
     files+='.config/conky/ '
     # vim
     files+='.vimrc .config/nvim/coc-settings.json '
-    files+='.config/nvim/init.vim '
-    files+='.vim/configs/ '
+    files+='.vimrc .config/nvim/init.vim '
     # vifm
     files+='.config/vifm/vifmrc  '
     files+='.config/vifm/scripts/ '
     files+='.config/vifm/colors/ '
     # terminalrc=
     files+='.config/xfce4/terminal/terminalrc '
-    files+='.config/xfce4/terminal/terminalrc '
-    files+='.local/share/konsole/ '
-    files+='.config/konsolerc '
     # i3
     files+='.i3/ '
     files+='.i3/autostart/ '
@@ -153,7 +149,7 @@ prepare() {
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
     cd "$HOME" || return
 
-    branch_sync
+    sync_branch
 
     if config_check tests -a ; then
 	cmOk "Files,scripts tests and folders check"
@@ -198,5 +194,5 @@ case $1 in
     commit_last) "$@"; exit;;
     prepare) "$@"; exit;;
     sync_copy) "$@"; exit;;
-    branch_sync) "$@"; exit;;
+    sync_branch) "$@"; exit;;
 esac

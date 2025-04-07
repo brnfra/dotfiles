@@ -46,9 +46,8 @@ status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
 cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
 #font
-font="Iosevka NFP"
-font_size="11"
-term="konsole"
+font="3270 Nerd Font 9"
+term="xfce4-terminal"
 #Apps
 if which $term &> /dev/null;then
     Terminal="$term"
@@ -67,7 +66,6 @@ case $system_id in
     browser="firefox"
     fileManager="pcmanfm"
     ;;
-
     $opensuse)
     browser="firefox"
     fileManager="dolphin"
@@ -89,7 +87,7 @@ fi
 options="# i3 config. Auto generate\n"
 options="${options}# Check ~/bin/i3_config\n"
 options="${options}set \$mod $mod_button\n"
-options="${options}font pango:$font $font_size\n"
+options="${options}font pango:$font\n"
 
 #}}}
 ###############################
@@ -101,6 +99,18 @@ options="${options}set \$sup bindsym Mod4\n"
 options="${options}set \$exe exec --no-startup-id\n"
 options="${options}set \$exe_always exec_always --no-startup-id\n"
 
+# Open specific applications in floating mode
+# Disable title bars.
+options="${options}for_window [class=\"^.*\"] border pixel 2\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
+options="${options}assign [class=\"$browser\"] \$ico_firefox\n"
+options="${options}assign [class=\"calibre\"] \$ico_calibre\n"
+options="${options}assign [class=\"okular\"] \$ico_pdf\n"
+options="${options}assign [class=\"$fileManager\"] \$ico_window\n"
+options="${options}assign [instance=\"$fileManager\"] \$ico_window\n"
+options="${options}assign [instance=\"pamac-manager\"] \$ico_package\n"
+options="${options}assign [class=\"Virt-manager\"] \$ico_monitor\n"
 #icons
 options="${options}set \$ico_bank     <span font=\"$font\">&#xf155;</span>\n"
 options="${options}set \$ico_chat     <span font=\"$font\">&#xf27b;</span>\n"
@@ -137,27 +147,16 @@ options="${options}hide_edge_borders smart\n"
 options="${options}default_border pixel 2\n"
 # Focus the child container.
 options="${options}workspace_auto_back_and_forth yes\n"
-options="${options}set \$ws1  \"1 &#xf120;Term\"\n"
-options="${options}set \$ws2  \"2: &#xf269;Firefox\"\n"
-options="${options}set \$ws3  \"3: &#xf115;FM\"\n"
-options="${options}set \$ws4  \"4: &#xf212;Calibre\"\n"
-options="${options}set \$ws5  \"5: &#xf1c1;PDF\"\n"
-options="${options}set \$ws6  \"6: &#xf2d0;Virt\"\n"
+options="${options}set \$ws1  \"1\"\n"
+options="${options}set \$ws2  \"2\"\n"
+options="${options}set \$ws3  \"3\"\n"
+options="${options}set \$ws4  \"4\"\n"
+options="${options}set \$ws5  \"5\"\n"
+options="${options}set \$ws6  \"6\"\n"
 options="${options}set \$ws7  \"7\"\n"
 options="${options}set \$ws8  \"8\"\n"
 options="${options}set \$ws9  \"9\"\n"
 options="${options}set \$ws10 \"10\"\n"
-# Open specific applications in floating mode
-# Disable title bars.
-options="${options}for_window [class=\"^.*\"] border pixel 2\n"
-options="${options}assign [class=\"konsole\"] \$ws1\n"
-options="${options}assign [class=\"$browser\"] \$ws2\n"
-options="${options}assign [class=\"calibre\"] \$ws4\n"
-options="${options}assign [class=\"okular\"] \"5: &#xf1c1;PDF\"\n"
-options="${options}assign [class=\"$fileManager\"] \$ws3\n"
-options="${options}assign [instance=\"$fileManager\"] \$ws3\n"
-options="${options}assign [instance=\"pamac-manager\"] \$ws3\n"
-options="${options}assign [class=\"Virt-manager\"] \$ws6\n"
 
 # Assign to floating by default.
 options="${options}for_window [class=\"mpv\"] floating enable\n"
@@ -404,7 +403,7 @@ case  $system_id in
     ;;
     
     "manjaro" | $opensuse)
-    options="${options}bindsym \$mod+Ctrl+l \$exe blurlock -e -f -k\n"
+    options="${options}bindsym \$mod+Ctrl+l \$exe blurlock\n"
     # exit i3 (logs you out of your X session)
     #options="${options}bindsym \$mod+Shift+e exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'\"\n"
 
@@ -441,7 +440,7 @@ case $system_id in
     # start program launcher
     # launch categorized menu
     options="${options}bindsym \$mod+z \$exe morc_menu\n"
-    options="${options}bindsym \$mod+Shift+m exec $Terminal -e 'bmenu'\n"
+    options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
     ;;
 
     "$opensuse") 
@@ -450,14 +449,14 @@ case $system_id in
     # start program launcher
     # launch categorized menu
     options="${options}bindsym \$mod+z \$exe morc_menu\n"
-    options="${options}bindsym \$mod+Shift+m exec $Terminal -e 'bmenu'\n"
+    options="${options}bindsym \$mod+Shift+m exec $Terminal -x 'bmenu'\n"
     ;;
 
 esac
 
-options="${options}bindsym Ctrl+0 exec $Terminal -e vim $cfg_dir/config\n"
+options="${options}bindsym Ctrl+0 exec $Terminal -x vim $cfg_dir/config\n"
 options="${options}bindsym Ctrl+3 exec $fileManager\n"
-options="${options}bindsym Ctrl+2 exec $Terminal -e vifm\n"
+options="${options}bindsym Ctrl+2 exec $Terminal -x vifm\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
 options="${options}bindsym \$mod+Shift+Print --release \$exe $binaries/i3-scrot -w\n"
 options="${options}bindsym \$mod+Print --release \$exe $binaries/i3-scrot -s\n"
@@ -495,7 +494,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: $font $font_size\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3gray\n"
@@ -516,7 +515,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: $font $font_size\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
     options="${options}    background $i3gray\n"
@@ -538,7 +537,7 @@ elif [ $num_monitors == 1 ]; then
     options="${options}    tray_padding 2\n"
     options="${options}    separator_symbol \" \"\n"
     options="${options}    mode dock \n"
-    options="${options}    font pango: $font $font_size\n"
+    options="${options}    font pango: $font\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
     options="${options}    background $i3darker\n"
@@ -579,8 +578,8 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe volumeicon\n"
     if amixer -h &> /dev/null; then
-        options="${options}bindsym Ctrl+F2 exec $Terminal -e alsamixer\n"
-        #options="${options}bindsym \$mod+Ctrl+m exec $Terminal -e \'alsamixer\'\n"
+        options="${options}bindsym Ctrl+F2 exec $Terminal -x alsamixer\n"
+        #options="${options}bindsym \$mod+Ctrl+m exec $Terminal -x \'alsamixer\'\n"
     elif pactl --version &> /dev/null; then
         options="${options}bindsym Ctrl+F2 exec pavucontrol\n"
         #options="${options}bindsym \$mod+Ctrl+m exec pavucontrol\n"
@@ -619,7 +618,7 @@ elif [ "$system_id" = "manjaro" ] ;then
     options="${options}\$exe xfce4-power-manager\n"
     options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
         options="${options}\$exe clipit\n"
-    options="${options}\$exe xautolock -time 10 -locker blurlock -e -f -k\n"
+    options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe pamac-tray\n"
     options="${options}\$exe ff-theme-util\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"

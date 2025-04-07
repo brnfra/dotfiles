@@ -1,12 +1,12 @@
-Xft.dpi: 	96
+Xft.dpi: 	100
 Xft.antialias: 	true
-Xft.rgba: 	rgb
 Xft.hinting: 	true
-Xft.hintstyle: 	hintslight
-Xft.autohint: 	false
+Xft.rgba: 	rgb
+Xft.autohint: 	true
+Xft.hintstyle: 	hintfull
 Xft.lcdfilter: 	lcdfilter
 *.locale: true
-xterm.termName: xterm-256color
+*.termName: xterm-256color
 *.allowSendEvents: true
 
 Xcursor.theme: 	Adwaita
@@ -22,7 +22,6 @@ Xcursor.size: 	24
 *.cursorUnderline:	true
 *.buffered: 		true
 *.saveLines: 		4096
-
 *.scrollBar: 		false
 *.scrollWithBuffer: 	true
 *.scrollTtyOutput:	false
@@ -39,10 +38,10 @@ Xcursor.size: 	24
 *.colorULMode: true
 *.boldMode: true
 *.intensityStyles: true
-*.faceSize: 14
+*.faceSize: 12
 *.assumeAllChars: true
 
-!*.faceName: xft:Lekton Nerd Font Mono
+*.faceName: xft:Lekton Nerd Font Mono
 !:style=Thin
 !*.utf8Fonts.font: xft:CodeNewRoman NFM
 !urxvt.font: xft:Source Code Pro:style=Light:size=14
@@ -65,8 +64,14 @@ Xcursor.size: 	24
 ! VT font menu: Huge
 !*.faceSize5: 22
 
-*.Translations:	#override Ctrl <Key> minus: smaller-vt-font() \n Ctrl <Key> plus: larger-vt-font() \n Ctrl <Key> 0: set-vt-font(d)
-Shift <KeyPress> Insert:	insert-selection(CLIPBOARD) \n Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n Ctrl <Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
+*.Translations: #override \
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d)
+    Shift <KeyPress> Insert: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>C:    copy-selection(CLIPBOARD) \n\
+    Ctrl <Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
 
 *.font: 12x24
 *.utf8Fonts.font: 12x24
@@ -77,81 +82,53 @@ Shift <KeyPress> Insert:	insert-selection(CLIPBOARD) \n Ctrl Shift <Key>V: inser
 !xterm*VT100.Translations: #override \
 
 *.clipboard.autocopy: 	false
-xterm.iso14755: 	false
-xterm.iso14755_52: 	false
-*.iso10646-1: 		false
+*.iso14755: 		true
+*.iso14755_52: 		true
+*.iso10646-1: 		true
 
 ! Only select text
 *.highlightSelection: 	true
 ! Remove trailing spaces
-*.trimSelection: 	true
-xterm.keysym.C-question:resize-font:show
-xterm.resize-font.step: 2
+*.trimSelection: true
+*.keysym.C-question:  	resize-font:show
+*.resize-font.step: 	2
 *.urlLauncher: 		firefox
 *.underlineURLs: 	true
 *.urlButton: 		1
 !! URxvt{{{
-
-URxvt.termName: 	rxvt-unicode
-URxvt.mapAlert:         true
-URxvt.utmpInhibit:      true
-URxvt.selection.pattern-0: ([[:word:]]+)
+!
 !URxvt.font: 		xft:Iosevka:size=12
 !URxvt.boldFont: 	xft:Iosevka Fixed SS15 Thin:style=Bold:size=13
 !URxvt.italicFont: 	xft:Iosevka Fixed SS15 Thin:style=Thin,Italic:size=13
 !URxvt.boldItalicFont: 	xft:Iosevka Fixed SS15 Thin:style=Bold Italic:size=13
-URxvt.font:  		xft:Lekton Nerd Font Mono:size=14
+URxvt.font:  xft:Lekton Nerd Font Mono
 
-URxvt.letterSpace: 	0
-URxvt.lineSpace: 	0
-URxvt.geometry: 	92x24
-URxvt.internalBorder: 	24
-URxvt.cursorBlink: 	true
-URxvt.cursorUnderline: 	false
-URxvt.saveline: 	2048
-URxvt.scrollBar: 	false
-URxvt.scrollBar_right: 	false
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
 URxvt.urgentOnBell: 	true
 URxvt.depth: 		32
-URxvt.iso14755:	false
-URxvt.iso14755_52: 	false
+URxvt.iso14755: 	true
 URxvt.iso10646-1: 	true
 
-!URxvt.keysym.M-Escape: 		perl:keyboard-select:activate
-URxvt.perl-ext-common: 	default,clipboard,selection-autotransform,selection-to-clipboard,selection-popup,confirm-paste,font-size,keysym-list
-URxvt.perl-ext: 	default,clipboard,selection-autotransform,selection-to-clipboard,selection-popup,confirm-paste,font-size,keysym-list
-
-!URxvt.keysym.C-Up:      font-size:smaller
-!URxvt.keysym.C-Down:    font-size:bigger
-!URxvt.keysym.C-S-0:     	font-size:reset
-
-URxvt.keysym.C-Up:	perl:font-size:increase
-URxvt.keysym.C-Down:	perl:font-size:decrease
-URxvt.keysym.C-S-Up:	perl:font-size:incglobal
-URxvt.keysym.C-S-Down:	perl:font-size:decglobal
-URxvt.keysym.C-equal:	perl:font-size:reset
-URxvt.keysym.C-slash:	perl:font-size:show
-URxvt.font.size.step:	4
-
-URxvt.keysym.M-c:   	perl:clipboard:copy
-URxvt.keysym.M-v:   	perl:clipboard:paste
-URxvt.keysym.M-1:	command:'echo "testing urxvt: hello urxvt"'/\n
+URxvt.keysym.M-Escape: 		perl:keyboard-select:activate
+URxvt.keysym.C-minus:     	resize-font:smaller
+URxvt.keysym.C-plus:     	resize-font:bigger
+URxvt.keysym.C-equal:     	resize-font:reset
 !paste Shift+insert
-URxvt.clipboard.copycmd:xclip -i -selection clipboard
-URxvt.clipboard.pastcmd:xclip -o -selection clipboard
-URxvt.underlineURLs: 	true
-URxvt.underlineColor:   yellow
+URxvt.copyCommand: xclip -i -selection clipboard
+URxvt.pasteCommand: xclip -o -selection clipboard
+URxvt.perl-ext-common: default,matcher,clipboard-osc,selection,selection-to-clipboard,selection-pastebin,selection-popup,confirm-paste,resize-font
+URxvt.underlineURLs: true
 URxvt.background: 	[100]#232627
 
-!keyssyms send correct shortcuts to programs
-URxvt.keysym.S-Up       : \033[1;2A
-URxvt.keysym.S-Down     : \033[1;2B
-URxvt.keysym.S-Right    : \033[1;2C
-URxvt.keysym.S-Left     : \033[1;2D
-!URxvt.keysym.C-s        : \033[1;5s 
-!URxvt.keysym.C-q        : \033[1;5q
-!para habilitar Ctrl+q e s
-!URxvt*disableFlowControl: true
+
 !!}}}
 ! Colorscheme{{{
 
@@ -165,27 +142,27 @@ URxvt.keysym.S-Left     : \033[1;2D
 *.dynamicColors: false
 ! special
 *.foreground:   #c8c8c8
-*.background:   #282828
-*.cursorColor:  #1bdad4
+*.background:   #383838
+*.cursorColor:  #c8c8c8
 
 ! black
 *.color0:       #282828
 *.color8:       #173a55
 
 ! red
-*.color1:       #e6353b
-*.color9:       #c34242
+*.color1:       #bd4040
+*.color9:       #cc7b7b
 
 ! green
-*.color2:       #6cc261
-*.color10:      #52954a
+*.color2:       #b1bd3e
+*.color10:      #b7bd79
 
 ! yellow
-*.color3:       #fc7f00
-*.color11:      #4f4300
+*.color3:       #c97032
+*.color11:      #cfb27a
 
 ! blue
-*.color4:       #3b63a8
+*.color4:       #3682c0
 *.color12:      #81a2be
 
 ! magenta
@@ -197,7 +174,7 @@ URxvt.keysym.S-Left     : \033[1;2D
 *.color14:      #8abeb7
 
 ! white
-*.color7:       #d7dccf
+*.color7:       #8d98a2
 *.color15:      #acb4bc
 
 
