@@ -635,7 +635,7 @@ elif [ "$system_id" = "manjaro" ] ;then
 	options="${options}\$exe start_conky_maia\n"
     fi
 elif [ "$system_id" = "$opensuse" ]; then
-    options="${options}\$exe xautolock -time 10 -locker blurlock -e -f -k\n"
+    options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     options="${options}\$exe /usr/libexec/polkit-kde-authentication-agent-1\n"
     if which qlipper &> /dev/null;then
