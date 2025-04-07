@@ -47,47 +47,204 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    printf "[INFO]%s [START] \n" "${0##*/} - ${FUNCNAME[0]}" 
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
+
     mkdir -p "$HOME/.config-bkp/original"
     local BKPDIR="$HOME/.config-bkp/original"
-    cInfo "Backup config files:" "bkp_cfg_files"
+    local newDir
+    local files
+    local Dirs
+    newDir="${BKPDIR}"
+
     # bash
-    files='.bashrc .bash/ '
-    files+='README.md '
+    files='.bashrc '
+    Dirs='.bash/ '
+    files+=' .bash/aliases'
+    files+=' .bash/exports'
+    files+=' .bash/extras'
+    files+=' .bash/functions'
+    files+=' .bash/input'
+    files+=' .bash/logout'
+    files+=' .bash/profile'
+    files+=' .bash/prompt'
+
+    files+=' README.md '
+    # zsh
+    Dirs+=' .zsh/ '
+    files+=' .zshrc '
+    files+=' .zsh/aliases '
+    files+=' .zsh/exports '
+    files+=' .zsh/extras '
+    files+=' .zsh/functions '
+    files+=' .zsh/input '
+    files+=' .zsh/logout '
+    files+=' .zsh/profile '
+    files+=' .zsh/prompt '
+    files+=' .zsh/env '
+    files+=' .zsh/zshrc '
+
+    #conky
+    Dirs+=' .config/conky/ ' 
+    files+=' .config/conky/conky_calendar '
+    files+=' .config/conky/conky_shortcuts '
+    files+=' .config/conky/conky_dashboard '
+    files+=' .config/conky/start_conky_maia '
+
     # vim
-    files+='.vimrc .config/nvim/ '
+    Dirs+=' .config/nvim/backups/swaps '
+    Dirs+=' .config/nvim/backups/undo '
+    Dirs+=' .config/nvim/backups/view '
+    files+=' .config/nvim/coc-settings.json '
+    files+=' .config/nvim/init.vim '
+
+    Dirs+=' .vim/backups/swaps '
+    Dirs+=' .vim/backups/undo '
+    Dirs+=' .vim/backups/view '
+    Dirs+=' .vim/configs/ '
+    files+=' .vimrc '
+    files+=' .vim/configs/mappings.vim '
+    files+=' .vim/configs/settings.vim '
+    files+=' .vim/configs/plugins.vim '
+
     # vifm
-    files+='.config/vifm/vifmrc  '
-    files+='.config/vifm/scripts/ '
-    files+='.config/vifm/colors/ '
+    Dirs+=' .config/vifm/ '
+    files+=' .config/vifm/vifmrc  '
+    Dirs+=' .config/vifm/scripts/ '
+    files+=' .config/vifm/scripts/vifmimg '
+    files+=' .config/vifm/scripts/vifmpdf '
+    Dirs+=' .config/vifm/colors/ '
+    files+=' .config/vifm/colors/Default.vifm '
+    files+=' .config/vifm/colors/near-default.vifm '
+    
     # terminalrc=
-    files+='.config/xfce4/terminal/terminalrc '
+    Dirs+=' .config/xfce4/terminal/ '
+    Dirs+=' .local/share/konsole/ '
+    files+=' .config/xfce4/terminal/terminalrc '
+    files+=' .config/konsolerc '
+    
     # i3
-    files+='.i3/ '
-    files+='.i3/autostart/ '
-    files+='.i3/i3blocks/ '
+    Dirs+=' .i3/ '
+    Dirs+=' .i3/autostart/ '
+    files+=' .i3/autostart/i3config '
+    files+=' .i3/autostart/wallpapers '
+    Dirs+=' .i3/i3blocks/ '
+    files+=' .i3/i3blocks/bandwidth'
+    files+=' .i3/i3blocks/battery'
+    files+=' .i3/i3blocks/calendar'
+    files+=' .i3/i3blocks/cpu_usage'
+    files+=' .i3/i3blocks/disk'
+    files+=' .i3/i3blocks/iface'
+    files+=' .i3/i3blocks/keyindicator'
+    files+=' .i3/i3blocks/keymap'
+    files+=' .i3/i3blocks/memory'
+    files+=' .i3/i3blocks/mic'
+    files+=' .i3/i3blocks/pomodoro'
+    files+=' .i3/i3blocks/temperatures'
+    files+=' .i3/i3blocks/trash'
+    files+=' .i3/i3blocks/upgindicator'
+    files+=' .i3/i3blocks/vars'
+    files+=' .i3/i3blocks/volume'
+
+    files+=' .i3/config '
+    files+=' .i3/i3-get-window-criteria '
+    files+=' .i3/i3-manjaro-default-config-backup '
+    files+=' .i3/i3blocks.conf '
+    files+=' .i3/i3blocks_v.conf '
     # rofi
-    files+='.config/rofi/ .config/rofi/themes/ '
+    Dirs+=' .config/rofi/ '
+    files+=' .config/rofi/config.rasi '
+    Dirs+=' .config/rofi/themes/ '
+    files+=' .config/rofi/themes/arc-dark-bottom.rasi '
+    files+=' .config/rofi/themes/arc-dark-center-rounded.rasi '
+    files+=' .config/rofi/themes/arc-dark-center.rasi '
+    files+=' .config/rofi/themes/arc-dark-fullscreen.rasi '
+    files+=' .config/rofi/themes/arc-dark-left.rasi '
+    files+=' .config/rofi/themes/arc-dark-right.rasi '
+    files+=' .config/rofi/themes/arc-dark-top.rasi '
+    files+=' .config/rofi/themes/dark-center-rounded.rasi '
+    files+=' .config/rofi/themes/dark-center.rasi '
+    files+=' .config/rofi/themes/dmenu-top.rasi '
+
     # gsimplecal
-    files+='.config/gsimplecal/config '
+    Dirs+=' .config/gsimplecal/ '
+    files+=' .config/gsimplecal/config '
     # systemrc
-    files+='.wgetrc .curlrc  '
+    files+=' .wgetrc '
+    files+=' .curlrc '
     # git
-    files+='.gitconfig '
-    files+='.git-completion.bash '
+    files+=' .gitconfig '
+    files+=' .git-completion.bash '
     # compton
-    files+='.config/compton/ '
+    Dirs+=' .config/compton/ '
+    files+=' .config/compton/compton.conf '
     # tmux
-    files+='.tmux.conf '
+    files+=' .tmux.conf '
     # scripts
-    files+='bin/ '
-    for file in $files; do
-	printf "[INFO] Files or folder to stage: (%s)\n" "$file" 
-	newDir="${BKPDIR}/$file"
-	mkdir -p "$(echo ${newDir%/*})"
-	cp -r "${HOME}/$file" "${newDir}" &> /dev/null
+    Dirs+=' bin/ '
+    files+=' /bin/audio_to_opus'
+    files+=' /bin/bare_merge'
+    files+=' /bin/bare_repo_pull'
+    files+=' /bin/bkp_cfg_files'
+    files+=' /bin/compress_img'
+    files+=' /bin/config_check'
+    files+=' /bin/connection'
+    files+=' /bin/date_fold'
+    files+=' /bin/dirs_config'
+    files+=' /bin/dotfiles_env'
+    files+=' /bin/enviroment_config'
+    files+=' /bin/extract'
+    files+=' /bin/free_buffer'
+    files+=' /bin/get_fonts'
+    files+=' /bin/get_packs_enviroment'
+    files+=' /bin/get_packs_virtmanager'
+    files+=' /bin/git_config'
+    files+=' /bin/i3-scrot'
+    files+=' /bin/i3_config'
+    files+=' /bin/install'
+    files+=' /bin/item_size'
+    files+=' /bin/java_spring_react'
+    files+=' /bin/local_repo_pull'
+    files+=' /bin/namestd'
+    files+=' /bin/pdfstd'
+    files+=' /bin/pull_config'
+    files+=' /bin/push_config'
+    files+=' /bin/rm_linedup'
+    files+=' /bin/search'
+    files+=' /bin/ssh_config'
+    files+=' /bin/stage_config'
+    files+=' /bin/targz'
+    files+=' /bin/type_fold'
+    files+=' /bin/uninstall_bare_cfg'
+    files+=' /bin/videos_merge'
+    files+=' /bin/videostd'
+    # test
+    Dirs+=' test/ '
+    files+=' /test/binMakeFolderByDateTest.bats'
+    files+=' /test/binMakeFolderByTypeTest.bats'
+    files+=' /test/binNamestdScriptTest.bats'
+    files+=' /test/dotfilesTest.sh'
+    files+=' /test/testBareI3Config.bats'
+    files+=' /test/testGitConfig.bats'
+    files+=' /test/testHomeConfigFiles.bats'
+    files+=' /test/testInstall.bats'
+    files+=' /test/testPkgInstalled.bats'
+    files+=' /test/testRepoConfigFiles.bats'
+    files+=' /test/testRepoI3Config.bats'
+
+    for dir in $Dirs; do
+	printf "[INFO] Folder to backup: (%s)\n" "$file" &>> "$bkpLog"
+	mkdir -p "${newDir}/$dir"
     done
-    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
+
+    for file in $files; do
+	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+    done
+    echo >>"$bkpLog"
+
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
 }
 ##}}}
 ##bare_repo_checkout {{{
