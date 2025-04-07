@@ -42,11 +42,14 @@ make_dirs() {
     folder_list+=" $HOME/.cache"
     folder_list+=" $HOME/Documents/Projects/git/dotfiles"
     folder_list+=" $HOME/.vim/backups"
+    folder_list+=" $HOME/.vim/configs"
     folder_list+=" $HOME/.vim/backups/swaps"
     folder_list+=" $HOME/.vim/backups/undo"
     folder_list+=" $HOME/.vim/bundle"
     folder_list+=" $HOME/.vim/autoload"
-    folder_list+=" $HOME/.config-bkp/original"
+    folder_list+=" $HOME/.config/nvim/backups"
+    folder_list+=" $HOME/.config/nvim/backups/swaps"
+    folder_list+=" $HOME/.config/nvim/backups/undo"
 
     for Folder in $folder_list
     do

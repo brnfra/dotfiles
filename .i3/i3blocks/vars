@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 white='     color="'#FFFFFF'" bgcolor="'#8f8f8f'"'
 red='       color="'#FF0000'" bgcolor="'#8f8f8f'"'
@@ -6,7 +7,7 @@ green='     color="'#00FF00'" bgcolor="'#8f8f8f'"'
 lima_green='color="'#C0FF00'" bgcolor="'#8f8f8f'"'
 dark_green='color="'#418A03'" bgcolor="'#8f8f8f'"'
 yellow='    color="'#FFED00'" bgcolor="'#8f8f8f'"'
-orange='    color="'#FFA500'" bgcolor="'#8f8f8f'"'
+orange='    color="'#FF5100'" bgcolor="'#8f8f8f'"'
 color_off=' color="'#00FF00'" bgcolor="'#8f8f8f'"'
 color_on='  color="'#FF0000'" bgcolor="'#FFED00'"'
 white_code='     "'#FFFFFF'"'
@@ -16,10 +17,12 @@ green_code='     "'#00FF00'"'
 lima_green_code='"'#C0FF00'"'
 dark_green_code='"'#418A03'"'
 yellow_code='    "'#FFED00'"'
-orange_code='    "'#FFA500'"'
+orange_code='    "'#FF5100'"'
 
-# fc-list command to list fonts 
-font='font="Monofur NF"'
+# from i3_config script  
+#font='font="pattern from fc-list"'
+font="font="$(cat $HOME/bin/i3_config | awk -F'=' '/^font=/{print $2}')""
+
 
 # normal bold [100; - thin 400; - normal 900; - heavy(black)]
 weight='font-weight="bold"'

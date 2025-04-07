@@ -44,7 +44,7 @@ else
     set backupdir=~/.config/nvim/backups/
     set directory=~/.config/nvim/backups/swaps/
     set undodir=~/.config/nvim/backups/undo/
-    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim') 
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim/backups') 
 
 endif
 ""set nobackup                                                             

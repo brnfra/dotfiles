@@ -67,12 +67,13 @@ bkp_cfg_files() {
     files+=' .zsh/profile '
     files+=' .zsh/prompt '
     files+=' .zsh/env '
-    files+=' .zsh/.zshrc '
+    files+=' .zsh/zshrc '
 
     #conky
     Dirs+=' .config/conky/ ' 
-    files+=' .config/conky/conky1.10_shortcuts_maia '
-    files+=' .config/conky/conky_maia '
+    files+=' .config/conky/conky_calendar '
+    files+=' .config/conky/conky_shortcuts '
+    files+=' .config/conky/conky_dashboard '
     files+=' .config/conky/start_conky_maia '
 
     # vim
@@ -80,8 +81,12 @@ bkp_cfg_files() {
     files+=' .config/nvim/coc-settings.json '
     files+=' .config/nvim/init.vim '
 
+    Dirs+=' .vim/configs/ '
     files+=' .vimrc '
-    
+    files+=' .vim/configs/mappings.vim '
+    files+=' .vim/configs/settings.vim '
+    files+=' .vim/configs/plugins.vim '
+
     # vifm
     Dirs+=' .config/vifm/ '
     files+=' .config/vifm/vifmrc  '
@@ -94,7 +99,9 @@ bkp_cfg_files() {
     
     # terminalrc=
     Dirs+=' .config/xfce4/terminal/ '
+    Dirs+=' .local/share/konsole/ '
     files+=' .config/xfce4/terminal/terminalrc '
+    files+=' .config/konsolerc '
     
     # i3
     Dirs+=' .i3/ '

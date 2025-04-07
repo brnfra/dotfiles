@@ -9,10 +9,10 @@ URGENT_VALUE=90
 
 PREV_TOTAL=0
 PREV_IDLE=0
-ico_cpu="CPU"
-# $ico_cpu = "\&#xf0e4\;";
-# $ico_load = "\&#127947\;";
-ico_load="Load"
+ico_cpu="&#xf0e4;"
+ico_load="&#127947;"
+#ico_cpu="CPU"
+#ico_load="Load"
 t_warn=$(( 70 ))
 t_crit=$(( 99 ))
 cpu_usage=$(( -1 ))
@@ -63,7 +63,7 @@ elif (( cpu_usage >= t_crit )) || (( LAVG1 >= t_crit )) || (( LAVG5 >= t_crit ))
 fi
 
 # Print short_text, full_text
-printf "%s\n" "<span $font  $size $green > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
-printf "%s\n" "<span $font  $size $green >$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
+printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVGRZ)</span>"
+printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVG5%)($LAVG15%)($LAVGRZ)$LPROSS_STR </span>"
 exit 0   
 

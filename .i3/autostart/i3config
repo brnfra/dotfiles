@@ -75,7 +75,7 @@ elif [ $num_monitors == 2 ]; then
 		echo "Line-${LINENO}:fail to set output $SCR2 mode 1920x1080"
 	    fi
 	    #position : --left-of, --right-of, --above, --below, --same-as another-output
-	    xrandr --output "$SCR1" $R_NORMAL --output "$SCR2" $R_NORMAL --above "$SCR1" 
+	    xrandr --output "$SCR1" $R_NORMAL --output "$SCR2" $R_NORMAL --right-of "$SCR1" 
 
 	    ;;
 	1)
