@@ -37,13 +37,15 @@ if !has('nvim')
     set backupdir=~/.vim/backups/
     set directory=~/.vim/backups/swaps/
     set undodir=~/.vim/backups/undo/
-    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim/runtimepath') 
+    set viewdir=~/.vim/backups/view/
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim/backups') 
 else
     set viminfo+=n~/.config/nvim/.shada
     " Local directories need to create
     set backupdir=~/.config/nvim/backups/
     set directory=~/.config/nvim/backups/swaps/
     set undodir=~/.config/nvim/backups/undo/
+    set viewdir=~/.config/nvim/backups/view/
     let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim/backups') 
 
 endif

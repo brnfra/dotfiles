@@ -77,10 +77,15 @@ bkp_cfg_files() {
     files+=' .config/conky/start_conky_maia '
 
     # vim
-    Dirs+=' .config/nvim/ '
+    Dirs+=' .config/nvim/backups/swaps '
+    Dirs+=' .config/nvim/backups/undo '
+    Dirs+=' .config/nvim/backups/view '
     files+=' .config/nvim/coc-settings.json '
     files+=' .config/nvim/init.vim '
 
+    Dirs+=' .vim/backups/swaps '
+    Dirs+=' .vim/backups/undo '
+    Dirs+=' .vim/backups/view '
     Dirs+=' .vim/configs/ '
     files+=' .vimrc '
     files+=' .vim/configs/mappings.vim '

@@ -204,12 +204,12 @@ if has('nvim')
 endif
 ""}}}
 "              VIMWIKI {{{
-let wiki = {}
-let wiki.path = '~/vimwiki'
-let wiki.syntax = 'default'
-let wiki.ext = '.wiki'
+let g:wiki = {}
+let g:wiki.path = '~/vimwiki'
+let g:wiki.syntax = 'default'
+let g:wiki.ext = '.wiki'
 "let g:vimwiki_listsyms: '✗○◐●✓'
-let g:vimwiki_list = [{'path': '~/path/', 'listsyms': '✗○◐●✓'}]
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'listsyms': '✗○◐●✓'}]
 
 set runtimepath+=~/vimwiki
 set runtimepath+=~/vimwiki/ultisnips
@@ -366,11 +366,11 @@ let g:which_key_map.b = {
 let g:which_key_map.w = {
 	    \ 'name' : '+VimWiki',
 	    \
-	    \ "w"    : ['VimwikiIndex'                                , 'Go To Index'                           ] ,
-	    \ "n"    : ['VimwikiMakeDiaryNote'                        , 'Create new wiki page'                  ] ,
-	    \ "D"    : ['VimwikiDeleteFile'                           , 'Delete wiki page'                      ] ,
-	    \ "r"    : ['VimwikiRenameFile'                           , 'Rename wiki page'                      ] ,
-	    \ "c"    : ['VimwikiCheckLinks'                           , 'Check links'                      ] ,
+	    \ "w"    : [':VimwikiIndex'                                , 'Go To Index'                           ] ,
+	    \ "n"    : [':VimwikiMakeDiaryNote'                        , 'Create new wiki page'                  ] ,
+	    \ "D"    : [':VimwikiDeleteFile'                           , 'Delete wiki page'                      ] ,
+	    \ "r"    : [':VimwikiRenameFile'                           , 'Rename wiki page'                      ] ,
+	    \ "c"    : [':VimwikiCheckLinks'                           , 'Check links'                      ] ,
 	    \ "s"    : [':VimwikiSearch '                              , 'Search /pattern/'                      ] ,
 	    \ "S"    : [':VimwikiSearchTags'                           , 'Search-for-wiki-TAGS'                  ] ,
 	    \ 'o'    : [ '\w\m'                                       , 'Make Tomorrow Diary Note'              ] ,

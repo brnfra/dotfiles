@@ -3,20 +3,20 @@ conky.config = {
     background = true,
     default_color = 'F9FAF9',
     use_xft = true,
-    update_interval = 62,   
+    update_interval = 1,   
     double_buffer = true,
-    minimum_width = 210,
+    minimum_width = 160,
     maximum_width = 300,
-    minimum_height = 5,
+    minimum_height = 105,
     draw_shades = false,
-    gap_x = 35,
-    gap_y = 25,
+    gap_x = 15,
+    gap_y = 35,
     no_buffers = true,
     uppercase = true,
     xftalpha = 1,
     out_to_console = no,
     out_to_stderr = no,
-   
+  
     --window
 
     own_window = true,
@@ -28,30 +28,31 @@ conky.config = {
 
     
     color1 = 'ffffff', -- # Month color
-    color2 = '21d150', -- # Year  color
+    color2 = 'BDEDFF', -- # Year  color
     color3 = '004F00', -- # Weekdays lived color
     color4 = '00bfff', -- # Current weekday color
     color5 = 'ebd63d', -- # Weekdays yet to come color
-    color6 = '666666', -- # Days of month lived color
+    color6 = '777777', -- # Days of month lived color
     color7 = '00bfff', -- # Current day color
     color8 = 'd16206', --# Days yet to come color
     color9 = 'ffffff',
     --color0 = '',
-    font = 'Iosevka NFP 11:size=10',
+    font = 'Iosevka NFP 11:size=12',
 };
 
 conky.text = [[
 #head
-${font :size=15}${color Tan1}${font :bold:size=11}${color Tan1}Calendar ${color White}${hr 2}
-${font LCD2:size=45}${alignc}${color2}${time %Y}
-${voffset -30}${font LCD2:size=12}${alignc}${color9}semana ${color7}${time %U}${color9} dia ${color7}${time %j}${color9}${font LCDMono:size=18}
-${voffset -25}${color9}${hr 2}
-${alignc}${font Courier New:bold:size=16}${voffset -15}${color1}${time %B}${voffset -25}
-${voffset 15}${color9}${stippled_hr}
+#${font :bold:size=11}${color2}Calendar ${color White}${hr 2}
+#${font :size=45}${alignc}${color2}${time %Y}
+${voffset 3}${font :size=12}${alignc}${color9}semana ${color7}${time %U}${color9} dia ${color7}${time %j}${color9}${font :size=18}${color9}
+${voffset -25}$hr
+${voffset -5}${alignc}${font :bold:size=16}${color1}${time %B}
+${voffset -10}${color9}${stippled_hr}
 #calendar
 ${font Iosevka NFP :bold:size=15}${execp TODAY=`date +%_d`; cal | tail -n+2 | sed \
 -e '1 s:.*:\${color3}&\${color6}:' \
 -e '1 s:'"$(date +%a |cut -c 1-2)"':\${color4}&\${color5}:' \
 -e '0,/'"$TODAY"'/{s/'"$TODAY"'/\${color7}'"$TODAY"'\${color9}/}'}
 # 1st -e = days of week, 2nd = current day of week, 3rd = current day of month
+${voffset -50}
 ]]
