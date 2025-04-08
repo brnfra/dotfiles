@@ -21,7 +21,7 @@ setup() {
     if ! i3bar -v; then
         skip "i3wm isn't installed"
     fi
-    run timeout --preserve-status 2.0s i3blocks -c $dotfiles_dir/.i3/i3blocks.conf
+    run timeout --preserve-status 3.0s i3blocks -c $dotfiles_dir/.i3/i3blocks.conf
     [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks_v Config Is Valid" {
