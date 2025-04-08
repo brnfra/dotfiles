@@ -65,6 +65,7 @@ tests() {
 packs() {
     printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    opensuse="\"opensuse-tumbleweed\""
 
     #debian ubuntu manjaro etc
 
@@ -143,6 +144,12 @@ packs() {
             fi
         elif [ "$osys" = "manjaro" ]; then
             if pacman -Qi "$pack" &> /dev/null; then
+                cmOk "$pack" >> "$bkpLog"
+            else
+                cError " " "$pack" >> "$bkpLog"
+            fi
+        elif [ "$osys" = "$opensuse" ]; then
+            if zypper se "$pack" &> /dev/null; then
                 cmOk "$pack" >> "$bkpLog"
             else
                 cError " " "$pack" >> "$bkpLog"

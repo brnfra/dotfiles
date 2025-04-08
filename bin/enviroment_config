@@ -30,7 +30,7 @@ Licensed under the MIT license.
 HELP
 exit; fi
 
-for file in ~/bin/{dotfiles_env,dirs_config,git_config,ssh_config,i3_config,get_fonts}; do
+for file in ~/bin/{dotfiles_env,dirs_config,git_config,ssh_config,get_fonts}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -40,7 +40,7 @@ make_dirs
 git_env
 ssh_env
 #get_fonts
-if which i3;then
+if which i3 &> /dev/null ;then
     bash ~/bin/i3_config
 fi
 
