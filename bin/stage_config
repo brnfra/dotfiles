@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 06-04-2025
+#  Ultima_modificacao: 08-04-2025
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -12,8 +12,7 @@ done;
 unset file;
 
 #add and commit {{{
-commit_last ()
-{
+commit_last (){
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
     printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
     
@@ -43,8 +42,7 @@ commit_last ()
 }
 ##}}}
 #branch_sync - check if bare branch = cloned branch {{{ 
-branch_sync ()
-{
+branch_sync () {
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
     printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
     BranchHome="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
@@ -85,53 +83,11 @@ branch_sync ()
 }
 ##}}}
 #sync_copy - function for backup {{{ 
-sync_copy ()
-{
-    DATE=$(date +%d/%m/%Y-%H:%M:%S)
+sync_copy () {
+
+    DIR_DATE=$(date '+%d_%m_%Y')
     printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
-    # bash
-    files='.bashrc .bash/ '
-    files+='README.md '
-    # xterm
-    files+='.Xresources '
-    #zsh
-    files+='.zshrc .zsh/ '
-    #conky
-    files+='.config/conky/ '
-    # vim
-    files+='.vimrc .config/nvim/coc-settings.json '
-    files+='.config/nvim/init.vim '
-    files+='.vim/configs/ '
-    # vifm
-    files+='.config/vifm/vifmrc  '
-    files+='.config/vifm/scripts/ '
-    files+='.config/vifm/colors/ '
-    # terminalrc=
-    files+='.config/xfce4/terminal/terminalrc '
-    files+='.config/xfce4/terminal/terminalrc '
-    files+='.local/share/konsole/ '
-    files+='.config/konsolerc '
-    # i3
-    files+='.i3/ '
-    files+='.i3/autostart/ '
-    files+='.i3/i3blocks/ '
-    # rofi
-    files+='.config/rofi/ .config/rofi/themes/ '
-    # gsimplecal
-    files+='.config/gsimplecal/config '
-    # systemrc
-    files+='.wgetrc .curlrc  '
-    # git
-    files+='.gitconfig '
-    files+='.git-completion.bash '
-    # compton
-    files+='.config/compton/ '
-    # tmux
-    files+='.tmux.conf '
-    # scripts
-    files+='bin/ '
-    # test
-    files+='test/ '
+
     for file in $files; do
 	printf "[INFO] Files or folder to stage: (%s)\n" "$file" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$file
@@ -140,8 +96,22 @@ sync_copy ()
 	    | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
     done
-    DATE=$(date +%d/%m/%Y-%H:%M:%S)
-    printf "[INFO]%s at %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
+
+    for dir in $Dirs; do
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" &>> "$bkpLog"
+	newDir=$dotfiles_dir/$dir
+	mkdir -p "$(echo ${newDir%/*})"
+	#mkdir -p "${newDir}/$dir"
+	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$dir" "$dotfiles_dir"/"$dir" \
+	    | sed '/^$/d;/./!d' &>> "$bkpLog"
+	echo >>"$bkpLog"
+    done
+
+    echo >>"$bkpLog"
+
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+
 }
 ##}}}
 #prepare{{{
