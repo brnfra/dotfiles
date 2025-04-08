@@ -36,14 +36,14 @@ make_dirs() {
     printf "\n[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     printf "Create folders to current config files \n"
     
-    for Folder in $Dirs
+    for dir in $Dirs
     do
-	if [ -d "$Folder" ]
+	if [ -d "${HOME}/${dir}" ]
 	then
-	    cInfo "Already exists:" "$Folder" >> "$bkpLog" 
+	    cInfo "Already exists:" "${HOME}/${dir}" >> "$bkpLog" 
 	else
-	    mkdir -p "$Folder"
-	    cInfo "Folders created." "$Folder" >> "$bkpLog"
+	    mkdir -p "$dir"
+	    cInfo "Folders created." "${HOME}/${dir}" >> "$bkpLog"
 	fi
     done
     cmOk "${0##*/} - ${FUNCNAME[0]}"

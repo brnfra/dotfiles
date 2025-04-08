@@ -42,12 +42,12 @@ bkp_cfg_files() {
 
     for dir in $Dirs; do
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" &>> "$bkpLog"
-	mkdir -p "${newDir}/$dir"
+	mkdir -p "${newDir}/${dir}"
     done
 
     for file in $files; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
     done
     echo >>"$bkpLog"
 

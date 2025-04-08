@@ -17,91 +17,91 @@ git_config() {
 #install_check {{{
 install_check() {
     printf "[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"
-    if [ -f "$HOME/bin/dotfiles_env" ]; then
-        cd "$HOME/bin" || return
-        # shellcheck source=dotfiles_env
-        . dotfiles_env
+	if [ -f "$HOME/bin/dotfiles_env" ]; then
+	    cd "$HOME/bin" || return
+	    # shellcheck source=dotfiles_env
+	    . dotfiles_env
 
-    else
-        DIR="$HOME/bin"
-        mkdir "$DIR"
-        cd "$DIR" || return
-        PATH="$DIR/../src:$PATH"
-        
-        if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
-        then
-            # shellcheck source=dotfiles_env
-            source dotfiles_env
-        else
-            printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
-            exit 1
-        fi
-    fi
-    if [ -d "$install_dir" ]; then
-        cError "Already instaled. If you trying reinstall, remove"
-        clnItalic "$install_dir" "in order and check outputs log."
-        exit 0
-    fi
-    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
-}
-##}}}
-## backup {{{
-backup_cfg_files() {
-
-    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
-    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
-
-    mkdir -p "$HOME/.config-bkp/original"
-    local BKPDIR="$HOME/.config-bkp/original"
-    local newDir
-    newDir="${BKPDIR}"
-
-    for dir in $Dirs; do
-	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
-	mkdir -p "${newDir}/$dir" >> "$bkpLog" 2>&1
-	if [ $? = 0 ];then 
-	    cmOk "$dir"
 	else
-	    cError "$dir"
-	fi
-    done
-
-    for file in $files; do
-	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	if [ -f $file ];then 
-	    cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
-	    if [ $? = 0 ];then 
-		cmOk "$file"
+	    DIR="$HOME/bin"
+	    mkdir "$DIR"
+	    cd "$DIR" || return
+	    PATH="$DIR/../src:$PATH"
+	    
+	    if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
+	    then
+		# shellcheck source=dotfiles_env
+		source dotfiles_env
 	    else
-		cError "$file"
+		printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+		exit 1
 	    fi
-	else
-	    cInfo "Not found: " "$file"
 	fi
+	if [ -d "$install_dir" ]; then
+	    cError "Already instaled. If you trying reinstall, remove"
+	    clnItalic "$install_dir" "in order and check outputs log."
+	    exit 0
+	fi
+	printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
+    }
+    ##}}}
+    ## backup {{{
+    backup_cfg_files() {
 
-    done
-    echo >>"$bkpLog"
+	printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
+	cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
-    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
-    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
-}
-##}}}
-##bare_repo_checkout {{{
-bare_repo_checkout() {
-    cInfo "Git checkout" "$branch"
-    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
+	mkdir -p "$HOME/.config-bkp/original"
+	local BKPDIR="$HOME/.config-bkp/original"
+	local newDir
+	newDir="${BKPDIR}"
 
-    backup_cfg_files
-    
-    git_config stash save "Save config state[Install]" 
-    ##use to undo, to recover last saved#
-    ##>>  $ bare stash apply
-    cInfo "To revert this, use: " "bare stash apply"
+	for dir in $Dirs; do
+	    printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    if [ $? = 0 ];then 
+		cmOk "$dir"
+	    else
+		cError "$dir"
+	    fi
+	done
 
-    if git_config checkout; then
-        cmOk "Checkout branch"
+	for file in $files; do
+	    printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	    if [ -f $file ];then 
+		cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
+		if [ $? = 0 ];then 
+		    cmOk "$file"
+		else
+		    cError "$file"
+		fi
+	    else
+		cInfo "Not found: " "$file"
+	    fi
 
-	cInfo "Set to don´t show untracked files"
+	done
+	echo >>"$bkpLog"
+
+	printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+	cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+    }
+    ##}}}
+    ##bare_repo_checkout {{{
+    bare_repo_checkout() {
+	cInfo "Git checkout" "$branch"
+	printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
+
+	backup_cfg_files
+	
+	git_config stash save "Save config state[Install]" 
+	##use to undo, to recover last saved#
+	##>>  $ bare stash apply
+	cInfo "To revert this, use: " "bare stash apply"
+
+	if git_config checkout; then
+	    cmOk "Checkout branch"
+
+	    cInfo "Set to don´t show untracked files"
 	git_config config status.showUntrackedFiles no
 
         if [ -f ~/bin/enviroment_config ]; then
