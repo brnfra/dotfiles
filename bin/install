@@ -158,7 +158,7 @@ else
     cError "Config_check not found."
     exit 2
 fi
-cInfo "Git clone (--bare):" "$branch"
+cInfo "Git clone (--bare):" "$branch" "in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     cd "$HOME/bin" || return
