@@ -630,9 +630,9 @@ elif [ "$system_id" = "manjaro" ] ;then
 	options="${options}\$exe goldendict\n"
     fi
     if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe \$HOME/.config/conky/start_conky\n"
     else
-	options="${options}\$exe start_conky_maia\n"
+	options="${options}\$exe start_conky\n"
     fi
 elif [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
@@ -648,7 +648,7 @@ elif [ "$system_id" = "$opensuse" ]; then
 	options="${options}\$exe goldendict\n"
     fi
     if [ -e ~/.config/conky/ ] && which conky &> /dev/null; then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe \$HOME/.config/conky/start_conky\n"
     else
 	options="${options}\$exe start_conky_maia\n"
     fi

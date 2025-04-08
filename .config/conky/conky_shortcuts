@@ -4,72 +4,68 @@ conky.config = {
 	default_color = 'F9FAF9',
         use_xft = true,
 	cpu_avg_samples = 2,
-	update_interval = 2 ,
+	update_interval = 62 ,
 	double_buffer = true,
-	font = 'Bitstream Vera Sans:size=9',
+	font = 'Bitstream Vera Sans:size=10',
 	draw_shades = false,
         
 	gap_x = 15,
 	gap_y = 15,
-	minimum_width = 200,
+	minimum_width = 160,
 	maximum_width = 300,
 	no_buffers = true,
         xftalpha = 1,
-        --Windows
+       --Windows
 
-	own_window = true ,				-- create your own window to draw
-	own_window_argb_value = 20 ,		        -- real transparency - composite manager required 0-255
-	own_window_argb_visual = true,			-- use ARGB - composite manager required
-	own_window_colour = '#0000FF',			-- set colour if own_window_transparent no
+	own_window = true ,				--create your own window to draw
+	own_window_argb_value = 20 ,		       --real transparency-composite manager required 0-255
+	own_window_argb_visual = true,			--use ARGB-composite manager required
+	own_window_colour = '#0000FF',			--set colour if own_window_transparent no
 	own_window_type = 'override' ,
 	own_window_transparent = false ,
 	color2 = 'BDEDFF',
 }
 conky.text = [[
-
 default mod=<Super>
-${color2}dmenu ${goto 140} - ${color}mod+d
-${color2}dmenu_recency ${goto 140} - ${color}mod+Ctrl+d
-${color2}bmenu ${goto 140} - ${color}mod+Shift+m
-${color2}morc_menu ${goto 140} - ${color}mod+z
-${color2}switch to workspace 1-8${goto 140} - ${color}mod+1-8
-${color2}send to workspace 1-8 ${goto 140} - ${color}mod+Ctrl+1-8
-${color2}navigate workspaces ${goto 140} - ${color}mod+Ctrl+arrowkeys
-${color2}toggle floating ${goto 140} - ${color}mod+Shift+Space
-${color2}toggle split direction ${goto 140} - ${color}mod+q
-${color2}Move to stratchpad ${goto 140} - ${color}mod+Shift+minus
-${color2}Stratchpad show ${goto 140} - ${color}mod+minus 
-${color2}Workspace back ${goto 140} - ${color}mod+b
-${color2}Workspace next ${goto 140} - ${color}mod+Tab
-${color2}Gaps change ${goto 140} - ${color}mod+Shift+g
-${color2}Split horizontally ${goto 140} - ${color}mod+v
-${color2}Split vertically ${goto 140} - ${color}mod+h
-${color2}Split toggle ${goto 140} - ${color}mod+x
-${color2}Full screen ${goto 140} - ${color}mod+Shift+f
-${color2}Layout stacking ${goto 140} - ${color}mod+Ctrl+s
-${color2}Layout tabbed ${goto 140} - ${color}mod+Shift+t
-${color2}Layout toggle ${goto 140} - ${color}mod+Shift+e
-${color2}Floating toggle ${goto 140} - ${color}mod+f
-${color2}Mode focus toggle ${goto 140} - ${color}mod+space
-${color2}Focus latest ${goto 140} - ${color}mod+Ctrl+u 
-${color2}Back focus ${goto 140} - ${color}mod+a
+${color2}Dmenu ${goto 130}-${color}mod+d
+${color2}Switch to WS 0-9${goto 129}-${color}mod+0-9
+${color2}Switch WS ${goto 130}-${color}mod+Ctrl+arrow
+${color2}WS back ${goto 130}-${color}mod+b
+${color2}WS next ${goto 130}-${color}mod+Tab
+${color2}Send to WS 1-8 ${goto 130}-${color}mod+Shift+1-9
+${color2}Send to stratchpad ${goto 130}-${color}mod+Shift+minus    
+${color2}Stratchpad show ${goto 130}-${color}mod+minus 
+${color2}Toggle floating ${goto 130}-${color}mod+Shift+Space
+${color2}Toggle split direction ${goto 130}-${color}mod+q
+${color2}Toggle floating ${goto 130}-${color}mod+f
+${color2}Gaps change ${goto 130}-${color}mod+Shift+g
+${color2}Split horizontally ${goto 130}-${color}mod+v
+${color2}Split vertically ${goto 130}-${color}mod+h
+${color2}Split toggle ${goto 130}-${color}mod+x
+${color2}Layout stacking ${goto 130}-${color}mod+Ctrl+s
+${color2}Layout tabbed ${goto 130}-${color}mod+Shift+t
+${color2}Layout toggle split ${goto 130}-${color}mod+Shift+e
+${color2}Focus Mode toggle ${goto 130}-${color}mod+space
+${color2}Focus Back ${goto 130}-${color}mod+a
+${color2}Focus latest ${goto 130}-${color}mod+Ctrl+u 
+${color2}Full screen ${goto 130}-${color}mod+Shift+f
 
 
-${color2}Reload I3 ${goto 140}- ${color}mod+Shift+d             
-${color2}Restart I3${goto 140}- ${color}mod+Shift+r
-${color2}Edit I3 config ${goto 140}- ${color}Ctrl+0
-${color2}Firefox ${goto 140}- ${color}Ctrl+1             
-${color2}Vifm ${goto 140}- ${color}Ctrl+2
-${color2}Pcmanfm ${goto 140}- ${color}Ctrl+3             
-${color2}Help ${goto 140}- ${color}Ctrl+F1
-${color2}Alsamixer ${goto 140}- ${color}Ctrl+F2
-${color2}Print Screen ${goto 140}- ${color}Print
-${color2}Print window ${goto 140}- ${color}mod+Shift+Print
-${color2}Print Selection ${goto 140}- ${color}mod+Print
-${color2}kill focused ${goto 140}- ${color}mod+Shift+q
-${color2}Kill all ${goto 140}- ${color}mod+Ctrl+x 
+${color2}Reload I3 ${goto 130}-${color}mod+Shift+d             
+${color2}Restart I3 ${goto 130}-${color}mod+Shift+r
+${color2}Edit I3 config ${goto 130}-${color}Ctrl+0
+${color2}Firefox ${goto 130}-${color}Ctrl+1             
+${color2}Vifm ${goto 130}-${color}Ctrl+2
+${color2}Open FM ${goto 130}-${color}Ctrl+3             
+${color2}Help ${goto 130}-${color}Ctrl+F1
+${color2}Alsamixer ${goto 130}-${color}Ctrl+F2
+${color2}Print Screen ${goto 130}-${color}Print
+${color2}Print window ${goto 130}-${color}mod+Shift+Print
+${color2}Print Selection ${goto 130}-${color}mod+Print
+${color2}kill focused ${goto 130}-${color}mod+Shift+q
+${color2}Kill all ${goto 130}-${color}mod+Ctrl+x 
 
-${color2}Lock${goto 140}- ${color}mod+Ctrl+l       
-${color2}open new terminal ${goto 140}- ${color}mod+Enter
-${color2}exit ${goto 140}- ${color}mod+Esc
+${color2}Lock ${goto 130}-${color}mod+Ctrl+l       
+${color2}open new terminal ${goto 130}-${color}mod+Enter
+${color2}exit ${goto 130}-${color}mod+Esc
 ]]

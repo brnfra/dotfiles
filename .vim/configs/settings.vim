@@ -15,7 +15,7 @@
 "
 "====================================================================
 "set nocompatible    " be iMproved, required
-set shell=$SHELL\ -f
+set shell=/bin/sh
 set path+=**
 set exrc
 scriptencoding utf-8
@@ -32,19 +32,21 @@ set cot-=preview	"disable doc preview in omnicomplete
 " Persistent Undoo
 set undofile 
 if !has('nvim')
-    set viminfo='20,<50,s10,h,!,r,%,n10~/.vim/runtimepath/.viminfo'
+    set viminfo='20,<50,s10,%,h,rv!,n~/.vim/backups/viminfo'
     " Local directories 
     set backupdir=~/.vim/backups/
     set directory=~/.vim/backups/swaps/
     set undodir=~/.vim/backups/undo/
-    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim/runtimepath') 
+    set viewdir=~/.vim/backups/view/
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.vim/backups') 
 else
-    set viminfo+=n~/.config/nvim/.shada
     " Local directories need to create
+    set viminfo+=n~/.config/nvim/backups/.shada
     set backupdir=~/.config/nvim/backups/
     set directory=~/.config/nvim/backups/swaps/
     set undodir=~/.config/nvim/backups/undo/
-    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim') 
+    set viewdir=~/.config/nvim/backups/view/
+    let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~').'/.config/nvim/backups') 
 
 endif
 ""set nobackup                                                             

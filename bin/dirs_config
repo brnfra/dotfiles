@@ -35,20 +35,8 @@ make_dirs() {
     cInfo "${0##*/} - ${FUNCNAME[0]}"
     printf "\n[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     printf "Create folders to current config files \n"
-    folder_list="$HOME/.local/opt"
-    folder_list+=" $HOME/.local/share/fonts"
-    folder_list+=" $HOME/.wallpapers"
-    folder_list+=" $HOME/.ssh"
-    folder_list+=" $HOME/.cache"
-    folder_list+=" $HOME/Documents/Projects/git/dotfiles"
-    folder_list+=" $HOME/.vim/backups"
-    folder_list+=" $HOME/.vim/backups/swaps"
-    folder_list+=" $HOME/.vim/backups/undo"
-    folder_list+=" $HOME/.vim/bundle"
-    folder_list+=" $HOME/.vim/autoload"
-    folder_list+=" $HOME/.config-bkp/original"
-
-    for Folder in $folder_list
+    
+    for Folder in $Dirs
     do
 	if [ -d "$Folder" ]
 	then
