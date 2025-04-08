@@ -16,11 +16,11 @@
 "                  System Config {{{
 "-------------------------------------------------------
 source ~/.vim/configs/plugins.vim
-source ~/.vim/configs/settings.vim
 source ~/.vim/configs/mappings.vim
+source ~/.vim/configs/settings.vim
 " automate instalation junegunn vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim')) || empty(glob('~/.vim/bundle' . '/*', 0, 1))
+if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl --insecure -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
