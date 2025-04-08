@@ -48,9 +48,13 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 
 ## TODO
 
-- [ ] Make scripts to generate configs(i3blocks, vim,  etc)
+- [ ] Make scripts to generate configs (i3blocks, vim,  etc) instead download  files
 - [x] Script to generate I3 config 
-- [x] Add new tests
+- [ ] Add test to check logical order in scripts 
+- [ ] Add test to check if there are required commands
+- [ ] Add test to check output from i3blocks
+- [ ] Use dotfiles_env to get list for tests etc
+- [ ] 
 
 <br>
 
