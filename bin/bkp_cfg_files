@@ -33,10 +33,10 @@ exit; fi
 
 bkp_cfg_files() {
 
-    DIR_DATE=$(date '+%d_%m_%Y')
-    newDir="${bkpdir}/${DIR_DATE}"
     local DIR_DATE
     local newDir
+    DIR_DATE=$(date '+%d_%m_%Y')
+    newDir="${bkpdir}/${DIR_DATE}"
     printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Backup config files:" "${0##*/} - ${FUNCNAME[0]}"
 

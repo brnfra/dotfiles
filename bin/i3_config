@@ -29,7 +29,7 @@ gaps_outer=2
 i3darker="#080910"
 dark="#181920"
 i3black="#2C323E"
-#darkgray="#3B4252"
+i3darkgray="#5b5b5b"
 i3gray="#8f8f8f"
 i3white="#F5F6F7"
 i3red="#F74336"
@@ -498,7 +498,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3gray\n"
+    options="${options}    background $i3darkgray\n"
     #options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
 			       #                border     backgr      text
@@ -519,7 +519,7 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3gray\n"
+    options="${options}    background $i3darkgray\n"
     #options="${options}    statusline $i3darker\n"
     #options="${options}        separator  $i3purple\n"
 			       #                border     backgr      text
@@ -541,7 +541,7 @@ elif [ $num_monitors == 1 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darker\n"
+    options="${options}    background $i3darkgray\n"
 
     #options="${options}    separator  $i3purple\n"
 			   #                    border     backgr      text
@@ -630,9 +630,9 @@ elif [ "$system_id" = "manjaro" ] ;then
 	options="${options}\$exe goldendict\n"
     fi
     if [ -e ~/.config/conky/ ];then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe \$HOME/.config/conky/start_conky\n"
     else
-	options="${options}\$exe start_conky_maia\n"
+	options="${options}\$exe start_conky\n"
     fi
 elif [ "$system_id" = "$opensuse" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
@@ -648,7 +648,7 @@ elif [ "$system_id" = "$opensuse" ]; then
 	options="${options}\$exe goldendict\n"
     fi
     if [ -e ~/.config/conky/ ] && which conky &> /dev/null; then
-	options="${options}\$exe \$HOME/.config/conky/start_conky_maia\n"
+	options="${options}\$exe \$HOME/.config/conky/start_conky\n"
     else
 	options="${options}\$exe start_conky_maia\n"
     fi
