@@ -105,6 +105,18 @@ install_check() {
 	git_config config status.showUntrackedFiles no
 
         
+	if [ -f ~/bin/enviroment_config ]; then
+	    bash ~/bin/enviroment_config 
+	else
+	    cError "Enviroment_config not found."
+	    exit 2
+	fi
+	if [ -f ~/bin/config_check ]; then
+	    bash ~/bin/config_check 
+	else
+	    cError "Config_check not found."
+	    exit 2
+	fi
         printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
         cInfo "Logs can be check in: " "$bkpLog"
 
@@ -146,18 +158,6 @@ install_check() {
 cd "$HOME" || return
 printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  
 install_check
-if [ -f ~/bin/enviroment_config ]; then
-    bash ~/bin/enviroment_config 
-else
-    cError "Enviroment_config not found."
-    exit 2
-fi
-if [ -f ~/bin/config_check ]; then
-    bash ~/bin/config_check 
-else
-    cError "Config_check not found."
-    exit 2
-fi
 cInfo "Git clone (--bare):" "$branch" "in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
