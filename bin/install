@@ -47,8 +47,7 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-
-    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
     mkdir -p "$HOME/.config-bkp/original"
@@ -67,7 +66,7 @@ backup_cfg_files() {
     done
     echo >>"$bkpLog"
 
-    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
 }
 ##}}}

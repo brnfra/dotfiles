@@ -85,7 +85,7 @@ branch_sync () {
 #sync_copy - function for backup {{{ 
 sync_copy () {
 
-    DATE=$(date '+%d_%m_%Y')
+    DIR_DATE=$(date '+%d_%m_%Y')
     printf "[INFO]%s at %s \n" "${0##*/} - ${FUNCNAME[0]}" "$DATE" >> "$bkpLog"
 
     for file in $files; do
@@ -101,6 +101,7 @@ sync_copy () {
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" &>> "$bkpLog"
 	newDir=$dotfiles_dir/$dir
 	mkdir -p "$(echo ${newDir%/*})"
+	#mkdir -p "${newDir}/$dir"
 	rsync -va --exclude '*.backup' -b --backup-dir="$bkpdir"  "$HOME"/"$dir" "$dotfiles_dir"/"$dir" \
 	    | sed '/^$/d;/./!d' &>> "$bkpLog"
 	echo >>"$bkpLog"
@@ -108,7 +109,7 @@ sync_copy () {
 
     echo >>"$bkpLog"
 
-    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DATE"  >> "$bkpLog"
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
     cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
 
 }

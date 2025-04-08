@@ -54,7 +54,7 @@ Dirs+=' .config/conky/ '
 files+=' .config/conky/conky_calendar '
 files+=' .config/conky/conky_shortcuts '
 files+=' .config/conky/conky_dashboard '
-files+=' .config/conky/start_conky '
+files+=' .config/conky/start_conky_maia '
 
 # vim
 Dirs+=' .config/nvim/backups/swaps '
