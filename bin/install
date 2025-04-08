@@ -48,7 +48,7 @@ install_check() {
 ## backup {{{
 backup_cfg_files() {
 
-    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
     cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
     mkdir -p "$HOME/.config-bkp/original"
@@ -57,13 +57,28 @@ backup_cfg_files() {
     newDir="${BKPDIR}"
 
     for dir in $Dirs; do
-	printf "[INFO] Folder to backup: (%s)\n" "$dir" &>> "$bkpLog"
-	mkdir -p "${newDir}/$dir"
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+	mkdir -p "${newDir}/$dir" >> "$bkpLog" 2>&1
+	if [ $? = 0 ];then 
+	    cmOk "$dir"
+	else
+	    cError "$dir"
+	fi
     done
 
     for file in $files; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' &>> "$bkpLog"
+	if [ -f $file ];then 
+	    cp "${HOME}/$file" "${newDir}/$file" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
+	    if [ $? = 0 ];then 
+		cmOk "$file"
+	    else
+		cError "$file"
+	    fi
+	else
+	    cInfo "Not found: " "$file"
+	fi
+
     done
     echo >>"$bkpLog"
 
@@ -85,10 +100,23 @@ bare_repo_checkout() {
 
     if git_config checkout; then
         cmOk "Checkout branch"
+
 	cInfo "Set to don´t show untracked files"
 	git_config config status.showUntrackedFiles no
-        bash ~/bin/enviroment_config 
-        bash ~/bin/config_check 
+
+        if [ -f ~/bin/enviroment_config ]; then
+	    bash ~/bin/enviroment_config 
+	else
+	    cError "Enviroment_config not found."
+	    exit 2
+	fi
+        if [ -f ~/bin/config_check ]; then
+	    bash ~/bin/config_check 
+	else
+	    cError "Config_check not found."
+	    exit 2
+	fi
+        
         printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
         cInfo "Logs can be check in: " "$bkpLog"
 
@@ -96,7 +124,7 @@ bare_repo_checkout() {
         exit 0
     else
         printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}" 
-        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
+	printf "[INFO]%s rename files in conflict to foo.backup (no move)\n" "${0##*/} - ${FUNCNAME[0]}"  
         DIR="$HOME/bin"
         cd "$DIR" || return
         PATH="$DIR/../src:$PATH"
