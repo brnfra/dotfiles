@@ -63,8 +63,8 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-
-    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
+    touch "$bkpLog"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
     cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
     mkdir -p "$HOME/.config-bkp/original"
@@ -92,7 +92,7 @@ backup_cfg_files() {
 		cError "$file"
 	    fi
 	else
-	    cInfo "Not found: " "$file"
+	    cInfo "Not found: " "$file" >> "$bkpLog" 2>&1
 	fi
 
     done
@@ -172,8 +172,11 @@ bare_repo_checkout() {
 }
 ##}}}
 cd "$HOME" || return
-printf "[INFO] %s \n" "Installing $user_name user dotfiles"  
+
+#check before install
 install_check
+
+printf "[INFO] %s \n" "Installing $user_name user dotfiles"  
 cInfo "Git clone (--bare):" "$branch" "in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
