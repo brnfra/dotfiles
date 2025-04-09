@@ -48,13 +48,16 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 
 ## TODO
 
-- [ ] Make scripts to generate configs (i3blocks, vim,  etc) instead download  files
+- [ ] Use dotfiles_env to get base for the tests etc
+- [ ] optimize for-loops on stage
+- [ ] All pushes have to be from cloned folder(not and from bare or Home)
+- [ ] Make scripts to generate configs (i3blocks, vim, etc) 
 - [x] Script to generate I3 config 
 - [ ] Add test to check logical order in scripts 
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
-- [ ] Use dotfiles_env to get list for tests etc
-- [ ] 
+- [ ] Add test before stage
+
 
 <br>
 
