@@ -58,7 +58,6 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - [ ] Add test to check output from i3blocks
 - [ ] optmize to use stow
 
-
 <br>
 
 ## Requirements
