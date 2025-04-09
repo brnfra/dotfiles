@@ -56,7 +56,7 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - [ ] Add test to check logical order in scripts 
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
-- [ ] test before stage
+- [ ] optmize to use stow
 
 
 <br>
