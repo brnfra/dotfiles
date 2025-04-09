@@ -38,16 +38,13 @@ else
     TRASH_COUNT=$(( TRASH_COUNT + COUNT ))
 fi
 
-URGENT_VALUE=100
-
 if (( TRASH_COUNT == 0 )); then
     echo  "<span $font $size $white> &#xf014; [${TRASH_COUNT}]</span>"
-elif (( TRASH_COUNT > 0 )); then
+elif (( TRASH_COUNT > 0 )) && (( TRASH_COUNT < 100 )); then
     echo  "<span $font $size $yellow> &#xf1f8; [${TRASH_COUNT}]</span>"
-
-elif [[ "${TRASH_COUNT}" -ge "${URGENT_VALUE}" ]]; then
-    echo  "<span $font $size $red> &#xf1f8; [${TRASH_COUNT}]</span>"
-    exit 33
+elif (( TRASH_COUNT >= 100 )); then
+    echo  "<span $font $size $dark_red $font_bold> &#xf1f8; [+99]</span>"
+    #exit 33
 fi
 
 

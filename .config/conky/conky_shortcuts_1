@@ -15,7 +15,7 @@ conky.config = {
 	maximum_width = 300,
 	no_buffers = true,
         xftalpha = 1,
-	xinerama_head = 0,
+	xinerama_head = 1,
        --Windows
 
 	own_window = true ,				--create your own window to draw

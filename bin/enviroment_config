@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: enviroment_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 08-04-2025
+# Ultima_modificacao: 09-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -37,16 +37,16 @@ unset file;
 cInfo "Exec: ""${0##*/}"
 cInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and download fonts."
 make_dirs
-git_env
-ssh_env
-#get_fonts
-if which i3 &> /dev/null ;then
-    bash ~/bin/i3_config
-fi
 cInfo "Clone in: " "$dotfiles_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
     cmOk "Clone remote in: " "$dotfiles_dir"
 else
      clnError "Can't clone repository"
     exit 1
+fi
+git_env
+ssh_env
+#get_fonts
+if which i3 &> /dev/null ;then
+    bash ~/bin/i3_config
 fi

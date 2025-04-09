@@ -16,157 +16,173 @@ git_config() {
 }
 #install_check {{{
 install_check() {
-    printf "[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"
-	if [ -f "$HOME/bin/dotfiles_env" ]; then
-	    cd "$HOME/bin" || return
+    printf "[INFO]Executing %s requirements.\n" "${FUNCNAME[0]}"
+    #packages
+    if ! which git &> /dev/null;then
+	cError "Git not found. Abort."
+	exit 2	
+    fi
+    if ! which curl &> /dev/null;then
+	cError "Curl not found. Aborting install"
+	exit 3	
+    fi
+    if ! which ssh &> /dev/null;then
+	cError "Ssh not found. Abort."
+	exit 4	
+    fi
+    # if there are definitions file 
+    if [ -f "$HOME/bin/dotfiles_env" ]; then
+	cd "$HOME/bin" || return
+	# shellcheck source=dotfiles_env
+	. dotfiles_env
+
+    else
+	DIR="$HOME/bin"
+	mkdir "$DIR"
+	cd "$DIR" || return
+	PATH="$DIR/../src:$PATH"
+
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
+	then
 	    # shellcheck source=dotfiles_env
-	    . dotfiles_env
-
+	    source dotfiles_env
 	else
-	    DIR="$HOME/bin"
-	    mkdir "$DIR"
-	    cd "$DIR" || return
-	    PATH="$DIR/../src:$PATH"
-	    
-	    if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
-	    then
-		# shellcheck source=dotfiles_env
-		source dotfiles_env
-	    else
-		printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
-		exit 1
-	    fi
+	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+	    exit 1
 	fi
-	if [ -d "$install_dir" ]; then
-	    cError "Already instaled. If you trying reinstall, remove"
-	    clnItalic "$install_dir" "in order and check outputs log."
-	    exit 0
+    fi
+    # avoid repeat if already installed
+    if [ -d "$install_dir" ]; then
+	cError "Already instaled. If you trying reinstall, remove"
+	clnItalic "$install_dir" "in order and check outputs log."
+	exit 0
+    fi
+
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
+}
+##}}}
+## backup {{{
+backup_cfg_files() {
+
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
+    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
+
+    mkdir -p "$HOME/.config-bkp/original"
+    local BKPDIR="$HOME/.config-bkp/original"
+    local newDir
+    newDir="${BKPDIR}"
+
+    for dir in $Dirs; do
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	if [ $? = 0 ];then 
+	    cmOk "$dir"
+	else
+	    cError "$dir"
 	fi
-	printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
-    }
-    ##}}}
-    ## backup {{{
-    backup_cfg_files() {
+    done
 
-	printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" > "$bkpLog"
-	cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
-
-	mkdir -p "$HOME/.config-bkp/original"
-	local BKPDIR="$HOME/.config-bkp/original"
-	local newDir
-	newDir="${BKPDIR}"
-
-	for dir in $Dirs; do
-	    printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
-	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+    for file in $files; do
+	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	if [ -f $file ];then 
+	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cmOk "$dir"
+		cmOk "$file"
 	    else
-		cError "$dir"
+		cError "$file"
 	    fi
-	done
+	else
+	    cInfo "Not found: " "$file"
+	fi
 
-	for file in $files; do
-	    printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	    if [ -f $file ];then 
-		cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
-		if [ $? = 0 ];then 
-		    cmOk "$file"
-		else
-		    cError "$file"
-		fi
-	    else
-		cInfo "Not found: " "$file"
-	    fi
+    done
+    echo >>"$bkpLog"
 
-	done
-	echo >>"$bkpLog"
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+}
+##}}}
+##bare_repo_checkout {{{
+bare_repo_checkout() {
+    cInfo "Git checkout" "$branch"
+    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
 
-	printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
-	cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
-    }
-    ##}}}
-    ##bare_repo_checkout {{{
-    bare_repo_checkout() {
-	cInfo "Git checkout" "$branch"
-	printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
+    backup_cfg_files
 
-	backup_cfg_files
-	
-	git_config stash save "Save config state[Install]" 
-	##use to undo, to recover last saved#
-	##>>  $ bare stash apply
-	cInfo "To revert this, use: " "bare stash apply"
+    git_config stash save "Save config state[Install]" 
+    ##use to undo, to recover last saved#
+    ##>>  $ bare stash apply
+    cInfo "To revert this, use: " "bare stash apply"
 
-	if git_config checkout; then
-	    cmOk "Checkout branch"
+    if git_config checkout; then
+	cmOk "Checkout branch"
 
-	    cInfo "Set to don´t show untracked files"
+	cInfo "Set to don´t show untracked files"
 	git_config config status.showUntrackedFiles no
 
-        
+
 	if [ -f ~/bin/enviroment_config ]; then
 	    bash ~/bin/enviroment_config 
 	else
 	    cError "Enviroment_config not found."
-	    exit 2
+	    exit 4
 	fi
 	if [ -f ~/bin/config_check ]; then
 	    bash ~/bin/config_check 
 	else
 	    cError "Config_check not found."
-	    exit 2
+	    exit 4
 	fi
-        printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
-        cInfo "Logs can be check in: " "$bkpLog"
+	printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
+	cInfo "Logs can be check in: " "$bkpLog"
 
-        cd "$backto" || return
-        exit 0
+	cd "$backto" || return
+	exit 0
     else
-        printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}" 
+	printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}" 
 	printf "[INFO]%s rename files in conflict to foo.backup (no move)\n" "${0##*/} - ${FUNCNAME[0]}"  
-        DIR="$HOME/bin"
-        cd "$DIR" || return
-        PATH="$DIR/../src:$PATH"
-        cError "Checkout branch:" "$branch" "and backup files."
-        git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
-        cmOk "Backup files"
-        cInfo "Checking branch: " "$branch"
-        if git_config checkout  ;then
-            cmOk "Checkout branch"
-            clnInfo "Installing enviroment_config and backup config files"
+	DIR="$HOME/bin"
+	cd "$DIR" || return
+	PATH="$DIR/../src:$PATH"
+	cError "Checkout branch:" "$branch" "and backup files."
+	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
+	cmOk "Backup files"
+	cInfo "Checking branch: " "$branch"
+	if git_config checkout  ;then
+	    cmOk "Checkout branch"
+	    clnInfo "Installing enviroment_config and backup config files"
 	    cInfo "Set to don´t show untracked files"
-            git_config config status.showUntrackedFiles no
-            bash ~/bin/enviroment_config 
-            bash ~/bin/bkp_cfg_files
-            cmOk "Installation script"
-            bash ~/bin/config_check tests
-            printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
-            cInfo "Logs can be check in: " "$bkpLog"
-            cd "$backto" || return
-            exit 0
-        else
-            printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}" 
-            cError "Checkout branch" "$branch" "Exit with error."
-            cInfo "Logs can be check in: " "$bkpLog"
+	    git_config config status.showUntrackedFiles no
+	    bash ~/bin/enviroment_config 
+	    bash ~/bin/bkp_cfg_files
+	    cmOk "Installation script"
+	    bash ~/bin/config_check tests
+	    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
+	    cInfo "Logs can be check in: " "$bkpLog"
+	    cd "$backto" || return
+	    exit 0
+	else
+	    printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}" 
+	    cError "Checkout branch" "$branch" "Exit with error."
+	    cInfo "Logs can be check in: " "$bkpLog"
 
-            exit 1
-        fi
+	    exit 1
+	fi
     fi
 }
 ##}}}
 cd "$HOME" || return
-printf "[INFO] ##### %s - [START] #####\n" "${0##*/}"  
+printf "[INFO] %s \n" "Installing $user_name user dotfiles"  
 install_check
 cInfo "Git clone (--bare):" "$branch" "in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
     cmOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
-    printf "[INFO] ##### %s - [DONE] #####\n" "${0##*/}"  
+    printf "[INFO] Script %s - finish.\n" "${0##*/}"  
 else
     cError "Can't clone repository"
-    printf "[ERROR] Can't clone repository.  ##### %s - [DONE] #####\n" "${0##*/}" 
+    printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}" 
     exit 1
 fi
 cd "$backto" || return

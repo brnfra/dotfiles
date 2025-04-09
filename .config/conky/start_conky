@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 conky -c ~/.config/conky/conky_shortcuts &&
+conky -c ~/.config/conky/conky_shortcuts_1 &&
 conky -c ~/.config/conky/conky_dashboard &&
+conky -c ~/.config/conky/conky_dashboard_1 &&
 conky -c ~/.config/conky/conky_calendar &&
+conky -c ~/.config/conky/conky_calendar_1 &&
 
 exit 0

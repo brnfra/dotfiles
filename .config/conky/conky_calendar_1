@@ -16,7 +16,7 @@ conky.config = {
     xftalpha = 1,
     out_to_console = no,
     out_to_stderr = no,
-    xinerama_head = 0,
+    xinerama_head = 1,
   
     --window
 

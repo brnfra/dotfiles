@@ -2,7 +2,7 @@
 
 white='     color="'#FFFFFF'" bgcolor="'#5f5f5f'"'
 red='       color="'#FF0000'" bgcolor="'#5f5f5f'"'
-dark_red='  color="'#BF616A'" bgcolor="'#5f5f5f'"'
+dark_red='  color="'#f77777'" bgcolor="'#5f5f5f'"'
 green='     color="'#00FF00'" bgcolor="'#5f5f5f'"'
 lima_green='color="'#C0FF00'" bgcolor="'#5f5f5f'"'
 dark_green='color="'#418A03'" bgcolor="'#5f5f5f'"'
