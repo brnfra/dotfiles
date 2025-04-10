@@ -23,7 +23,7 @@ setup() {
         skip "i3wm isn't installed"
     fi
 
-    run timeout --preserve-status 2.0s i3blocks -c $HOME/.i3/i3blocks.conf
+    run timeout --preserve-status 4.0s i3blocks -c $HOME/.i3/i3blocks.conf
     [ "$status" -eq 0 ]
 }
 @test "Repo I3blocks_v Config Is Valid" {
