@@ -43,7 +43,6 @@ make_dirs() {
 	    cInfo "Already exists:" "${HOME}/${dir}" >> "$bkpLog" 
 	else
 	    mkdir -p "${HOME}/${dir}"
-	    mkdir -p "${dotfiles_dir}"
 	    cInfo "Folders created." "${HOME}/${dir}" >> "$bkpLog"
 	fi
     done
