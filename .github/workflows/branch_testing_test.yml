@@ -27,7 +27,7 @@ jobs:
       - name: Install bats tool for bash tests
         run: |
           sudo apt-get update
-          sudo apt-get install bats
+          sudo apt-get install bats git curl stow
       
       - name: Install dotfiles
         run: ./bin/install
