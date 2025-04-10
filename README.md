@@ -57,6 +57,7 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
 - [ ] optmize to use stow
+- [ ] check backuṕ in stow installation
 
 
 <br>

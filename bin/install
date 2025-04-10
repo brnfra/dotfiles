@@ -110,6 +110,47 @@ install_check() {
     cInfo "${FUNCNAME[0]}" "Done"
 }
 ##}}}
+## backup {{{
+backup_cfg_files() {
+    touch "$bkpLog"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
+
+    mkdir -p "$HOME/.config-bkp/original"
+    local BKPDIR="$HOME/.config-bkp/original"
+    local newDir
+    newDir="${BKPDIR}"
+
+    for dir in $Dirs; do
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	if [ $? = 0 ];then 
+	    cmOk "$dir"
+	else
+	    cError "$dir"
+	fi
+    done
+
+    for file in $files; do
+	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	if [ -f $file ];then 
+	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
+	    if [ $? = 0 ];then 
+		cmOk "$file"
+	    else
+		cError "$file"
+	    fi
+	else
+	    cInfo "Not found: " "$file" >> "$bkpLog" 2>&1
+	fi
+
+    done
+    echo >>"$bkpLog"
+
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+}
+##}}}
 cd "$HOME" || return
 cInfo "Installing" "brnfra" "dotfiles."
 
@@ -117,6 +158,9 @@ install_check
 cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
 if git clone -v --single-branch -b "$branch" "$repository" "$dotfiles_dir"; then
     cmOk "Git clone"
+
+    backup_cfg_files
+    
     cd "$dotfiles_dir" || return
     if stow --dotfiles --adopt --target=$HOME . ;then
 	cInfo "Symlinks created"
@@ -124,7 +168,7 @@ if git clone -v --single-branch -b "$branch" "$repository" "$dotfiles_dir"; then
 	cError "Stow"
 	exit 5
     fi
-    bare_repo_checkout
+    
     printf "[INFO] Script %s - finish.\n" "${0##*/}"  
 else
     cError "Can't clone repository"
