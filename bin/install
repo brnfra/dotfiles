@@ -10,6 +10,7 @@
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 backto=$(pwd)
+branch="testing"
 # make executables in src/ visible to PATH
 # Color {{{ 
 # escape
