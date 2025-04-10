@@ -53,10 +53,10 @@ cmOk() {
 #install_check {{{
 install_check() {
     printf "[INFO]Executing %s requirements.\n" "${FUNCNAME[0]}"
-    local git=`which git`
-    local curl=`which curl`
-    local ssh=`which ssh`
-    local stow=`which stow`
+    local git='which git'
+    local curl='which curl'
+    local ssh='which ssh'
+    local stow='which stow'
     #packages
     if ! $git &> /dev/null;then
 	cError "Git not found. Abort."
@@ -78,6 +78,7 @@ install_check() {
     unset curl
     unset ssh
     unset stow
+    
     # if there are definitions file 
     if [ -f "$HOME/bin/dotfiles_env" ]; then
 	cd "$HOME/bin" || return
