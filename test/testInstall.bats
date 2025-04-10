@@ -26,7 +26,8 @@ setup() {
     }
 
 @test "InstallParamsRepoCheck" {
-    BranchGetFromTest="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
+   # BranchGetFromTest="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
+    BranchGetFromTest="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
     cInfo "Check install script branch in curl command. Don't match with cloned repository branch" "$result"
 	[ "${BranchGetFromTest}" = "${result}" ]
