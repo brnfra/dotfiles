@@ -52,7 +52,7 @@ cmOk() {
 #}}}
 #install_check {{{
 install_check() {
-    printf "[INFO]Executing %s requirements.\n" "${FUNCNAME[0]}"
+    cInfo "Executing %s requirements.\n" "${FUNCNAME[0]}"
     local git='which git'
     local curl='which curl'
     local ssh='which ssh'
@@ -91,12 +91,12 @@ install_check() {
 	cd "$DIR" || return
 	PATH="$DIR/../src:$PATH"
 
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/${branch}/bin/dotfiles_env"
 	then
 	    # shellcheck source=dotfiles_env
 	    source dotfiles_env
 	else
-	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+	    cError "dotfiles_env doesn't exist or can't download from repository.\n"
 	    exit 1
 	fi
     fi
@@ -112,11 +112,11 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    touch "$bkpLog"
-    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
-    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
+    cInfo "Create: " "$HOME/.config-bkp/original"
     mkdir -p "$HOME/.config-bkp/original"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}" 
     local BKPDIR="$HOME/.config-bkp/original"
     local newDir
     newDir="${BKPDIR}"
@@ -141,7 +141,7 @@ backup_cfg_files() {
 		cError "$file"
 	    fi
 	else
-	    cInfo "Not found: " "$file" >> "$bkpLog" 2>&1
+	    cInfo "Not found for backup: " "$file" >> "$bkpLog" 2>&1
 	fi
 
     done
