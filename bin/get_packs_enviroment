@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 
 osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
@@ -72,3 +73,67 @@ do
     fi
 done
 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+#requirements for i3blocks and more
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+    sudo apt-get update && sudo apt-get install \
+	acpi \
+	blueman \
+	compton \
+	curl \
+	exa \
+	fd-find \
+	ffmpeg \
+	fzf \
+	ghostscript \
+	git \
+	gsimplecal \
+	i3 \
+	i3blocks \
+	i3lock-fancy \
+	imagemagick \
+	jq \
+	neovim \
+	netcat-openbsd \
+	network-manager-gnome \
+	nitrogen \
+	openssl \
+	pcmanfm \
+	rsync \
+	scrot \
+	shunit2 \
+	ssh \
+	sysstat \
+	unzip \
+	vifm \
+	vim  \
+	neovim \
+	x11-utils \
+	xfce4-power-manager \
+	xfce4-terminal 
+elif [ "$osys" = "manjaro" ]; then
+     sudo pacman -S \
+	 acpi \
+         blueman \
+         fzf \
+         fd-find \
+         jq \
+         netcat-openbsd \
+         gsimplecal \
+         jq \
+         gsimplecal \
+         nitrogen \
+         pcmanfm \
+         picom \
+         scrot \
+         sysstat \
+         unzip \
+         vim neovim vifm \
+         xfce4-power-manager \
+         xfce4-terminal \
+         xorg-xwininfo 
+fi
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

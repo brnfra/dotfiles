@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
@@ -262,3 +263,221 @@ $exe goldendict
 $exe $HOME/.config/conky/start_conky_maia
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
+||||||| empty tree
+=======
+# i3 config. Auto generate
+# Check ~/bin/i3_config
+set $mod Mod4
+font pango:URWGothic-Book 10
+set $binaries $HOME/bin
+set $sup bindsym Mod4
+set $exe exec --no-startup-id
+set $exe_always exec_always --no-startup-id
+for_window [class="^.*"] border pixel 2
+assign [class="Firefox-esr"] $ico_firefox
+assign [class="firefox"] $ico_firefox
+assign [class="Firefox"] $ico_firefox
+assign [class="calibre"] $ico_calibre
+assign [class="okular"] $ico_pdf
+assign [class="Pcmanfm"] $ico_window
+assign [instance="pcmanfm"] $ico_window
+assign [instance="pamac-manager"] $ico_package
+assign [class="Virt-manager"] $ico_monitor
+set $ico_bank     <span font='Font Awesome'>&#xf155;</span>
+set $ico_chat     <span font='Font Awesome'>&#xf27b;</span>
+set $ico_chrome   <span font='Font Awesome'>&#xf268;</span>
+set $ico_code     <span font='Font Awesome'>&#xf121;</span>
+set $ico_document <span font='Font Awesome'>&#xf0f6;</span>
+set $ico_pdf      <span font='Font Awesome'>&#xf1c1;</span>
+set $ico_editor   <span font='Font Awesome'>&#xf044;</span>
+set $ico_email    <span font='Font Awesome'>&#xf003;</span>
+set $ico_firefox  <span font='Font Awesome'>&#xf269;</span>
+set $ico_folder   <span font='Font Awesome'>&#xf115;</span>
+set $ico_github   <span font='Font Awesome'>&#xf09b;</span>
+set $ico_hangouts <span font='Font Awesome'>&#xf10e;</span>
+set $ico_menu     <span font='Font Awesome'>&#xf0c9;</span>
+set $ico_monitor  <span font='Font Awesome'>&#xf26c;</span>
+set $ico_music    <span font='Font Awesome'>&#xf001;</span>
+set $ico_news     <span font='Font Awesome'>&#xf09e;</span>
+set $ico_package  <span font='Font Awesome'>&#xf1c6;</span>
+set $ico_play     <span font='Font Awesome'>&#xf01d;</span>
+set $ico_table    <span font='Font Awesome'>&#xf0ce;</span>
+set $ico_telegram <span font='Font Awesome'>&#xf1d9;</span>
+set $ico_terminal <span font='Font Awesome'>&#xf120;</span>
+set $ico_video    <span font='Font Awesome'>&#xf008;</span>
+set $ico_volume   <span font='Font Awesome'>&#xf028;</span>
+set $ico_whatsapp <span font='Font Awesome'>&#xf232;</span>
+set $ico_window   <span font='Font Awesome'>&#xf2d0;</span>
+set $ico_calibre   <span font='Font Awesome'>&#xf212;</span>
+floating_modifier $mod
+focus_follows_mouse yes
+hide_edge_borders smart
+default_border pixel 2
+workspace_auto_back_and_forth yes
+set $ws1  "1"
+set $ws2  "2"
+set $ws3  "3"
+set $ws4  "4"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
+for_window [class="mpv"] floating enable
+for_window [class="gnome-calculator"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [class="GoldenDict"] floating enable resize set 800 800
+for_window [title="File Transfer*"] floating enable
+for_window [class="knotes"] floating enable resize set 500 500
+for_window [class="GParted"] floating enable border normal set 800 800
+for_window [title="Calculator"] floating enable move position center
+for_window [class="Virt-manager"] fullscreen enable
+bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Shift+q kill
+bindsym $mod+d $exe rofi -show drun
+bindsym $mod+y focus left
+bindsym $mod+j focus down
+bindsym $mod+u focus up
+bindsym $mod+i focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+y move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+u move up
+bindsym $mod+Shift+i move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+bindsym $mod+v split h;exec notify-send 'tile horizontally'
+bindsym $mod+h split v;exec notify-send 'tile vertically'
+bindsym $mod+x split toggle;exec notify-send 'tile toggle'
+bindsym $mod+Shift+f fullscreen toggle
+bindsym $mod+Ctrl+s layout stacking
+bindsym $mod+Shift+t layout tabbed
+bindsym $mod+Shift+e layout toggle split
+bindsym $mod+f floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+b workspace back_and_forth
+bindsym $mod+Tab workspace next
+bindsym $mod+Ctrl+1 move container to workspace $ws1
+bindsym $mod+Ctrl+2 move container to workspace $ws2
+bindsym $mod+Ctrl+3 move container to workspace $ws3
+bindsym $mod+Ctrl+4 move container to workspace $ws4
+bindsym $mod+Ctrl+5 move container to workspace $ws5
+bindsym $mod+Ctrl+6 move container to workspace $ws6
+bindsym $mod+Ctrl+7 move container to workspace $ws7
+bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9
+bindsym $mod+Ctrl+0 move container to workspace $ws10
+bindsym $mod+Ctrl+b move workspace back_and_forth
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+b workspace back_and_forth
+bindsym $mod+Ctrl+u [urgent=latest] focus
+bindsym $mod+Shift+d reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Ctrl+l $exe i3lock-fancy -p
+bindsym $mod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Escape mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own"
+mode "Warning. You call system control. Choose: Esc or Enter to Cancel, ne[t] refresh, [e]xit, [s]uspend, [r]eboot, Shut[d]own" {
+	bindsym t $exe systemctl restart NetworkManager, mode default
+	bindsym e $exe i3-msg exit , mode default
+	bindsym s $exe systemctl suspend, mode default
+	bindsym r $exe systemctl reboot , mode default
+	bindsym d $exe systemctl poweroff, mode default
+	bindsym Return mode default
+	bindsym Escape mode default
+}
+bindsym $mod+Ctrl+r mode resize
+mode resize {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Return mode default
+    bindsym Escape mode default
+    bindsym $mod+r mode default
+}
+bindsym Ctrl+1 exec firefox-esr
+bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
+bindsym Ctrl+3 exec pcmanfm
+bindsym Ctrl+2 exec xfce4-terminal -x vifm
+bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
+bindsym Print --release $exe $HOME/bin/i3-scrot
+bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
+bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
+bindsym $mod+Ctrl+x --release $exe xkill
+client.focused          #00FF00    #2C323E  #F5F6F7  #9800FE   #00FF00
+client.focused_inactive #181920       #181920   #F5F6F7  #FFFF00   #181920
+client.unfocused        #181920       #181920   #F5F6F7  #9800FE   #181920
+client.urgent           #F74336      #181920   #F5F6F7  #F74336      #F74336
+client.background       #181920
+bar {
+    id bar-1 
+    position top
+    output primary
+    tray_output primary
+    tray_padding 2
+    separator_symbol " "
+    mode dock 
+    font pango: URWGothic-Book 10
+    status_command i3blocks -c $HOME/.i3/i3blocks.conf
+    colors {
+    background #080910
+    focused_workspace    #0066FF    #00FF00    #181920
+    active_workspace	#181920      #0066FF     #F5F6F7
+    inactive_workspace   #181920      #E7E8EB     #181920
+    urgent_workspace	#181920      #FFFF00   #181920
+    }
+}
+bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
+set $vol_signal pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume $exe pactl set-sink-volume $pa_sink +5%  && $vol_signal
+bindsym XF86AudioLowerVolume $exe pactl set-sink-volume $pa_sink -5%  && $vol_signal
+bindsym XF86AudioMute        $exe pactl set-sink-mute $pa_sink toggle && $vol_signal
+bindsym XF86HomePage         $exe pavucontrol
+$exe_always xset b off
+$exe numlockx on
+$exe xfce4-power-manager
+$exe nm-applet --indicator
+$exe $HOME/.i3/autostart/i3config
+$exe $HOME/.i3/autostart/wallpapers
+$exe compton --config ~/.config/compton.conf
+$exe $HOME/bin/rm_linedup ~/.bash_history
+$exe goldendict
+$exe blueman-applet
+$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+$exe xautolock -time 10 -locker "i3lock-fancy -p -g"
+$exe diodon
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

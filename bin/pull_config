@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: pull_config
 # Autor: Bruno Franco
@@ -74,3 +75,70 @@ else
 fi
 cInfo "Logs can be check in: " "$bkpLog"
 printf "\n[INFO] ##########     Pull config - END     ###########\n"   >> "$bkpLog"
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: pull_config
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+printf "Get config from remote repo and update local config files.\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Get config from remote repo and update local config files.
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to get config from remote repo and update local config files. Becareful, if you made some 
+    local modifications it'll ovewrite with remote config.
+
+    -h, --help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      ssh-agent error.
+
+       2      connection problem error.
+
+       3      connection and ssh-agent problem(error).
+
+       4      pull and fetch fails.
+
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+for file in ~/bin/{config_check,bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+cInfo "Get config from remote:" "pull_config"
+printf "[INFO]%s beginning  ### pull config ###\n" "${FUNCNAME[0]}"  > "$bkpLog"
+if config_check connect ;then
+    #try pull or undo changes
+    if bare_repo_pull;then
+	local_repo_pull
+	i3_config
+    else
+	cError "Pull (in bare repo) fail"
+	exit 4
+    fi
+else 
+    clnError "Check your connection and your ssh-agent."
+    exit 3
+fi
+printf "[INFO]%s all done  ### pull config ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

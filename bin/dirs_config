@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: dirs_config
 # Autor: Bruno Franco
@@ -52,3 +53,70 @@ make_dirs() {
 }
 
 "$@"
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: dirs_config
+# Autor: Bruno Franco
+# Ultima_modificacao: 10-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Create folders to current config files
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to create folders to current config files and check if exists.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+make_dirs() {
+    clnInfo "${0##*/}"
+    printf "Create folders to current config files \n"
+    folder_list="$HOME/.local/opt"
+    folder_list+=" $HOME/.local/share/fonts"
+    folder_list+=" $HOME/.wallpapers"
+    folder_list+=" $HOME/.ssh"
+    folder_list+=" $HOME/.cache"
+    folder_list+=" $HOME/Documents/Projects/git/dotfiles"
+    folder_list+=" $HOME/.vim/backups"
+    folder_list+=" $HOME/.vim/backups/swaps"
+    folder_list+=" $HOME/.vim/backups/undo"
+    folder_list+=" $HOME/.vim/bundle"
+    folder_list+=" $HOME/.vim/autoload"
+    folder_list+=" $HOME/.config-bkp"
+
+    cInfo "Check directories"
+    for Folder in $folder_list
+    do
+	if [ -d "$Folder" ]
+	then
+	    cInfo "Already exists:" "$Folder" 
+	else
+	    mkdir -p "$Folder"
+	    cInfo "Folders created." "$Folder" 
+	fi
+    done
+}
+
+"$@"
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

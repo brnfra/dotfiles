@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.6'
 services:
   bats:
@@ -16,3 +17,25 @@ services:
 command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
 command: exec ./bin/install
 
+||||||| empty tree
+=======
+version: '3.6'
+services:
+  bats:
+    image: ubuntu-test
+    environment:
+      - "Bats Test config files"
+    build:
+      context: "configs"
+      dockerfile: "Dockerfile"
+      user: "root"
+      volumes:
+        - "./:/bin/"
+    networks:
+      - "default"
+
+command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
+command: exec ./bin/install
+
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

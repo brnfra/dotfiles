@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: CI Tests
 
 # Controls when the workflow will run
@@ -38,3 +39,46 @@ jobs:
           ./bin/stage_config sync_branch
           bats ./tests/testGitConfig.bats
           bats ./tests/testInstall.bats
+||||||| empty tree
+=======
+name: CI Tests
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: 
+      - testing
+  pull_request:
+    branches: 
+      - testing
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Install bats tool for bash tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install bats
+      
+      - name: Install dotfiles
+        run: ./bin/install
+        
+     #  execute a script that is stored in the repository 
+      - name: Check branch name is correct for current branch
+        run: |
+          ./bin/stage_config sync_branch
+          bats ./test/testGitConfig.bats
+          bats ./test/testInstall.bats
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

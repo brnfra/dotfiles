@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
@@ -60,3 +61,69 @@ if [[ errorCnt -lt 2 ]]; then
     exit 0
 fi
 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: connection
+# Autor: Bruno Franco
+# Ultima_modificacao: 02-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# https://askubuntu.com/questions/522505/script-to-monitor-internet-connection-stability
+#site list
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+sname="${0##*/}"
+clnInfo "Checking connectivity status!"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Check connectivity status
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    A simple script to try connect using nc and openssl to reach sites like google.com and amazon.com and return if OK or can´t reach.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+site_list='google.com' 
+site_list+=' github.com' 
+site_list+=' www.amazon.com.br'
+site_list+=' deb.debian.org'
+errorCnt=$(( 0 ))
+# by Adam Katz (stackoverflow)
+for Site in $site_list; do
+    if nc -z -w 1 $Site 443 && echo |openssl s_client -connect "$Site":443 2>&1 |awk '
+	$1 == "SSL" && $2 == "handshake" { handshake = 1 }
+	handshake && $1 == "Verification:" { ok = $2; exit }
+	END { exit ok != "OK" }'
+    then
+	cmOk "$Site" "Reached"
+    else
+	clnError "Can't reach: $Site"
+	errorCnt=$(( errorCnt + 1))
+	if [[ errorCnt -gt 3 ]]; then
+	    exit 1
+	fi
+    fi
+done
+if [[ errorCnt -lt 2 ]]; then
+    echo
+    exit 0
+fi
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

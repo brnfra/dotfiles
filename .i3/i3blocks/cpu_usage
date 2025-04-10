@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 
 source ~/.i3/i3blocks/vars
@@ -67,3 +68,63 @@ printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)(
 printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVG5%)($LAVG15%)($LAVGRZ)$LPROSS_STR </span>"
 exit 0   
 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+
+source ~/.i3/i3blocks/vars
+
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+URGENT_VALUE=90
+
+PREV_TOTAL=0
+PREV_IDLE=0
+ico_cpu="CPU"
+# $ico_cpu = "\&#xf0e4\;";
+# $ico_load = "\&#127947\;";
+ico_load="Load"
+t_warn=$(( 70 ))
+t_crit=$(( 99 ))
+cpu_usage=$(( -1 ))
+
+#load average
+LAVG1=$(cat /proc/loadavg | cut -d " " -f 1 | tr '\n' ' ' )
+LAVG5=$(cat /proc/loadavg | cut -d " " -f 2 | tr '\n' ' ' )
+LAVG15=$(cat /proc/loadavg | cut -d " " -f 3 | tr '\n' ' ' )
+LAVGRZ=$(cat /proc/loadavg | cut -d " " -f 4 | tr '\n' ' ' )
+LPROSS=$(cat /proc/loadavg | cut -d " " -f 5 | tr '\n' ' ' )
+
+LAVG1=$(awk -v x="$LAVG1" 'BEGIN { printf "%1.1f\n",x*100}') 
+LAVG5=$(awk -v x="$LAVG5" 'BEGIN { printf "%1.1f\n",x*100}') 
+LAVG15=$(awk -v x="$LAVG15" 'BEGIN { printf "%1.1f\n",x*100}') 
+
+if [ "$osys" = "debian" ]; then
+    IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 13 | bc -l)  
+else
+    IDLE=$(mpstat -u | sed '/all/!d;s/ \+/ /g;s/,/./g' | cut -d " " -f 12 | bc -l)  
+fi
+
+cpu_usage=$(awk -v x="$IDLE" 'BEGIN {y = 100.00 ; z = y-x;  printf "%1.2f\n", z }') # Get the total CPU statistics.
+
+#tests
+# cpu_usage=$(( 7 ))
+# LAVG1=$(( 7 ))
+# LAVG5=$(( 7 ))
+# LAVG15=$(( 7 ))
+
+if ((( cpu_usage < t_crit )) && (( cpu_usage >= t_warn )))  || ((( LAVG1 < t_crit )) && (( LAVG1 >= t_warn ))) || ((( LAVG5 < t_crit )) && (( LAVG5 >= t_warn ))) || ((( LAVG15 < t_crit )) && (( LAVG15 >= t_warn ))); then
+    printf "%s\n" "<span $font $size $yellow $weight > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>" 
+    printf "%s\n" "<span $font $size $yellow $weight> $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>" 
+    exit 0
+elif (( cpu_usage >= t_crit )) || (( LAVG1 >= t_crit )) || (( LAVG5 >= t_crit )) || (( LAVG15 >= t_crit ));then 
+    printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
+    printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
+    exit 0
+fi
+
+# Print short_text, full_text
+printf "%s\n" "<span $font  $size $green > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
+printf "%s\n" "<span $font  $size $green >$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
+exit 0   
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

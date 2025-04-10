@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: bare_merge
 # Autor: Bruno Franco
@@ -75,3 +76,81 @@ printf "[INFO]%s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 case $1 in
     update_branch) "$@"; exit;;
 esac 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: bare_merge
+# Autor: Bruno Franco
+# Ultima_modificacao: 12-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+for file in ~/bin/{dotfiles_env,config_check,git_config,stage_config}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+  Bare merge
+
+  NAME
+      bare_merge  - Remove dupes lines in file(text)
+
+  SYNOPSIS
+      bare_merge update_branch { "[string_message]" | -h | --help }
+
+  DESCRIPTION
+      In currente branch, you can update other branch with the last updates if you desire. 
+      Run the command bare_merge update_branch [branch_to_update] and the script will sync current branch
+      and the other that you choose.
+
+      -h, --help
+	  Print help informations
+  OPTIONS
+      -h,--help
+	  Print help informations
+
+  Exit status:
+	 0      if OK,
+
+	 1      Checkout or fetch error.
+
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+# merge from updated branch
+update_branch() 
+{
+    printf "[INFO]### %s beginning ### bare_merge ###\n" "${FUNCNAME[0]}" >> "$bkpLog"   
+    cInfo "Get config from last updates(merge) to:" "merge recursive(theirs) from $branch"
+    backto=$(pwd)
+    if git_config checkout "$1" &>> "$bkpLog" && git_config fetch --all &>> "$bkpLog"; then
+	git_config merge -s recursive -X theirs "$branch" &>> "$bkpLog" 
+	if config_check tests ;then
+	    cmOk "Files check"
+	    stage_config sync_branch
+	    stage_config commit_last "merge from $branch"
+	    stage_config prepare
+	else
+	    cError "Files check tests on merge. Please see: " "$bkpLog"
+	fi
+
+	cInfo "Finish merge from branch" "$branch" "(--bare)"
+	cmOk "Git merge"
+    else
+	cError "${LINENO}:Config checkout or fetch, error(logs):" "$bkpLog"     
+	exit 1
+    fi
+    cd "$backto" || return
+    printf "[INFO]### %s all done ### bare_merge ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+}
+
+case $1 in
+    update_branch) "$@"; exit;;
+esac 
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

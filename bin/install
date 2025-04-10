@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: install
 # Autor: Bruno Franco
@@ -140,3 +141,103 @@ unset cyan
 unset grey
 
 cd "$backto" || return
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: install
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# code providing by ;
+#  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
+#  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
+backto=$(pwd)
+# make executables in src/ visible to PATH
+
+git_config() {
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
+}
+#install_check {{{
+install_check() {
+    if [ -f "$HOME/bin/dotfiles_env" ]; then
+        cd "$HOME/bin" || return
+        # shellcheck source=dotfiles_env
+        . dotfiles_env
+
+    else
+        DIR="$HOME/bin"
+        mkdir "$DIR"
+        cd "$DIR" || return
+        PATH="$DIR/../src:$PATH"
+        
+        if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
+        then
+            # shellcheck source=dotfiles_env
+            source dotfiles_env
+        else
+            printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+            exit 1
+        fi
+    fi
+    if [ -d "$install_dir" ]; then
+        cError "Already instaled. If you trying reinstall, remove"
+        clnItalic "$install_dir" "in order and check outputs log."
+
+        exit 0
+    fi
+}
+##}}}
+##bare_repo_checkout {{{
+bare_repo_checkout() {
+    cInfo "Git checkout" "$branch"
+    if git_config checkout; then
+        cmOk "Checkout branch"
+        bash ~/bin/enviroment_config
+        bash ~/bin/config_check
+        cd "$backto" || return
+        exit 0
+    else
+        DIR="$HOME/bin"
+        cd "$DIR" || return
+        PATH="$DIR/../src:$PATH"
+        cError "Checkout branch:" "$branch" "and backup files."
+        git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+        cmOk "Backup files"
+        clnInfo "Checking branch"
+        if git_config checkout;	then
+            cmOk "Check branch"
+            cmOk "Checkout branch"
+            clnInfo "Installing enviroment_config and backup config files"
+            source bkp_cfg_files
+            git_config config status.showUntrackedFiles no
+            bash enviroment_config
+            bash bkp_cfg_files
+            cmOk "Installation script"
+            bash config_check
+            cd "$backto" || return
+            exit 0
+        else
+            cError "Checkout branch" "$branch" "Exit with error."
+            exit 1
+        fi
+    fi
+}
+##}}}
+cd "$HOME" || return
+install_check
+cInfo "Git clone (--bare):" "$branch"
+if git clone --branch "$branch" --bare "$repository" "$install_dir"; then
+    cmOk "Git clone"
+    cd "$HOME/bin" || return
+    bare_repo_checkout
+else
+    clnError "Can't clone repository"
+    exit 1
+fi
+cd "$backto" || return
+
+
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

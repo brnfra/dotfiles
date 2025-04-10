@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: type_fold
 # Autor: Bruno Franco
@@ -73,3 +74,77 @@ foldering_by_type "$saveIn"
 cmOk "Foldering by type"
 find . -maxdepth 1 -type d -empty -delete  &> /dev/null
 cmOk "Cleaning empty folders"
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: type_fold
+# Autor: Bruno Franco
+# Ultima_modificacao: 02-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#   Tem o proposito de organizar os arquivos que tem nome padrão começando com
+#   o template AAAAmmdd, sendo AAAA para digito do ano, mm para digitos do mes, 
+#   dd para digito do dia
+#   cria pasta no padrão ./AAAA/mm e insere os arquivos 
+#   não se aplica a pastas ou nomes diferentes do padrão
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+printf "Foldering files by type\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Foldering files by type
+	
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    Move files in current folder to new folders by type, inside current folder.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+filesByExt=$(find . -maxdepth 1 -type f -name '*.*' | sed 's|\.\/||gi')
+today_year=$(date +%Y)
+today_year=$((today_year + 1))
+saveIn=${1:-'.'}
+
+foldering_by_type() {
+    local Dir="$1"
+
+    for File in $filesByExt
+    do
+	echo "${File##*'.'}" | sed 's/sh//gi' >> ext_list
+    done
+    ext_list=$(sort -u < ext_list)
+    echo $ext_list
+    if [ -s ext_list ]; then
+	for Ext in $ext_list
+	do
+	    if [ "$HOME" != "$Dir" ]; then
+		mkdir -p -v "$Dir/$Ext"
+		find . -maxdepth 1 -type f -name "*.${Ext}" -exec mv -v -i {} "$Dir/$Ext" ';' 
+	    else
+		clnError "Can't execute in home folder."
+	    fi
+	done
+    fi
+    rm ext_list
+}
+
+foldering_by_type "$saveIn"
+cmOk "Foldering by type"
+find . -maxdepth 1 -type d -empty -delete  &> /dev/null
+cmOk "Cleaning empty folders"
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

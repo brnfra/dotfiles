@@ -152,3 +152,4 @@
     yesterday	= diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'
 [safe]
 	directory = /data/shared_data/vimwiki
+

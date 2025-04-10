@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: pdfstd
 # Autor: Bruno Franco
@@ -128,3 +129,138 @@ done
 rm -f newsize oldsize
 find . -type d -empty -delete
 clnInfo "Finish."
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: pdfstd
+# Autor: Bruno Franco
+# Ultima_modificacao: 05-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#To compact pdf files using ghostscript
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+sname="pdfstd"
+printf "Normalize pdf files using ghostscript \n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Normalize pdf files using ghostscript 
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    Normalize pdf files using ghostscrip. Compare files after process and backup older if newer is smaller or skip if not.
+    Backup to output folder inside current folder.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+LOCAL=$(pwd)
+if [ "$LOCAL" = "$HOME" ]; then
+    cError "Script avoid execute in [%s] directory." "$HOME"
+    exit 1
+fi
+backup="Backup_"
+# get name from parent folder
+backup+=$(pwd | awk -F / '{print $NF}')
+output="Output"
+osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+    pdf_list=$(find . -maxdepth 1 -type f -print0 \
+	| xargs -0 file --mime-type \
+	| awk /"\/pdf$"/'{print}' \
+	| cut -d ':' -f 1 )
+else
+    pdf_list=$(find . -maxdepth 1 -type f -print0 \
+	| xargs -0 file --media-type \
+	| awk /"\/pdf$/"/'{print}' \
+	| cut -d ':' -f 1 )
+fi
+num_pdf=${#pdf_list}
+
+if [ "$num_pdf" = "0" ]
+then
+    clnError "${LINENO}:There isn't .pdf file"
+    exit 1
+else
+    mkdir -p "$output";
+    mkdir -p "$backup";
+fi
+
+clnInfo "Compacting pdf's files"
+for file in $pdf_list
+do
+    #take the size
+    du -b "$file" > oldsize
+    OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
+    cInfo "File" "$file" "is the next:"
+    gs \
+	-sDEVICE=pdfwrite \
+	`# font settings` \
+	-dSubsetFonts=true \
+	-dCompressFonts=true \
+	-dEmbedAllFonts=true \
+	`# color format` \
+	-sProcessColorModel=DeviceRGB \
+	-sColorConversionStrategy=sRGB \
+	-sColorConversionStrategyForImages=sRGB \
+	-dConvertCMYKImagesToRGB=true \
+	`# image resample` \
+	-dDetectDuplicateImages=true \
+	-dDownsampleColorImages=true -dDownsampleGrayImages=true -dDownsampleMonoImages=true \
+	-dColorImageResolution=140 -dGrayImageResolution=140 -dMonoImageResolution=140 \
+	`# preset overrides` \
+	-dDoThumbnails=false \
+	-dCreateJobTicket=false \
+	-dPreserveEPSInfo=false \
+	-dPreserveOPIComments=false \
+	-dPreserveOverprintSettings=false \
+	-dUCRandBGInfo=/Remove \
+	-dNOPAUSE -dQUIET -dBATCH \
+	-sOutputFile=./"$output"/"$file" "$file"
+    
+    cInfo "File" "$output/$file" "created."
+    du -b "./$output/$file" > newsize
+    NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
+    if [[ $NEWSIZE -gt $OLDSIZE ]]
+    then
+	if rm ./"$output"/"$file";
+	then
+	    cInfo "./$output/$file" "deleted"
+	else
+	    cError "${LINENO}:Discart file" "$file" 
+	    break
+	fi
+    else
+        if mv "$file" ./"$backup";
+        then
+	    cInfo "File" "$file" "copied to"
+	    clnItalic "$backup/" "folder"
+	    mv ./"$output"/"$file" ./"$file"
+	    clnInfo "New file substituted old file"
+        else
+            cError "${LINENO}:Error when copy file" "$file" 
+            break
+        fi
+    fi
+    echo
+done
+#Clean
+rm -f newsize oldsize
+find . -type d -empty -delete
+clnInfo "Finish."
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

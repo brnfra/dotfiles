@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
 . dotfiles_env
@@ -143,3 +144,131 @@ else
     printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
     exit 1
 fi
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+##TODO
+#- make tests to is there wallp files
+#- configs
+#- dirs
+#- if installed pkgs
+
+gen_nitrogen_cfg() {
+    local bgconfig
+    local nitrogen_cfg
+    local nitrogen_cfg_file
+    local bgconfig_file
+    local nxin 
+    nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
+    bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
+    nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
+    if [ "$nxin" = "1" ]
+    then
+	bgconfig="[xin_0]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000\n\n"
+    else
+	bgconfig="[xin_0]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000\n\n"
+	bgconfig="[xin_1]\n"
+	bgconfig="${bgconfig}file=$wallpapers_dir/landscape_day.jpg\n"
+	bgconfig="${bgconfig}mode=0\n"
+	bgconfig="${bgconfig}bgcolor=#000000"
+    fi
+    nitrogen_cfg="[geometry]\n"
+    nitrogen_cfg="${nitrogen_cfg}posx=640\n"
+    nitrogen_cfg="${nitrogen_cfg}posy=0\n"
+    nitrogen_cfg="${nitrogen_cfg}sizex=634\n"
+    nitrogen_cfg="${nitrogen_cfg}sizey=1051\n\n"
+    nitrogen_cfg="${nitrogen_cfg}[nitrogen]\n"
+    nitrogen_cfg="${nitrogen_cfg}view=list\n"
+    nitrogen_cfg="${nitrogen_cfg}recurse=true\n"
+    nitrogen_cfg="${nitrogen_cfg}sort=alpha\n"
+    nitrogen_cfg="${nitrogen_cfg}icon_caps=false\n"
+    nitrogen_cfg="${nitrogen_cfg}dirs=$wallpapers_dir;"
+    if [ -f "$bgconfig_file" ]; then
+	printf "[ERROR] Config file already created\n" 
+    else
+	printf "$bgconfig%s" > "$bgconfig_file"
+	printf "[INFO] Created %s config file\n" "$bgconfig_file"
+    fi
+    if [ -f "$nitrogen_cfg_file" ]; then
+	printf "[ERROR] Config file already created\n" 
+    else
+	printf "$nitrogen_cfg%s" > "$nitrogen_cfg_file"
+	printf "[INFO] Created %s config file\n" "$nitrogen_cfg_file"
+    fi
+}
+render_images() {
+    local delay1
+    local delay2
+    local files1
+    local files2
+    local process_id
+    local nxin 
+    nxin=$(xrandr -q 2>/dev/null | awk /' connected'/'{print}' | wc -l)
+    nitrogen_cfg_file="$nitrogen_cfg_dir/nitrogen.cfg"
+    bgconfig_file="$nitrogen_cfg_dir/bg-saved.cfg"
+    if [ -d "$wallpapers_dir" ] && ! [ "$(ls -A "$wallpapers_dir")" ]
+    then
+	printf "[ERROR] There'nt wallpapers to render. Exiting\n"
+	exit 1
+    fi
+    cd "$wallpapers_dir" || return
+    delay1=1200
+    delay2=600
+    files1=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+     if [ "$nxin" = "1" ]
+    then
+	nitrogen --restore --head=0;
+    else
+	nitrogen --restore --head=0;
+	nitrogen --restore --head=1;
+    fi
+
+    #monitor1
+    while :
+    do
+	for I in $files1; do
+	    nitrogen --set-scaled --head=0  "$I"
+	    sleep $delay2        
+	    #monitor2
+	    files2=$(find . -maxdepth 1 -type f -name '*' | sed 's|\.\/||gi' | shuf)
+	    for J in $files2; do
+		if [ "$I" == "$J" ]; then
+		    continue
+		else
+		    nitrogen --set-scaled --head=1  "$J"
+		    break
+		fi
+	    done
+	    sleep $delay1
+	    process_id=$!
+	    wait $process_id
+	done
+    done
+}
+if nitrogen -h
+then
+    if [ -d "$nitrogen_cfg_dir" ]; then
+	gen_nitrogen_cfg
+    else
+	printf "[ERROR] Can't find %s directory.\n" "$nitrogen_cfg_dir"
+	printf "[INFO] Creating %s directory." "$nitrogen_cfg_dir"
+	mkdir -p "$nitrogen_cfg_dir"
+	printf "\r[INFO] Creating %s directory: Done\n" "$nitrogen_cfg_dir"
+	gen_nitrogen_cfg
+    fi
+    render_images
+    exit 0
+else
+    printf "[ERROR] Nitrogen pkg not found. Pls install pkg nitrogen\n"
+    exit 1
+fi
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
@@ -98,3 +99,100 @@ bare_repo_pull() {
 #}}}
 
 "$@"
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: bare_repo_pull
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+for file in ~/bin/{dotfiles_env,config_check,dirs_config,git_config,ssh_config,get_fonts,bkp_cfg_files,stage_config}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+#backup conflicts{{{
+bkp_conflict ()
+{
+    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}"  >> "$bkpLog"                                                                                                                                           
+    conflicts=$(git_config pull origin "$branch" 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}') 
+    #git_config pull origin $branch 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup
+    echo "conflicts $conflicts" >> "$bkpLog"
+    for file in $conflicts
+    do     
+	mv "$HOME"/"$file" "$HOME"/"$file".backup &>> "$bkpLog"
+    done  
+    cmOk "Checking and backup files"
+    cInfo "Move .backup files to:" "$bkpdir"
+    bkp_cfg_files  
+    cmOk "Clean"
+    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+}
+##}}}
+#{{{ fetch
+bare_repo_fetch() {
+    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"                                                                                                                                           
+    cInfo "Get config from remote(fetch) to:" "fetch and merge recursive(theirs) [--bare-repo] "
+    backto=$(pwd)
+    cd "$HOME" || return
+    git_config rebase --abort
+    if git_config fetch --all &>> "$bkpLog"
+    then
+	git_config merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
+
+	if config_check tests ;then
+	    cmOk "Files check"
+	else
+	    cError "Files check"
+	fi
+
+	cInfo "Git pull, branch" "$branch" "(--bare)"
+	cmOk "Git pull"
+    else
+	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Exit with error."
+	printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+	exit 1
+    fi
+    cd "$backto" || return
+    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+}
+##}}}
+#pull {{{
+bare_repo_pull() {
+    printf "[INFO]### %s beginning ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"                                                                                                                                           
+    cInfo "Get config from remote(pull) to:" "pull --bare-repo"
+    backto=$(pwd)
+    cd "$HOME" || return
+    sync_branch    
+    prepare
+    git_config fetch --all &>> "$bkpLog"
+    
+    if git_config pull -X theirs origin "$branch" &>> "$bkpLog"
+    then
+	config_check tests
+
+	cInfo "Git pull, branch" "$branch" "(--bare)"
+	cmOk "Git pull"
+    else
+	cError "${LINENO}:Config pull error(logs):" "$bkpLog" "; Backup conflicts, reset and try again"
+
+	bkp_conflict 
+
+	if git_config pull -X theirs origin "$branch" &>> "$bkpLog"
+	then
+	    config_check tests
+	    cInfo "Git pull config, branch" "$branch" "(--bare)"
+	    cmOk "Git pull"
+	else
+	    cError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
+	    bare_repo_fetch
+	fi
+    fi
+    cd "$backto" || return
+    printf "[INFO]### %s all done ### bare_repo_pull ###\n" "${FUNCNAME[0]}" >> "$bkpLog"
+}
+#}}}
+
+"$@"
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

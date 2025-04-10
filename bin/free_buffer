@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # shellcheck source=dotfiles_env
 . dotfiles_env
@@ -35,3 +36,44 @@ clnInfo "Clean swap. 30 seg."
 sudo swapoff -a && sleep 30 && sudo swapon -a;
 clnInfo "Clean swap. Done."
 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+# Need execs with privileges
+# Font: TECMINT Blog 
+# https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/
+printf "Clean swap buffer \n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Clean swap buffer
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to clean swap buffers.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+sync;echo "echo 1 > /proc/sys/vm/drop_caches";
+clnInfo "echo 1 executed"
+
+clnInfo "Clean swap. 30 seg."
+sudo swapoff -a && sleep 30 && sudo swapon -a;
+clnInfo "Clean swap. Done."
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

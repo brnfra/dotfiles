@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
 # Copyright (C) 2014 Alexander Keller <github@nycroth.com>
@@ -140,3 +141,150 @@ get_block() {
 }
 
 get_block "$volume"
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
+# Copyright (C) 2014 Alexander Keller <github@nycroth.com>
+# Copyright (C) 2023 Bruno Franco <github@brnfra.com>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# $ fc-list command to list fonts
+source ~/.i3/i3blocks/vars
+
+icon_mute='&#xf131; X'
+icon95='&#xf130; &#9608;'
+icon75='&#xf130; &#9610;'
+icon50='&#xf130; &#9612;'
+icon25='&#xf130; &#9614;'
+icon_low='&#xf130; &#9615;'
+icon_zero='&#xf130; |  '
+
+#------------------------------------------------------------------------
+# The second parameter overrides the mixer selection
+# For PulseAudio users, use "pulse"
+# For Jack/Jack2 users, use "jackplug"
+# For ALSA users, you may use "default" for your primary card
+# or you may use hw:# where # is the number of the card desired
+MIXER="default"
+[ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
+[ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
+MIXER="${2:-$MIXER}"
+# The instance option sets the control to report and configure
+# This defaults to the first control of your selected mixer
+# For a list of the available, use `amixer -D $Your_Mixer scontrols`
+SCONTROL="${BLOCK_INSTANCE:-$(amixer -D $MIXER scontrols |
+    sed -n "s/Simple mixer control '\([A-Za-z ]*\)',0/\1/p" |
+    tail -n1
+    )}"
+    #debian ubuntu manjaro etc
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    #------------------------------------------------------------------------
+    # The first parameter sets the step to change the volume by (and units to display)
+    # This may be in in % or dB (eg. 5% or 3dB)
+    STEP="${1:-5%}"
+    #------------------------------------------------------------------------
+    #Using pactl    {{{
+    nsinks=$(pactl list short sinks | wc -l)
+    if [[ $nsinks -gt 1 ]];then
+	pa_source_adp="$(pactl list short sinks | sed -n '2p' | awk '{print $2}')"
+	pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
+    else
+	pa_source_adp="$(pactl list short sinks | awk '{print $2}')"
+	pa_source_mic="$(pactl list short sources | grep "$pa_source_adp" | awk '{print $1}')"
+    fi
+    pa-volume-mic() {
+    #in
+    pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}'
+    vol=$(pactl get-source-volume "$pa_source_mic" | grep Volume | awk '{print $5}')
+    vol=${vol%\%*}
+    if [[ $vol -ge 95 ]]
+    then
+	pactl set-source-volume "$pa_source_mic" 95%
+    fi
+}
+pa-mute-mic() {
+#is mute?
+pactl get-source-mute "$pa_source_mic" | cut -d ":" -f 2
+}
+#------------------------------------------------------------------------
+#}}}
+capability() { # Return "Capture" if the device is a capture device
+    amixer -D "$MIXER" get "$SCONTROL" |
+	sed -n "s/  Capabilities:.*cvolume.*/Capture/p"
+    }
+    volume() {
+	amixer -D $MIXER get $SCONTROL $(capability)
+    }
+    format() {
+	perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
+	perl_filter+='{CORE::say $4 eq "off" ? "MUTE" : "'
+	# If dB was selected, print that instead
+	perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+	perl_filter+='"; exit}'
+	perl -ne "$perl_filter"
+    }
+    if [ "$osys" = "ubuntu" ]
+    then
+	case $BLOCK_BUTTON in
+	    3) pactl set-source-mute $pa_source_mic toggle ;;  # right click, mute/unmute
+	    4) pactl set-source-volume $pa_source_mic  +${STEP}  ;; # scroll up, increase
+	    5) pactl set-source-volume $pa_source_mic  -${STEP}  ;; # scroll down, decrease
+	esac
+    else
+	case $BLOCK_BUTTON in
+	    3) amixer -q -D $MIXER sset $SCONTROL $(capability) toggle ;;  # right click, mute/unmute
+	    4) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}+ unmute ;; # scroll up, increase
+	    5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
+	esac
+    fi
+    #------------------------------------------------------------------------
+    if [ "$osys" = "ubuntu" ]
+    then
+	vmute="$(pa-mute-mic)"
+	vmute=$(echo $vmute | sed 's/^\s//g;s/\s$//g')
+	volume="$(pa-volume-mic)"
+	volume=$(echo $volume | sed 's/^\s//g;s/\s$//g')
+	volume="${volume::-1}"
+	res="yes"
+    else
+	vmute="$(volume | format)"
+	volume="${vmute::-1}"
+	res="MUTE"
+    fi
+  get_block() {
+    if [ "$vmute" = "$res" ]; then
+	printf "%s\n" "<span $font $red $icon_size > $icon_mute </span>"
+	exit 0
+    elif (( volume >= 0 )) && (( volume <= 5 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon_zero </span>"
+	exit 0
+    elif (( volume > 5 )) && (( volume <= 15 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon_low </span>"
+	exit 0
+    elif (( volume > 15 )) && (( volume <= 35 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon25 </span>"
+	exit 0
+    elif (( volume > 35 )) && (( volume <= 65 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon50 </span>"
+	exit 0
+    elif (( volume > 65 )) && (( volume <= 85 )) ; then
+	printf "%s\n" "<span $font $green $icon_size > $icon75 </span>"
+	exit 0
+    elif (( volume > 85 )); then
+	printf "%s\n" "<span $font $green $icon_size > $icon95 </span>"
+	exit 0
+    fi
+}
+
+get_block "$volume"
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

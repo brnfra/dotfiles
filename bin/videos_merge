@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: videos_merge
 # Autor: Bruno Franco
@@ -79,3 +80,87 @@ else
 fi
 clnInfo "Merge Success"
 exit 0
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: videos_merge
+# Autor: Bruno Franco
+# Ultima_modificacao: 02-11-2023
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#to merge mp4 video files using ffmpeg and concat demux
+#search files in current folder
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+printf "Create a video mp4 file from files(required files in ordered names).\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Create a video mp4 file from files(required files in ordered names).
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    Create a video mp4 file from files(required files in ordered names) using ffmpeg program(required). Files in same folder(current only).
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+mp4_fl="mp4_files_list"
+intermediates=""
+if ls ./*.mp4;
+then
+    find . -maxdepth 1 -type f -name '*.mp4' |  sed 's|\.\/||gi' | sort -d > "$mp4_fl"
+    mp4_files_list=$(cat mp4_files_list)
+    #echo "" > "$fmpg_fl"
+    DEFAULT_IFS=$IFS
+    IFS=$'\n'
+    names_mp4=( $mp4_files_list )
+    IFS=$DEFAULT_IFS
+    lenght=${#names_mp4[@]}
+    clnInfo "Merging  mp4's files..."
+    if command -v ffmpeg &> /dev/null
+    then
+	    for(( i=0; i < lenght; i++))
+	    do
+		if ffmpeg -i ${names_mp4[$i]} -qscale:v 1 "intermediate$i"".mpg"
+		then #intermediates="${intermediates}intermediate$i"".mpg "
+		     intermediates="${intermediates}intermediate$i"".mpg|"
+	        else
+		     #clean and exit from fail
+	             eval "rm -f intermediate*"
+	             rm -f ./$mp4_fl
+                     cError "${LINENO}: ffmpeg fail to convert."
+		     clnItalic "${names_mp4[$i]}"
+		fi
+	    done
+
+	#eval "cat $intermediates" > intermediate_all.mpg
+	eval "ffmpeg -i concat:\"$intermediates\" -c copy intermediate_all.mpg"
+	ffmpeg -i intermediate_all.mpg -qscale:v 2 merged.mp4
+	#Clean
+	eval "rm -f intermediate*"
+	rm -f ./$mp4_fl
+    else
+	clnError "FFMPEG not found."
+	rm -f ./$mp4_fl
+	exit 1
+    fi
+else
+    clnError "There isn't .mp4 files"
+    exit 2
+fi
+clnInfo "Merge Success"
+exit 0
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

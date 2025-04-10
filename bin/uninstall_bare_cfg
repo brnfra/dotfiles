@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 #  Arquivo: uninstall_bare_cfg
 #  Autor: Bruno Franco
@@ -76,3 +77,78 @@ restaure_bkp
 rem_dirs
 printf "[INFO]%s uninstalling. All done at %s \n" "${FUNCNAME[0]}" "$(date)" 
 cd "$HOME" || return
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+#  Arquivo: uninstall
+#  Autor: Bruno Franco
+#  Ultima_modificacao: 12-03-2023
+#  Download: git@github.com:brnfra
+#  Licence:Este arquivo é de domínio público
+#  Garantia: O autor não se responsabiliza por eventuais danos
+#            causados pelo uso deste arquivo.
+
+bkpdir="$HOME"/.config-bkp
+
+# restaure *.backup
+restaure_bkp() {
+    folders=".bash "
+    folders+=".config/nvim "
+    folders+=".config/vifm "
+    folders+=".config/vifm/scripts "
+    folders+=".config/vifm/colors "
+    folders+=".config/xfce4/terminal "
+    folders+=".i3 "
+    folders+=".i3/autostart  "
+    folders+=".i3/i3blocks "
+    folders+=".config/rofi "
+    folders+=".config/rofi/themes "
+    folders+=".config/ranger "
+    folders+=".config/compton "
+    folders+="bin "
+    folders+="tests "
+
+    printf "[INFO] Undone configs installation\n"
+
+    find "$bkpdir" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME"
+    for Folder in $folders; do
+	find "$bkpdir/$Folder" -maxdepth 1 -name "*.backup" -type f | xargs -I {} mv {} "$HOME/$Folder"
+    done
+    for Folder in $folders; do
+	files=$(find "$HOME/$Folder" -maxdepth 1 -name "*.backup" -type f)
+	for File in $files; do
+	    name=${File%.backup}
+	    mv "$File" "$name"
+	done
+    done
+    files=$(find "$HOME" -maxdepth 1 -name "*.backup" -type f)
+    for File in $files; do
+	name=${File%.backup}
+	mv "$File" "$name"
+    done
+}
+# clean
+rem_dirs() {
+    folder_list="$HOME/.wallpapers"
+    folder_list+=" $HOME/.config-bkp"
+    folder_list+=" $HOME/.dotfiles"
+    folder_list+=" $HOME/example"
+    folder_list+=" $HOME/bin"
+    folder_list+=" $HOME/tests"
+    printf "[INFO] Uninstalling dotfiles\n"
+    for Folder in $folder_list
+    do
+	if [ -d "$Folder" ]
+	then
+	    rm -rf "$Folder"
+	else
+	    printf "%s not found.\n" "$Folder"
+	fi
+    done
+}
+
+restaure_bkp
+rem_dirs
+printf "[INFO] Done.\n"
+cd "$HOME" || return
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

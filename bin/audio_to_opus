@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: audio_to_opus
 # Autor: Bruno Franco
@@ -135,3 +136,143 @@ fi
 
 
 
+||||||| empty tree
+=======
+#!/usr/bin/env bash
+# Arquivo: audio_to_opus
+# Autor: Bruno Franco
+# Ultima_modificacao: 01-01-2024
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=~/bin/dotfiles_env
+. dotfiles_env
+
+
+clnInfo "Convert audio to opus audio files"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - convert files(audio or video) to opus
+
+SYNOPSIS
+    ${0##*/} {-aAh| --help | filename }
+
+DESCRIPTION
+    Convert files to opus audio file using FFmpeg. From audio format files and some videos format files accepet in Opus encoder 
+    codec. The bitrate is 34k. For more info: http://ffmpeg.org/ffmpeg-codecs.html#libopus-1
+
+    To convert specific audio format
+	${0##*/} file_name.mp3
+	output: ./file_name.opus
+    To compress all images in current folder
+	${0##*/} -a
+	Will create a folder compressed and and set output there.
+	output: ./opus/file_name.opus
+
+OPTIONS
+    -a,A
+	To convert all mp3 audio files in current folder to opus
+    -h,--help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      no valid files(ffmpeg not compatible).
+
+       2      ffmpeg is not installed.
+
+       3      no file selected.
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+saveDir='./opus'
+ffmpeg_opus='-b:a 34k -acodec libopus'
+
+if ! command -v ffmpeg &> /dev/null
+then
+    clnError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    exit 2
+fi
+
+if [[ "$1" == "" ]]; then
+    clnError "No file selected."
+    audio_to_opus -h
+    exit 3
+
+fi
+
+clnInfo "${0##*/}"
+namestd 1> /dev/null
+if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
+    # Create the output directory if it doesn't exist
+    if [ ! -d "$saveDir" ]
+    then
+	mkdir -p "$saveDir"
+    fi
+    FILES_LIST=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi' | sort )
+
+    DEFAULT_IFS=$IFS
+    IFS=$'\n'
+    files_list=( $FILES_LIST )
+    IFS=$DEFAULT_IFS
+
+    lenght=${#files_list[@]}
+    FORMAT=''
+    # is audio or video
+    for(( i=0; i < lenght; i++))
+    do
+	FORMAT=$(file -b --mime-type "${files_list[$i]}" | cut -d '/' -f1 )
+	if [[ "$FORMAT" == "audio" ]] || [[ "$FORMAT" == "video" ]]
+	then
+	    echo "${files_list[$i]}">>files_list
+	fi
+    done
+    #    find . -maxdepth 1 -type f -name '*.wma' | sed 's|\.\/||gi' >> files_list
+    if [ -s files_list ]
+    then
+	files=$(cat files_list)
+	for file in $files
+	do
+	    name="$file"
+	    name=${name%.*}
+	    if [ -d "$saveDir" ] && [ -e "$file" ] && [ -s "$file" ]; then
+		eval ffmpeg -i "$file" "$ffmpeg_opus" "${saveDir}/${name}.opus"
+	    elif [ -e "$file" ] && [ -s "$file" ]; then
+		eval ffmpeg -i "$file" "$ffmpeg_opus" "${name}.opus"
+	    fi
+	done
+	rm files_list
+    else
+	rm files_list
+	printf "No valid files.\n"
+	exit 1
+    fi
+
+else
+    find . -maxdepth 1 -type f -name "$1" | sed 's|\.\/||gi'
+    name="$1"
+    name=${name%.*}
+    if [ -e "$1" ] && [ -s "$1" ]; then
+	eval ffmpeg -i "$1" "$ffmpeg_opus" "${name}.opus"
+    else
+	clnError "$1 is not a valid file."
+	exit 1
+    fi
+
+fi
+
+
+
+
+
+
+>>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794
