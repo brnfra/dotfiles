@@ -13,7 +13,7 @@ backto=$(pwd)
 # make executables in src/ visible to PATH
 # Color {{{ 
 # escape
-E='\e['
+E='\033['
 italic="${E}3m"
 reset="${E}0m"
 bold="${E}1m"
@@ -155,6 +155,9 @@ cd "$HOME" || return
 cInfo "Installing" "brnfra" "dotfiles."
 
 install_check
+
+cInfo "Create: " "$dotfiles_dir"
+mkdir -p "$dotfiles_dir"
 cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
     cmOk "Git clone"
