@@ -48,9 +48,17 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 
 ## TODO
 
-- [ ] Make scripts to generate configs(i3blocks, vim,  etc)
+- [ ] Use dotfiles_env to get base for the tests etc
+- [x] optimize for-loops on stage(stow)
+- [x] All pushes have to be from cloned folder(not and from bare or Home)(stow)
+- [ ] Make scripts to generate configs (i3blocks, vim, etc) 
 - [x] Script to generate I3 config 
-- [x] Add new tests
+- [ ] Add test to check logical order in scripts 
+- [ ] Add test to check if there are required commands
+- [ ] Add test to check output from i3blocks
+- [ ] optmize to use stow
+- [ ] check backup in stow installation
+
 
 <br>
 
