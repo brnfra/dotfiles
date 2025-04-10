@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 
 #git
-branch="testing"
+branch="main"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
@@ -253,81 +252,3 @@ clnItalic() {
 }
 # }}}
 
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-
-#git
-branch="testing"
-user_name="brnfra"
-repository="https://github.com/$user_name/dotfiles.git"
-dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
-email="devlabbr@gmail.com"
-install_dir="$HOME/.dotfiles"
-#backup
-bkpLog="$HOME/.config-bkp/stage-bkp.log"
-bkpdir="$HOME/.config-bkp"
-#tests
-checkAll="$HOME/test/dotfilesTest.bats"
-checkHome="$HOME/test/testHomeConfigFiles.bats"
-# enviroment
-fonts_path="$HOME/.local/share/fonts"
-i3_cfg="$HOME/.i3/config"
-i3_scpt="$HOME/bin/i3_config"
-# wallpaper
-wallpapers_dir="$HOME/.wallpapers"
-nitrogen_cfg_dir="$HOME/.config/nitrogen"
-
-# Color {{{ 
-# escape
-E='\e['
-italic="${E}3m"
-reset="${E}0m"
-bold="${E}1m"
-# Set foreground colors
-red="${E}31m"
-green="${E}32m"
-cyan="${E}36m"
-grey="${E}2m"
-
-cInfo() {
-    printf "%b%s%b" "$grey" "[INFO]" "$reset " 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
- 
-}
-cError() {
-    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
- 
-}
-cItalic() {
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
-    printf "%s" "$2"
-}
-cOk() {
-    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
-    printf "%s" "$1"
-}
-cmOk() {
-    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
-    printf "%s\n" "$1" 
-}
-clnInfo() {
-    printf "%b%s%b " "$grey" "[INFO]" "$reset" 
-    printf "%s\n" "$1" 
-}
-clnError() {
-    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
-    printf "%s\n" "$1" 
-}
-clnItalic() {
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
-    printf "%s\n" "$2"
-}
-# }}}
-
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

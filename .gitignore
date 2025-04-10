@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .dotfiles
 README.md.backu
 .DS_Store
@@ -47,33 +46,4 @@ xmonad.op
 .config/xfce4/terminal/accels.scm
 .vim/backups
 .vim/backups/*
-||||||| empty tree
-=======
-README.md.backu
-.DS_Store
-.bin/cliclick
-.bin/micro
-.bin/ngrok
-.git-sendemail*
-.vim-flavor/
-.vim/.netrwhist
-/doc/tags
-/doc/tags
-VimFlavor.lock
-bin/cliclick
-bin/docker*
-bin/fig
-bin/packer
-bin/packer-*
-bin/terraform
-bin/terraform-*
-tags
-xmonad-i386-linux
-xmonad.errors
-xmonad.hi
-xmonad.op
-.config/ranger/plugins
-.config/ranger/__pycache__
-.bash/color_list.txt
 
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

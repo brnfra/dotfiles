@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: git_config
 # Autor: Bruno Franco
@@ -50,54 +49,3 @@ git_env() {
     fi
 
 }
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-# Arquivo: git_config
-# Autor: Bruno Franco
-# Ultima_modificacao: 23-12-2023
-# Download: git@github.com:brnfra
-# Licence:Este arquivo é de domínio público
-# Garantia: O autor não se responsabiliza por eventuais danos
-#           causados pelo uso deste script.
-# shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
-
-git_bare() {
-    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
-}
-
-git_repo() {
-    git --git-dir="$dotfiles_dir/.git" --work-tree="$dotfiles_dir" "$@"
-}
-
-git_config() {
-    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
-}
-
-git_env() {
-    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
-    #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
-    if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-	if dpkg -s git &> /dev/null
-	then
-	    git config --global user.email "$email"
-	    git config --global user.name "$user_name"
-	    cmOk "Edit git enviroments. Username and e-mail."
-	else
-	    clnError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
-	    exit 1
-	fi
-    elif [ "$osys" = "manjaro" ]; then
-	if git config --global user.email "$email"; then
-	    git config --global user.name "$user_name"
-	    cmOk "Edit git enviroments. Username and e-mail."
-	else
-	    clnError "Add git config: Git installation needed. Run pacman install git or read output for problems"
-	    exit 1
-	fi
-    fi
-
-}
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [Configuration]
 ColorCursor=#d7d7e7e7d3d3
 ColorForeground=#d7d7e7e7d3d3
@@ -47,52 +46,3 @@ BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
 MiscRightClickAction=TERMINAL_RIGHT_CLICK_ACTION_CONTEXT_MENU
 BackgroundDarkness=0.800000
 
-||||||| empty tree
-=======
-[Configuration]
-ColorCursor=#d7d7e7e7d3d3
-ColorForeground=#d7d7e7e7d3d3
-ColorBackground=#161618181919
-ColorPalette=#090912121717;#dcdc6a6a6a6a;#525295954a4a;#ffff7f7f0000;#3b3b6363a8a8;#fefe5858c7c7;#5656b7b7b4b4;#b8b8bcbcb1b1;#909090909090;#d1d141414141;#6161e2e22e2e;#ffffb8b80000;#1515a1a1e4e4;#b1b14d4dffff;#1b1bdadad4d4;#d5d5e4e4d0d0
-ColorBold=#1c1c7171d8d8
-MiscAlwaysShowTabs=FALSE
-MiscBell=FALSE
-MiscBellUrgent=FALSE
-MiscBordersDefault=TRUE
-MiscCursorBlinks=FALSE
-MiscCursorShape=TERMINAL_CURSOR_SHAPE_BLOCK
-MiscDefaultGeometry=80x24
-MiscInheritGeometry=FALSE
-MiscMenubarDefault=FALSE
-MiscMouseAutohide=TRUE
-MiscMouseWheelZoom=TRUE
-MiscToolbarDefault=FALSE
-MiscConfirmClose=TRUE
-MiscCycleTabs=TRUE
-MiscTabCloseButtons=TRUE
-MiscTabCloseMiddleClick=TRUE
-MiscTabPosition=GTK_POS_TOP
-MiscHighlightUrls=TRUE
-MiscMiddleClickOpensUri=FALSE
-MiscCopyOnSelect=FALSE
-MiscShowRelaunchDialog=TRUE
-MiscRewrapOnResize=TRUE
-MiscUseShiftArrowsToScroll=FALSE
-MiscSlimTabs=FALSE
-MiscNewTabAdjacent=FALSE
-MiscSearchDialogOpacity=100
-MiscShowUnsafePasteDialog=TRUE
-TabActivityColor=#ffffa3a34848
-ShortcutsNoHelpkey=TRUE
-ShortcutsNoMenukey=TRUE
-ShortcutsNoMnemonics=TRUE
-FontName=Monofur NF 15
-ScrollingOnOutput=FALSE
-ScrollingBar=TERMINAL_SCROLLBAR_NONE
-ColorCursorForeground=#9999c1c1f1f1
-ColorSelection=#f6f6f5f5f4f4
-ColorSelectionBackground=#4dad4a114f5b
-ColorBoldIsBright=FALSE
-ScrollingLines=9000
-
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

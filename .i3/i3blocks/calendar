@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 
 source ~/.i3/i3blocks/vars
@@ -15,15 +14,3 @@ case "$BLOCK_BUTTON" in
   ;;
 esac
 echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M:%S') </span>"
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-
-source ~/.i3/i3blocks/vars 
-
-case "$BLOCK_BUTTON" in
-  1|2|3) 
-    i3-msg 'exec gsimplecal' > /dev/null ;;
-esac
-echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M') </span>"
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

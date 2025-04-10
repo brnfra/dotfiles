@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 
 source ~/.i3/i3blocks/vars
@@ -21,22 +20,3 @@ else
     output="<span $font $yellow $size $weight >↑($check Pkgs)</span>"
 fi
 echo "$output"
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-
-source ~/.i3/i3blocks/vars
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    check="$(expr $(apt list --upgradeable | wc -l) - 1)"
-elif [ "$osys" = "manjaro" ]; then
-    check="$(checkupdates | wc -l)"
-fi
-
-if [ "$check" -lt 1 ]; then
-    output="<span $font $green $size $weight > No Updates </span>"
-else
-    output="<span $font $orange $size $weight > ↑($check Pkgs) </span>"
-fi
-echo "$output"
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: enviroment_config
 # Autor: Bruno Franco
@@ -51,65 +50,3 @@ ssh_env
 if which i3 &> /dev/null ;then
     bash ~/bin/i3_config
 fi
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-# Arquivo: enviroment_config
-# Autor: Bruno Franco
-# Ultima_modificacao: 30-12-2023
-# Download: git@github.com:brnfra
-# Licence:Este arquivo é de domínio público
-# Garantia: O autor não se responsabiliza por eventuais danos
-#           causados pelo uso deste script.
-# shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
-printf "Make enviroment config \n"
-
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-${0##*/}
-
-NAME
-    ${0##*/}  - Make enviroment config 
-
-SYNOPSIS
-    ${0##*/} [-h] --help
-
-DESCRIPTION
-    Make enviroment config. Make dirs, config git and ssh enviroment variables, get fonts from web and config i3.
-
-    -h, --help
-	Print help informations
-
-See the README for documentation.
-https://github.com/brnfra/dotfiles
-Licensed under the MIT license.
-HELP
-exit; fi
-
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-
-for file in ~/bin/{dotfiles_env,dirs_config,git_config,ssh_config,get_fonts}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
-clnInfo "${0##*/}"
-clnInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and download fonts."
-make_dirs
-git_env
-ssh_env
-get_fonts
-i3_config
-if git clone "$repository" "$dotfiles_dir"; then
-    cmOk "Clone remote in: " "$dotfiles_dir"
-else
-    clnError "Can't clone repository"
-    exit 1
-fi
-
-if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
-    i3_config
-elif [ "$osys" = "manjaro" ]; then
-    echo "preparing i3 config"
-fi
-
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794

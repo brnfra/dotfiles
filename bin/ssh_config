@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
 # Arquivo: ssh_config
 # Autor: Bruno Franco
@@ -53,60 +52,3 @@ case $1 in
     ssh_env) "$@"; exit;;
     ssh_connect) "$@"; exit;;
 esac
-||||||| empty tree
-=======
-#!/usr/bin/env bash
-# Arquivo: ssh_config
-# Autor: Bruno Franco
-# Ultima_modificacao: 25-12-2023
-# Download: git@github.com:brnfra
-# Licence:Este arquivo é de domínio público
-# Garantia: O autor não se responsabiliza por eventuais danos
-#            causados pelo uso deste arquivo.
-# shellcheck source=~/bin/dotfiles_env
-. dotfiles_env
-
-ssh_env() {
-    clnInfo "${0##*/}"
-    #setup ssh
-    #by  nishanthshanmugham and lhunath
-    #in https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
-    
-    if ssh -V &> /dev/null
-    then
-	if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
-	then
-	    clnInfo "Creating pub keys: ssh-agent in use."
-	else
-	    eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/${user_name}_key_ecdsa";  wait $!
-	    eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/${user_name}_key_ecdsa"
-	fi
-	cmOk "Edit ssh enviroments. keygen and agent."
-    else
-	clnError "Creating pub keys: SSH installation needed. Install ssh or read output for problems"
-	exit 2
-    fi
-
-}
-
-ssh_connect() {
-  clnInfo "ssh_config"
-  ssh -T git@github.com 
-
-  if [ $? == 1 ]; then
-    # user is authenticated, but fails to open a shell with GitHub 
-    return 0
-  elif [ $? == 255 ]; then
-    clnError "user is not authenticated"
-    return 1
-  else
-    clnError "unknown exit code in attempt to ssh into git@github.com"
-  fi
-  return 2
-}
-
-case $1 in
-    ssh_env) "$@"; exit;;
-    ssh_connect) "$@"; exit;;
-esac
->>>>>>> 73aac843cbd85b5133698836c50b29330cbd7794
