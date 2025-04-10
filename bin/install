@@ -91,7 +91,7 @@ install_check() {
 	cd "$DIR" || return
 	PATH="$DIR/../src:$PATH"
 
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/dotfiles_env"
 	then
 	    # shellcheck source=dotfiles_env
 	    source dotfiles_env
