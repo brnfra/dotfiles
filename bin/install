@@ -176,7 +176,8 @@ if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_
     printf "[INFO] Script %s - finish.\n" "${0##*/}"  
 else
     cError "Can't clone repository"
-    printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}" 
+    printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}"
+    cat "$bkpLog" 
     exit 1
 fi
 
