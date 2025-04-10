@@ -18,14 +18,16 @@ setup() {
 #	 [ "${BranchGetFromTest}" = "${result}" ]
 #}
 
-@test "InstallSiteCheckHome" {
-    site="$(cat $HOME/bin/install | sed '/githubusercontent/!d;q' | cut -d "\"" -f 2)"
+@test "CheckResponseFromRepoSite" {
+    get_branch_from_install="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
+    site="https://raw.githubusercontent.com/brnfra/dotfiles/${get_branch_from_install}/bin/dotfiles_env"
+
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
     result="200"
 	[ "${response}" = "${result}" ]
     }
 
-@test "InstallParamsRepoCheck" {
+@test "CheckIfBranchClonedIsTheSameFromInstallScript" {
    # BranchGetFromTest="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
     BranchGetFromTest="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
@@ -33,10 +35,10 @@ setup() {
 	[ "${BranchGetFromTest}" = "${result}" ]
     }
 
-@test "InstallSiteCheckRepo" {
-    site="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;q' | cut -d "\"" -f 2)"
-    response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
-    result="200"
-	[ "${response}" = "${result}" ]
-    }
+#@test "InstallSiteCheckRepo" {
+#    site="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;q' | cut -d "\"" -f 2)"
+#    response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
+#    result="200"
+#	[ "${response}" = "${result}" ]
+#    }
 

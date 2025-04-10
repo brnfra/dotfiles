@@ -45,7 +45,7 @@ git_branch() {
 # }}}
 # Set Colors {{{
 # Color
-E='\e['
+E='\033['
 
 italic="\[${E}3m\]"
 reset="\[${E}0m\]"

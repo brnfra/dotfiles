@@ -202,7 +202,7 @@ files+=' test/testRepoI3Config.bats'
 
 # Color {{{ 
 # escape
-E='\e['
+E='\033['
 italic="${E}3m"
 reset="${E}0m"
 bold="${E}1m"
@@ -213,26 +213,18 @@ cyan="${E}36m"
 grey="${E}2m"
 
 cInfo() {
-    printf "%b%s%b" "$grey" "[INFO]" "$reset " 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
-
+    printf "${grey}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n"  "[INFO]" "$1" "$2" "$3"
 }
 cError() {
-    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
-
+    printf "${red}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n" "[FAIL]" "$1" "$2" "$3"
 }
+cOk() {
+    printf "${green}%s ${reset}%s\n" "[ OK ]" "$1"
+}
+
 cItalic() {
     printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
     printf "%s" "$2"
-}
-cOk() {
-    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
-    printf "%s" "$1"
 }
 cmOk() {
     printf "%b%s%b " "$green" "[ OK ]" "$reset" 

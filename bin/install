@@ -23,33 +23,16 @@ red="${E}31m"
 green="${E}32m"
 cyan="${E}36m"
 grey="${E}2m"
-
 cInfo() {
-    printf "%b%s%b" "$grey" "[INFO]" "$reset " 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
-
+    printf "${grey}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n"  "[INFO]" "$1" "$2" "$3"
 }
 cError() {
-    printf "%b%s%b " "$red" "[FAIL]" "$reset" 
-    printf "%s" "$1" 
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$2" "$reset" 
-    printf "%s\n" "$3" 
-
-}
-cItalic() {
-    printf "%b%b%b %s%b " "$cyan" "$bold" "$italic" "$1" "$reset" 
-    printf "%s" "$2"
+    printf "${red}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n" "[FAIL]" "$1" "$2" "$3"
 }
 cOk() {
-    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
-    printf "%s" "$1"
+    printf "${green}%s ${reset}%s\n" "[ OK ]" "$1"
 }
-cmOk() {
-    printf "%b%s%b " "$green" "[ OK ]" "$reset" 
-    printf "%s\n" "$1" 
-}
+
 #}}}
 #install_check {{{
 install_check() {
@@ -105,7 +88,7 @@ install_check() {
 	mkdir -p "${HOME}/${dir}"
 	cInfo "Created" "$dotfiles_dir" "folder".
     else
-	cmOk "Folder" "$dotfiles_dir" 
+	cOk "Folder" "$dotfiles_dir" 
     fi
   
     cInfo "${FUNCNAME[0]}" "Done"
@@ -126,7 +109,7 @@ backup_cfg_files() {
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
-	    cmOk "$dir"
+	    cOk "$dir"
 	else
 	    cError "$dir"
 	fi
@@ -137,7 +120,7 @@ backup_cfg_files() {
 	if [ -f $file ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cmOk "$file"
+		cOk "$file"
 	    else
 		cError "$file"
 	    fi
@@ -161,7 +144,7 @@ cInfo "Create: " "$dotfiles_dir"
 mkdir -p "$dotfiles_dir"
 cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
-    cmOk "Git clone"
+    cOk "Git clone"
 
     backup_cfg_files
     
