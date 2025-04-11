@@ -10,15 +10,6 @@
 <img src="https://img.shields.io/github/last-commit/brnfra/dotfiles" />
 </p>
 
-<br>
-
-_This code was provided by_ ;
-- originally by user ___StreakyCobra___ in an [Hacker News thread](https://news.ycombinator.com/item?id=11070797)
-- In a wonderful tutorial by ___[Nicola Paolucci](https://www.atlassian.com/git/tutorials/dotfiles)___
-Thank you guys for sharing :heart:
-- Tests by __[Bats](https://github.com/bats-core/bats-core)__
-<br>
-
 ## Sumary
 
 - [Requirements](https://github.com/brnfra/dotfiles#requirements)
@@ -35,8 +26,7 @@ Thank you guys for sharing :heart:
 
 ## Using git to manage config files.
 
-<span>
-<img src="https://github.com/brnfra/dotfiles/blob/12025cb58e928e3df080e234e2ff3ce971efac39/images/print_screen1.png" width=900 height=500 /></span>
+<span><img src="https://github.com/brnfra/dotfiles/blob/12025cb58e928e3df080e234e2ff3ce971efac39/images/print_screen1.png" width=900 height=500 /></span>
 
 ### Main config
 
@@ -49,16 +39,16 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 ## TODO
 
 - [ ] Use dotfiles_env to get base for the tests etc
-- [x] optimize for-loops on stage(stow)
-- [x] All pushes have to be from cloned folder(not and from bare or Home)(stow)
+- [x] optimize for-loops on backup(stow)
 - [ ] Make scripts to generate configs (i3blocks, vim, etc) 
 - [x] Script to generate I3 config 
 - [ ] Add test to check logical order in scripts 
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
+- [ ] add check bash vars to testing
 - [ ] optmize to use stow
 - [ ] check backup in stow installation
-
+- [ ] Uninstall and back config
 
 <br>
 
@@ -67,17 +57,20 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - Git
 - Ssh 
 - Curl
+- bats (for tests)
 
 ## How to install
  
-This method consist to use git to track your config files. **You don't have to install extra tool**, only need git, ssh(coreutils) and curl.
-Install config tracking in your **$HOME** following the command;
+This method consist to use git to track your config files. 
+Install config tracking in your computer following the commands;
 
-1. Fork this repository.
+1. Fork/clone this repository.
 
-2. Edit ```~/bin/dotfiles_env``` file to put your repository url, branch name, email and name.
+2. Edit ```~/bin/dotfiles_env``` file to put your repository url, branch name, email, user name and path where dotfiles will be installed.
 
-3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ).
+3. Update your remote forked repository (push changes) and execute script bellow ( **check your username** ) or use default(bare git) or testing(stow aproatch) script.
+
+4. Execute `bin/install` script. 
 
 
 If Desktop/Virtual/Notebooks, after clone, copy/paste in terminal [EDIT YOUR_USER_NAME];
@@ -85,19 +78,18 @@ If Desktop/Virtual/Notebooks, after clone, copy/paste in terminal [EDIT YOUR_USE
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
 
-If Desktop/Virtual/Notebooks, copy/paste in terminal(*DEFAULT*);
+If Desktop/Virtual/Notebooks, copy/paste in terminal(*MAIN*);
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install)";
 ```
 
-If _testing_, copy/paste in terminal(*DEFAULT*);
+If _testing_, copy/paste in terminal(*TESTING*);
 ```bash
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/install)";
 ```
 
 <br>
-
-- Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run it.
+- Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run the install script.
 
 - *Read and edit it first for your purpose*, it will create some folders and copy config files, recomend fork/clone this repo and coment that line.
 
@@ -112,17 +104,9 @@ If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
 
 1. Clone this repo in another local.(here the default is ```~/Documents/projects/git/ ``` )
-2. Change to the correspondent branch by ```git switch [main or mingw32-w8]``` 
-3. Make the changes and push to remote repo in correspondent branch in cloned folder. 
-4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
-
-Run ```$ push_local_config "COMMIT MESSAGE" ``` gonna make copy my edited config files to
-**dotfiles** folder created in ```enviroment script``` and push to your remote repository[auto].
-- Will push, only if, tests are passed.
-
-Run ```$ stage-local-config``` gonna only make copy, without push, the edited config files to
-**dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes[manual].
-- No tests here.
+2. Get to the correspondent branch by ```git switch [main or testing]``` 
+3. Make the changes and push to remote repo in correspondent branch in cloned folder.
+4. In the computers run git pull and receive the updates.(wait a minute in the same computer to update HEAD)
 
 ```bash
 
@@ -130,44 +114,25 @@ $ git push origin [main/testing]
 
 ```
 
-Now, Git gonna **update snapshot** from local to remote. Your other machines just run pull_config(or add in init) to get it.
+Now, Git gonna **update snapshot** from local to remote. Your other machines just run git push from cloned(add computer permition).
 
 ## Pull state from remote to local config
 
-After install, if remote has changed you can pull config to sync local, *How can I sync local for this change?*
-- You can pull to your local repository run the script below. 
+After install, if remote has changed you can git pull config to sync local.
 
-In the folder ```~/bin``` there is a script named ```pull_config``` such make a "**pull request**" like a normal git repo. 
-
-Just run;
-
-```bash
-
-$ pull_config
-
-or
-
-$ bash ~/bin/pull_config 
-
-```
-
-Now, Git gonna **update snapshot** (pull)from remote repo to your $HOME folder.
 
 ## Uninstall and back config
 
 Run in terminal 
+#TODO
 
 ```bash
 
-$ uninstall_bare_cfg
-
-# or
-
-$ bash ~/bin/uninstall_bare_cfg
+$ TODO
 
 ```
 
-## Packages in use
+## Packages in use on my dotfiles(optional)
 
 Some pkgs here have conflicts with i3-gaps(i3-wm) and, after fork, **make changes to yours needs**.
 For some features depends some packages, if get some error related, this list maybe help;
@@ -175,27 +140,24 @@ For some features depends some packages, if get some error related, this list ma
 - acpi (temperatures and battery)
 - alsautils or pulseaudio(ubuntu)
 - compton (composer)
-- curl
 - diodon (tool to show transfer area icon)
 - exa
 - fdfind
 - ffmpeg
 - fzf
 - ghostscript (pdf language previewer)
-- git
 - gsimplecal (tiny calendar i3blocks)
 - i3blocks
 - imagemagick
 - jq (Comand line JSON processor)
-- nc (TCP and UDP listen)
+- netcat (TCP and UDP listen)
 - nitrogen (wallpaper)
 - nm-applet (show network icon)
 - openssl 
 - rsync
 - scrot (print screen)
-- bats (tests)
 - parallel (tests)
-- ssh
+- openssh
 - sysstat (cpu info)
 - vim
 - xfce4-terminal
@@ -335,27 +297,6 @@ Get some help before execute scripts ```[script-name] -h```.
 
 </details>
 
-## Problems
-
-If you get the error message 
-
-- ```:fatal: destination path '/home/$USER/.dotfiles' already exists and is not an empty directory. ``` 
-
-after install or trying update your local configs, try this;
-
-1. Delete, in your home folder, ```~/.dotfiles/``` .
-						    
-2. Re-run the command for install again.
-
-For other problems, again, check your name and email in install_enviroment or comment.
-
- - ```[FAIL] Config pull error: Conflict.```
- 
- 1.  Resolve the conflict : ``config pull origin testing --rebase```
- 2.  ```config status``` to check files in conflit. Edit file and add new file to resolve. 
- 3.  ```config add [file]```, ```config commit -m "[message]"```
- 4.  ```config rebase --continue ```
-
 ## Feedback
 
 Suggestions/improvements
@@ -384,6 +325,7 @@ Suggestions/improvements
 * [Sindre Sorhus](https://sindresorhus.com/)
 * [Tom Ryder](https://sanctum.geek.nz/) and his [dotfiles repository](https://sanctum.geek.nz/cgit/dotfiles.git/about)
 * [Haralan Dobrev](https://hkdobrev.com/)
+* [Joel Glovier](https://dotfiles.github.io/)
 * For anyone that a make a copy and don't make a mension, tell me and I'll give the credit, my thank you.
 
 ### License 
