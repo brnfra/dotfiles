@@ -91,9 +91,8 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 <br>
 - Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run the install script.
 
-- *Read and edit it first for your purpose*, it will create some folders and copy config files, recomend fork/clone this repo and coment that line.
+- *Read and edit it first for your purpose*, it will create some folders and copy config files, atention.
 
-- You can change branch in home, after install, run ```$ config checkout testing ```, for example.
 
 Attention on ssh-key problems, just in case, check your email and user, you find help [here](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh).
 <br>
