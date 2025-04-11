@@ -89,8 +89,8 @@ bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfi
 ```
 
 <br>
-- Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run the install script.
 
+- Check the script ```~/bin/dotfiles_env``` and change username, email and the places where script will save your files. Configure your definitions **before** run the install script.
 - *Read and edit it first for your purpose*, it will create some folders and copy config files, atention.
 
 
