@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: targz
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -56,10 +56,10 @@ else
 	cmd="gzip";
     fi;
 fi;
-clnInfo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
+cInfo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
 "${cmd}" -v "${tmpFile}" || return 1;
 [ -f "${tmpFile}" ] && rm "${tmpFile}";
 zippedSize=$(stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # macOS `stat`
 stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
 );
-clnInfo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+cInfo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_merge
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-04-2025
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -54,7 +54,7 @@ printf "[INFO]%s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
     if git_config checkout "$1" &>> "$bkpLog" && git_config fetch --all &>> "$bkpLog"; then
 	git_config merge -s recursive -X theirs "$branch" &>> "$bkpLog" 
 	if config_check tests ;then
-	    cmOk "Files check"
+	    cOk "Files check"
 	    stage_config branch_sync
 	    stage_config commit_last "merge from $branch"
 	    stage_config prepare
@@ -63,7 +63,7 @@ printf "[INFO]%s [START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	fi
 
 	cInfo "Finish merge from branch" "$branch" "(--bare)"
-	cmOk "Git merge"
+	cOk "Git merge"
     else
 	cError "${LINENO}:Config checkout or fetch, error(logs):" "$bkpLog"     
 	exit 1

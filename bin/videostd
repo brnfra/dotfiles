@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: videostd
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -69,14 +69,14 @@ if [ "$LOCAL" = "$HOME" ]; then
 fi
 if (( num_vid == 0  )) 
 then
-    clnError "${LINENO}:There isn't video file."
+    cError "${LINENO}:There isn't video file."
     exit 1
 else
     mkdir -p "$output";
     mkdir -p "$backup";
 fi
 
-clnInfo "Compacting mp4's(codec libx265) files"
+cInfo "Compacting mp4's(codec libx265) files"
 if command -v ffmpeg &> /dev/null
 then
     if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then 	    # All option {{{
@@ -118,7 +118,7 @@ then
 		    cItalic "$file" "copied to"
 		    clnItalic "$backup/" "folder"
 		    mv ./"$output"/"$file" ./"$file"
-		    clnInfo "New file override old file."
+		    cInfo "New file override old file."
 		else
 		    cError "${LINENO}:Error when copy file."$1" to ./"$backup"" 
 		    clnItalic "$file" 
@@ -137,7 +137,7 @@ then
 	    then
 		wait $!
 	    else
-		clnError "{$LINENO}:ffmpeg error"	
+		cError "{$LINENO}:ffmpeg error"	
 	    fi
 	    cInfo 
 	    clnItalic "$output/$1" "created."
@@ -164,7 +164,7 @@ then
 		    cItalic "$1" "copied to"
 		    clnItalic "$backup/" "folder"
 		    mv ./"$output"/"$1" ./"$1"
-		    clnInfo "New file override old file."
+		    cInfo "New file override old file."
 		else
 		    cError "${LINENO}:Error when copy file."$1" to ./"$backup"" 
 		    clnItalic "$1" 
@@ -178,5 +178,5 @@ fi
 rm -f newsize
 rm -f oldsize
 find . -type d -empty -delete
-clnInfo "Finish."
+cInfo "Finish."
 

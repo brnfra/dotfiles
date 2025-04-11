@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: bare_repo_pull
 # Autor: Bruno Franco
-# Ultima_modificacao: 05-04-2025
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -24,10 +24,10 @@ bkp_conflict ()
     do     
 	mv "$HOME"/"$file" "$HOME"/"$file".backup &>> "$bkpLog"
     done  
-    cmOk "Checking and backup files"
+    cOk "Checking and backup files"
     cInfo "Move .backup files to:" "$bkpdir"
     bkp_cfg_files  
-    cmOk "Clean"
+    cOk "Clean"
     printf "[INFO] %s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 ##}}}
@@ -44,13 +44,13 @@ bare_repo_fetch() {
 	git_config merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
 
 	if config_check tests ;then
-	    cmOk "Files check"
+	    cOk "Files check"
 	else
 	    cError "Files check"
 	fi
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
-	cmOk "Git pull"
+	cOk "Git pull"
     else
 	cError "${LINENO}:Config merge error(logs):" "$bkpLog" "; Exit with error."
         printf "[INFO] ##### %s ##### [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
@@ -76,7 +76,7 @@ bare_repo_pull() {
 	config_check tests
 
 	cInfo "Git pull, branch" "$branch" "(--bare)"
-	cmOk "Git pull"
+	cOk "Git pull"
     else
 	cError "${LINENO}:Config pull error(logs):" "$bkpLog" "; Backup conflicts, reset and try again"
 
@@ -86,7 +86,7 @@ bare_repo_pull() {
 	then
 	    config_check tests
 	    cInfo "Git pull config, branch" "$branch" "(--bare)"
-	    cmOk "Git pull"
+	    cOk "Git pull"
 	else
 	    cError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    bare_repo_fetch

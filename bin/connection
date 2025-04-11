@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: connection
 # Autor: Bruno Franco
-# Ultima_modificacao: 28-03-2025
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -12,7 +12,7 @@
 . dotfiles_env
 
 sname="${0##*/}"
-clnInfo "Checking connectivity status!"
+cInfo "Checking connectivity status!"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 $sname 
@@ -46,9 +46,9 @@ for Site in $site_list; do
 	handshake && $1 == "Verification:" { ok = $2; exit }
 	END { exit ok != "OK" }'
     then
-	cmOk "$Site" "Reached"
+	cOk "$Site" "Reached"
     else
-	clnError "Can't reach: $Site"
+	cError "Can't reach: $Site"
 	errorCnt=$(( errorCnt + 1))
 	if [[ errorCnt -gt 2 ]]; then
 	    exit 1

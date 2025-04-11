@@ -24,7 +24,7 @@ requirement1="xsetwacom"
 
 if ! command -v "$requirement1" &> /dev/null
 then
-    clnError "$requirement1 is not installed. Please install $requirement1 it and try again."
+    cError "$requirement1 is not installed. Please install $requirement1 it and try again."
     exit 2
 fi
 

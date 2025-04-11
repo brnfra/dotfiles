@@ -22,7 +22,7 @@ tests() {
         if bash "$checkAll" | awk '/not ok|failed|line/{print $0}' &>> "$bkpLog";
         then
             if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-                cmOk "I3config and i3 scripts"
+                cOk "I3config and i3 scripts"
             else
                 cError "I3config not found. Installing config file "
                 if ! "$i3_scpt" "$bkpdir"; then
@@ -35,16 +35,16 @@ tests() {
         else
             bash "$checkAll" | awk '/test|OK|FAILED/{print $0}'
             cError "Some tests fail"
-            cmOk "Config files and folders checked"
+            cOk "Config files and folders checked"
         fi
     else
         cInfo "Config check" "/home" &>> "$bkpLog"
         if bats "$checkHome"| awk '/not ok|failed|line/{print $0}' &>> "$bkpLog";
         then
             if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
-                cmOk "I3config and i3 scripts"
+                cOk "I3config and i3 scripts"
             else
-                clnError "I3config not found. Installing config file "
+                cError "I3config not found. Installing config file "
                 if ! "$i3_scpt" "$bkpdir"; then
                     cError "I3config "
                     cItalic "$i3_cfg" " isn't installed "
@@ -55,7 +55,7 @@ tests() {
         else
             bats "$checkHome" | awk '/not ok|failed|line/{print $0}'
             cError "Some tests fail"
-            cmOk "Config files and folders checked"
+            cOk "Config files and folders checked"
         fi
     fi
     cd "$backto" || return
@@ -66,69 +66,13 @@ packs() {
     printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
     opensuse="\"opensuse-tumbleweed\""
-
-    #debian ubuntu manjaro etc
-
-    packs_list+=" acpi " 
-    packs_list+=" blueman "      
-    packs_list+=" bzip2 "
-    packs_list+=" curl "         
-    if [ "$osys" = "manjaro" ]; then
-        packs_list+=" fd "      
-        packs_list+=" picom " 
-        packs_list+=" xautolock " 
-        packs_list+=" i3-wm "           
-    else
-        packs_list+=" fd-find "      
-        packs_list+=" exa "
-        packs_list+=" compton" 
-        packs_list+=" i3 "           
-        packs_list+=" i3lock-fancy " 
-        packs_list+=" x11-utils "    
-        packs_list+=" network-manager-gnome "
-        packs_list+=" rar "
-        packs_list+=" netcat-openbsd "
-        packs_list+=" openssh-client "          
-    fi
-    packs_list+=" ffmpeg "       
-    packs_list+=" fzf "          
-    packs_list+=" ghostscript "  
-    packs_list+=" git "          
-    packs_list+=" gsimplecal" 
-    packs_list+=" gzip "
-    packs_list+=" i3blocks "     
-    packs_list+=" imagemagick "  
-    packs_list+=" jq "           
-    packs_list+=" neovim "       
-    packs_list+=" nitrogen "     
-    packs_list+=" openssl "      
-    packs_list+=" pcmanfm " 
-    packs_list+=" ranger "
-    packs_list+=" rofi "
-    packs_list+=" rsync "        
-    packs_list+=" scrot "        
-    packs_list+=" shunit2 "      
-    packs_list+=" sysstat "      
-    packs_list+=" tar "
-    packs_list+=" unzip "        
-    packs_list+=" vifm "         
-    packs_list+=" vim  "         
-    packs_list+=" xfce4-power-manager " 
-    packs_list+=" xfce4-terminal " 
-    packs_list+=" zip "
-
-    if [ "$osys" = "debian" ]; then
-        packs_list+=" alsautils "
-    fi
-    if [ "$osys" = "ubuntu" ]; then
-        packs_list+=" pulseaudio "
-    fi
-
-    cInfo "Checking installed packs for" "bare repo" "dotfiles"
+   
+   
+    cInfo "Checking installed packs for" "$osys" "$user_name dotfiles"
     for pack in $packs_list; do
         if [ "$osys" = "ubuntu" ]; then
             if  dpkg -s "$pack" &> /dev/null; then
-                cmOk "$pack" >> "$bkpLog"
+                cOk "$pack" >> "$bkpLog"
 
             else
                 cError " " "$pack" >> "$bkpLog" 
@@ -136,7 +80,7 @@ packs() {
             fi
         elif [ "$osys" = "debian" ]; then
             if dpkg -s "$pack" &> /dev/null; then
-                cmOk "$pack" >> "$bkpLog"
+                cOk "$pack" >> "$bkpLog"
 
             else
                 cError " " "$pack" >> "$bkpLog"
@@ -144,26 +88,27 @@ packs() {
             fi
         elif [ "$osys" = "manjaro" ]; then
             if pacman -Qi "$pack" &> /dev/null; then
-                cmOk "$pack" >> "$bkpLog"
+                cOk "$pack" >> "$bkpLog"
             else
                 cError " " "$pack" >> "$bkpLog"
             fi
         elif [ "$osys" = "$opensuse" ]; then
-            if zypper se "$pack" &> /dev/null; then
-                cmOk "$pack" >> "$bkpLog"
+            if zypper se -i "$pack" &> /dev/null; then
+                cOk "$pack" >> "$bkpLog"
             else
                 cError " " "$pack" >> "$bkpLog"
             fi
         fi
     done
-
+     
+    cInfo "Check logs for results: " "$osys" "$user_name dotfiles. Finish."
     printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 }
 
 connect() {
     printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
     if connection &>> "$bkpLog" && ssh_connect &>> "$bkpLog"; then
-        cmOk "Connection and ssh_connect check:"
+        cOk "Connection and ssh_connect check:"
     elif ! connection &> /dev/null; then
         cError "Connection"
         exit 2

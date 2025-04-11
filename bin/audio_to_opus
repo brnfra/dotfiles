@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: audio_to_opus
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -10,7 +10,7 @@
 . dotfiles_env
 
 
-clnInfo "Convert audio to opus audio files"
+cInfo "Convert audio to opus audio files"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -59,18 +59,18 @@ ffmpeg_opus='-b:a 34k -acodec libopus'
 
 if ! command -v ffmpeg &> /dev/null
 then
-    clnError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    cError "ffmpeg is not installed. Please install ffmpeg it and try again."
     exit 2
 fi
 
 if [[ "$1" == "" ]]; then
-    clnError "No file selected."
+    cError "No file selected."
     audio_to_opus -h
     exit 3
 
 fi
 
-clnInfo "${0##*/}"
+cInfo "${0##*/}"
 namestd 1> /dev/null
 if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     # Create the output directory if it doesn't exist
@@ -124,7 +124,7 @@ else
     if [ -e "$1" ] && [ -s "$1" ]; then
 	eval ffmpeg -i "$1" "$ffmpeg_opus" "${name}.opus"
     else
-	clnError "$1 is not a valid file."
+	cError "$1 is not a valid file."
 	exit 1
     fi
 

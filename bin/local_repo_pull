@@ -24,13 +24,13 @@ local_repo_fetch () {
 	git_repo merge -s recursive -X theirs origin/$branch &>> "$bkpLog"
 
 	if tests -a;then
-	    cmOk "Files check"
+	    cOk "Files check"
 	else
 	    cError "Files check"
 	fi
 
 	cInfo "Git pull, branch" "$branch" "(--local)"
-	cmOk "Git pull"
+	cOk "Git pull"
     else
 	cError "${LINENO}:Config fetch error(logs):" "$bkpLog" "; Backup conflicts and try again"
         printf "[INFO] ##### %s ##### [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
@@ -56,19 +56,19 @@ local_repo_pull() {
     then
 	if  git_repo pull origin $branch &>> "$bkpLog" ;then
 	    if tests -a;then
-		cmOk "Files check"
+		cOk "Files check"
 	    else
 		cError "Files check"
 	    fi
-	    cmOk "Git make pull in cloned repository folder"
+	    cOk "Git make pull in cloned repository folder"
 	else
 	    cError "Fail to checkout and pull from remote. Check:" "$bkpLog" " ; Or clone dotfiles in" "$dotfiles_dir."
 	    cInfo "See log in:" "$bkpLog"
-	    clnError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
+	    cError "${LINENO}:Can't resolve conflicts. Trying to Fetch!"
 	    local_repo_fetch
 	fi
 	cInfo "Git pull, branch" "$branch" "(--local)"
-	cmOk "Git pull"
+	cOk "Git pull"
     else
 	cError "No such directory to pull in"
 	cInfo "Clone repository first. Branch:" "$branch" 

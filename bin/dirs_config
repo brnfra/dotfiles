@@ -47,7 +47,7 @@ make_dirs() {
 	    cInfo "Folders created." "${HOME}/${dir}" >> "$bkpLog"
 	fi
     done
-    cmOk "${0##*/} - ${FUNCNAME[0]}"
+    cOk "${0##*/} - ${FUNCNAME[0]}"
     printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 
 }

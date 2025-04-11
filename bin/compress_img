@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: compress_img
 # Autor: Bruno Franco
-# Ultima_modificacao: 26-03-2025
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -9,7 +9,7 @@
 # shellcheck source=dotfiles_env
 . dotfiles_env
 
-clnInfo "Compress images trying save resolution"
+cInfo "Compress images trying save resolution"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 compress_img
@@ -42,10 +42,10 @@ exit; fi
 # Check if ImageMagick is installed
 if ! command -v convert &> /dev/null
 then
-    clnError "ImageMagick is not installed. Please install it and try again."
+    cError "ImageMagick is not installed. Please install it and try again."
     exit
 fi
-clnInfo "${0##*/}"
+cInfo "${0##*/}"
 
 if [[ "$1" == "-a" ]] || [[ "$1" == "-A" ]]; then
     # Create the output directory if it doesn't exist
@@ -75,7 +75,7 @@ else
     # Check if the input file exists
     if [ ! -f "$1" ]
     then
-	clnError "Input file not found. Please provide a valid input file."
+	cError "Input file not found. Please provide a valid input file."
 	exit
     fi
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: stage_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 08-04-2025
+#  Ultima_modificacao: 11-04-2025
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por            eventuais danos
@@ -55,10 +55,10 @@ branch_sync () {
     repo_env_dotfiles="$dotfiles_dir/bin/dotfiles_env"
 
     if [ "$BranchHome" != "$RepoBranch" ]; then
-	clnInfo "Branch home and dotfiles aren't the same:"
+	cInfo "Branch home and dotfiles aren't the same:"
 	if git --git-dir=$dotfiles_dir/.git --work-tree=$dotfiles_dir checkout $BranchHome &>> "$bkpLog" && \
 	    git --git-dir=$install_dir --work-tree=$HOME checkout $BranchHome &>> "$bkpLog";then
-	    cmOk "Branches are the same."
+	    cOk "Branches are the same."
 	    echo
 	else
 	    cError "Can't change branch in $dotfiles_dir. Aborting. BranchHome and RepoBranch:" "$BranchHome and $RepoBranch"
@@ -66,16 +66,16 @@ branch_sync () {
 	    exit 2
 	fi
     else
-	cmOk "Branches are the same."
+	cOk "Branches are the same."
 	printf "[INFO]Branches are the same.\n"  >> "$bkpLog"
 	echo
     fi
 
     if [ "$Branch_dotfile_home" != "$BranchHome" ]; then
-	clnInfo "Branch name and dotfiles_env branch definition aren't the same:"
+	cInfo "Branch name and dotfiles_env branch definition aren't the same:"
 	sed -i "s/branch=\"$Branch_dotfile_home\"/branch=\"$BranchHome\"/" "$env_home_dotfiles"
     elif [ "$Repo_dotfile_branch" != "$RepoBranch" ]; then
-	clnInfo "Branch name and dotfiles_env branch definition aren't the same:"
+	cInfo "Branch name and dotfiles_env branch definition aren't the same:"
 	sed -i "s/branch=\"$Repo_dotfile_branch\"/branch=\"$RepoBranch\"/" "$repo_env_dotfiles"
     fi
     DATE=$(date +%d/%m/%Y-%H:%M:%S)
@@ -125,10 +125,10 @@ prepare() {
     branch_sync
 
     if config_check tests -a ; then
-	cmOk "Files,scripts tests and folders check"
+	cOk "Files,scripts tests and folders check"
 
 	if connection &> /dev/null && ssh_connect &> /dev/null;then
-	    cmOk "Connection and ssh_connect check:"
+	    cOk "Connection and ssh_connect check:"
 	    sync_copy
 	    printf "[INFO] Sync accomplished at %s\n" "$DATE" &>> "$bkpLog"
 
@@ -137,17 +137,17 @@ prepare() {
 	    cd "$backto" || return
 
 	elif connection &> /dev/null; then
-	    cmOk "Connection"
-	    clnError "Check your ssh-agent." &>> "$bkpLog"
+	    cOk "Connection"
+	    cError "Check your ssh-agent." &>> "$bkpLog"
 	    exit 2
 
 	elif ssh_connect &> /dev/null;then
-	    cmOk "ssh-agent"
-	    clnError "Check your connection." &>> "$bkpLog"
+	    cOk "ssh-agent"
+	    cError "Check your connection." &>> "$bkpLog"
 	    exit 3
 
 	else
-	    clnError "Check your connection and your ssh-agent." &>> "$bkpLog"
+	    cError "Check your connection and your ssh-agent." &>> "$bkpLog"
 	    exit 4
 	fi
 

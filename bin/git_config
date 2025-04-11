@@ -29,7 +29,7 @@ git_env() {
 	then
 	    git config --global user.email "$email"
 	    git config --global user.name "$user_name"
-	    cmOk "Edit git enviroments. Username and e-mail."
+	    cOk "Edit git enviroments. Username and e-mail."
             printf "[INFO]%s - OK \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	else
 	    cError "Add git config: Git installation needed. Run apt-get install git or read output for problems"
@@ -39,7 +39,7 @@ git_env() {
     elif [ "$osys" = "manjaro" ]; then
 	if git config --global user.email "$email"; then
 	    git config --global user.name "$user_name"
-	    cmOk "Edit git enviroments. Username and e-mail."
+	    cOk "Edit git enviroments. Username and e-mail."
             printf "[INFO]%s \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	else
 	    cError "Add git config: Git installation needed. Run pacman install git or read output for problems"

@@ -41,7 +41,7 @@ files=$(find . -type f -name '[0-9]*' | sed 's|\.\/||gi')
 today_year=$( date +%Y )
 today_year=$(( today_year + 1 ))
 saveIn=${1:-'.'}
-clnInfo "Creating folders and moving files."
+cInfo "Creating folders and moving files."
 
 foldering_by_date() {
     local Dir="$1"
@@ -68,6 +68,6 @@ foldering_by_date() {
 }
 
 foldering_by_date "$saveIn"
-cmOk "Foldering by date"
+cOk "Foldering by date"
 find . -type d -empty -delete  &> /dev/null
-cmOk "Cleaning empty folders"
+cOk "Cleaning empty folders"

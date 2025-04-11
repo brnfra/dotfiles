@@ -17,7 +17,7 @@ if [ -f "$1" ] ; then
 	*.Z)         uncompress "$1"    ;;
 	*.7z)        7z x "$1"	    ;;
 	*.dmg)       hdiutil mount "$1" ;;
-	*)           clnError "don't know how to extract '$1'..." ;;
+	*)           cError "don't know how to extract '$1'..." ;;
     esac
 else
     cError "It is not a valid file: " "$1"

@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
+# Arquivo: get_packs_virtmanager
+# Autor: Bruno Franco
+# Ultima_modificacao: 11-04-2025
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#Fonts
+# shellcheck source=dotfiles_env
+. dotfiles_env
 
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 #requirements for i3blocks and more
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     sudo apt-get update && sudo apt-get install --no-install-recommends \
@@ -10,14 +19,23 @@ if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	dnsmasq-base \
 	bridge-utils \
 	iptables
-elif [ "$osys" = "manjaro" ]; then
-    sudo pacman -Syu && sudo pacman -S \
-	virt-manager \
-	qemu-system \
-	libvirt-daemon-system \
-	dnsmasq-base \
-	bridge-utils \
-	iptables
+    elif [ "$osys" = "manjaro" ]; then
+        sudo pacman -Syu && sudo pacman -S \
+		virt-manager \
+		qemu-system \
+		libvirt-daemon-system \
+		dnsmasq-base \
+		bridge-utils \
+		iptables
+    elif [ "$osys" = "$opensuse" ]; then
+        sudo zypper refresh && sudo zypper install \
+		virt-manager \
+		libvirt-daemon \
+		dnsmasq \
+		bridge-utils \
+		iptables
+
 fi
+
 sudo adduser "$USER" libvirt
-echo -e "\nhttps://wiki.debian.org/KVM\n"
+echo -e "\nhttps://virt-manager.org/\n"

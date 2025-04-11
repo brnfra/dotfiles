@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: enviroment_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 09-04-2025
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -39,9 +39,9 @@ cInfo "Installing Enviroment: make dirs, git envs, ssh keys and agent and downlo
 make_dirs
 cInfo "Clone in: " "$dotfiles_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
-    cmOk "Clone remote in: " "$dotfiles_dir"
+    cOk "Clone remote in: " "$dotfiles_dir"
 else
-     clnError "Can't clone repository"
+     cError "Can't clone repository"
     exit 1
 fi
 git_env

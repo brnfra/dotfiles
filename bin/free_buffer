@@ -29,9 +29,9 @@ HELP
 exit; fi
 
 sync;echo "echo 1 > /proc/sys/vm/drop_caches";
-clnInfo "echo 1 executed"
+cInfo "echo 1 executed"
 
-clnInfo "Clean swap. 30 seg."
+cInfo "Clean swap. 30 seg."
 sudo swapoff -a && sleep 30 && sudo swapon -a;
-clnInfo "Clean swap. Done."
+cInfo "Clean swap. Done."
 

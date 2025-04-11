@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: videos_merge
 # Autor: Bruno Franco
-# Ultima_modificacao: 18-01-2024
+# Ultima_modificacao: 11-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -45,7 +45,7 @@ then
     names_mp4=( $mp4_files_list )
     IFS=$DEFAULT_IFS
     lenght=${#names_mp4[@]}
-    clnInfo "Merging  mp4's files..."
+    cInfo "Merging  mp4's files..."
     if command -v ffmpeg &> /dev/null
     then
 	    for(( i=0; i < lenght; i++))
@@ -69,13 +69,13 @@ then
 	eval "rm -f intermediate*"
 	rm -f ./$mp4_fl
     else
-	clnError "FFMPEG not found."
+	cError "FFMPEG not found."
 	rm -f ./$mp4_fl
 	exit 1
     fi
 else
-    clnError "There isn't .mp4 files"
+    cError "There isn't .mp4 files"
     exit 2
 fi
-clnInfo "Merge Success"
+cInfo "Merge Success"
 exit 0

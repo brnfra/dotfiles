@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #  Arquivo: push_config
 #  Autor: Bruno Franco
-#  Ultima_modificacao: 18-02-2024
+#  Ultima_modificacao: 11-04-2025
 #  Download: git@github.com:brnfra
 #  Licence:Este arquivo é de domínio público
 #  Garantia: O autor não se responsabiliza por eventuais danos
@@ -49,7 +49,7 @@ git_push() {
     if git_repo push origin "$branch" &>> "$bkpLog"; then
 	git status -sb &>> "$bkpLog"
 	git status -sb 
-	cmOk "Git add, commit and push"
+	cOk "Git add, commit and push"
     else
 	git status -sb &>> "$bkpLog"
 	cError "$?:error check git push logs to find out."
@@ -67,7 +67,7 @@ cInfo "Push last updates TO remote. Branch:" "$branch"
 cInfo "Push local to remote:" "push config"
 git fetch --all &>> "$bkpLog"
 if prepare "$1"; then
-    cmOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
+    cOk "Stage and sync configs (bare/cloned) and update from last changes(pull repos) before push."
     git_push "$1" 
 else
     printf "[ERROR] stage config error ###\n" >> "$bkpLog"

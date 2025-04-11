@@ -3,7 +3,7 @@
 . dotfiles_env
 
 
-clnInfo "Search strings inside files"
+cInfo "Search strings inside files"
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 ${0##*/}
@@ -50,11 +50,11 @@ if [ -e "$1" ];then
 	#echo "search!!!"
 	search "$1" "$2"
     else
-	clnInfo "search \"./folder/local\" \"string\"" 
-	clnError "No string" 
+	cInfo "search \"./folder/local\" \"string\"" 
+	cError "No string" 
 	exit 2;
     fi
 else
-    clnError "Invalid folder" "$1"
+    cError "Invalid folder" "$1"
     exit 1;
 fi

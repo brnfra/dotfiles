@@ -665,7 +665,7 @@ else
 fi
 
 if [ -f "$i3_cfg" ]; then
-    cmOk "i3 config file"
+    cOk "i3 config file"
 else
-    clnError "Could not write config file"
+    cError "Could not write config file"
 fi
