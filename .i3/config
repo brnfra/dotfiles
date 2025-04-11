@@ -1,62 +1,61 @@
 # i3 config. Auto generate
 # Check ~/bin/i3_config
 set $mod Mod4
-font pango:Monofur NF 11
+font pango:Iosevka NFP 11
 set $binaries $HOME/bin
 set $sup bindsym Mod4
 set $exe exec --no-startup-id
 set $exe_always exec_always --no-startup-id
-for_window [class="^.*"] border pixel 2
-assign [class="firefox"] $ico_firefox
-assign [class="firefox"] $ico_firefox
-assign [class="firefox"] $ico_firefox
-assign [class="calibre"] $ico_calibre
-assign [class="okular"] $ico_pdf
-assign [class="dolphin"] $ico_window
-assign [instance="dolphin"] $ico_window
-assign [instance="pamac-manager"] $ico_package
-assign [class="Virt-manager"] $ico_monitor
-set $ico_bank     <span font="Monofur NF 11">&#xf155;</span>
-set $ico_chat     <span font="Monofur NF 11">&#xf27b;</span>
-set $ico_chrome   <span font="Monofur NF 11">&#xf268;</span>
-set $ico_code     <span font="Monofur NF 11">&#xf121;</span>
-set $ico_document <span font="Monofur NF 11">&#xf0f6;</span>
-set $ico_pdf      <span font="Monofur NF 11">&#xf1c1;</span>
-set $ico_editor   <span font="Monofur NF 11">&#xf044;</span>
-set $ico_email    <span font="Monofur NF 11">&#xf003;</span>
-set $ico_firefox  <span font="Monofur NF 11">&#xf269;</span>
-set $ico_folder   <span font="Monofur NF 11">&#xf115;</span>
-set $ico_github   <span font="Monofur NF 11">&#xf09b;</span>
-set $ico_hangouts <span font="Monofur NF 11">&#xf10e;</span>
-set $ico_menu     <span font="Monofur NF 11">&#xf0c9;</span>
-set $ico_monitor  <span font="Monofur NF 11">&#xf26c;</span>
-set $ico_music    <span font="Monofur NF 11">&#xf001;</span>
-set $ico_news     <span font="Monofur NF 11">&#xf09e;</span>
-set $ico_package  <span font="Monofur NF 11">&#xf1c6;</span>
-set $ico_play     <span font="Monofur NF 11">&#xf01d;</span>
-set $ico_table    <span font="Monofur NF 11">&#xf0ce;</span>
-set $ico_telegram <span font="Monofur NF 11">&#xf1d9;</span>
-set $ico_terminal <span font="Monofur NF 11">&#xf120;</span>
-set $ico_video    <span font="Monofur NF 11">&#xf008;</span>
-set $ico_volume   <span font="Monofur NF 11">&#xf028;</span>
-set $ico_whatsapp <span font="Monofur NF 11">&#xf232;</span>
-set $ico_window   <span font="Monofur NF 11">&#xf2d0;</span>
-set $ico_calibre   <span font="Monofur NF 11">&#xf212;</span>
+set $ico_bank     <span font="Iosevka NFP">&#xf155;</span>
+set $ico_chat     <span font="Iosevka NFP">&#xf27b;</span>
+set $ico_chrome   <span font="Iosevka NFP">&#xf268;</span>
+set $ico_code     <span font="Iosevka NFP">&#xf121;</span>
+set $ico_document <span font="Iosevka NFP">&#xf0f6;</span>
+set $ico_pdf      <span font="Iosevka NFP">&#xf1c1;</span>
+set $ico_editor   <span font="Iosevka NFP">&#xf044;</span>
+set $ico_email    <span font="Iosevka NFP">&#xf003;</span>
+set $ico_firefox  <span font="Iosevka NFP">&#xf269;</span>
+set $ico_folder   <span font="Iosevka NFP">&#xf115;</span>
+set $ico_github   <span font="Iosevka NFP">&#xf09b;</span>
+set $ico_hangouts <span font="Iosevka NFP">&#xf10e;</span>
+set $ico_menu     <span font="Iosevka NFP">&#xf0c9;</span>
+set $ico_monitor  <span font="Iosevka NFP">&#xf26c;</span>
+set $ico_music    <span font="Iosevka NFP">&#xf001;</span>
+set $ico_news     <span font="Iosevka NFP">&#xf09e;</span>
+set $ico_package  <span font="Iosevka NFP">&#xf1c6;</span>
+set $ico_play     <span font="Iosevka NFP">&#xf01d;</span>
+set $ico_table    <span font="Iosevka NFP">&#xf0ce;</span>
+set $ico_telegram <span font="Iosevka NFP">&#xf1d9;</span>
+set $ico_terminal <span font="Iosevka NFP">&#xf120;</span>
+set $ico_video    <span font="Iosevka NFP">&#xf008;</span>
+set $ico_volume   <span font="Iosevka NFP">&#xf028;</span>
+set $ico_whatsapp <span font="Iosevka NFP">&#xf232;</span>
+set $ico_window   <span font="Iosevka NFP">&#xf2d0;</span>
+set $ico_calibre   <span font="Iosevka NFP">&#xf212;</span>
 floating_modifier $mod
 focus_follows_mouse yes
 hide_edge_borders smart
 default_border pixel 2
 workspace_auto_back_and_forth yes
-set $ws1  "1"
-set $ws2  "2"
-set $ws3  "3"
-set $ws4  "4"
-set $ws5  "5"
-set $ws6  "6"
+set $ws1  "1 &#xf120;Term"
+set $ws2  "2: &#xf269;Firefox"
+set $ws3  "3: &#xf115;FM"
+set $ws4  "4: &#xf212;Calibre"
+set $ws5  "5: &#xf1c1;PDF"
+set $ws6  "6: &#xf2d0;Virt"
 set $ws7  "7"
 set $ws8  "8"
 set $ws9  "9"
 set $ws10 "10"
+for_window [class="^.*"] border pixel 2
+assign [class="konsole"] $ws1
+assign [class="firefox"] $ws2
+assign [class="calibre"] $ws4
+assign [class="okular"] "5: &#xf1c1;PDF"
+assign [class="dolphin"] $ws3
+assign [instance="dolphin"] $ws3
+assign [instance="pamac-manager"] $ws3
+assign [class="Virt-manager"] $ws6
 for_window [class="mpv"] floating enable
 for_window [class="gnome-calculator"] floating enable
 for_window [window_role="pop-up"] floating enable
@@ -112,7 +111,7 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec konsole
 bindsym $mod+Shift+q kill
 bindsym $mod+Ctrl+d $exe dmenu_recency
 bindsym $mod+d $exe rofi -show drun
@@ -178,7 +177,7 @@ bindsym $mod+Shift+b workspace back_and_forth
 bindsym $mod+Ctrl+u [urgent=latest] focus
 bindsym $mod+Shift+d reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Ctrl+l $exe blurlock
+bindsym $mod+Ctrl+l $exe blurlock -e -f -k
 bindsym $mod+Escape mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
@@ -195,10 +194,10 @@ mode "$mode_system" {
 bindsym Ctrl+1 exec firefox
 bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+z $exe morc_menu
-bindsym $mod+Shift+m exec xfce4-terminal -x 'bmenu'
-bindsym Ctrl+0 exec xfce4-terminal -x vim $HOME/.i3/config
+bindsym $mod+Shift+m exec konsole -e 'bmenu'
+bindsym Ctrl+0 exec konsole -e vim $HOME/.i3/config
 bindsym Ctrl+3 exec dolphin
-bindsym Ctrl+2 exec xfce4-terminal -x vifm
+bindsym Ctrl+2 exec konsole -e vifm
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
@@ -216,13 +215,13 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur NF 11
+    font pango: Iosevka NFP 11
     status_command i3blocks -c $HOME/.i3/i3blocks.conf
     colors {
-    background #080910
+    background #5b5b5b
     focused_workspace    #0066FF    #00FF00    #181920
     active_workspace	#181920      #0066FF     #F5F6F7
-    inactive_workspace   #181920      #E7E8EB     #181920
+    inactive_workspace   #181920      #8f8f8f     #181920
     urgent_workspace	#181920      #FFFF00   #181920
     }
 }
@@ -234,21 +233,20 @@ bar {
     tray_padding 2
     separator_symbol " "
     mode dock 
-    font pango: Monofur NF 11
+    font pango: Iosevka NFP 11
     status_command i3blocks -c $HOME/.i3/i3blocks_v.conf
     colors {
-    background #080910
+    background #5b5b5b
     focused_workspace    #0066FF    #00FF00    #181920
     active_workspace	#181920      #0066FF     #F5F6F7
-    inactive_workspace   #181920      #E7E8EB     #181920
+    inactive_workspace   #181920      #8f8f8f     #181920
     urgent_workspace	#181920      #FFFF00   #181920
     }
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  $exe pkill -SIGRTMIN+11 i3blocks
 $exe volumeicon
-bindsym Ctrl+F2 exec xfce4-terminal -x alsamixer
-$exe compton --config ~/.config/compton/compton.conf
+bindsym Ctrl+F2 exec konsole -e alsamixer
 $exe_always xset b off
 $exe nm-applet --indicator
 $exe numlockx on
@@ -257,8 +255,9 @@ bindsym Ctrl+m $exe $HOME/bin/wacom-monitor-toggle
 $exe xautolock -time 10 -locker blurlock
 $exe_always xrdb -load ~/.Xresources
 $exe /usr/libexec/polkit-kde-authentication-agent-1
+$exe qlipper
 $exe blueman-applet
 $exe goldendict
-$exe $HOME/.config/conky/start_conky_maia
+$exe $HOME/.config/conky/start_conky
 $exe $HOME/.i3/autostart/i3config
 $exe $HOME/.i3/autostart/wallpapers
