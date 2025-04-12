@@ -138,7 +138,7 @@ bare_repo_checkout() {
     if git_config checkout; then
 	cOk "Checkout branch"
 
-	cInfo "Set to don´t show untracked files"
+	cInfo "Set to not show untracked files"
 	git_config config status.showUntrackedFiles no
 
 	cInfo "Exec enviroment_config"
