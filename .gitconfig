@@ -42,13 +42,14 @@
     branch  = auto
     ui	    = auto
 [color "diff"]
-    new		= green
-    old		= red
+    new		= green bold
+    old		= red bold
     meta	= blue
     frag	= magenta bold
     plain       = white
     whitespace  = yellow reverse
     func        = yellow
+    commit	= cyan
 [color "status"]
     added	= green
     changed	= yellow
@@ -86,33 +87,35 @@
     b		= branch
     ba		= branch -a
     bav		= branch -a -vvv
-    br		= branch
+    br		= branch -r
     branches	= branch -a
-    ci		= commit
-    cia		= commit --amend
-    cim		= commit -m
-    civ		= commit -v
+    c		= commit
+    ca		= commit --amend
+    cm		= commit -m
+    cv		= commit -v
     co		= checkout
     config-to-push-all-branches = config --add remote.origin.push '+refs/heads/*:refs/heads/*'
     config-to-push-all-tags	= config --add remote.origin.push '+refs/tags/*:refs/tags/*'
     cp		= cherry-pick
+    d		= diff
+    dh		= diff HEAD..FETCH_HEAD
     dc		= diff --cached
-    df		= diff
     email	= config --get user.email
     forkup	= pull --rebase upstream
-    h		= stash
-    hs		= stash save
+    s		= stash
+    ss		= stash save
     # Show files ignored by git:
     ign		= ls-files -o -i --exclude-standard
     ignored	= !git clean -ndX | sed -e 's/^Would remove //' | sed 's/^Would skip repository //'
-    in		= log HEAD..FETCH_HEAD
-    ind		= diff HEAD..FETCH_HEAD
-    inp		= log -p HEAD..FETCH_HEAD
-    last	= log -1 HEAD
-    latest	= for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'
-    lg		= log -p
+    l		= log --oneline --decorate -10 --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
+    lh		= log HEAD..FETCH_HEAD
+    lph		= log -p HEAD..FETCH_HEAD
+    l1h		= log -1 HEAD
+    last	= for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'
+    lp		= log -p
     lol		= log --graph --decorate --pretty=oneline --abbrev-commit
     lola	= log --graph --decorate --pretty=oneline --abbrev-commit --all
+    long        = log --oneline --decorate --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
     ls		= ls-files
     name	= config --get user.name
     newb	= checkout -b
@@ -123,8 +126,6 @@
     # avoid diff-so-fancy so we can create patches
     patch	= !git --no-pager diff --no-color
     prune-branches  = ! git remote prune origin && git branch -vv | cut -c 3- | awk '$4 ~ /gone\\]/ {print $1}' | xargs git branch -d
-    quicklog	    = log --oneline --decorate -10 --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
-    quicklog-long   = log --oneline --decorate --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
     r		= remote
     rb		= rebase
     rem		= remote -v
@@ -151,5 +152,5 @@
     whoami	= who
     yesterday	= diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'
 [safe]
-	directory = /data/shared_data/vimwiki
+    directory = /data/shared_data/vimwiki
 
