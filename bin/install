@@ -15,7 +15,7 @@ E='\033['
 italic="${E}3m"
 reset="${E}0m"
 bold="${E}1m"
-# Set foreground colors
+# Set foreground colors 
 red="${E}31m"
 green="${E}32m"
 cyan="${E}36m"
@@ -93,7 +93,7 @@ backup_cfg_files() {
     local newDir
     newDir="${BKPDIR}"
 
-    for dir in  ${Dirs[@]}; do
+    for dir in "${Dirs[@]}"; do
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
@@ -103,7 +103,7 @@ backup_cfg_files() {
 	fi
     done
 
-    for file in  ${files[@]}; do
+    for file in "${files[@]}"; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
 	if [ -f "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
@@ -172,7 +172,7 @@ bare_repo_checkout() {
 	if git_config checkout  ;then
 	    cOk "Checkout branch"
 	    cInfo "Installing enviroment_config and backup config files"
-	    cInfo "Set to don´t show untracked files"
+	    cInfo "Set to dont show untracked files"
 	    git_config config status.showUntrackedFiles no
 	    cInfo "Exec enviroment_config"
 	    bash ~/bin/enviroment_config
