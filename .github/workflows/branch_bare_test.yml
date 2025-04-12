@@ -36,5 +36,6 @@ jobs:
       #  execute a script that is stored in the repository 
       - name: Check install script and branch name 
         run: |
+          ./bin/stage_config sync_branch
           bats ./test/testGitConfig.bats
           bats ./test/testInstall.bats
