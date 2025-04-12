@@ -105,22 +105,22 @@ backup_cfg_files() {
     local newDir
     newDir="${BKPDIR}"
 
-    for dir in $Dirs; do
+    for dir in ${Dirs[@]}; do
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
-	    cOk "$dir"
+	    cOk "$dir" >> "$bkpLog" 2>&1
 	else
 	    cError "$dir"
 	fi
     done
 
-    for file in $files; do
+    for file in ${files[@]}; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
 	if [ -f $file ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cOk "$file"
+		cOk "$file" >> "$bkpLog" 2>&1
 	    else
 		cError "$file"
 	    fi
@@ -156,7 +156,7 @@ if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_
 	exit 5
     fi
     
-    printf "[INFO] Script %s - finish.\n" "${0##*/}"  
+    cInfo "${0##*/} complete. Run logs to view changes." "Files backup in $HOME/.config-bkp/original"
 else
     cError "Can't clone repository"
     printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}"
