@@ -202,7 +202,7 @@ if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$in
     cOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
-    cInfo "Script: " "${0##*/}" " finish".
+    cInfo "Script: " "${0##*/}" " finish"
 else
     cError "Clone repository" "$branch" " in $install_dir"
     exit 1
