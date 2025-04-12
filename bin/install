@@ -8,6 +8,9 @@
 # code providing by ;
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
+export LANG=pt_BR.UTF-8
+export LC_ALL=pt_BR.UTF-8
+
 backto=$(pwd)
 branch="bare"
 
@@ -97,7 +100,7 @@ backup_cfg_files() {
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
-	    cOk "${newDir}/${dir}"
+	    cOk "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	else
 	    cError "${newDir}/${dir}"
 	fi
@@ -108,7 +111,7 @@ backup_cfg_files() {
 	if [ -f "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cOk "${newDir}/${file}"
+		cOk "${newDir}/${file}" >> "$bkpLog" 2>&1
 	    else
 		cError "${HOME}/${file}"
 	    fi
