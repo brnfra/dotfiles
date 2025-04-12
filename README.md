@@ -85,14 +85,14 @@ If Desktop/Virtual/Notebooks, after clone, copy/paste in terminal [EDIT YOUR_USE
 bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
 ```
 
-If Desktop/Virtual/Notebooks, copy/paste in terminal(*DEFAULT*);
+To get *_bare repo_* git aproach, copy/paste in your terminal to install;
 ```bash
-bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/install)";
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/bare/bin/install)";
 ```
 
-If _testing_, copy/paste in terminal(*DEFAULT*);
+Using *_stow_* aproach, copy/paste in terminal to install;
 ```bash
-bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/testing/bin/install)";
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/brnfra/dotfiles/stow/bin/install)";
 ```
 
 <br>
