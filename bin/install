@@ -78,8 +78,8 @@ install_check() {
     # avoid repeat if already installed
     if [ -d "$install_dir" ]; then
 	cError "Already instaled. If you trying reinstall, remove"
-	clnItalic "$install_dir" "in order and check outputs log."
-	exit 0
+	cInfo "$install_dir" "in order and check outputs log."
+	exit 1
     fi
 
     printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
@@ -161,7 +161,6 @@ bare_repo_checkout() {
 	cInfo "${FUNCNAME[0]} done."  
 	
 	cd "$backto" || return
-	exit 0
     else
 	cError "git_config checkout" "${FUNCNAME[0]}"
 	
