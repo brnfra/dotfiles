@@ -13,32 +13,34 @@ setup() {
 @test "Install Params BARE Home Check" {
     BranchGetFromTest="$(cat $HOME/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')" 
     result="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
-    cInfo "Check install script bare Home branch" "$result"
+    cInfo "Check install script bare Home branch" "$result ; branch = ${BranchGetFromTest} " 
 	 [ "${BranchGetFromTest}" = "${result}" ]
     }
 
 @test "Install Site Check BARE Home" {
-    get_branch_from_installi_file="$(cat $HOME/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
+    get_branch_from_install_file="$(cat $HOME/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     site="https://raw.githubusercontent.com/brnfra/dotfiles/${get_branch_from_install_file}/bin/dotfiles_env"
     
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
     result="200"
+	cInfo "response = [$reponse]; branch = ${get_branch_from_install_file} ; site = ${site}" 
 	[ "${response}" = "${result}" ]
     }
 
 @test "Install Params CLONED Repo Check" {
     BranchGetFromTest="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')" 
     result="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
-    cInfo "Check install script cloned repository branch" "$result"
+    cInfo "Check install script cloned repository branch" "$result ; branch = ${BranchGetFromTest}" 
 	[ "${BranchGetFromTest}" = "${result}" ]
     }
 
 @test "Install Site Check CLONED Repo" {
-    get_branch_from_installi_file="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
+    get_branch_from_install_file="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     site="https://raw.githubusercontent.com/brnfra/dotfiles/${get_branch_from_install_file}/bin/dotfiles_env"
     
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
     result="200"
+	cInfo "response = [$reponse]; branch = ${get_branch_from_install_file} ; site = ${site}" 
 	[ "${response}" = "${result}" ]
     }
 
