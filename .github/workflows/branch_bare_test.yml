@@ -1,14 +1,14 @@
-name: CI Tests
+name: CI
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: 
-      - stow
+      - bare
   pull_request:
     branches: 
-      - stow
+      - bare
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,14 +27,15 @@ jobs:
       - name: Install bats tool for bash tests
         run: |
           sudo apt-get update
-          sudo apt-get install bats git curl stow
+          sudo apt-get install bats
       
       - name: Install dotfiles
         run: ./bin/install
         
-     #  execute a script that is stored in the repository 
-      - name: Check branch name is correct for current branch
+
+      #  execute a script that is stored in the repository 
+      - name: Check install script and branch name 
         run: |
+          ./bin/stage_config sync_branch
           bats ./test/testGitConfig.bats
           bats ./test/testInstall.bats
-
