@@ -205,7 +205,7 @@ if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$in
     cOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
-    cInfo "Script: " "${0##*/}" " finish"
+    cInfo "${0##*/} complete. Run logs to view changes." "Files backup in $HOME/.config-bkp/original"
 else
     cError "Clone repository" "$branch" " in $install_dir"
     exit 1
