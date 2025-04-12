@@ -161,5 +161,3 @@ teardown_file() {
     [ -f "${BATS_TMPDIR}/m_a_n-4" ]
 
 }
-
-

@@ -25,11 +25,6 @@ setup() {
 
 }
 
-teardown_file() {
-    rm -r "/tmp/type_fold"
-}
-
-
 @test "type_fold" {
     type_fold  "${BATS_TMPDIR}"    # > /dev/null 2> /dev/null 
     [ -f "${BATS_TMPDIR}/ext1/file1name.ext1" ]
@@ -42,4 +37,3 @@ teardown_file() {
     [ -f "${BATS_TMPDIR}/ext5/file1.name.ext5" ]
     [ -f "${BATS_TMPDIR}/ext6/file1.name.ext6" ]
 }
-

@@ -17,9 +17,6 @@ setup() {
     mkdir -p "${BATS_TMPDIR}/level1/level2/level3/"
 }
 
-teardown_file() {
-    rm -r "/tmp/date_fold"
-}
 
 @test "FilesByDate_3_sub_levels" { 
     cd "${BATS_TMPDIR}" || return 
@@ -47,4 +44,3 @@ teardown_file() {
     [ -f "${BATS_TMPDIR}/2001/2/200102file2.jpg" ]
     [ -f "${BATS_TMPDIR}/2002/11/200211file3.mkv" ]
 }
-

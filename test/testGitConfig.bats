@@ -10,24 +10,11 @@ setup() {
     PATH="$DIR/../src:$PATH"
 }
 
-@test "InstallRepoBranchCheck" {
+@test "Install Repo Branch is equals dotfiles_env branch Check" {
     cInfo "Checking if Branch in Repository branch var in dotfiles_env  are the same"
     BranchTest="$(cat $dotfiles_dir/bin/dotfiles_env | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
+    cInfo "result = [$result]; branch = ${BranchTest}" 
     [ "${BranchTest}" = "${result}" ]
 }
-
-#@test "InstallHomeBranchCheck" {
-#    cInfo "Checking if Branch in Home and branch var in dotfiles_env  are the same"
-#    BranchTest="$(cat $HOME/bin/dotfiles_env | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
-#    result="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
-#    [ "${BranchTest}" =	"${result}" ]
-#}
-
-#@test "SyncHomeRepoBranchCheck" {
-#    cInfo "Checking if Branch in Home and RepoBranch are the same"
-#    BranchHome="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
-#    RepoBranch="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
-#    [ "${BranchHome}" =	"${RepoBranch}" ]
-#}
 

@@ -186,7 +186,7 @@ files+=' bin/ssh_config '
 files+=' bin/stage_config '
 files+=' bin/targz '
 files+=' bin/type_fold '
-files+=' bin/uninstall_bare_cfg '
+files+=' bin/uninstall_brnfra_dotfiles '
 files+=' bin/videos_merge '
 files+=' bin/videostd '
 # test

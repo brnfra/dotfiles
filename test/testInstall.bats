@@ -10,13 +10,6 @@ setup() {
     PATH="$DIR/../src:$PATH"
 }
 
-#@test "InstallParams Home Check" {
-#    
-#    BranchGetFromTest="$(cat $HOME/bin/install | sed '/githubusercontent/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
-#    result="$(git --git-dir="$install_dir" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
-#    cInfo "Check install script bare Home branch" "$result"
-#	 [ "${BranchGetFromTest}" = "${result}" ]
-#}
 
 @test "CheckResponseFromRepoSite" {
     get_branch_from_install="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
@@ -34,11 +27,4 @@ setup() {
     cInfo "Check install script branch in curl command. Don't match with cloned repository branch" "$result"
 	[ "${BranchGetFromTest}" = "${result}" ]
     }
-
-#@test "InstallSiteCheckRepo" {
-#    site="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;q' | cut -d "\"" -f 2)"
-#    response=$(curl --write-out '%{http_code}' --silent --output /dev/null $site)
-#    result="200"
-#	[ "${response}" = "${result}" ]
-#    }
 
