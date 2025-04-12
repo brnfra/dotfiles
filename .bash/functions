@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-opensuse="\"opensuse-tumbleweed\""
+
 # Create a new directory and enter it {{{
 function mkd() {
     mkdir -p "$@" && cd "$_";

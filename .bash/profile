@@ -54,8 +54,9 @@ complete -o "nospace" -W "Finder Firefox Firefox-esr java SystemUIServer Termina
 export GTK_THEME=Adwaita-dark
 export GDK_SCALE=1
 
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)                                                    
-#APT aliases {{{
+osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
+opensuse="\"opensuse-tumbleweed\""
+#APT aliases 
 if [ "$osys" = "debian" ] ; then
     eval "$(~/.rbenv/bin/rbenv init - bash)"
     export PATH="$HOME/.rbenv/bin:$PATH"

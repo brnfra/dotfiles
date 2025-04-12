@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 yellow=$(tput setaf 220);
 export MANPAGER='less -X --save-marks --mouse --wheel-lines=6';
 export TERMINAL=xfce4-terminal

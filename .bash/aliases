@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-opensuse="\"opensuse-tumbleweed\""
+
 #APT aliases {{{
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     #list dependencies
     alias pdeps="apt depends"
     #source edit
@@ -20,7 +19,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
     # }}}
     # {{{ pacman alias
     #
-elif [ "$system_id" = "manjaro" ]; then
+elif [ "$osys" = "manjaro" ]; then
     # update and upgrade
     alias up='sudo pacman -Sy'
     alias upg='sudo pacman -Syu --noconfirm'
@@ -33,7 +32,7 @@ elif [ "$system_id" = "manjaro" ]; then
     #alias fd='fdfind'
 #}}}
 #{{{opensuse aliases
-elif [ "$system_id" = "$opensuse" ]; then
+elif [ "$osys" = "$opensuse" ]; then
     alias browser="firefox"
     alias remove="sudo zypper remove"
     alias get="sudo zypper install"
@@ -129,7 +128,6 @@ alias br='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME restore'
 alias bare_log="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar.%s ;'"
 alias bpacks='config_check packs'
 alias blog='cat $HOME/.config-bkp/stage-bkp.log'
-BranchHome="$(git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" describe --all --exact-match HEAD | cut -d "/" -f 2 )";
 if [ "$BranchHome" = "main" ]; then
     alias bs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout testing'
 else
