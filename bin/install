@@ -64,36 +64,36 @@ install_check() {
 ##}}}
 ## backup {{{
 backup_cfg_files() {
-    touch "$bkpLog"
+    cInfo "Create: " "$HOME/.config-bkp/original"
+    mkdir -p "$HOME/.config-bkp/original"
     printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
     cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
 
-    mkdir -p "$HOME/.config-bkp/original"
     local BKPDIR="$HOME/.config-bkp/original"
     local newDir
     newDir="${BKPDIR}"
 
-    for dir in $Dirs; do
+    for dir in  ${Dirs[@]}; do
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
-	    cmOk "$dir"
+	    cmOk "${newDir}/${dir}"
 	else
-	    cError "$dir"
+	    cError "${newDir}/${dir}"
 	fi
     done
 
-    for file in $files; do
+    for file in  ${files[@]}; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	if [ -f $file ];then 
+	if [ -f "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cmOk "$file"
+		cOk "${newDir}/${file}"
 	    else
-		cError "$file"
+		cError "${HOME}/${file}"
 	    fi
 	else
-	    cInfo "Not found: " "$file" >> "$bkpLog" 2>&1
+	    cInfo "Not found: " "${HOME}/${file}" >> "$bkpLog" 2>&1
 	fi
 
     done
