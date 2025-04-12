@@ -10,14 +10,12 @@ if [ "$local" = "$HOME" ];then
 fi
 
 parallel -P 2 -j 20 bats ::: \
-    testRepoConfigFiles.bats \
-    testHomeConfigFiles.bats \
-    testBareI3Config.bats \
-    testRepoI3Config.bats \
-    binMakeFolderByDateTest.bats \
-    binMakeFolderByTypeTest.bats \
-    binNamestdScriptTest.bats \
-    testGitConfig.bats \
-    testInstall.bats
+    testIfExistConfigFiles.bats || exit 1 \
+    testRepoI3Config.bats || exit 1\
+    binMakeFolderByDateTest.bats || exit 1\
+    binMakeFolderByTypeTest.bats || exit 1\
+    binNamestdScriptTest.bats || exit 1\
+    testGitConfig.bats || exit 1\
+    testInstall.bats || exit 1
 #testPkgInstalled.bats \
 
