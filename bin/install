@@ -9,6 +9,7 @@
 #  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 backto=$(pwd)
+branch="bare"
 # make executables in src/ visible to PATH
 
 git_config() {
@@ -42,7 +43,7 @@ install_check() {
 	cd "$DIR" || return
 	PATH="$DIR/../src:$PATH"
 
-	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/main/bin/dotfiles_env"
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/${branch}/bin/dotfiles_env"
 	then
 	    # shellcheck source=dotfiles_env
 	    source dotfiles_env
