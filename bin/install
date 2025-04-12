@@ -197,7 +197,7 @@ cd "$HOME" || return
 install_check
 
 cInfo "Installing $user_name user dotfiles"  
-cInfo "Git clone (--bare):" "$branch" " in $install_dir"
+cInfo "Git clone --bare:" "$branch" " in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
     cOk "Git clone"
     cd "$HOME/bin" || return
