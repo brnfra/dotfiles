@@ -165,7 +165,7 @@ bare_repo_checkout() {
 	DIR="$HOME/bin"
 	cd "$DIR" || return
 	PATH="$DIR/../src:$PATH"
-	cInfo "Checkout and Rename files in conflict to foo.backup (no move files)"
+	cInfo "Checkout and Rename files in conflict to foo.backup, no move files"
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
 	cInfo "Done rename"
 	cInfo "Checking branch: " "$branch"
