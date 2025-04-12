@@ -3,6 +3,10 @@ for file in ~/.bash/{aliases,prompt,exports,functions,input,extras}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 shopt -s autocd
 shopt -s checkwinsize
 shopt -s nocaseglob;
