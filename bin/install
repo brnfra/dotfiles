@@ -204,7 +204,7 @@ if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$in
     bare_repo_checkout
     cInfo "Script: " "${0##*/}" " finish".
 else
-    cError "Can't clone repository" "$branch" " in $install_dir"
+    cError "Clone repository" "$branch" " in $install_dir"
     exit 1
 fi
 
