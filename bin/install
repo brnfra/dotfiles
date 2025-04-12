@@ -68,7 +68,7 @@ install_check() {
 	    # shellcheck source=dotfiles_env
 	    source dotfiles_env
 	else
-	    printf "[ERROR] dotfiles_env doesn't exist and can't download from repository.\n"
+	    printf "[ERROR] dotfiles_env doesnt exist and cant download from repository.\n"
 	    exit 1
 	fi
     fi
@@ -160,7 +160,7 @@ bare_repo_checkout() {
 	cd "$backto" || return
 	exit 0
     else
-	cError "git_config checkout" " "${FUNCNAME[0]}"
+	cError "git_config checkout" "${FUNCNAME[0]}"
 	
 	DIR="$HOME/bin"
 	cd "$DIR" || return
