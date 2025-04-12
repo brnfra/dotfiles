@@ -218,4 +218,3 @@ unset cyan
 unset grey
 
 cd "$backto" || return
-cd "$backto" || return
