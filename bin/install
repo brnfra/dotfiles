@@ -185,7 +185,7 @@ bare_repo_checkout() {
 	    bash ~/bin/config_check tests
 	    cInfo "${FUNCNAME[0]}: done. Logs can be check in: " "$bkpLog"
 	    cd "$backto" || return
-	    exit 0
+	    
 	else
 	    cError "Checkout branch" "$branch" ": ${FUNCNAME[0]} exit with error.${LINENO}"
 	    cInfo "Logs can be check in: " "$bkpLog"
