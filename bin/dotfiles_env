@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #git
-branch="testing"
+branch="stow"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
