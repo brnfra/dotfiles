@@ -10,6 +10,26 @@
 #  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
 backto=$(pwd)
 branch="bare"
+
+E='\033['
+italic="${E}3m"
+reset="${E}0m"
+bold="${E}1m"
+# Set foreground colors
+red="${E}31m"
+green="${E}32m"
+cyan="${E}36m"
+grey="${E}2m"
+cInfo() {
+    printf "${grey}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n"  "[INFO]" "$1" "$2" "$3"
+}
+cError() {
+    printf "${red}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n" "[FAIL]" "$1" "$2" "$3"
+}
+cOk() {
+    printf "${green}%s ${reset}%s\n" "[ OK ]" "$1"
+}
+
 # make executables in src/ visible to PATH
 
 git_config() {
@@ -77,7 +97,7 @@ backup_cfg_files() {
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
 	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	if [ $? = 0 ];then 
-	    cmOk "${newDir}/${dir}"
+	    cOk "${newDir}/${dir}"
 	else
 	    cError "${newDir}/${dir}"
 	fi
@@ -113,60 +133,59 @@ bare_repo_checkout() {
     git_config stash save "Save config state[Install]" 
     ##use to undo, to recover last saved#
     ##>>  $ bare stash apply
-    cInfo "To revert this, use: " "bare stash apply"
+    cInfo "To revert this, run: " "bare stash apply"
 
     if git_config checkout; then
-	cmOk "Checkout branch"
+	cOk "Checkout branch"
 
 	cInfo "Set to don´t show untracked files"
 	git_config config status.showUntrackedFiles no
 
-
+	cInfo "Exec enviroment_config"
 	if [ -f ~/bin/enviroment_config ]; then
 	    bash ~/bin/enviroment_config 
 	else
 	    cError "Enviroment_config not found."
 	    exit 4
 	fi
+	cInfo "Exec config_check"
 	if [ -f ~/bin/config_check ]; then
 	    bash ~/bin/config_check 
 	else
 	    cError "Config_check not found."
 	    exit 4
 	fi
-	printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
-	cInfo "Logs can be check in: " "$bkpLog"
-
+	cInfo "${FUNCNAME[0]} done."  
+	
 	cd "$backto" || return
 	exit 0
     else
-	printf "[WARN]git_config checkout FAIL :%s \n" "${0##*/} - ${FUNCNAME[0]}" 
-	printf "[INFO]%s rename files in conflict to foo.backup (no move)\n" "${0##*/} - ${FUNCNAME[0]}"  
+	cError "git_config checkout" " "${FUNCNAME[0]}"
+	
 	DIR="$HOME/bin"
 	cd "$DIR" || return
 	PATH="$DIR/../src:$PATH"
-	cError "Checkout branch:" "$branch" "and backup files."
+	cInfo "Checkout and Rename files in conflict to foo.backup (no move files)"
 	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
-	cmOk "Backup files"
+	cInfo "Done rename"
 	cInfo "Checking branch: " "$branch"
 	if git_config checkout  ;then
-	    cmOk "Checkout branch"
-	    clnInfo "Installing enviroment_config and backup config files"
+	    cOk "Checkout branch"
+	    cInfo "Installing enviroment_config and backup config files"
 	    cInfo "Set to don´t show untracked files"
 	    git_config config status.showUntrackedFiles no
-	    bash ~/bin/enviroment_config 
+	    cInfo "Exec enviroment_config"
+	    bash ~/bin/enviroment_config
+	    cInfo "Exec config_check"
 	    bash ~/bin/bkp_cfg_files
-	    cmOk "Installation script"
+	    cOk "Installation script"
 	    bash ~/bin/config_check tests
-	    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  
-	    cInfo "Logs can be check in: " "$bkpLog"
+	    cInfo "${FUNCNAME[0]}: done. Logs can be check in: " "$bkpLog"
 	    cd "$backto" || return
 	    exit 0
 	else
-	    printf "[ERROR]git_config checkout fail again: %s [DONE]. Exit with errors.\n" "${0##*/} - ${FUNCNAME[0]}" 
-	    cError "Checkout branch" "$branch" "Exit with error."
+	    cError "Checkout branch" "$branch" ": ${FUNCNAME[0]} exit with error.${LINENO}"
 	    cInfo "Logs can be check in: " "$bkpLog"
-
 	    exit 1
 	fi
     fi
@@ -177,16 +196,26 @@ cd "$HOME" || return
 #check before install
 install_check
 
-printf "[INFO] %s \n" "Installing $user_name user dotfiles"  
-cInfo "Git clone (--bare):" "$branch" "in $install_dir"
+cInfo "Installing $user_name user dotfiles"  
+cInfo "Git clone (--bare):" "$branch" " in $install_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
-    cmOk "Git clone"
+    cOk "Git clone"
     cd "$HOME/bin" || return
     bare_repo_checkout
-    printf "[INFO] Script %s - finish.\n" "${0##*/}"  
+    cInfo "Script: " "${0##*/}" " finish".
 else
-    cError "Can't clone repository"
-    printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}" 
+    cError "Can't clone repository" "$branch" " in $install_dir"
     exit 1
 fi
+
+unset E
+unset italic
+unset reset
+unset bold
+unset red
+unset green
+unset cyan
+unset grey
+
+cd "$backto" || return
 cd "$backto" || return
