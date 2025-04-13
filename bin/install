@@ -64,7 +64,7 @@ install_check() {
     unset stow
 
     # if there are definitions file 
-    if [ -f "$HOME/bin/dotfiles_env" ]; then
+    if [ -e "$HOME/bin/dotfiles_env" ]; then
 	cd "$HOME/bin" || return
 	# shellcheck source=dotfiles_env
 	. dotfiles_env
@@ -84,7 +84,7 @@ install_check() {
 	    exit 1
 	fi
     fi
-    if [ -d "$dotfiles_dir" ]; then
+    if [ -e "$dotfiles_dir" ]; then
 	mkdir -p "${HOME}/${dir}"
 	cInfo "Created" "$dotfiles_dir" "folder".
     else
@@ -105,9 +105,9 @@ backup_cfg_files() {
     local newDir
     newDir="${BKPDIR}"
 
+    printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
     for dir in ${Dirs[@]}; do
-	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
-	if [ -d "{$HOME}/${dir}" ];then
+	if [ -e "{$HOME}/${dir}" ];then
 	    cInfo "Already exists"
 	else
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
@@ -119,9 +119,9 @@ backup_cfg_files() {
 	fi
     done
 
+    printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
     for file in ${files[@]}; do
-	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	if [ -f "${HOME}/${file}" ];then 
+	if [ -e "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
 		cOk "$file" >> "$bkpLog" 2>&1
@@ -147,12 +147,11 @@ install_check
 cInfo "Create: " "$dotfiles_dir"
 mkdir -p "$dotfiles_dir"
 cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
+backup_cfg_files
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
     cOk "Git clone"
 
-    backup_cfg_files
-
-    if [ -d "$dotfiles_dir" ];then
+    if [ -e "$dotfiles_dir" ];then
 	cd "$dotfiles_dir" || return
 	if stow --dotfiles --adopt --target=$HOME . ;then
 	    cInfo "Symlinks created"
@@ -169,7 +168,7 @@ if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_
 else
     cError "Can't clone repository"
     printf "[ERROR] Can't clone repository. %s - fail\n" "${0##*/}"
-    cat "$bkpLog" 
+    cat "$bkpLog" | tail -n 200 
     exit 1
 fi
 
