@@ -75,7 +75,7 @@ Install config tracking in your computer following the commands;
 
 If Desktop/Virtual/Notebooks, after clone, copy/paste in terminal [EDIT YOUR_USER_NAME];
 ```bash
-bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/main/bin/install)";
+bash -c "$(curl -s --max-time 15  https://raw.githubusercontent.com/[YOUR_USER_NAME]/dotfiles/bare/bin/install)";
 ```
 
 To get *_bare repo_* git aproach, copy/paste in your terminal to install;
