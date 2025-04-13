@@ -109,7 +109,7 @@ If I change configuration and like it, *How can I update for this change?*
 
 ```bash
 
-$ git push origin [main/testing]
+$ git push origin [bare/stow]
 
 ```
 
