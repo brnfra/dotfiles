@@ -2,7 +2,7 @@
 # Arquivo: install
 # Autor: Bruno Franco
 # Download: git@github.com:brnfra
-# Ultima_modificacao: 10-04-2025
+# Ultima_modificacao: 13-04-2025
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
@@ -62,7 +62,7 @@ install_check() {
     unset curl
     unset ssh
     unset stow
-    
+
     # if there are definitions file 
     if [ -f "$HOME/bin/dotfiles_env" ]; then
 	cd "$HOME/bin" || return
@@ -90,7 +90,7 @@ install_check() {
     else
 	cOk "Folder" "$dotfiles_dir" 
     fi
-  
+
     cInfo "${FUNCNAME[0]}" "Done"
 }
 ##}}}
@@ -117,7 +117,7 @@ backup_cfg_files() {
 
     for file in ${files[@]}; do
 	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
-	if [ -f $file ];then 
+	if [ -f "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
 		cOk "$file" >> "$bkpLog" 2>&1
@@ -147,15 +147,20 @@ if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_
     cOk "Git clone"
 
     backup_cfg_files
-    
-    cd "$dotfiles_dir" || return
-    if stow --dotfiles --adopt --target=$HOME . ;then
-	cInfo "Symlinks created"
+
+    if [ -d "$dotfiles_dir" ];then
+	cd "$dotfiles_dir" || return
+	if stow --dotfiles --adopt --target=$HOME . ;then
+	    cInfo "Symlinks created"
+	else
+	    cError "Stow"
+	    exit 5
+	fi
+
     else
-	cError "Stow"
-	exit 5
+	cError "Not found: " "$dotfiles_dir"
     fi
-    
+
     cInfo "${0##*/} complete. Run logs to view changes." "Files backup in $HOME/.config-bkp/original"
 else
     cError "Can't clone repository"

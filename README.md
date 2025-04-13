@@ -48,6 +48,7 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - [ ] add check bash vars to testing
 - [ ] optmize to use stow
 - [ ] check backup in stow installation
+- [ ] test backup copy files
 - [ ] Uninstall and back config
 
 <br>
