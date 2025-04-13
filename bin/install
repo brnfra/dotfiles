@@ -107,11 +107,15 @@ backup_cfg_files() {
 
     for dir in ${Dirs[@]}; do
 	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
-	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
-	if [ $? = 0 ];then 
-	    cOk "$dir" >> "$bkpLog" 2>&1
+	if [ -d "{$HOME}/${dir}" ];then
+	    cInfo "Already exists"
 	else
-	    cError "$dir"
+	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    if [ $? = 0 ];then 
+		cOk "$dir" >> "$bkpLog" 2>&1
+	    else
+		cError "$dir"
+	    fi
 	fi
     done
 
