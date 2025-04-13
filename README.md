@@ -112,7 +112,7 @@ If I change configuration and like it, *How can I update for this change?*
 - You can update your remote repository and, after tests, run the script below. 
 
 1. Clone this repo in another local.(here the default is ```~/Documents/projects/git/ ``` )
-2. Change to the correspondent branch by ```git switch [main or mingw32-w8]``` 
+2. Change to the correspondent branch by ```git switch [bare or stow]``` 
 3. Make the changes and push to remote repo in correspondent branch in cloned folder. 
 4. In the computers run pull script and receive the updates.(wait a minute in the same computer to update HEAD)
 
@@ -120,13 +120,13 @@ Run ```$ push_local_config "COMMIT MESSAGE" ``` gonna make copy my edited config
 **dotfiles** folder created in ```enviroment script``` and push to your remote repository[auto].
 - Will push, only if, tests are passed.
 
-Run ```$ stage-local-config``` gonna only make copy, without push, the edited config files to
+Run ```$ stage-config sync-copy``` gonna only make copy, without push, the edited config files to
 **dotfiles** folder. Now check the status and, if it's fine, next, proceed to push changes[manual].
 - No tests here.
 
 ```bash
 
-$ git push origin [main/testing]
+$ git push origin [bare/stow]
 
 ```
 
@@ -345,7 +345,7 @@ after install or trying update your local configs, try this;
 
 1. Delete, in your home folder, ```~/.dotfiles/``` .
 						    
-2. Re-run the command for install again.
+2. Re-run the command for ~/bin/install again.
 
 For other problems, again, check your name and email in install_enviroment or comment.
 
@@ -353,7 +353,7 @@ For other problems, again, check your name and email in install_enviroment or co
  
  1.  Resolve the conflict : ``config pull origin testing --rebase```
  2.  ```config status``` to check files in conflit. Edit file and add new file to resolve. 
- 3.  ```config add [file]```, ```config commit -m "[message]"```
+ 3.  ```config add [file]```, ```config commit -v "[message]"```
  4.  ```config rebase --continue ```
 
 ## Feedback
