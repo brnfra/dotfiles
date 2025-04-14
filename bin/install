@@ -107,7 +107,7 @@ backup_cfg_files() {
 
     printf "[INFO] Folder to backup\n"  >> "$bkpLog"
     for dir in ${Dirs[@]}; do
-	if [ -e "{$HOME}/${dir}" ];then
+	if [ -e "${HOME}/${dir}" ];then
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	    cp -r "${HOME}/"${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
