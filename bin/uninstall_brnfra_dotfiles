@@ -11,7 +11,7 @@ bkpdir="$HOME"/.config-bkp/original
 # restaure *.backup
 function restore() {
     printf "[INFO] Restore original files\n" 
-    cp -ar "$bkpdir"/. $HOME
+    cp -a "$bkpdir/." "$HOME/"
 }
 
 # clean
@@ -24,31 +24,12 @@ function uninstall() {
     fi
     cd $HOME
 
-    list="$HOME/.wallpapers "
-    list+=" $HOME/.config-bkp "
-    list+=" $HOME/.dotfiles "
-    list+=" $HOME/example "
-    list+=" $HOME/bin "
-    list+=" $HOME/tests "
-    list+=" $HOME/test "
-    list+=" $HOME/.github "
-    list+=" $HOME/LICENSE "
-    list+=" $HOME/README.md "
-    list+=" $HOME/Dockerfile "
-    list+=" $HOME/docker-compose.yml "
-    list+=" $dotfiles_dir "
-    printf "[INFO] removing dotfiles\n"
-    for item in $list
-    do
-	if [ -e "$item" ];then
-	    rm -rf "$item"
-	else
-	    printf "%s not found.\n" "$item"
-	fi
-    done
 }
 
 uninstall 
 restore
+rm -rf "$HOME/.config-bkp"
+rm -rf "$dotfiles_dir"
+
 printf "[INFO] uninstall complete. %s \n" "$(date)" 
 cd "$HOME" || return

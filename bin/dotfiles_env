@@ -4,7 +4,7 @@
 branch="stow"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
-dotfiles_dir="$HOME/Documents/Projects/git/dotfiles"
+dotfiles_dir="$HOME/.dotfiles"
 email="devlabbr@gmail.com"
 install_dir="$HOME/.dotfiles"
 #backup
