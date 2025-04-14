@@ -2,7 +2,7 @@
 # Arquivo: install
 # Autor: Bruno Franco
 # Download: git@github.com:brnfra
-# Ultima_modificacao: 13-04-2025
+# Ultima_modificacao: 14-04-2025
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
@@ -109,14 +109,16 @@ backup_cfg_files() {
     for dir in ${Dirs[@]}; do
 	if [ -e "${HOME}/${dir}" ];then
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
-	    cp -r "${HOME}/"${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    cp -r "${HOME}/${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
 		cOk "${HOME}/$dir" >> "$bkpLog" 2>&1
 	    else
-		cError "${HOME}/$dir"
+		cError "${HOME}/$dir" >> "$bkpLog" 2>&1
+
+
 	    fi
 	else
-	    cInfo "${HOME}/${dir} not found" "${HOME}/$file >> "$bkpLog" 2>&1
+	    cInfo "${HOME}/${dir} not found" "${HOME}/$file" >> "$bkpLog" 2>&1
 	fi
     done
 
@@ -127,7 +129,8 @@ backup_cfg_files() {
 	    if [ $? = 0 ];then 
 		cOk "${HOME}/$file" >> "$bkpLog" 2>&1
 	    else
-		cError "${HOME}/$file"
+		cError "${HOME}/$file" >> "$bkpLog" 2>&1
+
 	    fi
 	else
 	    cInfo "Not found for backup: " "${HOME}/$file" >> "$bkpLog" 2>&1

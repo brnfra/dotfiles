@@ -10,18 +10,17 @@ bkpdir="$HOME"/.config-bkp/original
 
 # restaure *.backup
 function restore() {
-    for file in $files; do
-	printf "[INFO] Files or folder to back: (%s)\n" "$file" 
-	mv -f "${bkpdir}/$file" "${HOME}/$file" 
-    done
-
+    printf "[INFO] Restore original files\n" 
+    cp -ar "$bkpdir"/. $HOME
 }
+
 # clean
 function uninstall() {
     printf "[INFO] uninstall \n" 
+    printf "[INFO] unstow \n" 
     if [ -e "$dotfiles_dir" ];then
-        cd $dotfiles_dir
-        stow -D --dotfiles --target=$HOME .
+	cd $dotfiles_dir
+	stow -D --dotfiles --target=$HOME .
     fi
     cd $HOME
 
@@ -38,14 +37,14 @@ function uninstall() {
     list+=" $HOME/Dockerfile "
     list+=" $HOME/docker-compose.yml "
     list+=" $dotfiles_dir "
-    printf "[INFO] Uninstalling dotfiles\n"
+    printf "[INFO] removing dotfiles\n"
     for item in $list
     do
 	if [ -e "$item" ];then
 	    rm -rf "$item"
-        else
+	else
 	    printf "%s not found.\n" "$item"
-        fi
+	fi
     done
 }
 
