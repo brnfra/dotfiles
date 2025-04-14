@@ -85,7 +85,7 @@ install_check() {
 	fi
     fi
     if [ -e "$dotfiles_dir" ]; then
-	mkdir -p "${HOME}/${dir}"
+	mkdir -p "$dotfiles_dir"
 	cInfo "Created" "$dotfiles_dir" "folder".
     else
 	cOk "Folder" "$dotfiles_dir" 
@@ -143,11 +143,9 @@ cd "$HOME" || return
 cInfo "Installing" "brnfra" "dotfiles."
 
 install_check
-
-cInfo "Create: " "$dotfiles_dir"
-mkdir -p "$dotfiles_dir"
-cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
 backup_cfg_files
+
+cInfo "Git clone (dotfiles):" "$branch" "in $dotfiles_dir"
 if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_dir"; then
     cOk "Git clone"
 
