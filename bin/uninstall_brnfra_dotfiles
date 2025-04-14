@@ -19,8 +19,10 @@ function restore() {
 # clean
 function uninstall() {
     printf "[INFO] uninstall \n" 
-    cd "$dotfiles_dir" || echo "$dotfiles_dir not found" ; exit 1
-    stow -D --dotfiles --target=$HOME .
+    if [ -e "$dotfiles_dir" ];then
+        cd $dotfiles_dir
+        stow -D --dotfiles --target=$HOME .
+    fi
     cd $HOME
 
     list="$HOME/.wallpapers "

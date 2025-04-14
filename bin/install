@@ -105,34 +105,35 @@ backup_cfg_files() {
     local newDir
     newDir="${BKPDIR}"
 
-    printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+    printf "[INFO] Folder to backup\n"  >> "$bkpLog"
     for dir in ${Dirs[@]}; do
 	if [ -e "{$HOME}/${dir}" ];then
-	    cInfo "Already exists"
-	else
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    cp -r "${HOME}/"${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cOk "$dir" >> "$bkpLog" 2>&1
+		cOk "${HOME}/$dir" >> "$bkpLog" 2>&1
 	    else
-		cError "$dir"
+		cError "${HOME}/$dir"
 	    fi
+	else
+	    cInfo "${HOME}/${dir} not found" "${HOME}/$file >> "$bkpLog" 2>&1
 	fi
     done
 
-    printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+    printf "[INFO] Files to backup\n"  &>> "$bkpLog"
     for file in ${files[@]}; do
 	if [ -e "${HOME}/${file}" ];then 
 	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
-		cOk "$file" >> "$bkpLog" 2>&1
+		cOk "${HOME}/$file" >> "$bkpLog" 2>&1
 	    else
-		cError "$file"
+		cError "${HOME}/$file"
 	    fi
 	else
-	    cInfo "Not found for backup: " "$file" >> "$bkpLog" 2>&1
+	    cInfo "Not found for backup: " "${HOME}/$file" >> "$bkpLog" 2>&1
 	fi
-
     done
+
     echo >>"$bkpLog"
 
     printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
