@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 for file in ~/.bash/{aliases,prompt,exports,functions,input,extras}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
@@ -39,7 +40,10 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_rsa
+fi
 
 complete -o "default" -o "nospace" -W "packs tests" config_check
 complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"

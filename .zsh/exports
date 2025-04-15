@@ -690,32 +690,10 @@ export PATH_TO_FX="$HOME/.jdks/javafx-sdk-17.0.1/lib"
 export FD_OPTIONS="-H -L --exclude .git --exclude node_modules"
 
 # export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude_standard | fd --type f --type i $FD_OPTIONS"
-export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f \
-  --exclude .git \
-  --exclude boot \
-  --exclude lib \
-  --exclude lib64 \
-  --exclude lost+found \
-  --exclude opt \
-  --exclude proc \
-  --exclude root \
-  --exclude run \
-  --exclude sbin \
-  --exclude srv \
-  --exclude sys \
-  --exclude tmp \
-  --exclude var"
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f --exclude .git --exclude boot --exclude lib --exclude lib64 --exclude lost+found --exclude opt --exclude proc --exclude root --exclude run --exclude sbin --exclude srv --exclude sys --exclude tmp --exclude var"
 
 # export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} ia a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,f2:toggle-preview,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-export FZF_DEFAULT_OPTS='
-  --color=fg:#abb2bf,bg:#282c34,hl:#e06c75,gutter:#282c34,fg+:#e06c75,bg+:#3d4148,hl+:#98c379
-  --color=info:#f7c662,prompt:#e06c75,pointer:#e06c75,marker:#98c379,spinner:#f7c662,header:#6699cc
-  --layout=reverse 
-  --border
-  --inline-info
-  --exact
-  --bind '?:toggle-preview,Ctrl-j:down,Ctrl-k:up,J:preview-down,K:preview-up'
-  '
+export FZF_DEFAULT_OPTS=' --color=fg:#abb2bf,bg:#282c34,hl:#e06c75,gutter:#282c34,fg+:#e06c75,bg+:#3d4148,hl+:#98c379  --color=info:#f7c662,prompt:#e06c75,pointer:#e06c75,marker:#98c379,spinner:#f7c662,header:#6699cc  --layout=reverse   --border  --inline-info  --exact  --bind '?:toggle-preview,Ctrl-j:down,Ctrl-k:up,J:preview-down,K:preview-up'  '
 
 # CTRL+T 
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"

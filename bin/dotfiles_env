@@ -4,7 +4,7 @@
 branch="stow"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
-dotfiles_dir="$HOME/.dotfiles"
+dotfiles_dir="$HOME/.config/dotfiles"
 email="devlabbr@gmail.com"
 install_dir="$HOME/.dotfiles"
 #backup
@@ -25,15 +25,16 @@ opensuse="\"opensuse-tumbleweed\""
 
 #files and directories list{{{
 # bash
-files='.bashrc '
 Dirs='.bash/ '
+files='.bashrc '
+files='.bash_logout '
+files='.bash_profile '
 files+=' .bash/aliases '
 files+=' .bash/exports '
 files+=' .bash/extras '
 files+=' .bash/functions '
 files+=' .bash/input '
 files+=' .bash/logout '
-files+=' .bash/profile '
 files+=' .bash/prompt '
 
 Dirs+=" .local/share/fonts "
@@ -156,8 +157,6 @@ files+=' .tmux.conf '
 # scripts
 Dirs+=' bin/ '
 files+=' bin/audio_to_opus '
-files+=' bin/bare_merge '
-files+=' bin/bare_repo_pull '
 files+=' bin/bkp_cfg_files '
 files+=' bin/blurlock '
 files+=' bin/compress_img '

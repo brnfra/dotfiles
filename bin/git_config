@@ -22,6 +22,7 @@ git_config() {
 
 git_env() {
     osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    opensuse="\"opensuse-tumbleweed\""
 
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
     if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
@@ -36,7 +37,7 @@ git_env() {
             printf "[ERROR]%s - Git not found. \n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
 	    exit 1
 	fi
-    elif [ "$osys" = "manjaro" ]; then
+    elif [ "$osys" = "manjaro" ] || [ "$osys" = "$opensuse" ]; then
 	if git config --global user.email "$email"; then
 	    git config --global user.name "$user_name"
 	    cOk "Edit git enviroments. Username and e-mail."

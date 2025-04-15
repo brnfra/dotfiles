@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: ssh_config
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-04-2025
+# Ultima_modificacao: 15-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -17,12 +17,12 @@ ssh_env() {
     
     if ssh -V &> /dev/null
     then
-	if [ -f "$HOME/.ssh/${user_name}_key_ecdsa" ]
+	if [ -f "$HOME/.ssh/linux_key_ecdsa" ]
 	then
 	    cInfo "Creating pub keys: ssh-agent in use."
 	else
-	    eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/${user_name}_key_ecdsa";  wait $!
-	    eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/${user_name}_key_ecdsa"
+	    eval ssh-keygen -t ecdsa -b 521 -C "$email" -f "$HOME/.ssh/linux_key_ecdsa";  wait $!
+	    eval "$(ssh-agent -s)"; ssh-add "$HOME/.ssh/linux_key_ecdsa"
 	fi
 	cOk "Edit ssh enviroments. keygen and agent."
     else

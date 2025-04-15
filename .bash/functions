@@ -113,7 +113,43 @@ function symlink() {
 	fi
     fi
 }
-
+function dot_stow() {
+    local here="$(pwd)"
+    source bin/dotfiles_env
+    cd "$dotfiles_dir" || exit 1
+    if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
+	stow --dotfiles --adopt -t "$HOME" .
+	cInfo "stowed"
+    else
+	cError "Package" "stow" "not installed."
+    fi
+    cd "$here"
+    unset here
+}
+function redot_stow() {
+    local here="$(pwd)"
+    source bin/dotfiles_env
+    cd "$dotfiles_dir" || exit 1
+     if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
+	stow -R --dotfiles --adopt --target=$HOME .
+    else
+	cError "Package" "stow" "not installed."
+    fi
+    cd "$here"
+    unset here
+}
+function deldot_stow() {
+    local here="$(pwd)"
+    source bin/dotfiles_env
+    cd "$dotfiles_dir" || exit 1
+    if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
+	stow -D --dotfiles --adopt -target=$HOME .
+    else
+	cError "Package" "stow" "not installed."
+    fi
+    cd "$here"
+    unset here
+}
 # }}}
 # Create a backup {{{
 # Define a function which rename a `target` file to `target.backup` if the file

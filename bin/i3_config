@@ -420,7 +420,7 @@ case  $system_id in
     options="${options}    bindsym r \$exe i3exit reboot, mode \"default\"\n"
     options="${options}    bindsym Shift+s \$exe i3exit shutdown, mode \"default\"\n"
 
-    # exit system mode: "Enter" or "Escape""
+    # exit system mode: "Enter" or "Escape"
     options="${options}    bindsym Return mode \"default\"\n"
     options="${options}    bindsym Escape mode \"default\"\n"
     options="${options}}\n"

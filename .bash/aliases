@@ -49,6 +49,8 @@ alias neofetch='neofetch --block_range 0 15'
 # List directories contents aliasesc {{{
 # Long form no user group, color sort by name, directories first
 alias l='ls -Aphvlt --hyperlink --color=always --group-directories-first'
+#from https://github.com/ecnerwala/dotfiles/blob/master/bash/.bash_aliases
+cs() { cd $@ && l;}
 # Long form with user group, color sort by name, directories first
 alias ll='ls -Aphvlt --hyperlink --color=always --group-directories-first'
 # List all dirs with size
@@ -163,7 +165,7 @@ alias dwall="   cd ~/.wallpapers/"
 alias docs="    cd ~/Documents/"
 alias doc="     cd ~/Documents/"
 alias repo="    cd ~/documents/projects/git"
-alias dotfiles="cd ~/Documents/Projects/git/dotfiles"
+alias dotfiles="cd ~/.config/dotfiles"
 alias i3bl="    cd ~/.i3/i3blocks"
 alias dotbash=" cd ~/.bash"
 alias hosts="sudo vim /etc/hosts"
@@ -199,5 +201,5 @@ alias sv="  sudo vim"
 alias vifm="vifm ."
 alias py="python3 "
 #alias play="vlc --play-and-exit --no-loop --no-repeat"
-alias ssha="ssh-add "
+#alias ssha="ssh-add ~/.ssh"
 # }}}
