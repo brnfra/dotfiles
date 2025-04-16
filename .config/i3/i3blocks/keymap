@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 XKB_OUTPUT=$(setxkbmap -query)
 LAYOUT=$(echo "${XKB_OUTPUT}" | grep "layout" | awk -F ':' '{print $2}' | tr -d ' ')
 MODEL=$(echo "${XKB_OUTPUT}" | grep "model" | awk -F ':' '{print $2}' | tr -d ' ')
-# Keymap has not been specific, so it's not configured properly
+# Keymap has not been specific, so it's not configu red_bg properly
 if [[ "${LAYOUT}" == "" ]] || [[ "${MODEL}" == "" ]]; then
   exit 1
 fi
@@ -12,5 +12,5 @@ fi
  KEYMAP_NAME="${MODEL}*${LAYOUT}"
 
 if [[ "${KEYMAP_NAME}" ]]; then
-  echo "<span $font $size $capitalize $white> ${KEYMAP_NAME} </span>"
+  echo "<span $font_bg $size $capitalize $white_bg> ${KEYMAP_NAME} </span>"
 fi

@@ -14,40 +14,22 @@ cInfo "Script: " "${0##*/}"
 ################################################################################################
 ## definitions                                                                                ##{{{
 ################################################################################################
-num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
+
 #mod Mod1(Alt) or Mod4(Win)
 mod_button="Mod4"
 # Initializing the variable. 0 = true
-use_gaps="true"
-system_id=$(cat < /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-opensuse="\"opensuse-tumbleweed\""
+
 # Settings.
 #gaps
+use_gaps="true"
 gaps_inner=2
 gaps_outer=2
-#colors
-i3darker="#080910"
-dark="#181920"
-i3black="#2C323E"
-i3darkgray="#5b5b5b"
-i3gray="#8f8f8f"
-i3white="#F5F6F7"
-i3red="#F74336"
-#orange="#FF6600"
-#orangedark="#FFA366"
-i3yellow="#FFFF00"
-i3green="#00FF00"
-#cyan="#00FFFF"
-i3blue="#0066FF"
-i3purple="#9800FE"
 #Paths i3blocks
-status_command="i3blocks -c \$HOME/.i3/i3blocks.conf"
-status_command2="i3blocks -c \$HOME/.i3/i3blocks_v.conf"
-cfg_dir="\$HOME/.i3"
 binaries="\$HOME/bin"
-#font
-font="Iosevka NFP"
-font_size="11"
+i3_cfg_dir="\$HOME/.config/i3"
+status_command="i3blocks -c ${i3_cfg_dir}/i3blocks.conf"
+status_command2="i3blocks -c ${i3_cfg_dir}/i3blocks_v.conf"
+#terminal
 term="konsole"
 #Apps
 if which $term &> /dev/null;then
@@ -56,7 +38,7 @@ else
     Terminal="i3-sensible-terminal"
 fi
 
-case $system_id in
+case $osys in
 
     "debian" | "ubuntu")
     browser="firefox-esr"
@@ -76,15 +58,20 @@ case $system_id in
 esac
 
 # Get OS and hostname.
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     use_gaps="false"
 fi
-if [ -d "$HOME/.i3" ]; then
+#enviroment
+if [ -e "$i3_dir" ] && [ -d "$i3_dir" ]; then
     #backup 
-    mv -f "$i3_cfg" "$i3_cfg".backup 
-    mv -f "$i3_cfg".backup "${1:-$bkpdir}" 
+    cp -r "$i3_dir" "$bkpdir" &> $HOME/.cache/i3_script.log
 else
-    mkdir -pv "$HOME/.i3"
+    mkdir -pv "$i3_dir" &>> $HOME/.cache/i3_script.log
+    if ! [ $? -eq 0 ];then
+	cError "${LINENO}:Cant create dir: " "$i3_dir" 
+	cat $HOME/.cache/i3_script.log
+	exit 2
+    fi
 fi
 options="# i3 config. Auto generate\n"
 options="${options}# Check ~/bin/i3_config\n"
@@ -265,12 +252,12 @@ fi
 options="${options}bindsym \$mod+Return exec $Terminal\n"
 # Kill focused window.
 options="${options}bindsym \$mod+Shift+q kill\n"
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     #dmenu
     #options="${options}bindsym \$mod+d \$exe dmenu_run -b -l 15 -fn monofur\n"
     #options="${options}for_window [title=\"fzf-menu\"] floating enable move position center\n"
     options="${options}bindsym \$mod+d \$exe rofi -show drun\n"
-elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
+elif [ "$osys" = "manjaro" ] || [ "$osys" = "$opensuse" ]; then
     #dmenu
     options="${options}bindsym \$mod+Ctrl+d \$exe dmenu_recency\n"
     options="${options}bindsym \$mod+d \$exe rofi -show drun\n"
@@ -367,7 +354,7 @@ options="${options}bindsym \$mod+Shift+d reload\n"
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3).
 options="${options}bindsym \$mod+Shift+r restart\n"
 # exit i3 labed (logs you out of your X session) 
-case  $system_id in
+case  $osys in
 
     "debian" | "ubuntu")
     options="${options}bindsym \$mod+Ctrl+l \$exe i3lock-fancy -p\n"
@@ -429,7 +416,7 @@ esac
 
 # Keybidings Start Applications 
 #bindsym Ctrl+1 exec xfce4-appfinder
-case $system_id in
+case $osys in
 
     "ubuntu" | "debian") 
     options="${options}bindsym Ctrl+1 exec $browser\n"
@@ -455,7 +442,7 @@ case $system_id in
 
 esac
 
-options="${options}bindsym Ctrl+0 exec $Terminal -e vim $cfg_dir/config\n"
+options="${options}bindsym Ctrl+0 exec $Terminal -e vim $i3_cfg_dir/config\n"
 options="${options}bindsym Ctrl+3 exec $fileManager\n"
 options="${options}bindsym Ctrl+2 exec $Terminal -e vifm\n"
 options="${options}bindsym Print --release \$exe $binaries/i3-scrot\n"
@@ -472,11 +459,11 @@ options="${options}bindsym \$mod+Ctrl+x --release \$exe xkill\n"
 
 # -----------------------------------------------------------------
 		    # class                 border      backgr. text    indicator child_border
-options="${options}client.focused          $i3green    $i3black  $i3white  $i3purple   $i3green\n"
-options="${options}client.focused_inactive $dark       $dark   $i3white  $i3yellow   $dark\n"
-options="${options}client.unfocused        $dark       $dark   $i3white  $i3purple   $dark\n"
-options="${options}client.urgent           $i3red      $dark   $i3white  $i3red      $i3red\n"
-options="${options}client.background       $dark\n"
+options="${options}client.focused          $green    $black  $white  $purple   $green\n"
+options="${options}client.focused_inactive $dark_gray2       $dark_gray2   $white  $yellow   $dark_gray2\n"
+options="${options}client.unfocused        $dark_gray2       $dark_gray2   $white  $purple   $dark_gray2\n"
+options="${options}client.urgent           $red      $dark_gray2   $white  $red      $red\n"
+options="${options}client.background       $dark_gray2\n"
 
 #}}}
 ################################################################################################
@@ -498,14 +485,14 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darkgray\n"
-    #options="${options}    statusline $i3darker\n"
-    #options="${options}        separator  $i3purple\n"
+    options="${options}    background $dark_gray\n"
+    #options="${options}    statusline $black2\n"
+    #options="${options}        separator  $purple\n"
 			       #                border     backgr      text
-    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
-    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
-    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+    options="${options}    focused_workspace    $blue    $green    $dark_gray2\n"
+    options="${options}    active_workspace	$dark_gray2      $blue     $white\n"
+    options="${options}    inactive_workspace   $dark_gray2      $gray     $dark_gray2\n"
+    options="${options}    urgent_workspace	$dark_gray2      $yellow   $dark_gray2\n"
     options="${options}    }\n"
     options="${options}}\n"
     options="${options}bar {\n"
@@ -519,14 +506,14 @@ if [ $num_monitors == 2 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command2\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darkgray\n"
-    #options="${options}    statusline $i3darker\n"
-    #options="${options}        separator  $i3purple\n"
+    options="${options}    background $dark_gray\n"
+    #options="${options}    statusline $black2\n"
+    #options="${options}        separator  $purple\n"
 			       #                border     backgr      text
-    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
-    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
-    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+    options="${options}    focused_workspace    $blue    $green    $dark_gray2\n"
+    options="${options}    active_workspace	$dark_gray2      $blue     $white\n"
+    options="${options}    inactive_workspace   $dark_gray2      $gray     $dark_gray2\n"
+    options="${options}    urgent_workspace	$dark_gray2      $yellow   $dark_gray2\n"
     options="${options}    }\n"
     options="${options}}\n"
 elif [ $num_monitors == 1 ]; then
@@ -541,14 +528,14 @@ elif [ $num_monitors == 1 ]; then
     options="${options}    font pango: $font $font_size\n"
     options="${options}    status_command $status_command\n"
     options="${options}    colors {\n"
-    options="${options}    background $i3darkgray\n"
+    options="${options}    background $dark_gray\n"
 
-    #options="${options}    separator  $i3purple\n"
+    #options="${options}    separator  $purple\n"
 			   #                    border     backgr      text
-    options="${options}    focused_workspace    $i3blue    $i3green    $dark\n"
-    options="${options}    active_workspace	$dark      $i3blue     $i3white\n"
-    options="${options}    inactive_workspace   $dark      $i3gray     $dark\n"
-    options="${options}    urgent_workspace	$dark      $i3yellow   $dark\n"
+    options="${options}    focused_workspace    $blue    $green    $dark_gray2\n"
+    options="${options}    active_workspace	$dark_gray2      $blue     $white\n"
+    options="${options}    inactive_workspace   $dark_gray2      $gray     $dark_gray2\n"
+    options="${options}    urgent_workspace	$dark_gray2      $yellow   $dark_gray2\n"
     options="${options}    }\n"
     options="${options}}\n"
 fi
@@ -564,7 +551,7 @@ options="${options}bindsym --release Num_Lock  \$exe pkill -SIGRTMIN+11 i3blocks
 ################################################################################################
 ## sound-section                                                                              ##{{{
 ################################################################################################
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     # volume control and i3blocks volume status --------------------------------
     options="${options}set \$vol_signal pkill -SIGRTMIN+10 i3blocks\n"
     options="${options}bindsym XF86AudioRaiseVolume \$exe pactl set-sink-volume \$pa_sink +5%%  && \$vol_signal\n"
@@ -576,7 +563,7 @@ if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
 ################################################################################################
     ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##{{{
 ################################################################################################
-elif [ "$system_id" = "manjaro" ] || [ "$system_id" = "$opensuse" ]; then
+elif [ "$osys" = "manjaro" ] || [ "$osys" = "$opensuse" ]; then
     options="${options}\$exe volumeicon\n"
     if amixer -h &> /dev/null; then
         options="${options}bindsym Ctrl+F2 exec $Terminal -e alsamixer\n"
@@ -609,13 +596,13 @@ options="${options}bindsym Ctrl+m \$exe \$HOME/bin/wacom-monitor-toggle\n"
 # exec_always --no-startup-id sbxkb
 #$exe start_conky_green
 
-if [ "$system_id" = "debian" ] || [ "$system_id" = "ubuntu" ]; then
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     options="${options}\$exe xfce4-power-manager\n"
     options="${options}\$exe blueman-applet\n"
     options="${options}\$exe /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1\n"
     options="${options}\$exe xautolock -time 10 -locker \"i3lock-fancy -p -g\"\n"
     options="${options}\$exe diodon\n"
-elif [ "$system_id" = "manjaro" ] ;then
+elif [ "$osys" = "manjaro" ] ;then
     options="${options}\$exe xfce4-power-manager\n"
     options="${options}\$exe /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1\n"
         options="${options}\$exe clipit\n"
@@ -634,7 +621,7 @@ elif [ "$system_id" = "manjaro" ] ;then
     else
 	options="${options}\$exe start_conky\n"
     fi
-elif [ "$system_id" = "$opensuse" ]; then
+elif [ "$osys" = "$opensuse" ]; then
     options="${options}\$exe xautolock -time 10 -locker blurlock\n"
     options="${options}\$exe_always xrdb -load ~/.Xresources\n"
     options="${options}\$exe /usr/libexec/polkit-kde-authentication-agent-1\n"
@@ -654,18 +641,24 @@ elif [ "$system_id" = "$opensuse" ]; then
     fi
 fi
 
-options="${options}\$exe $cfg_dir/autostart/i3config\n"
-options="${options}\$exe $cfg_dir/autostart/wallpapers\n"
+options="${options}\$exe $i3_cfg_dir/autostart/i3config\n"
+options="${options}\$exe $i3_cfg_dir/autostart/wallpapers\n"
 #}}}
 #### config ends in this line
 if ! i3 -v &> /dev/null; then
     cInfo "i3wm isn't installed" "Skipped"
 else
     printf "$options%s" > "$i3_cfg"
+    if [ $? -eq 0 ];then
+	cInfo "Created on:" "$i3_cfg" 
+    else
+	cError "${LINENO}:Could not write config file"
+	exit 1
+    fi
 fi
 
 if [ -f "$i3_cfg" ]; then
     cOk "i3 config file"
 else
-    cError "Could not write config file"
+    cError "${LINENO}:Config file not found"
 fi

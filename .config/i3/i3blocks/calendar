@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 if $(type gsimplecal &>/dev/null); then
     EXEC="gsimplecal"
@@ -13,4 +13,4 @@ case "$BLOCK_BUTTON" in
     i3-msg exec "$EXEC" > /dev/null
   ;;
 esac
-echo "<span $font $size $capitalize $green >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M:%S') </span>"
+echo "<span $font_bg $size $capitalize $green_bg >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M:%S') </span>"

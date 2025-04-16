@@ -21,6 +21,7 @@ doit() {
 }
 export -f doit
 parallel --halt now,fail=1 --bar  doit ::: \
+    checkQuotes.bats \
     testIfExistConfigFiles.bats  \
     testRepoI3Config.bats \
     binMakeFolderByDateTest.bats \

@@ -195,18 +195,18 @@ bindsym Ctrl+1 exec firefox
 bindsym Ctrl+F1 exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+z $exe morc_menu
 bindsym $mod+Shift+m exec konsole -e 'bmenu'
-bindsym Ctrl+0 exec konsole -e vim $HOME/.i3/config
+bindsym Ctrl+0 exec konsole -e vim $HOME/.config/i3/config
 bindsym Ctrl+3 exec dolphin
 bindsym Ctrl+2 exec konsole -e vifm
 bindsym Print --release $exe $HOME/bin/i3-scrot
 bindsym $mod+Shift+Print --release $exe $HOME/bin/i3-scrot -w
 bindsym $mod+Print --release $exe $HOME/bin/i3-scrot -s
 bindsym $mod+Ctrl+x --release $exe xkill
-client.focused          #00FF00    #2C323E  #F5F6F7  #9800FE   #00FF00
-client.focused_inactive #181920       #181920   #F5F6F7  #FFFF00   #181920
-client.unfocused        #181920       #181920   #F5F6F7  #9800FE   #181920
-client.urgent           #F74336      #181920   #F5F6F7  #F74336      #F74336
-client.background       #181920
+client.focused          "#00FF00"    "#2C323E"  "#F5F6F7"  "#9800FE"   "#00FF00"
+client.focused_inactive "#181920"       "#181920"   "#F5F6F7"  "#FFFF00"   "#181920"
+client.unfocused        "#181920"       "#181920"   "#F5F6F7"  "#9800FE"   "#181920"
+client.urgent           "#F74336"      "#181920"   "#F5F6F7"  "#F74336"      "#F74336"
+client.background       "#181920"
 bar {
     id bar-1 
     position top
@@ -216,13 +216,13 @@ bar {
     separator_symbol " "
     mode dock 
     font pango: Iosevka NFP 11
-    status_command i3blocks -c $HOME/.i3/i3blocks.conf
+    status_command i3blocks -c $HOME/.config/i3/i3blocks.conf
     colors {
-    background #5b5b5b
-    focused_workspace    #0066FF    #00FF00    #181920
-    active_workspace	#181920      #0066FF     #F5F6F7
-    inactive_workspace   #181920      #8f8f8f     #181920
-    urgent_workspace	#181920      #FFFF00   #181920
+    background "#5b5b5b"
+    focused_workspace    "#0066FF"    "#00FF00"    "#181920"
+    active_workspace	"#181920"      "#0066FF"     "#F5F6F7"
+    inactive_workspace   "#181920"      "#8f8f8f"     "#181920"
+    urgent_workspace	"#181920"      "#FFFF00"   "#181920"
     }
 }
 bar {
@@ -234,13 +234,13 @@ bar {
     separator_symbol " "
     mode dock 
     font pango: Iosevka NFP 11
-    status_command i3blocks -c $HOME/.i3/i3blocks_v.conf
+    status_command i3blocks -c $HOME/.config/i3/i3blocks_v.conf
     colors {
-    background #5b5b5b
-    focused_workspace    #0066FF    #00FF00    #181920
-    active_workspace	#181920      #0066FF     #F5F6F7
-    inactive_workspace   #181920      #8f8f8f     #181920
-    urgent_workspace	#181920      #FFFF00   #181920
+    background "#5b5b5b"
+    focused_workspace    "#0066FF"    "#00FF00"    "#181920"
+    active_workspace	"#181920"      "#0066FF"     "#F5F6F7"
+    inactive_workspace   "#181920"      "#8f8f8f"     "#181920"
+    urgent_workspace	"#181920"      "#FFFF00"   "#181920"
     }
 }
 bindsym --release Caps_Lock $exe pkill -SIGRTMIN+11 i3blocks
@@ -259,5 +259,5 @@ $exe qlipper
 $exe blueman-applet
 $exe goldendict
 $exe $HOME/.config/conky/start_conky
-$exe $HOME/.i3/autostart/i3config
-$exe $HOME/.i3/autostart/wallpapers
+$exe $HOME/.config/i3/autostart/i3config
+$exe $HOME/.config/i3/autostart/wallpapers

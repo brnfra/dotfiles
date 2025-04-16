@@ -22,9 +22,9 @@
 "
 " Tip #382: Search for <cword> and replace with input() in all open buffers
 let mapleader="," "Map <Leader> to \
-let g:mapleader="," 
-let maplocalleader=";"
-nnoremap <leader>q :q<cr>
+let g:mapleader=","
+
+noremap <leader>q :q<cr>
 nnoremap <leader>Q :q!<cr>
 nnoremap <leader>s :wall<cr>:mkview<cr>
 nnoremap <leader>S :wall<cr>:mkview<cr>
@@ -36,9 +36,9 @@ inoremap <leader>S <esc><esc>:w<CR>:mkview<cr>
 nnoremap 0v :<C-u>source ~/.vimrc <BAR> echo "Vimrc reloaded!"<CR>
 nnoremap 0V :<C-u>source ~/.vimrc <BAR> echo "Vimrc redraw!"<CR>:redraw!<cr>
 noremap =v :source ~/.vimrc<CR>:redraw!<cr>
-noremap =V :source ~/.vimrc<CR>:redraw!<cr> 
-noremap <leader>v :e ~/.vimrc<CR>  
-noremap <leader>V :e ~/.vimrc<CR> 
+noremap =V :source ~/.vimrc<CR>:redraw!<cr>
+noremap <leader>v :e ~/.vimrc<CR>
+noremap <leader>V :e ~/.vimrc<CR>
 "" this shortcuts will make word type errors
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -50,9 +50,9 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-" 
+"
 "---------------------------------------------
-"           copy to system buffer 
+"           copy to system buffer
 "---------------------------------------------
 vnoremap <C-c> :w !xclip -selection clipboard -i<cr><cr>
 "colar area de transferencia xclip"
@@ -87,7 +87,7 @@ inoremap <c-g> <esc>
 "vim-shortcuts
 vnoremap <silent> <S-C> :call SurroundQuotes()<CR>
 " show number on/off""
-noremap <F3> :call ToggleHidden()<CR>10h          
+noremap <F3> :call ToggleHidden()<CR>10h
 "toggle show spaces"
 inoremap <F3> <esc>:set list! list?<CR>li
 "easy indent all the file
@@ -143,14 +143,14 @@ nnoremap <C-a> ggVG
 "call goyo-plugin"
 noremap ,g :Goyo 120x90%<CR>
 "delete blank spaces"
-noremap <localleader>d :%s/\s\+$//<CR>    
+noremap <leader>d :%s/\s\+$//<CR>
 "delete blank lines
-noremap <localleader>DD :g/^\s*$/d<CR>
-noremap <localleader>D :%s!\n\n\n\+!\r\r!g<CR>
+noremap <leader>DD :g/^\s*$/d<CR>
+noremap <leader>D :%s!\n\n\n\+!\r\r!g<CR>
 "noremap <leader>D :%!cat: -s<CR>
 "manual entry
-noremap <localleader>M :call <SNR>44_PreGetPage(0)<CR>
-inoremap <localleader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
+noremap <leader>M :call <SNR>44_PreGetPage(0)<CR>
+inoremap <leader>M <ESC>:call <SNR>44_PreGetPage(0)<CR>i
 " inserir linhas e continuar em modo normal
 noremap +l o<ESC>:echo<CR>
 noremap +L O<ESC>:echo<CR>
@@ -173,10 +173,10 @@ nnoremap ga <Plug>(EasyAlign)
 "nnoremap <S-up> <esc>ddkP<esc>
 
 " terminal emulation
-nnoremap <localleader>l :terminal<CR>
+nnoremap <leader>l :terminal<CR>
 " split window"
-nnoremap <localleader>/ :split<cr>
-nnoremap <localleader>- :vsplit<cr>
+nnoremap <leader>/ :split<cr>
+nnoremap <leader>- :vsplit<cr>
 "" Switching windows buffer(NerdTree)
 nnoremap <C-down> <C-W>j    "v
 nnoremap <C-up> <C-W>k   "^
@@ -189,4 +189,4 @@ nnoremap <C--> <C-W>-
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
 nnoremap <S-t> :tabnew<CR>
-"--------------------------------------------------------END MAPS  
+"-------------------------------------------------------END MAPS

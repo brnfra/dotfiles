@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 opensuse="\"opensuse-tumbleweed\""
 
@@ -13,10 +13,10 @@ elif [ "$system_id" = "$opensuse" ]; then
 fi
 
 if [ "$check" -lt 1 ]; then
-    output="<span $font $green $size $weight >No Updates</span>"
+    output="<span $font_bg $green_bg $size $weight >No Updates</span>"
 elif [ "$check" -gt 100 ]; then
-    output="<span $font $yellow $size $weight >↑[+99 Pkgs]</span>"
+    output="<span $font_bg $yellow_bg $size $weight >↑[+99 Pkgs]</span>"
 else
-    output="<span $font $yellow $size $weight >↑[$check Pkgs]</span>"
+    output="<span $font_bg $yellow_bg $size $weight >↑[$check Pkgs]</span>"
 fi
 echo "$output"

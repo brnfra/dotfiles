@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (C) 2014 Julien Bonjean <julien@bonjean.info>
-# This program is free software: you can redistribute it and/or modify
+# This program is free software: you can  red_bgistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -10,13 +10,13 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 icon="&#xf233;"
 DIR="${BLOCK_INSTANCE:-$HOME}"
-alert_low="${1:-10}" # color will turn red under this value (default: 10%)
-alert_high=$(( 80 )) # color will turn red up this value (default: 90%)
-critic=$(( 90 )) # color will turn red up this value (default: 90%)
+alert_low="${1:-10}" # color will turn  red_bg under this value (default: 10%)
+alert_high=$(( 80 )) # color will turn  red_bg up this value (default: 90%)
+critic=$(( 90 )) # color will turn  red_bg up this value (default: 90%)
 output=$(df -h -P -l "$DIR" | awk -v alert_low=$alert_low '
 /\/.*/ {
 	free=$4
@@ -32,9 +32,9 @@ END {
 ')
 out_to_int=${output//\%/}
 if (( out_to_int < alert_high )); then
-      printf "%s\n"  "<span $font $green $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>" 
+      printf "%s\n"  "<span $font_bg $green_bg $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>" 
 elif (( out_to_int >= alert_high )) && (( out_to_int < critic )); then
-      printf "%s\n" "<span $font $orange $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>" 
+      printf "%s\n" "<span $font_bg $orange_bg $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>" 
 elif (( out_to_int >= critic )); then
-    printf "%s\n" "<span $font $red $font_bold $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>"
+    printf "%s\n" "<span $font_bg $ red_bg $font_bold $size $capitalize >$icon[${output}]$BLOCK_INSTANCE</span>"
 fi  

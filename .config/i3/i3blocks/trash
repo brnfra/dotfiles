@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 #From: https://github.com/Anachron/i3blocks
 
 TRASH_DIRECTORY="${BLOCK_INSTANCE}"
@@ -39,11 +39,11 @@ else
 fi
 
 if (( TRASH_COUNT == 0 )); then
-    echo  "<span $font $size $white> &#xf014; [${TRASH_COUNT}]</span>"
+    echo  "<span $font_bg $size $white_bg> &#xf014; [${TRASH_COUNT}]</span>"
 elif (( TRASH_COUNT > 0 )) && (( TRASH_COUNT < 100 )); then
-    echo  "<span $font $size $yellow> &#xf1f8; [${TRASH_COUNT}]</span>"
+    echo  "<span $font_bg $size $yellow_bg> &#xf1f8; [${TRASH_COUNT}]</span>"
 elif (( TRASH_COUNT >= 100 )); then
-    echo  "<span $font $size $dark_red $font_bold> &#xf1f8; [+99]</span>"
+    echo  "<span $font_bg $size $dark_ red_bg $font_bold> &#xf1f8; [+99]</span>"
     #exit 33
 fi
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 TYPE="${BLOCK_INSTANCE:-caps}"
 
@@ -21,10 +21,10 @@ else
 fi
 indicator="${checkLock}"
 if [[ "${indicator}" == "on" ]]; then
-    echo "<span $font $size $weight $color_on $uppercase > $BLOCK_INSTANCE </span>"
-    echo "<span $font $size $weight $color_on $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $weight $color_on_bg $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $weight $color_on_bg $uppercase > $BLOCK_INSTANCE </span>"
 else                                    
-    echo "<span $font $size $color_off $uppercase > $BLOCK_INSTANCE </span>"
-    echo "<span $font $size $color_off $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $color_off_bg $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $color_off_bg $uppercase > $BLOCK_INSTANCE </span>"
   
 fi

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 system_id=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
 opensuse="\"opensuse-tumbleweed\""
@@ -53,17 +53,17 @@ cpu_usage=$(awk -v x="$IDLE" 'BEGIN {y = 100.00 ; z = y-x;  printf "%1.2f\n", z 
 # LAVG15=$(( 7 ))
 
 if ((( cpu_usage < t_crit )) && (( cpu_usage >= t_warn )))  || ((( LAVG1 < t_crit )) && (( LAVG1 >= t_warn ))) || ((( LAVG5 < t_crit )) && (( LAVG5 >= t_warn ))) || ((( LAVG15 < t_crit )) && (( LAVG15 >= t_warn ))); then
-    printf "%s\n" "<span $font $size $yellow $weight > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>" 
-    printf "%s\n" "<span $font $size $yellow $weight> $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>" 
+    printf "%s\n" "<span $font_bg $size $yellow_bg $weight > $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>" 
+    printf "%s\n" "<span $font_bg $size $yellow_bg $weight> $ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>" 
     exit 0
 elif (( cpu_usage >= t_crit )) || (( LAVG1 >= t_crit )) || (( LAVG5 >= t_crit )) || (( LAVG15 >= t_crit ));then 
-    printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
-    printf "%s\n" "<span $font $size color=$yellow_code bgcolor=$red_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
+    printf "%s\n" "<span $font_bg $size color=$yellow_bg_code bgcolor=$ red_bg_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVGRZ) </span>"
+    printf "%s\n" "<span $font_bg $size color=$yellow_bg_code bgcolor=$ red_bg_code $weight>$ico_cpu $cpu_usage% $ico_load ($LAVG1%) ($LAVG5%) ($LAVG15%) ($LAVGRZ) $LPROSS_STR </span>"
     exit 0
 fi
 
 # Print short_text, full_text
-printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVGRZ)</span>"
-printf "%s\n" "<span $font $size $green >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVG5%)($LAVG15%)($LAVGRZ)$LPROSS_STR </span>"
+printf "%s\n" "<span $font_bg $size $green_bg >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVGRZ)</span>"
+printf "%s\n" "<span $font_bg $size $green_bg >$ico_cpu$cpu_usage% $ico_load($LAVG1%)($LAVG5%)($LAVG15%)($LAVGRZ)$LPROSS_STR </span>"
 exit 0   
 

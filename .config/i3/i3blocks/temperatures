@@ -8,7 +8,7 @@
 # depends 'jq' package
 # dont inject shell variables into your jq filter!
 # instead use --argjson
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 temps_all=$(sensors -j | jq '.' | \
     grep "temp[1-2]_input" | \
@@ -28,13 +28,13 @@ do
     fi
     if (( get_temp_max < 200 )); then
 	if (( get_temp_max <= 30 )); then
-	    output="<span $font $blue $size > $icon20 $get_temp_max° </span>"
+	    output="<span $font_bg $blue $size > $icon20 $get_temp_max° </span>"
 	elif (( get_temp_max >= 31 )) && (( temp <= 54 )); then
-	    output="<span $font $green $size > $icon50 $get_temp_max° </span>"
+	    output="<span $font_bg $green_bg $size > $icon50 $get_temp_max° </span>"
 	elif (( get_temp_max >= 55 )) && (( temp <= 69 )); then
-	    output="<span $font $orange $size > $icon70 $get_temp_max° </span>"
+	    output="<span $font_bg $orange_bg $size > $icon70 $get_temp_max° </span>"
 	elif (( get_temp_max >= 70 )); then
-	    output="<span $font $red $size > $icon70 $get_temp_max° </span>"
+	    output="<span $font_bg $ red_bg $size > $icon70 $get_temp_max° </span>"
 	fi
     fi
 done

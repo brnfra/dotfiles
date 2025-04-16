@@ -3,7 +3,7 @@
 # Copyright (C) 2014 Alexander Keller <github@nycroth.com>
 # Copyright (C) 2023 Bruno Franco <github@brnfra.com>
 # 
-# This program is free software: you can redistribute it and/or modify
+# This program is free software: you can  red_bgistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -13,8 +13,8 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# $ fc-list command to list fonts
-source ~/.i3/i3blocks/vars
+# $ fc-list command to list font_bgs
+source ~/bin/dotfiles_env
 
 icon_mute='&#xf131; [X]'
 icon95='&#xf130;'
@@ -29,7 +29,7 @@ icon_zero='&#xf130;'
 # For PulseAudio users, use "pulse"
 # For Jack/Jack2 users, use "jackplug"
 # For ALSA users, you may use "default" for your primary card
-# or you may use hw:# where # is the number of the card desired
+# or you may use hw:# where # is the number of the card desi red_bg
 MIXER="default"
 [ -n "$(lsmod | grep pulse)" ] && MIXER="pulse"
 [ -n "$(lsmod | grep jack)" ] && MIXER="jackplug"
@@ -97,7 +97,7 @@ elif amixer -h &> /dev/null; then
         5) amixer -q -D $MIXER sset $SCONTROL $(capability) ${STEP}- unmute ;; # scroll down, decrease
     esac
 else
-    printf "%s\n" "<span $font $yellow $icon_size > FAIL </span>"
+    printf "%s\n" "<span $font_bg $yellow_bg $icon_size > FAIL </span>"
     exit 1 
 fi
 #------------------------------------------------------------------------
@@ -116,25 +116,25 @@ fi
 
 get_block() {
   if [ "$vmute" = "$res" ]; then
-      printf "%s\n" "<span $font $yellow $icon_size > $icon_mute </span>"
+      printf "%s\n" "<span $font_bg $yellow_bg $icon_size > $icon_mute </span>"
       exit 0
   elif (( volume >= 0 )) && (( volume <= 5 )) ; then
-      printf "%s\n" "<span $font $green $icon_size > $icon_zero [0$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon_zero [0$volume%]</span>"
       exit 0
   elif (( volume > 5 )) && (( volume <= 15 )) ; then
-      printf "%s\n" "<span $font $green $icon_size > $icon_low [$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon_low [$volume%]</span>"
       exit 0
   elif (( volume > 15 )) && (( volume <= 35 )) ; then
-      printf "%s\n" "<span $font $green $icon_size > $icon25 [$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon25 [$volume%]</span>"
       exit 0
   elif (( volume > 35 )) && (( volume <= 65 )) ; then
-      printf "%s\n" "<span $font $green $icon_size > $icon50 [$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon50 [$volume%]</span>"
       exit 0
   elif (( volume > 65 )) && (( volume <= 85 )) ; then
-      printf "%s\n" "<span $font $green $icon_size > $icon75 [$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon75 [$volume%]</span>"
       exit 0
   elif (( volume > 85 )); then
-      printf "%s\n" "<span $font $green $icon_size > $icon95 [$volume%]</span>"
+      printf "%s\n" "<span $font_bg $green_bg $icon_size > $icon95 [$volume%]</span>"
       exit 0
   fi
 }

@@ -8,7 +8,7 @@
 # Thanks to [Original Author] duckl1ng/bog2n
 # script from https://raw.githubusercontent.com/bog2n/i3blocks-pomodoro/master/pomodoro.sh
 # repo: https://github.com/bog2n/i3blocks-pomodoro
-source ~/.i3/i3blocks/vars
+source ~/bin/dotfiles_env
 
 # Config variables (min)
 work_time=25
@@ -18,7 +18,7 @@ break_time=$(( break_time * 60 ))
 pomos_counter=$(( 0 ))
 counter_file="/tmp/pomos_counter"
 
-#fonts awesomei ->  icons required
+#font_bgs awesomei ->  icons requi red_bg
 #ico_start="&#xf251;"
 ico_start="&#xf251;"
 ico_work="&#xf262;"
@@ -47,13 +47,13 @@ function display () {
     case $2 in
 	w)
 	    if [[ -e $counter_file ]];then
-		echo "<span $font $yellow $size >$ico_work [$pomos_counter] $min:$sek</span>"
+		echo "<span $font_bg $yellow_bg $size >$ico_work [$pomos_counter] $min:$sek</span>"
 	    else
-		echo "<span $font $yellow $size >$ico_work $min:$sek</span>"
+		echo "<span $font_bg $yellow_bg $size >$ico_work $min:$sek</span>"
 	    fi
 	    ;;
 	b)
-	    echo "<span $font $green $size >$ico_break [$pomos_counter] $min:$sek</span>"
+	    echo "<span $font_bg $green_bg $size >$ico_break [$pomos_counter] $min:$sek</span>"
 	    ;;
     esac
 }
@@ -96,9 +96,9 @@ then
     display $s $t
 else
     if [[ -e $counter_file ]];then
-	echo "<span $font $green $size >$ico_start[$(cat $counter_file)]</span>"
+	echo "<span $font_bg $green_bg $size >$ico_start[$(cat $counter_file)]</span>"
     else
-	echo "<span $font $green $size $transform $style  >$ico_start</span>"
+	echo "<span $font_bg $green_bg $size $transform $style  >$ico_start</span>"
     fi
 fi
 case $BLOCK_BUTTON in

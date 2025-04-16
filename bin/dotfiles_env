@@ -15,7 +15,8 @@ checkAll="$HOME/test/dotfilesTest.sh"
 checkHome="$HOME/test/testHomeConfigFiles.bats"
 # enviroment
 fonts_path="$HOME/.local/share/fonts"
-i3_cfg="$HOME/.i3/config"
+i3_dir="$HOME/.config/i3"
+i3_cfg="$HOME/.config/i3/config"
 i3_scpt="$HOME/bin/i3_config"
 # wallpaper
 wallpapers_dir="$HOME/.wallpapers"
@@ -23,12 +24,13 @@ nitrogen_cfg_dir="$HOME/.config/nitrogen"
 osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
 opensuse="\"opensuse-tumbleweed\""
 
+num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
 #files and directories list{{{
 # bash
 Dirs='.bash/ '
 files='.bashrc '
-files='.bash_logout '
-files='.bash_profile '
+files+='.bash_logout '
+files+=' .bash/profile '
 files+=' .bash/aliases '
 files+=' .bash/exports '
 files+=' .bash/extras '
@@ -98,33 +100,34 @@ files+=' .config/xfce4/terminal/terminalrc '
 files+=' .config/konsolerc '
 
 # i3
-Dirs+=' .i3/ '
-Dirs+=' .i3/autostart/ '
-files+=' .i3/autostart/i3config '
-files+=' .i3/autostart/wallpapers '
-Dirs+=' .i3/i3blocks/ '
-files+=' .i3/i3blocks/bandwidth '
-files+=' .i3/i3blocks/battery '
-files+=' .i3/i3blocks/calendar '
-files+=' .i3/i3blocks/cpu_usage '
-files+=' .i3/i3blocks/disk '
-files+=' .i3/i3blocks/iface '
-files+=' .i3/i3blocks/keyindicator '
-files+=' .i3/i3blocks/keymap '
-files+=' .i3/i3blocks/memory '
-files+=' .i3/i3blocks/mic '
-files+=' .i3/i3blocks/pomodoro '
-files+=' .i3/i3blocks/temperatures '
-files+=' .i3/i3blocks/trash '
-files+=' .i3/i3blocks/upgindicator '
-files+=' .i3/i3blocks/vars '
-files+=' .i3/i3blocks/volume '
-
-files+=' .i3/config '
-files+=' .i3/i3-get-window-criteria '
-files+=' .i3/i3-manjaro-default-config-backup '
-files+=' .i3/i3blocks.conf '
-files+=' .i3/i3blocks_v.conf '
+Dirs+='  .config/i3/ '
+files+=' .config/i3/config '
+files+=' .config/i3/i3-get-window-criteria '
+files+=' .config/i3/i3-manjaro-default-config-backup '
+files+=' .config/i3/i3blocks.conf '
+files+=' .config/i3/i3blocks_v.conf '
+# i3/autostart
+Dirs+='  .config/i3/autostart/ '
+files+=' .config/i3/autostart/i3config '
+files+=' .config/i3/autostart/wallpapers '
+# i3/blocks
+Dirs+='  .config/i3/i3blocks/ '
+files+=' .config/i3/i3blocks/bandwidth '
+files+=' .config/i3/i3blocks/battery '
+files+=' .config/i3/i3blocks/calendar '
+files+=' .config/i3/i3blocks/cpu_usage '
+files+=' .config/i3/i3blocks/disk '
+files+=' .config/i3/i3blocks/iface '
+files+=' .config/i3/i3blocks/keyindicator '
+files+=' .config/i3/i3blocks/keymap '
+files+=' .config/i3/i3blocks/memory '
+files+=' .config/i3/i3blocks/mic '
+files+=' .config/i3/i3blocks/pomodoro '
+files+=' .config/i3/i3blocks/temperatures '
+files+=' .config/i3/i3blocks/trash '
+files+=' .config/i3/i3blocks/upgindicator '
+files+=' .config/i3/i3blocks/vars '
+files+=' .config/i3/i3blocks/volume '
 # rofi
 Dirs+=' .config/rofi/ '
 files+=' .config/rofi/config.rasi '
@@ -267,25 +270,84 @@ packs_list+=" zip "
 
 #}}}
 
-# Color {{{ 
+# Colors {{{ 
 # escape
 E='\033['
-italic="${E}3m"
-reset="${E}0m"
-bold="${E}1m"
+term_italic="${E}3m"
+term_reset="${E}0m"
+term_bold="${E}1m"
 # Set foreground colors
-red="${E}31m"
-green="${E}32m"
-cyan="${E}36m"
-grey="${E}2m"
+term_red="${E}31m"
+term_green="${E}32m"
+term_cyan="${E}36m"
+term_grey="${E}2m"
 
 cInfo() {
-    printf "${grey}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n"  "[INFO]" "$1" "$2" "$3"
+    printf "${term_grey}%s${term_reset} %s${term_cyan}${term_bold}${term_italic} %s${term_reset} %s\n"  "[INFO]" "$1" "$2" "$3"
 }
 cError() {
-    printf "${red}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n" "[FAIL]" "$1" "$2" "$3"
+    printf "${term_red}%s${term_reset} %s${term_cyan}${term_bold}${term_italic} %s${term_reset} %s\n" "[FAIL]" "$1" "$2" "$3"
 }
 cOk() {
-    printf "${green}%s ${reset}%s\n" "[ OK ]" "$1"
+    printf "${term_green}%s ${term_reset}%s\n" "[ OK ]" "$1" "$2"
 }
+
+#colors
+black='"#2C323E"'
+black2='"#080910"'
+dark_gray2='"#181920"'
+dark_gray='"#5b5b5b"'
+gray='"#8f8f8f"'
+white='"#F5F6F7"'
+red='"#F74336"'
+#orange='"#FF6600"'
+#dark_orange='"#FFA366"'
+yellow='"#FFFF00"'
+green='"#00FF00"'
+#cyan='"#00FFFF"'
+blue='"#0066FF"'
+purple='"#9800FE"'
+#to i3blocks
+white_bg='     color="#FFFFFF" bgcolor="#5f5f5f"'
+red_bg='       color="#FF0000" bgcolor="#5f5f5f"'
+dark_red_bg='  color="#f77777" bgcolor="#5f5f5f"'
+green_bg='     color="#00FF00" bgcolor="#5f5f5f"'
+lima_green_bg='color="#C0FF00" bgcolor="#5f5f5f"'
+dark_green_bg='color="#418A03" bgcolor="#5f5f5f"'
+yellow_bg='    color="#FFED00" bgcolor="#5f5f5f"'
+orange_bg='    color="#FF5100" bgcolor="#5f5f5f"'
+color_off_bg=' color="#00FF00" bgcolor="#5f5f5f"'
+color_on_bg='  color="#FF0000" bgcolor="#FFED00"'
+
+white_code='     "#FFFFFF'
+red_code='       "#FF0000"'
+dark_red_code='  "#BF616A"'
+green_code='     "#00FF00"'
+lima_green_code='"#C0FF00"'
+dark_green_code='"#418A03"'
+yellow_code='    "#FFED00"'
+orange_code='    "#FF5100"'
+
+#font
+font="Iosevka NFP"
+font_size="11"
+# #font='font="pattern from fc-list"' to i3blocks
+font_bg="font=\"$font\""
+
+# normal bold [100; - thin 400; - normal 900; - heavy(black)]
+weight='font-weight="bold"'
+font_bold='font-weight="bold"'
+font_normal='font-weight="normal"'
+
+#normal,italic
+style='font-style="italic"'
+
+#none ,uppercase,lowercase,capitalize
+capitalize='text-transform="capitalize"'
+uppercase='text-transform="uppercase"'
+
+# percent, xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+size='size="100%"'
+icon_size='size="100%"'
+
 # }}}

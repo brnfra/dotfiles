@@ -28,7 +28,7 @@ for file in ${files[@]}; do
 	continue
     fi
     #exclude i3block mic volume
-    if [[ "${file}" = ".i3/i3blocks/mic" ]] || [[ "${file}" = ".i3/i3blocks/volume" ]] || [[ "${file}" = ".i3/i3blocks/temperatures" ]];then
+    if [[ "${file}" = ".config/i3/i3blocks/mic" ]] || [[ "${file}" = ".config/i3/i3blocks/volume" ]] || [[ "${file}" = ".config/i3/i3blocks/temperatures" ]];then
 	echo "catch vim file(mic or volume or temp) = $file"
 	continue
     fi
