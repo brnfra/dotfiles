@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 
-#git
+#	GIT
 branch="stow"
 user_name="brnfra"
 repository="https://github.com/$user_name/dotfiles.git"
 dotfiles_dir="$HOME/.config/dotfiles"
 email="devlabbr@gmail.com"
 install_dir="$HOME/.dotfiles"
-#backup
+#	BACKUP
 bkpLog="$HOME/.config-bkp/stage-bkp.log"
 bkpdir="$HOME/.config-bkp"
-#tests
+#	TESTS
 checkAll="$HOME/test/dotfilesTest.sh"
-checkHome="$HOME/test/testHomeConfigFiles.bats"
-# enviroment
+checkHome="$HOME/test/testIfExistConfigFiles.bats"
+# 	ENVIROMENT
 fonts_path="$HOME/.local/share/fonts"
 i3_dir="$HOME/.config/i3"
 i3_cfg="$HOME/.config/i3/config"
 i3_scpt="$HOME/bin/i3_config"
-# wallpaper
+# 	WALLPAPER
 wallpapers_dir="$HOME/.wallpapers"
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
 osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
@@ -289,7 +289,7 @@ cError() {
     printf "${p_red}%s${p_reset} %s${p_cyan}${p_bold}${p_italic} %s${p_reset} %s\n" "[FAIL]" "$1" "$2" "$3"
 }
 cOk() {
-    printf "${term_green}%s ${p_reset}%s\n" "[ OK ]" "$1" "$2"
+    printf "${p_green}%s ${p_reset}%s\n" "[ OK ]" "$1" "$2"
 }
 
 #colors

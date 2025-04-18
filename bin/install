@@ -37,10 +37,10 @@ cOk() {
 #install_check {{{
 install_check() {
     cInfo "Executing %s requirements.\n" "${FUNCNAME[0]}"
-    local git='which git'
-    local curl='which curl'
-    local ssh='which ssh'
-    local stow='which stow'
+    local git='type git'
+    local curl='type curl'
+    local ssh='type ssh'
+    local stow='type stow'
     #packages
     if ! $git &> /dev/null;then
 	cError "Git not found. Abort."
@@ -109,13 +109,11 @@ backup_cfg_files() {
     for dir in ${Dirs[@]}; do
 	if [ -e "${HOME}/${dir}" ];then
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
-	    cp "${HOME}/${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    cp "${HOME}/${dir}/" "${newDir}/${dir}/" >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
 		cOk "${HOME}/$dir" >> "$bkpLog" 2>&1
 	    else
 		cError "${HOME}/$dir" >> "$bkpLog" 2>&1
-
-
 	    fi
 	else
 	    cInfo "${HOME}/${dir} not found" "${HOME}/$file" >> "$bkpLog" 2>&1
@@ -157,9 +155,16 @@ if git clone -v --single-branch -b "$branch" --depth 1 "$repository" "$dotfiles_
 	cd "$dotfiles_dir" || return
 	if stow --dotfiles --adopt --target=$HOME . ;then
 	    cInfo "Symlinks created"
+	    cInfo "Exec enviroment_config"
+	    if [ -f ~/bin/enviroment_config ]; then
+		bash ~/bin/enviroment_config 
+	    else
+		cError "Enviroment_config not found."
+		exit 127
+	    fi
 	else
 	    cError "Stow"
-	    exit 5
+	    exit 127
 	fi
 
     else
