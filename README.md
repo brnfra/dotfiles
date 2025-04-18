@@ -42,15 +42,15 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 - [x] Script to generate I3 config 
 - [x] optimize for-loops on backup(stow)
 - [x] optmize to use stow
-- [+] Uninstall and back config(need tests)
-- [+] Make scripts to generate configs (i3blocks, vim, etc) 
-- [+] check backup in stow installation
-- [+] test backup copy files
+- [ ] Uninstall and back config(need tests)
+- [ ] Make scripts to generate configs (i3blocks, vim, etc) 
+- [ ] check backup in stow installation
+- [ ] test backup copy files
 - [ ] Add test to check logical order in scripts 
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
-- [-] add check bash vars to testing
-
+- [ ] add check bash vars to testing
+   
 <br>
 
 ## Requirements
