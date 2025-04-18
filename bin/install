@@ -2,7 +2,7 @@
 # Arquivo: install
 # Autor: Bruno Franco
 # Download: git@github.com:brnfra
-# Ultima_modificacao: 14-04-2025
+# Ultima_modificacao: 18-04-2025
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
@@ -109,7 +109,7 @@ backup_cfg_files() {
     for dir in ${Dirs[@]}; do
 	if [ -e "${HOME}/${dir}" ];then
 	    mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
-	    cp -r "${HOME}/${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	    cp "${HOME}/${dir}" "${newDir}/${dir}" >> "$bkpLog" 2>&1
 	    if [ $? = 0 ];then 
 		cOk "${HOME}/$dir" >> "$bkpLog" 2>&1
 	    else
