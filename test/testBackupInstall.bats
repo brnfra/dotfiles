@@ -12,9 +12,9 @@ setup() {
 
 @test "FilesByDate_3_sub_levels" { 
     source $HOME/bin/dotfiles_env
-    [ -f "${HOME}/$bkpdir/original/.config1" ]
-    [ -f "${HOME}/$bkpdir/original/bin/script1" ]
-    [ -f "${HOME}/$bkpdir/original/.vimrc" ]
+    [ -f "${bkpdir}/original/.config1" ]
+    [ -f "${bkpdir}/original/bin/script1" ]
+    [ -f "${bkpdir}/original/.vimrc" ]
 
 } 
 
