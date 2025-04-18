@@ -24,6 +24,9 @@ setup() {
     touch "${BATS_TMPDIR}"/file1.name.ext{4..6}
 
 }
+teardown() {
+    rm -rf "${BATS_TMPDIR}"
+}
 
 @test "type_fold" {
     type_fold  "${BATS_TMPDIR}"    # > /dev/null 2> /dev/null 

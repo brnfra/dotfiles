@@ -48,7 +48,7 @@ for file in ${files[@]}; do
 	continue
     fi
 
-    run awk '{ n = gsub(/"/, "&"); if (n % 2 == 1) print NR ": " $0 }' "${HOME}/${file}"
+    run awk '{ n = gsub(/"/, "&"); if (n % 2 == 1) print NR ": " $0 }' "${HOME}/${file}" #"
     cInfo "file = $file: $output"
     [ "$status" -eq 0 ]
     [ "$output" = '' ]

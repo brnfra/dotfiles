@@ -13,14 +13,14 @@
 
 printf "Normalizing files and folders names\n"
 #Help {{{
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+if [[ "${1}" == "-h" || "${1}" == "--help" ]]; then cat <<HELP
 ${0##*/}
 
 NAME
     ${0##*/}  - standarize names 
 
 SYNOPSIS
-    ${0##*/} {[-alh] | --local | --all |--help}
+    ${0##*/} {[-alh] | --local | --all |--help} [file] 
 
 DESCRIPTION
     Change names for standard. Ex.: 's p?c' => s_p_c; and so on...
@@ -48,17 +48,21 @@ Licensed under the MIT license.
 HELP
 exit; fi
 #}}}
-
-print_changes() {
-    printf "[ ${red}%s${reset} ]" "$1" 
-    printf "%s" "---->"
-    printf "[ ${green}${bold}%s${reset} ]\n" "$2"
+rename() {   #{{{
+    cp -r "$1" "${HOME}/.local/share/Trash/files"   &>/dev/null
+    mv -n "${1}" "${2}"  &>/dev/null
 }
-
+    #}}}
+print_changes() { #{{{
+    printf "[ ${p_red}%s${p_reset} ]" "${1}" 
+    printf "%s" "---->"
+    printf "[ ${p_green}${p_bold}%s${p_reset} ]\n" "${2}"
+}
+    #}}}
 stdnames() {    #{{{
     #	${variable//search/replace}
-    local OLD=$1
-    local NAME=$1
+    local OLD="$1"
+    local NAME="$1"
     local COUNT=$(( 1 ))
     NAME=${NAME//'\302\264'/_}
     NAME=${NAME//'\302\264'/_}
@@ -69,9 +73,13 @@ stdnames() {    #{{{
     NAME=$(echo "$NAME" | tr -t '[:space:][:blank:]' '_')
     NAME=$(echo "$NAME" | tr -t '[:blank:]' '_')
     NAME=$(echo "$NAME" | tr -s '_' '_' )
+    NAME=$(echo "$NAME" | tr -s '-' '-' )
     NAME=$(echo "$NAME" | tr -s '.' '.' )
     NAME=$(echo "$NAME" | sed -r 's/^_//gi;s/_$//gi;s/_\/$/\//gi')
+    NAME=$(echo "$NAME" | sed -r 's/^-//gi;s/-$//gi;s/-\/$/\//gi')
     NAME=$(echo "$NAME" | sed -E 's/^\._*/./')
+    NAME=$(echo "$NAME" | sed -E 's/^\.-*/./')
+    NAME=$(echo "$NAME" | sed -E "s/^['\"]+|['\"]+$//g")
     NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
     TEST_NAME="$NAME"
     if [[ $NAME == "" ]]; then
@@ -80,67 +88,82 @@ stdnames() {    #{{{
 
     fi
     #    coding to ascII remove latin chars
-    if [[ "$NAME" != "$OLD" ]] && ! [ -e "$NAME" ]; then
-	eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
-	eval "mv -n $OLD $NAME"  &>/dev/null
-	print_changes "$OLD" "$NAME"
+    if [[ "${NAME}" != "${OLD}" ]] && ! [ -e "${NAME}" ]; then
 
-    elif [[ "$NAME" != "$OLD" ]] && [ -e "$NAME" ]; then
+	rename "${OLD}" "${NAME}"
+	# todo return fail
+	print_changes "${OLD}" "${NAME}"
+
+    elif [[ "${NAME}" != "${OLD}" ]] && [ -e "${NAME}" ]; then
 	while [ -e "$TEST_NAME" ] ; do
 	    NAME=${NAME%-*}
 	    COUNT=$(( COUNT + 1 ))
 	    NAME="${NAME}-${COUNT}"
-	    TEST_NAME="$NAME"
-	    eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
-	    eval "mv -n $OLD $NAME"  &>/dev/null
+	    TEST_NAME="${NAME}"
+
+	    rename "${OLD}" "${NAME}"
 	done
+	    COUNT=$(( COUNT - 1 ))
 
-	print_changes "$OLD" "$NAME"
-
+	print_changes "${OLD}" "${NAME%-}-${COUNT}"
     fi
-
 }
 #}}}
 show_result() { #{{{
     #only files and folders
+    local files
+    local folders
+    #choose all or only locals or a single file
     case "$1" in
-	"-a"|"--all")
-	    NAMES=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
-	    NAMES+=$'\n'
-	    NAMES+=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi'| sort)
-	    ;;
-	"--local"|"-l"|"")
-	    NAMES=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
-	    NAMES+=$'\n'
-	    NAMES+=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi' | sort)
-	    ;;
-	*)
-	    if [ -e "$1" ];then
-		NAMES=$(find ./"$1" -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort )
-		NAMES+=$'\n'
-		NAMES+=$(find ./"$1" -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi' | sort)
+    "-a"|"--all")
+	    	DEFAULT_IFS=$IFS
+	find . -type f -print0 | while IFS= read -r -d '' file; do
+	    if [ -e "$file" ];then  
+		stdnames "$(basename "$file")"
 	    else
-		cError "No such file or directory: " "$1"
-		exit 2
+		cError "${FUNCNAME}:Line-${LINENO}:$file " "not found"
 	    fi
-	    ;;
-    esac
+	done
+	find . -type d -print0 | while IFS= read -r -d '' folder; do
+	    if [ -e "$folder" ];then  
+		stdnames "$(basename "$folder")"	     
+	    else
+		cError "${FUNCNAME}:Line-${LINENO}:$folder " "not found"
+	    fi
+	done
 
-    DEFAULT_IFS=$IFS
-    IFS=$'\n'
-    names=( $NAMES )
     IFS=$DEFAULT_IFS
+    ;;
+    "--local"|"-l")
+	DEFAULT_IFS=$IFS
+	find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+	     
+	    stdnames "$(basename "$file")"	     
+	done
+	find . -maxdepth 1 -type d -print0 | while IFS= read -r -d '' folder; do
+	      
+	    stdnames "$(basename "$folder")"	     
+	done
 
-    lenght=${#names[@]}
-    for(( i=0; i < lenght; i++))
-    do
-	stdnames "${names[$i]}"
-    done
+	IFS=$DEFAULT_IFS
+	;;
+    *)
+	if [ -f "$1" ];then
+	    stdnames "$1"
+	elif [ -d "$1" ];then
+	    stdnames "$1"
+	else
+	    cError "No such file or directory: " "[$1]"
+	    exit 2
+	fi
 
-    cInfo "Backup in: " "$HOME/.local/share/Trash/files"
+    ;;
+esac
+
+
+cInfo "Backup in: " "$HOME/.local/share/Trash/files"
 }
 #}}}
-
 
 LOCAL=$(pwd)
 if [ "$LOCAL" = "$HOME" ]; then
@@ -148,5 +171,5 @@ if [ "$LOCAL" = "$HOME" ]; then
     exit 1
 fi
 
-show_result "$1"
+show_result "$@"
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # shellcheck source=~/bin/dotfiles_env
 setup() {
     source $HOME/bin/dotfiles_env
@@ -11,7 +12,7 @@ setup() {
 }
 
 
-@test "CheckResponseFromRepoSite" {
+@test "Check Response From Repo Site" {
     get_branch_from_install="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     site="https://raw.githubusercontent.com/brnfra/dotfiles/${get_branch_from_install}/bin/dotfiles_env"
 
@@ -20,8 +21,7 @@ setup() {
 	[ "${response}" = "${result}" ]
     }
 
-@test "CheckIfBranchClonedIsTheSameFromInstallScript" {
-   # BranchGetFromTest="$(cat $dotfiles_dir/bin/install | sed '/githubusercontent/!d;s|https://raw.githubusercontent.com/brnfra/dotfiles/||g;s|/bin/dotfiles_env||g;q' | cut -d "\"" -f 2)"
+@test "Check If Branch Cloned Is The Same From Install Script" {
     BranchGetFromTest="$(cat $dotfiles_dir/bin/install | awk /branch=/'{print $1}' | sed 's/branch="//g;s/"//g')"
     result="$(git --git-dir=$dotfiles_dir/.git describe --all --exact-match HEAD | cut -d "/" -f 2)";
     cInfo "Check install script branch in curl command. Don't match with cloned repository branch" "$result"

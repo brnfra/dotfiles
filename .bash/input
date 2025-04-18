@@ -1,12 +1,19 @@
-#!/usr/bin/env bash
-set completion-ignore-case on
-set show-all-if-ambiguous on
-set mark-symlinked-directories on
-set match-hidden-files off
-set page-completions off
-set completion-query-items 200
-set visible-stats on
-set skip-completed-text on
-set input-meta on
-set output-meta on
-set convert-meta off
+complete -o "default" -o "nospace" -W "packs tests" config_check
+complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"
+complete -o "default" -o "nospace" -W "commit_last branch_sync sync_copy prepare" stage_config
+complete -o "default" -o "nospace" -W "-a --all -l --local -h --help" namestd
+complete -o "default" -o "nospace" -W "-a --all -h --help" rm_linedup
+complete -o "default" -o "nospace" -W "make_dirs" dirs_config
+complete -o "default" -o "nospace" -W "bkp_cfg_files" bkp_cfg_files
+complete -o "default" -o "nospace" -W "bare_repo_fetch bare_repo_pull" bare_repo_pull
+complete -o "default" -o "nospace" -W "update_branch" bare_merge 
+complete -o "default" -o "nospace" -W "tests packs connect" config_check 
+complete -o "default" -o "nospace" -W "ssh_env ssh_connect" ssh_config 
+
+complete -o "nospace" -W "Finder Firefox Firefox-esr java SystemUIServer Terminal" killall;
+#
+if type _git &> /dev/null; then
+    complete -o default -o nospace -F _git g;
+fi;
+
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;

@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-bind '"\C-f":"cd_with_fzf\n"'
-bind '"\C-o":"open_with_fzf\n"'
-bind '"\C-n":"nvim\n"'
-#bind '"\C-m":"vim\n"'
+
+if [[ $- == *i* ]]; then
+    bind '"\C-f":"cd_with_fzf\n"'
+    bind '"\C-o":"open_with_fzf\n"'
+    bind '"\C-n":"nvim\n"'
+    #bind '"\C-m":"vim\n"'
+fi
 #Prompt git					    {{{
 git_branch() {
     local s='';
@@ -43,33 +46,42 @@ git_branch() {
 # Set Colors {{{
 # Color
 E='\033['
-
 italic="\[${E}3m\]"
 reset="\[${E}0m\]"
+bold="\[${E}1m\]"
 blink="\[${E}5m\]"
 inverted="\[${E}7m\]"
-bold="\[${E}1m\]"
 # Set foreground colors
-cyan="\[${E}96m\]"
-violet="\[${E}95m\]"
-white="\[${E}99m\]"
-yellow="\[${E}93m\]"
-red="\[${E}91m\]"
-lgray="\[${E}37m\]"
+term_red="\[${E}31m\]"
+term_green="\[${E}32m\]"
+term_cyan="\[${E}96m\]"
+
+# Set foreground colors
+term_violet="\[${E}95m\]"
+term_white="\[${E}99m\]"
+term_yellow="\[${E}93m\]"
+term_red="\[${E}91m\]"
+term_grey="\[${E}37m\]"
 
 build_prompt() {
-   
-    PS1="${inverted}${italic}${lgray}▛▔\u@\h▁▟${cyan}▛▔${bold}\w▁▟";	
-    PS1+="$(git_branch $yellow $violet)"
-    PS1+="${reset}${white}\n${blink}${bold} → ${reset}";	    
+    if [ $? -eq 0 ]; then
+        status="${term_green}✔${reset}"
+    else
+        status="${term_red}✘${reset}"
+    fi
 
-    PS2="${yellow}\u@\h \W → ${reset}";
+
+    PS1="[${status}]${inverted}${italic}${term_grey}▛▔\u@\h▁▟${term_cyan}▛▔${bold}\w▁▟";
+    PS1+="$(git_branch $term_yellow $term_violet)"
+    PS1+="${reset}${term_white}\n${blink}${bold} → ${reset}";
+
+    PS2="${term_yellow}\u@\h \W → ${reset}";
 }
 #   {{{
 if [[ "${SSH_TTY}" ]]; then
-    PS1+="${bold}${red}";
+    PS1+="${bold}${term_red}";
 else
-    PS1+="${yellow}";
+    PS1+="${term_yellow}";
 fi;
 # }}}
 PROMPT_COMMAND=build_prompt

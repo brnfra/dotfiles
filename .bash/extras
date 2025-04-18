@@ -111,7 +111,7 @@ function stopwatch () {
     done
 }
 # }}}
-# logs
+# logs{{{
 function logs() {
     # Color
     local E='\e['
@@ -158,3 +158,4 @@ function logs() {
     unset blue
     unset lgray
 }
+#}}}

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Create a new directory and enter it {{{
 function mkd() {
     mkdir -p "$@" && cd "$_";
@@ -68,21 +67,12 @@ clean() {
     mkdir "$HOME/.vim/backups/undo"
 }
 # }}}
-# Colorized man pages{{{
-#from: http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
-man() {
-    env \
-	LESS_TERMCAP_mb="$(printf "\e[1;31m")" \
-	LESS_TERMCAP_md="$(printf "\e[1;31m")" \
-	LESS_TERMCAP_me="$(printf "\e[0m")" \
-	LESS_TERMCAP_se="$(printf "\e[0m")" \
-	LESS_TERMCAP_so="$(printf "\e[1;44;33m")" \
-	LESS_TERMCAP_ue="$(printf "\e[0m")" \
-	LESS_TERMCAP_us="$(printf "\e[1;32m")" \
-	man "$@"
-    }
+debug() { #{{{
+    shellcheck "$1"
+    awk '{ n = gsub(/"/, "&"); if (n % 2 == 1) print NR ": " $0 }' "$1" # this double quote for tests->["]
+}
 
-#}}}
+# #}}}
 # Where is a function defined? {{{
 whichfunc() {
     whence -v $1
@@ -115,7 +105,7 @@ function symlink() {
 }
 function dot_stow() {
     local here="$(pwd)"
-    source bin/dotfiles_env
+    source ~/bin/dotfiles_env
     cd "$dotfiles_dir" || exit 1
     if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
 	stow --dotfiles --adopt -t "$HOME" .
@@ -125,10 +115,11 @@ function dot_stow() {
     fi
     cd "$here"
     unset here
+    unset -f ~/bin/dotfiles_env
 }
 function redot_stow() {
     local here="$(pwd)"
-    source bin/dotfiles_env
+    source ~/bin/dotfiles_env
     cd "$dotfiles_dir" || exit 1
      if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
 	stow -R --dotfiles --adopt --target=$HOME .
@@ -137,10 +128,11 @@ function redot_stow() {
     fi
     cd "$here"
     unset here
+    unset -f ~/bin/dotfiles_env
 }
 function deldot_stow() {
     local here="$(pwd)"
-    source bin/dotfiles_env
+    source ~/bin/dotfiles_env
     cd "$dotfiles_dir" || exit 1
     if which stow &> /dev/null && [ "$(pwd)" = "$dotfiles_dir" ];then
 	stow -D --dotfiles --adopt -target=$HOME .
@@ -149,6 +141,7 @@ function deldot_stow() {
     fi
     cd "$here"
     unset here
+    unset -f ~/bin/dotfiles_env
 }
 # }}}
 # Create a backup {{{

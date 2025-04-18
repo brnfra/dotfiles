@@ -16,7 +16,9 @@ setup() {
     # Load include to test.
     mkdir -p "${BATS_TMPDIR}/level1/level2/level3/"
 }
-
+teardown() {
+    rm -rf "${BATS_TMPDIR}"
+}
 
 @test "FilesByDate_3_sub_levels" { 
     cd "${BATS_TMPDIR}" || return 

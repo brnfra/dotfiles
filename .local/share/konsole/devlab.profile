@@ -37,7 +37,7 @@ TrimTrailingSpacesInSelectedText=true
 KeyBindings=default
 
 [Scrolling]
-HistorySize=3000
+HistorySize=6000
 
 [Terminal Features]
 BellMode=3

@@ -32,7 +32,7 @@ files='.bashrc '
 files+='.bash_logout '
 files+=' .bash/profile '
 files+=' .bash/aliases '
-files+=' .bash/exports '
+files+=' .bash/login '
 files+=' .bash/extras '
 files+=' .bash/functions '
 files+=' .bash/input '
@@ -273,23 +273,23 @@ packs_list+=" zip "
 # Colors {{{ 
 # escape
 E='\033['
-term_italic="${E}3m"
-term_reset="${E}0m"
-term_bold="${E}1m"
+p_italic="${E}3m"
+p_reset="${E}0m"
+p_bold="${E}1m"
 # Set foreground colors
-term_red="${E}31m"
-term_green="${E}32m"
-term_cyan="${E}36m"
-term_grey="${E}2m"
+p_red="${E}31m"
+p_green="${E}32m"
+p_cyan="${E}96m"
+p_grey="${E}37m"
 
 cInfo() {
-    printf "${term_grey}%s${term_reset} %s${term_cyan}${term_bold}${term_italic} %s${term_reset} %s\n"  "[INFO]" "$1" "$2" "$3"
+    printf "${p_grey}%s${p_reset} %s${p_cyan}${p_bold}${p_italic} %s${p_reset} %s\n"  "[INFO]" "$1" "$2" "$3"
 }
 cError() {
-    printf "${term_red}%s${term_reset} %s${term_cyan}${term_bold}${term_italic} %s${term_reset} %s\n" "[FAIL]" "$1" "$2" "$3"
+    printf "${p_red}%s${p_reset} %s${p_cyan}${p_bold}${p_italic} %s${p_reset} %s\n" "[FAIL]" "$1" "$2" "$3"
 }
 cOk() {
-    printf "${term_green}%s ${term_reset}%s\n" "[ OK ]" "$1" "$2"
+    printf "${term_green}%s ${p_reset}%s\n" "[ OK ]" "$1" "$2"
 }
 
 #colors

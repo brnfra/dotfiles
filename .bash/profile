@@ -1,12 +1,9 @@
-#!/usr/bin/env bash
+source ~/.bash/login
 
-for file in ~/.bash/{aliases,prompt,exports,functions,input,extras}; do
+for file in ~/.bash/{aliases,input,functions,extras}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 
 shopt -s autocd
 shopt -s checkwinsize
@@ -39,37 +36,12 @@ fi;
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 if [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/linux_id_rsa
 fi
 
-complete -o "default" -o "nospace" -W "packs tests" config_check
-complete -o "default" -o "nospace" -W "-a --all -A" "config_check tests"
-complete -o "default" -o "nospace" -W "commit_last branch_sync sync_copy prepare" stage_config
-complete -o "default" -o "nospace" -W "-a --all -l --local -h --help" namestd
-complete -o "default" -o "nospace" -W "-a --all -h --help" rm_linedup
-complete -o "default" -o "nospace" -W "make_dirs" dirs_config
-complete -o "default" -o "nospace" -W "bkp_cfg_files" bkp_cfg_files
-complete -o "default" -o "nospace" -W "bare_repo_fetch bare_repo_pull" bare_repo_pull
-complete -o "default" -o "nospace" -W "update_branch" bare_merge 
-complete -o "default" -o "nospace" -W "tests packs connect" config_check 
-complete -o "default" -o "nospace" -W "ssh_env ssh_connect" ssh_config 
+source ~/.bash/prompt
 
-complete -o "nospace" -W "Finder Firefox Firefox-esr java SystemUIServer Terminal" killall;
-
-export GTK_THEME=Adwaita-dark
-export GDK_SCALE=1
-
-osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
-opensuse="\"opensuse-tumbleweed\""
-#APT aliases 
-if [ "$osys" = "debian" ] ; then
-    eval "$(~/.rbenv/bin/rbenv init - bash)"
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init - )"
-    export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-fi
 # must be in the end
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

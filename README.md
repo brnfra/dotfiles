@@ -38,18 +38,18 @@ This configuration works with **i3-wm** and **i3status**. The ```.gitconfig``` f
 
 ## TODO
 
-- [ ] Use dotfiles_env to get base for the tests etc
-- [x] optimize for-loops on backup(stow)
-- [ ] Make scripts to generate configs (i3blocks, vim, etc) 
+- [x] Use dotfiles_env to get base for the tests etc
 - [x] Script to generate I3 config 
+- [x] optimize for-loops on backup(stow)
+- [x] optmize to use stow
+- [+] Uninstall and back config(need tests)
+- [+] Make scripts to generate configs (i3blocks, vim, etc) 
+- [+] check backup in stow installation
+- [+] test backup copy files
 - [ ] Add test to check logical order in scripts 
 - [ ] Add test to check if there are required commands
 - [ ] Add test to check output from i3blocks
-- [ ] add check bash vars to testing
-- [ ] optmize to use stow
-- [ ] check backup in stow installation
-- [ ] test backup copy files
-- [ ] Uninstall and back config
+- [-] add check bash vars to testing
 
 <br>
 
@@ -128,7 +128,7 @@ Run in terminal
 
 ```bash
 
-$ TODO
+$ uninstall_brnfra_dotfiles
 
 ```
 

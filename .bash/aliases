@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #APT aliases {{{
 if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
     #list dependencies
