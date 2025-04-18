@@ -64,6 +64,10 @@ stdnames() {    #{{{
     local OLD="$1"
     local NAME="$1"
     local COUNT=$(( 1 ))
+    local TEST_NAME
+    TEST_NAME=""
+    while [ "$NAME" != "$TEST_NAME" ]; do
+    TEST_NAME="$NAME"
     NAME=${NAME//'\302\264'/_}
     NAME=${NAME//'\302\264'/_}
     NAME=${NAME//'\302\140'/_}
@@ -81,6 +85,8 @@ stdnames() {    #{{{
     NAME=$(echo "$NAME" | sed -E 's/^\.-*/./')
     NAME=$(echo "$NAME" | sed -E "s/^['\"]+|['\"]+$//g")
     NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
+
+    done
     TEST_NAME="$NAME"
     if [[ $NAME == "" ]]; then
 	NAME="new_renamed"
@@ -109,59 +115,68 @@ stdnames() {    #{{{
     fi
 }
 #}}}
-show_result() { #{{{
-    #only files and folders
-    local files
-    local folders
+getnames() { #{{{
+    #get names of files and folders
+    local file
+    local folder
     #choose all or only locals or a single file
     case "$1" in
-    "-a"|"--all")
-	    	DEFAULT_IFS=$IFS
-	find . -type f -print0 | while IFS= read -r -d '' file; do
-	    if [ -e "$file" ];then  
-		stdnames "$(basename "$file")"
-	    else
-		cError "${FUNCNAME}:Line-${LINENO}:$file " "not found"
-	    fi
-	done
-	find . -type d -print0 | while IFS= read -r -d '' folder; do
-	    if [ -e "$folder" ];then  
-		stdnames "$(basename "$folder")"	     
-	    else
-		cError "${FUNCNAME}:Line-${LINENO}:$folder " "not found"
-	    fi
-	done
+	"-a"|"--all")
+	    DEFAULT_IFS=$IFS
 
-    IFS=$DEFAULT_IFS
-    ;;
-    "--local"|"-l")
-	DEFAULT_IFS=$IFS
-	find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
-	     
-	    stdnames "$(basename "$file")"	     
-	done
-	find . -maxdepth 1 -type d -print0 | while IFS= read -r -d '' folder; do
-	      
-	    stdnames "$(basename "$folder")"	     
-	done
+	    find . -type f -print0 | while IFS= read -r -d '' file; do
+		if [ -e "$file" ];then  
+		    stdnames "$(basename "$file")"
+		else
+		    cError "${FUNCNAME}:Line-${LINENO}:$file " "not found"
+		fi
+	    done
+	    find . -type d -print0 | while IFS= read -r -d '' folder; do
+		if [ -e "$folder" ];then  
+		    stdnames "$(basename "$folder")"	     
+		else
+		    cError "${FUNCNAME}:Line-${LINENO}:$folder " "not found"
+		fi
+	    done
 
-	IFS=$DEFAULT_IFS
+	    IFS=$DEFAULT_IFS
 	;;
-    *)
-	if [ -f "$1" ];then
-	    stdnames "$1"
-	elif [ -d "$1" ];then
-	    stdnames "$1"
-	else
-	    cError "No such file or directory: " "[$1]"
-	    exit 2
-	fi
+	"--local"|"-l")
+	    DEFAULT_IFS=$IFS
 
-    ;;
-esac
+	    find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+		if [ -e "$file" ];then  
+		    stdnames "$(basename "$file")"
+		else
+		    cError "${FUNCNAME}:Line-${LINENO}:$file " "not found"
+		fi
+		
+	    done
+	    find . -maxdepth 1 -type d -print0 | while IFS= read -r -d '' folder; do
+		if [ -e "$folder" ];then  
+		    stdnames "$(basename "$folder")"	     
+		else
+		    cError "${FUNCNAME}:Line-${LINENO}:$folder " "not found"
+		fi
+		
+	    done
 
+	    IFS=$DEFAULT_IFS
+	    ;;
+	*)
+	    if [ -f "$1" ];then
+		stdnames "$1"
+	    elif [ -d "$1" ];then
+		stdnames "$1"
+	    else
+		cError "No such file or directory: " "[$1]"
+		exit 2
+	    fi
 
-cInfo "Backup in: " "$HOME/.local/share/Trash/files"
+	;;
+    esac
+
+    cInfo "Backup in: " "$HOME/.local/share/Trash/files"
 }
 #}}}
 
@@ -171,5 +186,5 @@ if [ "$LOCAL" = "$HOME" ]; then
     exit 1
 fi
 
-show_result "$@"
+getnames "$@"
 

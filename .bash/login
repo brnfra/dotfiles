@@ -742,7 +742,7 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 # sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 
-export DOCKER_HOST=unix:///var/run/docker.sock
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 # python
 export NVIM_PYTHON_LOG_FILE=/tmp/log
 export NVIM_PYTHON_LOG_LEVEL=DEBUG

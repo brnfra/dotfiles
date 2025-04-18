@@ -21,9 +21,6 @@ git_config() {
 }
 
 git_env() {
-    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
-    opensuse="\"opensuse-tumbleweed\""
-
     #setup git(script from https://github.com/lewagon/dotfiles/git_setup.sh )
     if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
 	if dpkg -s git &> /dev/null
@@ -48,5 +45,4 @@ git_env() {
 	    exit 1
 	fi
     fi
-
 }

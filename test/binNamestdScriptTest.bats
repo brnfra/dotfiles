@@ -164,15 +164,31 @@ teardown_file() {
     [ -f "${BATS_TMPDIR}/m_a_n-4" ]
 
 }
-@test "testing if Standarize only one files or folder" {
+@test "Test while last pattern not achieved" {
     cd "${BATS_TMPDIR}" || return
-    file='im   only a    file'
-    dir='im   @ d!r    file'
+    file='_-_-_._-___file'
+    dir='_-_-_._-___dir'
     touch "${BATS_TMPDIR}/$file"
     mkdir "${BATS_TMPDIR}/$dir"
     namestd "$file"
     namestd "$dir"
     
+    [ -f "${BATS_TMPDIR}/.file" ]
+    [ -d "${BATS_TMPDIR}/.dir" ]
+
+}
+@test "testing if Standarize only one files or folder" {
+    cd "${BATS_TMPDIR}" || return
+    file='im   only a    file'
+    dir='im   @ d!r    file'
+    dont_touch='im   important'
+    touch "${BATS_TMPDIR}/$file"
+    touch "${BATS_TMPDIR}/$dont_touch"
+    mkdir "${BATS_TMPDIR}/$dir"
+    namestd "$file"
+    namestd "$dir"
+    
+    [ -f "${BATS_TMPDIR}/im   important" ]
     [ -f "${BATS_TMPDIR}/im_only_a_file" ]
     [ -d "${BATS_TMPDIR}/im_d_r_file" ]
    
