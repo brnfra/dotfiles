@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck source=~/bin/dotfiles_env
 setup() {
-    source $HOME/bin/dotfiles_env
     BATS_TMPDIR="/tmp/date_fold"
     # get the containing directory of this file
     # use $BATS_TEST_FILENAME instead of ${BASH_SOURCE[0]} or $0,
@@ -12,10 +11,10 @@ setup() {
     }
 
 @test "FilesByDate_3_sub_levels" { 
-        
-    [ -f "${HOME}/$bkpdir/.config1" ]
-    [ -f "${HOME}/$bkpdir/bin/script1" ]
-    [ -f "${HOME}/$bkpdir/.vimrc" ]
+    source $HOME/bin/dotfiles_env
+    [ -f "${HOME}/$bkpdir/original/.config1" ]
+    [ -f "${HOME}/$bkpdir/original/bin/script1" ]
+    [ -f "${HOME}/$bkpdir/original/.vimrc" ]
 
 } 
 
