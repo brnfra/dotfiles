@@ -7,4 +7,3 @@ if [ "$SHLVL" = 1 ]; then
     history -c
     kill "$SSH_AGENT_PID"
 fi
-echo "Status de saída do último comando: $?"
