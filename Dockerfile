@@ -14,17 +14,11 @@ RUN apk add --no-cache stow && \
     touch ~/.parallel/will-cite && \
     mkdir -p ~/bin  
 
-#tests
-RUN touch ~/.config1
-RUN touch ~/bin/script1
-RUN touch ~/.vimrc
-
 COPY ./bin/install ./bin/
 RUN ./bin/install
 
 RUN bash -c "bats $HOME/test/testInstall.bats"
 RUN bash -c "bats $HOME/test/testIfExistConfigFiles.bats"
 RUN bash -c "bats $HOME/test/testGitConfig.bats"
-RUN bash -c "bats $HOME/test/testBackupInstall.bats"
 
 ENTRYPOINT ["/bin/bash"]

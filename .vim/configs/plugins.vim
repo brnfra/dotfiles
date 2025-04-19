@@ -583,7 +583,13 @@ endfun
 " vim-shortcuts define final colors	
 set background=light
 if has('unix')
-    colorscheme papayadroid
+    if has("gui_running") 
+	set background=dark
+	colorscheme desert
+    else
+	colorscheme papayadroid
+
+    endif
 else
     silent!colorscheme base16-ateliercave
 endif

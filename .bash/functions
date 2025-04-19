@@ -367,7 +367,7 @@ elif [ "$osys" = "$opensuse" ]; then
 
 
         function plist () {
-	    zypper packages | cut -d '|' -f3  \
+	    zypper search --installed-only | cut -d '|' -f2  \
 		| fzf \
 		--multi \
 		--preview 'zypper if {1}' \

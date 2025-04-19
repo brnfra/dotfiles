@@ -233,7 +233,7 @@ else
     packs_list+=" network-manager-gnome "
     packs_list+=" rar "
     packs_list+=" netcat-openbsd "
-    packs_list+=" openssh-client "          
+    packs_list+=" openssh "          
 fi
 if [ "$osys" = "debian" ]; then
     packs_list+=" alsautils "

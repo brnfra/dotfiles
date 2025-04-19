@@ -37,4 +37,5 @@ jobs:
         run: |
           bats ./test/testGitConfig.bats
           bats ./test/testInstall.bats
+          bats ./test/testIfExistConfigFiles.bats
 
