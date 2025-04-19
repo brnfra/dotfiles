@@ -72,18 +72,16 @@ stdnames() {    #{{{
     NAME=${NAME//'\302\264'/_}
     NAME=${NAME//'\302\140'/_}
     NAME=${NAME//'$'/_}
-    NAME=$(echo "$NAME" | tr -d '[:cntrl:]')
-    NAME=$(echo "$NAME" | tr -c '[=-=][=.=][=/=][:alnum:]' '_')
-    NAME=$(echo "$NAME" | tr -t '[:space:][:blank:]' '_')
-    NAME=$(echo "$NAME" | tr -t '[:blank:]' '_')
-    NAME=$(echo "$NAME" | tr -s '_' '_' )
-    NAME=$(echo "$NAME" | tr -s '-' '-' )
-    NAME=$(echo "$NAME" | tr -s '.' '.' )
-    NAME=$(echo "$NAME" | sed -r 's/^_//gi;s/_$//gi;s/_\/$/\//gi')
-    NAME=$(echo "$NAME" | sed -r 's/^-//gi;s/-$//gi;s/-\/$/\//gi')
-    NAME=$(echo "$NAME" | sed -E 's/^\._*/./')
-    NAME=$(echo "$NAME" | sed -E 's/^\.-*/./')
-    NAME=$(echo "$NAME" | sed -E "s/^['\"]+|['\"]+$//g")
+    NAME=$(echo "$NAME" | tr -d '[:cntrl:]' \
+	| tr -c '[=-=][=.=][=/=][:alnum:]' '_' \
+	| tr -t '[:space:][:blank:]' '_' \
+	| tr -t '[:blank:]' '_' \
+        | tr -s '_' '_' \
+	| tr -s '-' '-' \
+	| tr -s '.' '.' \
+        | sed -r 's/^_//gi;s/_$//gi;s/_\/$/\//gi ; s/^-//gi;s/-$//gi;s/-\/$/\//gi' \
+        | sed -E 's/^\._*/./ ; s/^\.-*/./' \
+	| sed -E "s/^['\"]+|['\"]+$//g")
     NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
 
     done
