@@ -75,10 +75,13 @@ ${color #BEC8CB}${battery_bar 5}
 #NETWORK{{{
 $alignc${color grey}NETWORK
 $alignc${if_up wlp1s0}${color cyan}${exec nmcli -t device | awk -F':' 'NR==1{print $4}'} ${color} (WIFI)${else}${color #e66529}No wifi connection${endif}
-$alignc${if_up eth0}${color cyan}${exec nmcli -t device | awk -F':' 'NR==1{print $4}'} ${color} (WIFI)${else}${color #e66529}No wired connection${endif}
+$alignc${if_up enp6s0}${color cyan}${exec nmcli -t device | awk -F':' 'NR==1{print $4}'} ${color} (WIRED)${else}${color #e66529}No wired connection${endif}
 ${if_up wlp1s0}${color grey}Up${goto 143.5}${color grey}Down
 ${color #BEC8CB}${upspeedgraph wlp1s0 25,120 #ffd4a8 #ffd4a8}${alignr}${downspeedgraph wlp1s0 25,120 #a8ffa8 #a8ffa8}
 ${color}${upspeedf wlp1s0} kib/s${goto 145.5}${color}${downspeedf wlp1s0} kib/s${endif}
+${if_up enp6s0}${color grey}Up${goto 143.5}${color grey}Down
+${color #BEC8CB}${upspeedgraph enp6s0 25,120 #ffd4a8 #ffd4a8}${alignr}${downspeedgraph enp6s0 25,120 #a8ffa8 #a8ffa8}
+${color}${upspeedf enp6s0} kib/s${goto 145.5}${color}${downspeedf enp6s0} kib/s${endif}
 #}}}
 #TEMPERATURE{{{
 

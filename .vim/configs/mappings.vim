@@ -98,7 +98,9 @@ inoremap <F4> <esc>gg=Gli
 noremap <F5> :set wrap! wrap?<CR>
 "toggle wrap"
 inoremap <F5> <esc>:set wrap! wrap?<CR>li
-set pastetoggle=<F6>
+if has('+clipboard')
+  set pastetoggle=<F6>
+endif
 ""vim-shortcuts
 noremap <F7> :call ToggleFold()<cr>
 inoremap <F7> <esc>:call ToggleFold()<cr>i

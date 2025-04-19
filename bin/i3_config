@@ -582,6 +582,8 @@ fi
 ## Session startup                                                                            ##{{{
 ################################################################################################
 #OFF bell on preference for X
+options="${options}\$exe $i3_cfg_dir/autostart/i3config\n"
+options="${options}\$exe $i3_cfg_dir/autostart/wallpapers\n"
 #options="${options}\$exe picom --config ~/.config/picom.conf\n"
 options="${options}\$exe_always xset b off\n"
 #Networkmanager wicd and NM do not work together
@@ -641,8 +643,6 @@ elif [ "$osys" = "$opensuse" ]; then
     fi
 fi
 
-options="${options}\$exe $i3_cfg_dir/autostart/i3config\n"
-options="${options}\$exe $i3_cfg_dir/autostart/wallpapers\n"
 #}}}
 #### config ends in this line
 if ! i3 -v &> /dev/null; then

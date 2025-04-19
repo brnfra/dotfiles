@@ -10,6 +10,9 @@ ConfigVersion=1
 AllowMenuAccelerators=true
 UseSingleInstance=true
 
+[MainWindow]
+ToolBarsMovable=Enabled
+
 [MemorySettings]
 EnableMemoryMonitoring=true
 MemoryLimitValue=100

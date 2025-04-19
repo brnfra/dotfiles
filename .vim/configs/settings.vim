@@ -24,6 +24,7 @@ set t_Co=256
 set t_vb=
 set ttyfast
 set cot-=preview	"disable doc preview in omnicomplete
+
 "                   Global Stuff  {{{
 "-------------------------------------------------------
 " ------------------------------------------------------------------------------------------------------------------------------
@@ -130,7 +131,7 @@ endif
 " ENCODING SETTINGS
 "---------------------------------------------------------------------------
 " --- sane text files -------   Encoding ----"
-set termencoding=utf-8
+set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,gbk,big5,latin1,cp936,gb18030
 set encoding=utf-8
 "set nofoldenable " Enable folding

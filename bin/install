@@ -2,7 +2,7 @@
 # Arquivo: install
 # Autor: Bruno Franco
 # Download: git@github.com:brnfra
-# Ultima_modificacao: 18-04-2025
+# Ultima_modificacao: 19-04-2025
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
 #           causados pelo uso deste script.
@@ -36,7 +36,7 @@ cOk() {
 #}}}
 #install_check {{{
 install_check() {
-    cInfo "Executing %s requirements.\n" "${FUNCNAME[0]}"
+    cInfo "Executing: " "${FUNCNAME[0]}"
     local git='type git'
     local curl='type curl'
     local ssh='type ssh'

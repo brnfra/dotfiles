@@ -23,8 +23,14 @@ wallpapers_dir="$HOME/.wallpapers"
 nitrogen_cfg_dir="$HOME/.config/nitrogen"
 osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
 opensuse="\"opensuse-tumbleweed\""
-
-num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
+#	MONITOR
+if type xrandr &>/dev/null ;then
+    num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
+else
+    num_monitors=$(( 1 ))
+fi
+# monitor orientation:0 = horizontal ; 1 = vertical: see "$HOME/.config/i3/autostart/i3config"
+VERTICAL=$(( 1 ))
 #files and directories list{{{
 # bash
 Dirs='.bash/ '

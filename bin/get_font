@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arquivo: get_font
 # Autor: Bruno Franco
-# Ultima_modificacao: 11-04-2025
+# Ultima_modificacao: 19-04-2025
 # Download: git@github.com:brnfra
 # Licence:Este arquivo é de domínio público
 # Garantia: O autor não se responsabiliza por eventuais danos
@@ -28,7 +28,7 @@ FONT_NAMES
     3270 - Nerd font
     cdr - Code New Roman font
     jetbrains - JetBrainsMono font
-    Iosevka - Iosevka font
+    iosevka - Iosevka font
 
 See the README for documentation.
 https://github.com/brnfra/dotfiles
@@ -74,47 +74,49 @@ get_font() {
 		    ;;
 
 		"cdr")
-		    if ! [ -e "$nerdfont" ];then		    
+		    if ! [ -e "$codeNewRoman" ];then		    
 			curl -# -C - -Lko "$codeNewRoman" "$codeNewRoman_link"
 			cInfo "Unpack downloaded fonts."
 			unzip -uo "$codeNewRoman"
 		    else
-			cInfo "$nerdfont already downloaded"
+			cInfo "$codeNewRoman already downloaded"
 		    fi
 		    ;;
 
 		"monofur")
-		    if ! [ -e "$nerdfont" ];then
+		    if ! [ -e "$monofur" ];then
 			curl -# -C - -Lko "$monofur" "$monofur_link"
 			cInfo "Unpack downloaded fonts."
 			unzip -uo "$monofur"
 		    else
-			cInfo "$nerdfont already downloaded"
+			cInfo "$monofur already downloaded"
 		    fi
 		    ;;
 
 		"jetbrains")
-		    if ! [ -e "$nerdfont" ];then
+		    if ! [ -e "$JetBrainsMono" ];then
 			curl -# -C - -Lko "$JetBrainsMono" "$JetBrainsMono_link"
 			cInfo "Unpack downloaded fonts."
 			unzip -uo "$JetBrainsMono"
 		    else
-			cInfo "$nerdfont already downloaded"
+			cInfo "$JetBrainsMono already downloaded"
 		    fi
 		    ;;
 
 		"iosevka")
-		    if ! [ -e "$nerdfont" ];then
+		    if ! [ -e "$Iosevka" ];then
+			echo 
 			curl -# -C - -Lko "$Iosevka" "$Iosevka_link"
 			cInfo "Unpack downloaded fonts."
 			unzip -uo "$Iosevka"
+			[ $? -q 0 ] && fc-cache -f -v
 		    else
-			cInfo "$nerdfont already downloaded"
+			cInfo "$Iosevka already downloaded"
 		    fi
 		    ;;
 
 		*)
-		    cInfo "Options available: 3270, cdr, monofur, jetbrains and iosevka. Wrong choice or empty, run :" "get_font font_name"
+		    cInfo "Options available: 3270, cdr(Code New Roman), monofur, jetbrains and iosevka. Wrong choice or empty, run :" "get_font font_name"
 		    exit 1
 		    ;;
 
@@ -133,5 +135,4 @@ get_font() {
 	cd "$nowIn" || return
     fi
 }
-get_font $1
-"$@"
+get_font "$@"

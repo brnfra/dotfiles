@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source ~/bin/dotfiles_env
 
+#require package libxcvt, xrandr
 #Script to adapt the i3config for virtual machines in pre defined resolution
 SCR="$(xrandr -q 2>/dev/null | awk -F' ' /connected/'{print}' | cut -d "-" -f1 | sed s/1//)"
 #get primary screeen
@@ -15,7 +17,7 @@ MODE_NAME_1920x1080="$(echo $MODE_1920x1080 | awk -F' ' '{print $1}')"
 MODE_NAME_1080X1920="$(echo $MODE_1080x1920 | awk -F' ' '{print $1}')"
 
 # 0 = horizontal ; 1 = vertical
-VERTICAL=$(( 0 ))
+#VERTICAL=$(( 0 ))
 # --rotate rotation ->    Rotation can be one of 'normal', 'left', 'right' or 'inverted'
 R_RIGHT="--auto --rotate right"
 R_LEFT="--auto --rotate left"
