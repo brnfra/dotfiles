@@ -121,15 +121,15 @@ getnames() { #{{{
     case "$1" in
 	"-a"|"--all")
 	    DEFAULT_IFS=$IFS
-
-	    find . -type f -print0 | while IFS= read -r -d '' file; do
+	    #from http://mywiki.wooledge.org/BashPitfalls#IFS.3D_read_-r_-d_.27.27_filename
+	    find . -type f -print0 | while IFS= LC_ALL=C read -r -d '' file; do
 		if [ -e "$file" ];then  
 		    stdnames "$(basename "$file")"
 		else
 		    cError "${FUNCNAME}:Line-${LINENO}:$file " "not found"
 		fi
 	    done
-	    find . -type d -print0 | while IFS= read -r -d '' folder; do
+	    find . -type d -print0 | while IFS= LC_ALL=C read -r -d '' folder; do
 		if [ -e "$folder" ];then  
 		    stdnames "$(basename "$folder")"	     
 		else
@@ -142,7 +142,7 @@ getnames() { #{{{
 	"--local"|"-l")
 	    DEFAULT_IFS=$IFS
 
-	    find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+	    find . -maxdepth 1 -type f -print0 | while IFS= LC_ALL=C read -r -d '' file; do
 		if [ -e "$file" ];then  
 		    stdnames "$(basename "$file")"
 		else
@@ -150,7 +150,7 @@ getnames() { #{{{
 		fi
 		
 	    done
-	    find . -maxdepth 1 -type d -print0 | while IFS= read -r -d '' folder; do
+	    find . -maxdepth 1 -type d -print0 | while IFS= LC_ALL=C read -r -d '' folder; do
 		if [ -e "$folder" ];then  
 		    stdnames "$(basename "$folder")"	     
 		else
