@@ -683,7 +683,7 @@ export PYTHONIOENCODING='UTF-8';
 export HISTSIZE='2768';
 export HISTFILESIZE="${HISTSIZE}";
 export HISTCONTROL='ignoreboth';
-OPT="$HOME/.local/share"
+SHARE="$HOME/.local/share"
 # Android
 if [ "$osys" = "debian" ]; then 
     export BROWSER="firefox-esr '%s' &"
@@ -709,7 +709,7 @@ export ANDROID_EMULATOR_HOME="$HOME/.android"
 export ANDROID_USER_HOME="$ANDROID_HOME"
 export ANDROID_SDK_ROOT="$ANDROID_HOME/Sdk"
 export ANDROID_AVD_HOME="$ANDROID_EMULATOR_HOME/avd"
-export PATH="$OPT/android-studio/bin:$PATH"
+export PATH="$SHARE/android-studio/bin:$PATH"
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
 # Java - SDK 12
 export PATH=$JAVA_HOME/bin:$PATH
@@ -721,6 +721,9 @@ STUDIO_JDK=$JAVA_HOME
 STUDIO_GRADLE_JDK=$GRADLE_USER_HOME
 # export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude_standard | fd --type f --type i $FD_OPTIONS"
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f --exclude .git   --exclude boot --exclude lib  --exclude lib64  --exclude lost+found --exclude opt --exclude proc --exclude root --exclude run --exclude sbin --exclude srv --exclude sys --exclude tmp --exclude var"
+
+#VS code
+export PATH="$SHARE/VSCode-linux-x64/bin/:$PATH"
 
 # export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} ia a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,f2:toggle-preview,ctrl-y:execute-silent(echo {+} | pbcopy)'"
 export FZF_DEFAULT_OPTS='--color=fg:#abb2bf,bg:#282c34,hl:#e06c75,gutter:#282c34,fg+:#e06c75,bg+:#3d4148,hl+:#98c379 --color=info:#f7c662,prompt:#e06c75,pointer:#e06c75,marker:#98c379,spinner:#f7c662,header:#6699cc  --layout=reverse  --border --inline-info --exact   --bind '?:toggle-preview,Ctrl-j:down,Ctrl-k:up,J:preview-down,K:preview-up' '
@@ -747,9 +750,9 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 export NVIM_PYTHON_LOG_FILE=/tmp/log
 export NVIM_PYTHON_LOG_LEVEL=DEBUG
 # Flutter
-export PATH=$OPT/flutter/bin:$PATH
+export PATH=$SHARE/flutter/bin:$PATH
 # heroku
-export HEROKU="$OPT/heroku"
+export HEROKU="$SHARE/heroku"
 export PATH=$HEROKU/bin:$PATH
 
 # nodejs v-16
@@ -758,7 +761,7 @@ DISTRO=linux-x64
 export NODE_REPL_HISTORY=~/.node_history;
 export NODE_REPL_HISTORY_SIZE='2768';
 export NODE_REPL_MODE='sloppy';
-export NODE="$OPT/node-$VERSION-$DISTRO" 
+export NODE="$SHARE/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
 
 # nodejs v-20
@@ -767,7 +770,7 @@ DISTRO=linux-x64
 export NODE_REPL_HISTORY=~/.node_history;
 export NODE_REPL_HISTORY_SIZE='2768';
 export NODE_REPL_MODE='sloppy';
-export NODE="$OPT/node-$VERSION-$DISTRO" 
+export NODE="$SHARE/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
 
 # nodejs v-21
@@ -776,11 +779,11 @@ DISTRO=linux-x64
 export NODE_REPL_HISTORY=~/.node_history;
 export NODE_REPL_HISTORY_SIZE='2768';
 export NODE_REPL_MODE='sloppy';
-export NODE="$OPT/node-$VERSION-$DISTRO" 
+export NODE="$SHARE/node-$VERSION-$DISTRO" 
 export PATH=$NODE/bin:$PATH
 
-export PATH=$OPT/idea-IC-243.24978.46/bin:$PATH
-export TOOLBOX="$OPT/JetBrains/Toolbox"
+export PATH=$SHARE/idea-IC-243.24978.46/bin:$PATH
+export TOOLBOX="$SHARE/JetBrains/Toolbox"
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$TOOLBOX/scripts:$PATH
 

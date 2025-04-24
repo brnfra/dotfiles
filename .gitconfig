@@ -1,7 +1,7 @@
 
 [core]
     filemode	    = true
-    editor	    = vim
+	editor = code --wait
     pager	    = less -FRX
     excludesfile    = ~/.gitignore
 [user]
