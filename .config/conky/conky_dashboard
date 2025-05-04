@@ -57,9 +57,9 @@ ${color grey}Root${goto 143.5}${color grey}Home
 ${color #BEC8CB}${fs_bar 5,120 /}${alignr}${fs_bar 5,120 /home}
 ${color}${fs_used /}/${fs_size /}${goto 145.5}${color}${fs_used /home}/${fs_size /home}
 
-${color grey}Shared Data Drive
-${color #BEC8CB}${fs_bar 5,120 /data/shared_data/}
-${color}${fs_used /data/shared_data/}/${fs_size /data/shared_data/}
+${color grey}Shared Data Drive${goto 143.5}${color grey}HDD samsung
+${color #BEC8CB}${fs_bar 5,120 /shared_data/NVME_NTFS}${color #BEC8CB}${alignr}${fs_bar 5,120 /shared_data/samsungHDD}
+${color}${fs_used /shared_data/NVME_NTFS}/${fs_size /shared_data/NVME_NTFS}${goto 145.5}${color}${fs_used /shared_data/samsungHDD}/${fs_size /shared_data/samsungHDD}
 #}}}
 #DISK_IO{{{
 

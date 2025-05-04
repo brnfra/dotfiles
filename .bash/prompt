@@ -4,7 +4,6 @@ if [[ $- == *i* ]]; then
     bind '"\C-f":"cd_with_fzf\n"'
     bind '"\C-o":"open_with_fzf\n"'
     bind '"\C-n":"nvim\n"'
-    #bind '"\C-m":"vim\n"'
 fi
 #Prompt git					    {{{
 git_branch() {
