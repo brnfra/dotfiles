@@ -132,7 +132,6 @@ files+=' .config/i3/i3blocks/pomodoro '
 files+=' .config/i3/i3blocks/temperatures '
 files+=' .config/i3/i3blocks/trash '
 files+=' .config/i3/i3blocks/upgindicator '
-files+=' .config/i3/i3blocks/vars '
 files+=' .config/i3/i3blocks/volume '
 # rofi
 Dirs+=' .config/rofi/ '
