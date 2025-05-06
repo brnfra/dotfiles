@@ -30,7 +30,7 @@ else
     num_monitors=$(( 1 ))
 fi
 # monitor orientation:0 = horizontal ; 1 = vertical: see "$HOME/.config/i3/autostart/i3config"
-VERTICAL=$(( 1 ))
+VERTICAL=$(( 0 ))
 #files and directories list{{{
 # bash
 Dirs='.bash/ '
