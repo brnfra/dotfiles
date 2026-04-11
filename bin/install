@@ -1,0 +1,222 @@
+#!/usr/bin/env bash
+# Arquivo: install
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# code providing by ;
+#  - originally by user StreakyCobra in https://news.ycombinator.com/item?id=11070797
+#  - in your wonderful tutorial, Nicola Paolucci, in https://www.atlassian.com/git/tutorials/dotfiles
+export LANG=pt_BR.UTF-8
+export LC_ALL=pt_BR.UTF-8
+
+backto=$(pwd)
+branch="bare"
+
+E='\033['
+italic="${E}3m"
+reset="${E}0m"
+bold="${E}1m"
+# Set foreground colors 
+red="${E}31m"
+green="${E}32m"
+cyan="${E}36m"
+grey="${E}2m"
+cInfo() {
+    printf "${grey}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n"  "[INFO]" "$1" "$2" "$3"
+}
+cError() {
+    printf "${red}%s${reset} %s${cyan}${bold}${italic} %s${reset} %s\n" "[FAIL]" "$1" "$2" "$3"
+}
+cOk() {
+    printf "${green}%s ${reset}%s\n" "[ OK ]" "$1"
+}
+
+# make executables in src/ visible to PATH
+
+git_config() {
+    git --git-dir="$install_dir" --work-tree="$HOME" "$@";
+}
+#install_check {{{
+install_check() {
+    printf "[INFO]Executing %s requirements.\n" "${FUNCNAME[0]}"
+    #packages
+    if ! which git &> /dev/null;then
+	cError "Git not found. Abort."
+	exit 2	
+    fi
+    if ! which curl &> /dev/null;then
+	cError "Curl not found. Aborting install"
+	exit 3	
+    fi
+    if ! which ssh &> /dev/null;then
+	cError "Ssh not found. Abort."
+	exit 4	
+    fi
+    # if there are definitions file 
+    if [ -f "$HOME/bin/dotfiles_env" ]; then
+	cd "$HOME/bin" || return
+	# shellcheck source=dotfiles_env
+	. dotfiles_env
+
+    else
+	DIR="$HOME/bin"
+	mkdir "$DIR"
+	cd "$DIR" || return
+	PATH="$DIR/../src:$PATH"
+
+	if curl -O --max-time 15  "https://raw.githubusercontent.com/brnfra/dotfiles/${branch}/bin/dotfiles_env"
+	then
+	    # shellcheck source=dotfiles_env
+	    source dotfiles_env
+	else
+	    printf "[ERROR] dotfiles_env doesnt exist and cant download from repository.\n"
+	    exit 1
+	fi
+    fi
+    # avoid repeat if already installed
+    if [ -d "$install_dir" ]; then
+	cError "Already instaled. If you trying reinstall, remove"
+	cInfo "$install_dir" "in order and check outputs log."
+	exit 1
+    fi
+
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}" 
+}
+##}}}
+## backup {{{
+backup_cfg_files() {
+    cInfo "Create: " "$HOME/.config-bkp/original"
+    mkdir -p "$HOME/.config-bkp/original"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" >> "$bkpLog"
+    cInfo "Backuping: " "${0##*/} - ${FUNCNAME[0]}"
+
+    local BKPDIR="$HOME/.config-bkp/original"
+    local newDir
+    newDir="${BKPDIR}"
+
+    for dir in ${Dirs[@]}; do
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" >> "$bkpLog"
+	mkdir -p "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	if [ $? = 0 ];then 
+	    cOk "${newDir}/${dir}" >> "$bkpLog" 2>&1
+	else
+	    cError "${newDir}/${dir}"
+	fi
+    done
+
+    for file in ${files[@]}; do
+	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	if [ -f "${HOME}/${file}" ];then 
+	    cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' >> "$bkpLog" 2>&1
+	    if [ $? = 0 ];then 
+		cOk "${newDir}/${file}" >> "$bkpLog" 2>&1
+	    else
+		cError "${HOME}/${file}"
+	    fi
+	else
+	    cInfo "Not found: " "${HOME}/${file}" >> "$bkpLog" 2>&1
+	fi
+
+    done
+    echo >>"$bkpLog"
+
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+}
+##}}}
+##bare_repo_checkout {{{
+bare_repo_checkout() {
+    cInfo "Git checkout" "$branch"
+    printf "[INFO] %s [START]\n" "${0##*/} - ${FUNCNAME[0]}"
+
+    backup_cfg_files
+
+    git_config stash save "Save config state[Install]" 
+    ##use to undo, to recover last saved#
+    ##>>  $ bare stash apply
+    cInfo "To revert this, run: " "bare stash apply"
+
+    if git_config checkout; then
+	cOk "Checkout branch"
+
+	cInfo "Set to not show untracked files"
+	git_config config status.showUntrackedFiles no
+
+	cInfo "Exec enviroment_config"
+	if [ -f ~/bin/enviroment_config ]; then
+	    bash ~/bin/enviroment_config 
+	else
+	    cError "Enviroment_config not found."
+	    exit 4
+	fi
+	cInfo "Exec config_check"
+	if [ -f ~/bin/config_check ]; then
+	    bash ~/bin/config_check 
+	else
+	    cError "Config_check not found."
+	    exit 4
+	fi
+	cInfo "${FUNCNAME[0]} done."  
+	
+	cd "$backto" || return
+    else
+	cError "git_config checkout" "${FUNCNAME[0]}"
+	
+	DIR="$HOME/bin"
+	cd "$DIR" || return
+	PATH="$DIR/../src:$PATH"
+	cInfo "Checkout and Rename files in conflict to foo.backup, no move files"
+	git_config checkout 2>&1 | sed -r '/^\w/d;/\*/d' | awk '{print $1}' | xargs -I {} mv "$HOME"/{} "$HOME"/{}.backup 
+	cInfo "Done rename"
+	cInfo "Checking branch: " "$branch"
+	if git_config checkout  ;then
+	    cOk "Checkout branch"
+	    cInfo "Installing enviroment_config and backup config files"
+	    cInfo "Set to dont show untracked files"
+	    git_config config status.showUntrackedFiles no
+	    cInfo "Exec enviroment_config"
+	    bash ~/bin/enviroment_config
+	    cInfo "Exec config_check"
+	    bash ~/bin/bkp_cfg_files
+	    cOk "Installation script"
+	    bash ~/bin/config_check tests
+	    cInfo "${FUNCNAME[0]}: done. Logs can be check in: " "$bkpLog"
+	    cd "$backto" || return
+	    
+	else
+	    cError "Checkout branch" "$branch" ": ${FUNCNAME[0]} exit with error.${LINENO}"
+	    cInfo "Logs can be check in: " "$bkpLog"
+	    exit 1
+	fi
+    fi
+}
+##}}}
+cd "$HOME" || return
+
+#check before install
+install_check
+
+cInfo "Installing $user_name user dotfiles"  
+cInfo "Git clone --bare:" "$branch" " in $install_dir"
+if git clone -v --single-branch -b "$branch" --depth 1 --bare "$repository" "$install_dir"; then
+    cOk "Git clone"
+    cd "$HOME/bin" || return
+    bare_repo_checkout
+    cInfo "${0##*/} complete. Run logs to view changes." "Files backup in $HOME/.config-bkp/original"
+else
+    cError "Clone repository" "$branch" " in $install_dir"
+    exit 1
+fi
+
+unset E
+unset italic
+unset reset
+unset bold
+unset red
+unset green
+unset cyan
+unset grey
+
+cd "$backto" || return

@@ -1,0 +1,47 @@
+
+configuration {
+    modi: "run,drun,window,filebrowser";
+    combi-modi: "run,drun,window,filebrowser";
+    drun {
+      scan-desktop: true;
+      parse-user:   true;
+      parse-system: true;
+      DBusActivatable: true;
+    }
+    window {
+	prefer-icon-theme: true;
+    }
+    run,drun {
+	fallback-icon: "application-x-addon";
+    }
+    display-drun:    "Applications";    
+    display-window:  "Windows"; 
+    display-run:     "Run";                                                             
+    display-filebrowser: "Search";
+    display-combi: [run,drun,window,filebrowser];
+    sidebar-mode:    false; 
+
+    dpi: 200;
+    
+    
+    font: "monofur NF 10";
+    show-icons: true;
+    hover-select: true;
+    sidebar-mode: true;
+    cycle: true;
+    window-thumbnail: true;
+    location: 0;
+    window-format: "[{w}-{t:20}][{n:20}-{c:20}]:{r:20}";
+    drun-match-fields: "all";
+    max-history-size: 25;
+    kb-cancel: "Escape,Alt+F1";
+    kb-row-tab: "Alt+Tab";
+    kb-page-prev: "Page_Up";
+    kb-page-next: "Page_Down";
+    kb-row-first: "Home,KP_Home";
+    kb-row-last: "End,KP_End";
+}
+
+@import "/themes/arc-dark-center-rounded.rasi"
+
+

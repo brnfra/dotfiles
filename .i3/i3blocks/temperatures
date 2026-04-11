@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Arquivo: temperatures
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste arquivo.
+# depends 'jq' package
+# dont inject shell variables into your jq filter!
+# instead use --argjson
+source ~/.i3/i3blocks/vars
+
+temps_all=$(sensors -j | jq '.' | \
+    grep "temp[1-2]_input" | \
+    sed 's/[,"]//g; s/^[ \t]*//;s/[ \t]*$//' | \
+    cut -d " " -f 2 | \
+    awk '{printf "%1.0f\n",$0}')
+icon20="&#xf2ca;"
+icon50="&#xf2c9;"
+icon70="&#xf2c7;"
+output=""
+get_temp_max=$(( 0 )) 
+
+for temp in $temps_all
+do
+    if (( get_temp_max < temp )); then
+	get_temp_max=$temp
+    fi
+    if (( get_temp_max < 200 )); then
+	if (( get_temp_max <= 30 )); then
+	    output="<span $font $blue $size > $icon20 $get_temp_max° </span>"
+	elif (( get_temp_max >= 31 )) && (( temp <= 54 )); then
+	    output="<span $font $green $size > $icon50 $get_temp_max° </span>"
+	elif (( get_temp_max >= 55 )) && (( temp <= 69 )); then
+	    output="<span $font $orange $size > $icon70 $get_temp_max° </span>"
+	elif (( get_temp_max >= 70 )); then
+	    output="<span $font $red $size > $icon70 $get_temp_max° </span>"
+	fi
+    fi
+done
+printf "%s\n" "$output"

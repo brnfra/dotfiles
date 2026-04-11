@@ -1,0 +1,56 @@
+#!/bin/bash - 
+#===============================================================================
+#
+#          FILE: wacom-rotate-toggle.sh
+# 
+#         USAGE: ./wacom-rotate-toggle.sh 
+# 
+#   DESCRIPTION: to rotate wacon device reference position
+# 
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: brnfra, 
+#  ORGANIZATION: 
+#       CREATED: 02/08/2024 09:41
+#      REVISION: 1
+#===============================================================================
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+set -o nounset                              # Treat unset variables as an error
+requirement1="xsetwacom"
+
+if ! command -v "$requirement1" &> /dev/null
+then
+    clnError "$requirement1 is not installed. Please install $requirement1 it and try again."
+    exit 2
+fi
+
+#only the Pen is rotated
+device="$(xsetwacom --list devices | cut -d ":" -f 1 | sed '/Pen/!d;s/id//;s/[ \t]*$//')"
+currentPosition="$(xsetwacom --get "$device" rotate)"
+deviceID="$(xsetwacom list | awk /Pen/ | cut -f2 | cut -d ' ' -f2)"
+
+case $currentPosition in
+    none)
+        echo "Rotate cw."
+	xsetwacom set "$deviceID" rotate cw
+        ;;
+    cw)
+        echo "Rotate half."
+	xsetwacom set "$deviceID" rotate half
+        ;;
+    half)
+        echo "Rotate ccw."
+	xsetwacom set "$deviceID" rotate ccw
+        ;;
+    ccw)
+        echo "Rotate none."
+	xsetwacom set "$deviceID" rotate none
+        ;;
+    *)
+	echo "Invalid position. Please debug currentPosition output(must be none, half, cw, or ccw)."
+        ;;
+esac

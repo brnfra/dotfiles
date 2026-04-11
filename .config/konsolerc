@@ -1,0 +1,24 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=devlab.profile
+
+[General]
+ConfigVersion=1
+
+[KonsoleWindow]
+AllowMenuAccelerators=true
+UseSingleInstance=true
+
+[MemorySettings]
+EnableMemoryMonitoring=true
+MemoryLimitValue=100
+
+[TabBar]
+NewTabButton=true
+
+[ThumbnailsSettings]
+EnableThumbnails=false
+
+[UiSettings]
+ColorScheme=openSUSE Dark

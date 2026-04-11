@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# Arquivo: namestd
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#change names for standard. Ex.: 's p c' => s_p_c; and so on...
+#The changes is restrict on the folder where the script was executed
+#first, make some general changes, just in case(remove spaces)
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+printf "Normalizing files and folders names\n"
+#Help {{{
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - standarize names 
+
+SYNOPSIS
+    ${0##*/} {[-alh] | --local | --all |--help}
+
+DESCRIPTION
+    Change names for standard. Ex.: 's p?c' => s_p_c; and so on...
+
+Examples: 
+    To rename all files and folders on current path
+	${0##*/} -l|--local	
+    To rename all files and folders recursively inside folders
+	${0##*/} -a	
+	${0##*/} --all	
+
+OPTIONS    
+    -a, --all	
+	Rename all files and folders recursively inside folders
+
+    -l, --local	
+	Rename all files and folders on current path
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+#}}}
+
+print_changes() {
+    printf "[ ${red}%s${reset} ]" "$1" 
+    printf "%s" "---->"
+    printf "[ ${green}${bold}%s${reset} ]\n" "$2"
+}
+
+stdnames() {    #{{{
+    #	${variable//search/replace}
+    local OLD=$1
+    local NAME=$1
+    local COUNT=$(( 1 ))
+    NAME=${NAME//'\302\264'/_}
+    NAME=${NAME//'\302\264'/_}
+    NAME=${NAME//'\302\140'/_}
+    NAME=${NAME//'$'/_}
+    NAME=$(echo "$NAME" | tr -d '[:cntrl:]')
+    NAME=$(echo "$NAME" | tr -c '[=-=][=.=][=/=][:alnum:]' '_')
+    NAME=$(echo "$NAME" | tr -t '[:space:][:blank:]' '_')
+    NAME=$(echo "$NAME" | tr -t '[:blank:]' '_')
+    NAME=$(echo "$NAME" | tr -s '_' '_' )
+    NAME=$(echo "$NAME" | tr -s '.' '.' )
+    NAME=$(echo "$NAME" | sed -r 's/^_//gi;s/_$//gi;s/_\/$/\//gi')
+    NAME=$(echo "$NAME" | sed -E 's/^\._*/./')
+    NAME=$(iconv -c -f UTF8 -t ASCII//TRANSLIT<<< "$NAME")
+    TEST_NAME="$NAME"
+    if [[ $NAME == "" ]]; then
+	NAME="new_renamed"
+	print_changes "empty" "$NAME"
+
+    fi
+    #    coding to ascII remove latin chars
+    if [[ "$NAME" != "$OLD" ]] && ! [ -e "$NAME" ]; then
+	eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
+	eval "mv -n $OLD $NAME"  &>/dev/null
+	print_changes "$OLD" "$NAME"
+
+    elif [[ "$NAME" != "$OLD" ]] && [ -e "$NAME" ]; then
+	while [ -e "$TEST_NAME" ] ; do
+	    NAME=${NAME%-*}
+	    COUNT=$(( COUNT + 1 ))
+	    NAME="${NAME}-${COUNT}"
+	    TEST_NAME="$NAME"
+	    eval "cp -r $OLD $HOME/.local/share/Trash/files"   &>/dev/null
+	    eval "mv -n $OLD $NAME"  &>/dev/null
+	done
+
+	print_changes "$OLD" "$NAME"
+
+    fi
+
+}
+#}}}
+show_result() { #{{{
+    #only files and folders
+    case "$1" in
+	"-a"|"--all")
+	    NAMES=$(find . -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
+	    NAMES+=$'\n'
+	    NAMES+=$(find . -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi'| sort)
+	    ;;
+	"--local"|"-l"|"")
+	    NAMES=$(find . -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort)
+	    NAMES+=$'\n'
+	    NAMES+=$(find . -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi' | sort)
+	    ;;
+	*)
+	    if [ -e "$1" ];then
+		NAMES=$(find ./"$1" -maxdepth 1 -type f -exec ls -A -1 --quoting-style='shell-escape' '{}' + | sed 's|\.\/||gi'| sort )
+		NAMES+=$'\n'
+		NAMES+=$(find ./"$1" -maxdepth 0 -type d -exec ls -A -1 -p --quoting-style='shell-escape' '{}' + | sed -n '/\/$/p;s|\.\/||gi; s|\/$||gi' | sort)
+	    else
+		cError "No such file or directory: " "$1"
+		exit 2
+	    fi
+	    ;;
+    esac
+
+    DEFAULT_IFS=$IFS
+    IFS=$'\n'
+    names=( $NAMES )
+    IFS=$DEFAULT_IFS
+
+    lenght=${#names[@]}
+    for(( i=0; i < lenght; i++))
+    do
+	stdnames "${names[$i]}"
+    done
+
+    cInfo "Backup in: " "$HOME/.local/share/Trash/files"
+}
+#}}}
+
+
+LOCAL=$(pwd)
+if [ "$LOCAL" = "$HOME" ]; then
+    printf "Script avoid execute in [%s] directory.\n" "$HOME"
+    exit 1
+fi
+
+show_result "$1"
+
