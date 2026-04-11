@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source ~/bin/dotfiles_env
+XKB_OUTPUT=$(setxkbmap -query)
+LAYOUT=$(echo "${XKB_OUTPUT}" | awk -F ':' '/layout/{print $2}' | tr -d ' ')
+MODEL=$(echo "${XKB_OUTPUT}" | awk -F ':' '/model/{print $2}' | tr -d ' ')
+KEYMAP_NAME="${MODEL}*${LAYOUT}"
+# Keymap has not been specific, so it's not configu red_bg properly
+if [[ "${LAYOUT}" == "" ]] || [[ "${MODEL}" == "" ]]; then
+  exit 1
+fi
+
+if [[ "${KEYMAP_NAME}" ]]; then
+  echo "<span $font_bg $size $capitalize $white_bg> ${KEYMAP_NAME} </span>"
+fi

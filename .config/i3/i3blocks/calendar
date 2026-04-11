@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+source ~/bin/dotfiles_env
+
+if $(type gsimplecal &>/dev/null); then
+    EXEC="gsimplecal"
+elif $(type kdialog >/dev/null); then
+    EXEC="kdialog --geometry 300x250 --calendar \"\""
+fi
+
+case "$BLOCK_BUTTON" in
+  1|2|3) 
+    i3-msg exec "$EXEC" > /dev/null
+  ;;
+esac
+echo "<span $font_bg $size $capitalize $green_bg >$(date '+%a %d/%m/%g') &#xf073;  $(date '+%H:%M:%S') </span>"

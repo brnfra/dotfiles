@@ -1,0 +1,211 @@
+#APT aliases {{{
+if [ "$osys" = "debian" ] || [ "$osys" = "ubuntu" ]; then
+    #list dependencies
+    alias pdeps="apt depends"
+    #source edit
+    alias src="sudo apt edit-sources"
+    # update and upgrade
+    alias up='sudo apt-get update'
+    alias upgl='apt list -a --upgradable 2>/dev/null'
+    alias upg='sudo apt-get upgrade -y'
+    alias get='sudo apt-get install'
+    alias remove='sudo apt-get remove --purge'
+    alias upgrade-distro='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
+    alias fd='fdfind'
+    alias browser="firefox-esr"
+
+    # }}}
+    # {{{ pacman alias
+    #
+elif [ "$osys" = "manjaro" ]; then
+    # update and upgrade
+    alias up='sudo pacman -Sy'
+    alias upg='sudo pacman -Syu --noconfirm'
+    alias upgl='checkupdates'
+    alias get='sudo pacman -S'
+    alias remove='sudo pacman -R'
+    alias upgrade-distro='sudo pacman -Syyu'
+    alias browser="firefox"
+
+    #alias fd='fdfind'
+#}}}
+#{{{opensuse aliases
+elif [ "$osys" = "$opensuse" ]; then
+    alias browser="firefox"
+    alias remove="sudo zypper remove"
+    alias get="sudo zypper install"
+    alias dist-upgrade="sudo zypper refresh && sudo zypper dist-upgrade"
+    # only for specific packages if you dont want hole system upgrade
+    alias up="sudo zypper update"
+    alias upl="zypper list-updates"
+    alias upg-list="zypper ps -s"
+fi
+# #}}}
+#Neofetch {{{
+alias neofetch='neofetch --block_range 0 15'
+# }}}
+# List directories contents aliasesc {{{
+# Long form no user group, color sort by name, directories first
+alias l='ls -Aphvlt --hyperlink --color=always --group-directories-first --sort=name'
+#from https://github.com/ecnerwala/dotfiles/blob/master/bash/.bash_aliases
+cs() { cd $@ && l;}
+# Long form with user group, color sort by name, directories first
+alias ll='ls -Aphvlt --hyperlink --color=always --group-directories-first'
+# List all dirs by size
+alias lz='ls -Aphvlt --hyperlink --color=always --group-directories-first -S'
+# List order by type
+alias lt='ls -AplX --hyperlink'
+# some more ls aliases
+#show hiddens only
+alias l.='ls -Apv --group-directories-first | sed -n "/^\./p"'
+#show links only
+alias li="l | awk '/->/{print}'"
+#show directories
+alias lsd="l | awk '/^d/{print}'"
+alias ldu='du -h --max-depth=1 | sort -hr'
+#exa aliases
+alias x='exa -alF --color=always --group-directories-first --sort name'                                 #long format no hidden
+#alias xl.='exa -aF1 --sort name | grep "^[.].*[^\/]$"'                                                  # exa hidden dir, files and links
+alias x.='exa -aF1 --sort name | grep "^[.]"'                                                  # exa .names
+alias xt='exa -aTF -L 2 --color=always --group-directories-first --sort name'                                   # tree listing
+alias xr='exa -aRlF --color=auto --color-scale --group-directories-first --level 2 --sort size -r'         #exa all directories and files, in recursive mode, inside(careful to use inside longs trees)
+# grep
+alias grep="grep -i --color=auto -A 15 -B 15"
+#alias to nav directories
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias CD='cd'
+alias cd..="cd .."
+# }}}
+#Command aliases {{{
+alias EXIT="exit"
+alias quit="exit"
+alias out="exit"
+alias OUT="exit"
+#alias cp='cp -i'
+alias cp='rsync -ah --info=progress2'
+# functions
+#alias mv='move'
+#alias rm='del'
+alias tam='item_size'
+alias myhost='ssh -T user@my.remote.host screen -dAr'
+# IP addresses
+alias ipp="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# }}}
+#git {{{
+# print aliases
+alias galias="sed -n '/\[alias\]/,\$p' $HOME/.config/dotfiles/.gitconfig"
+alias galiasrc="nvim $HOME/.config/dotfiles/.gitconfig"
+alias gitrc="nvim $HOME/.config/dotfiles/.gitconfig"
+
+#status
+alias g='git status '
+
+#add updates, commit
+alias gadd='git add -u; git cv'
+#add updates, commit and push
+alias gp='git add -u; git cv; git p'
+alias gap='git add .; git cv; git p'
+
+#config
+alias guser='git config --global user.name '
+alias gmail='git config --global user.email '
+alias gconf='git config --list --show-origin'
+#push see bash_functions
+#config
+alias bare='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias ba='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -i'
+alias bcm='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m'
+alias b='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status'
+alias bdiff='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff'
+alias br='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME restore'
+alias bare_log="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log --graph --decorate --after='1 month ago' --pretty='format:%cn commited %h on %ar.%s ;'"
+alias bpacks='config_check packs'
+alias blog='cat $HOME/.config-bkp/stage-bkp.log'
+if [ "$BranchHome" = "main" ]; then
+    alias bs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout testing'
+else
+    alias bs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout main'
+fi
+
+# }}}
+# jekyll {{{
+alias jstart="bundle exec jekyll serve --livereload"
+#}}}
+# python {{{
+alias py="python3 "
+alias pip="~/.cache/pip/bin/pip"
+#}}}
+#docker {{{
+alias dstart="systemctl --user start docker.service"
+alias dstop="systemctl --user stop docker.service"
+alias dexec="docker exec -ti "
+alias drun="docker run -ti "
+alias dcontainer="docker container ls -a " 
+alias dimage="docker image ls "
+alias dbuild="docker build . "
+alias dprune='docker rmi $(docker images -qa) 2>/dev/null || echo "No images found" && docker rm $(docker ps -qa) 2>/dev/null || echo "No containers found"'
+alias dclean='docker system prune -a --volumes'
+# docker  compose
+alias dcup="docker compose up -d"
+# only stop 
+alias dckill="docker compose kill"
+# stop and remove volumes etcs
+alias dcdown="docker compose -v down"
+alias dcls="docker compose ls"
+# docker network
+alias dn="docker network"
+alias dnp="docker network prune"
+alias dni="docker network inspect"
+# }}}
+# Shortcuts map {{{
+alias fonts="fc-list"
+alias hd1="     cd /media/SamsungHDD"
+alias hd2="     cd /media/WDHDD"
+alias down="    cd ~/Downloads"
+alias dow="     cd ~/Downloads"
+alias dwall="   cd ~/.wallpapers/"
+alias docs="    cd ~/Documents/"
+alias doc="     cd ~/Documents/"
+alias repo="    cd ~/documents/projects/git"
+alias dotfiles="cd ~/.config/dotfiles"
+alias i3bl="    cd ~/.i3/i3blocks"
+alias dotbash=" cd ~/.bash"
+alias hosts="sudo vim /etc/hosts"
+alias promptrc=" nvim ~/.bash/prompt"
+alias profilerc="nvim ~/.bash/profile"
+alias aliasrc="  nvim ~/.bash/aliases"
+alias galiasrc=" nvim ~/.gitconfig"
+alias funcrc="   nvim ~/.bash/functions"
+alias pathrc="   nvim ~/.bash/exports"
+alias bashrc="   nvim ~/.bashrc"
+alias vimrc="    nvim ~/.vimrc"
+alias i3rc="     nvim ~/.i3/config"
+alias vifmrc="   nvim ~/.config/vifm/vifmrc"
+alias blocksrc=" nvim ~/.i3/i3blocks.conf"
+# }}}
+# Apps exec {{{
+alias anki="    cd ~/ && setsid ./Anki &>/dev/null"
+alias ANKI="    cd ~/ && setsid ./Anki &>/dev/null"
+alias android=" cd ~/ && setsid ./android-studio &>/dev/null"
+alias ANDROID=" cd ~/ && setsid ./android-studio &>/dev/null"
+alias eclipse=" cd ~/ && setsid ./eclipse_ide &>/dev/null"
+alias ECLIPSE=" cd ~/ && setsid ./eclipse_ide &>/dev/null"
+alias tor="     cd ~/ && setsid ./tor-browser &>/dev/null"
+alias TOR="     cd ~/ && setsid ./tor-browser &>/dev/null"
+alias studio="setsid studio.sh &>/dev/null"
+alias nv="  nvim "
+alias nvi=" nvim "
+alias snv=" sudo nvim"
+alias cim=" vim "
+alias VIM=" vim "
+alias v="   vim "
+alias sv="  sudo vim"
+alias vifm="vifm ."
+alias py="python3 "
+#alias play="vlc --play-and-exit --no-loop --no-repeat"
+#alias ssha="ssh-add ~/.ssh"
+# }}}

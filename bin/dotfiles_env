@@ -1,0 +1,407 @@
+#!/usr/bin/env bash
+unset Dirs
+unset files
+declare -a Dirs
+declare -a files
+#	GIT
+branch="stow"
+user_name="brnfra"
+repository="https://github.com/$user_name/dotfiles.git"
+dotfiles_dir="$HOME/.config/dotfiles"
+email="devlabbr@gmail.com"
+install_dir="$HOME/.dotfiles"
+#	BACKUP
+bkpLog="$HOME/.config-bkp/stage-bkp.log"
+bkpdir="$HOME/.config-bkp"
+#	TESTS
+checkAll="$HOME/test/dotfilesTest.sh"
+checkHome="$HOME/test/testIfExistConfigFiles.bats"
+# 	ENVIROMENT
+fonts_path="$HOME/.local/share/fonts"
+i3_dir="$HOME/.config/i3"
+i3_cfg="$HOME/.config/i3/config"
+i3_scpt="$HOME/bin/i3_config"
+sshkey="linux_key_ecdsa"
+# 	WALLPAPER
+wallpapers_dir="$HOME/.wallpapers"
+nitrogen_cfg_dir="$HOME/.config/nitrogen"
+osys=$(cat /etc/os-release |awk -F'=' '/^ID=/{print $2}')
+opensuse="\"opensuse-tumbleweed\""
+#	MONITOR
+if type xrandr &>/dev/null ;then
+    num_monitors=$(xrandr --listactivemonitors | awk /Monitors/'{print $2}')
+else
+    num_monitors=$(( 1 ))
+fi
+# SET monitor orientation, if: 0 = horizontal ; 1 = vertical: see "$HOME/.config/i3/autostart/i3config"
+VERTICAL=$(( 1 ))
+#files and directories list{{{
+# bash
+Dirs=()
+files=()
+Dirs+=('.bash/')
+files+=('.bashrc')
+files+=('.bash/profile')
+files+=('.bash/aliases')
+files+=('.bash/login')
+files+=('.bash/extras')
+files+=('.bash/functions')
+files+=('.bash/input')
+files+=('.bash/logout')
+files+=('.bash/prompt')
+files+=('.bash_logout')
+
+Dirs+=('.local/share/fonts/')
+Dirs+=('.wallpapers/')
+Dirs+=('.config/nitrogen/')
+
+files+=('.inputrc')
+files+=('.Xresources')
+# zsh
+Dirs+=('.zsh/')
+files+=('.zshrc')
+files+=('.zsh/aliases')
+files+=('.zsh/exports')
+files+=('.zsh/extras')
+files+=('.zsh/functions')
+files+=('.zsh/input')
+files+=('.zsh/logout')
+files+=('.zsh/profile')
+files+=('.zsh/prompt')
+files+=('.zsh/env')
+files+=('.zsh/zshrc')
+
+#conky
+Dirs+=('.config/conky/') 
+files+=('.config/conky/conky_calendar')
+files+=('.config/conky/conky_shortcuts')
+files+=('.config/conky/conky_dashboard')
+files+=('.config/conky/start_conky')
+
+# vim
+Dirs+=('.config/nvim/backups/swaps/')
+Dirs+=('.config/nvim/backups/undo/')
+Dirs+=('.config/nvim/backups/view/')
+files+=('.config/nvim/coc-settings.json')
+files+=('.config/nvim/init.vim')
+
+Dirs+=('.vim/backups/swaps/')
+Dirs+=('.vim/backups/undo/')
+Dirs+=('.vim/backups/view/')
+Dirs+=('.vim/configs/')
+Dirs+=('.vim/configs/plugins/')
+files+=('.vimrc')
+files+=('.vim/configs/mappings.vim')
+files+=('.vim/configs/settings.vim')
+files+=('.vim/configs/plugins.vim')
+
+# vifm
+Dirs+=('.config/vifm/')
+Dirs+=('.config/vifm/colors/')
+Dirs+=('.config/vifm/scripts/')
+files+=('.config/vifm/vifmrc ')
+files+=('.config/vifm/scripts/vifmimg')
+files+=('.config/vifm/scripts/vifmpdf')
+files+=('.config/vifm/colors/Default.vifm')
+files+=('.config/vifm/colors/near-default.vifm')
+
+# terminalrc=
+Dirs+=('.config/xfce4/terminal/')
+Dirs+=('.local/share/konsole/')
+files+=('.local/share/konsole/Breeze.colorscheme')
+files+=('.local/share/konsole/devlab.profile')
+files+=('.config/xfce4/terminal/terminalrc')
+files+=('.config/konsolerc')
+
+# i3
+Dirs+=(' .config/i3/')
+files+=('.config/i3/config')
+files+=('.config/i3/i3-get-window-criteria')
+files+=('.config/i3/i3-manjaro-default-config-backup')
+files+=('.config/i3/i3blocks.conf')
+files+=('.config/i3/i3blocks_v.conf')
+# i3/autostart
+Dirs+=(' .config/i3/autostart/')
+files+=('.config/i3/autostart/i3config')
+files+=('.config/i3/autostart/wallpapers')
+# i3/blocks
+Dirs+=(' .config/i3/i3blocks/')
+files+=('.config/i3/i3blocks/bandwidth')
+files+=('.config/i3/i3blocks/battery')
+files+=('.config/i3/i3blocks/calendar')
+files+=('.config/i3/i3blocks/cpu_usage')
+files+=('.config/i3/i3blocks/disk')
+files+=('.config/i3/i3blocks/iface')
+files+=('.config/i3/i3blocks/keyindicator')
+files+=('.config/i3/i3blocks/keymap')
+files+=('.config/i3/i3blocks/memory')
+files+=('.config/i3/i3blocks/mic')
+files+=('.config/i3/i3blocks/pomodoro')
+files+=('.config/i3/i3blocks/temperatures')
+files+=('.config/i3/i3blocks/trash')
+files+=('.config/i3/i3blocks/upgindicator')
+files+=('.config/i3/i3blocks/volume')
+# rofi
+Dirs+=('.config/rofi/')
+Dirs+=('.config/rofi/themes/')
+files+=('.config/rofi/config.rasi')
+files+=('.config/rofi/themes/arc-dark-bottom.rasi')
+files+=('.config/rofi/themes/arc-dark-center-rounded.rasi')
+files+=('.config/rofi/themes/arc-dark-center.rasi')
+files+=('.config/rofi/themes/arc-dark-fullscreen.rasi')
+files+=('.config/rofi/themes/arc-dark-left.rasi')
+files+=('.config/rofi/themes/arc-dark-right.rasi')
+files+=('.config/rofi/themes/arc-dark-top.rasi')
+files+=('.config/rofi/themes/dark-center-rounded.rasi')
+files+=('.config/rofi/themes/dark-center.rasi')
+files+=('.config/rofi/themes/dmenu-top.rasi')
+
+# gsimplecal
+Dirs+=('.config/gsimplecal/')
+files+=('.config/gsimplecal/config')
+# systemrc
+files+=('.wgetrc')
+files+=('.curlrc')
+# git
+files+=('.gitconfig')
+files+=('.git-completion.bash')
+# compton
+Dirs+=('.config/compton/')
+files+=('.config/compton/compton.conf')
+# tmux
+files+=('.tmux.conf')
+# scripts
+Dirs+=('bin/')
+files+=('bin/audio_extractor')
+files+=('bin/bkp_cfg_files')
+files+=('bin/blurlock')
+files+=('bin/compress_img')
+files+=('bin/concat_videos')
+files+=('bin/config_check')
+files+=('bin/connection')
+files+=('bin/date_fold')
+files+=('bin/dirs_config')
+files+=('bin/dotfiles_env')
+files+=('bin/dotfiles_env.sha256')
+files+=('bin/enviroment_config')
+files+=('bin/extract')
+files+=('bin/free_buffer')
+files+=('bin/get_font')
+files+=('bin/get_packs_enviroment')
+files+=('bin/get_packs_virtmanager')
+files+=('bin/git_config')
+files+=('bin/i3-scrot')
+files+=('bin/i3_config')
+files+=('bin/install')
+files+=('bin/item_size')
+files+=('bin/java_spring_react')
+files+=('bin/local_repo_pull')
+files+=('bin/namestd')
+files+=('bin/pdfstd')
+files+=('bin/pomo')
+files+=('bin/pull_config')
+files+=('bin/push_config')
+files+=('bin/rm_linedup')
+files+=('bin/search')
+files+=('bin/ssh_config')
+files+=('bin/stage_config')
+files+=('bin/targz')
+files+=('bin/tmstp_std')
+files+=('bin/type_fold')
+files+=('bin/uninstall_brnfra_dotfiles')
+files+=('bin/videos_duration')
+files+=('bin/videos_merge')
+files+=('bin/videostd')
+files+=('bin/wacom-monitor-toggle')
+files+=('bin/wacom-rotate-toggle')
+# test
+Dirs+=('test/')
+files+=('test/binMakeFolderByDateTest.bats')
+files+=('test/binMakeFolderByTypeTest.bats')
+files+=('test/binNamestdScriptTest.bats')
+files+=('test/dotfilesTest.sh')
+files+=('test/testGitConfig.bats')
+files+=('test/testInstall.bats')
+files+=('test/testPkgInstalled.bats')
+files+=('test/testIfExistConfigFiles.bats')
+files+=('test/testRepoI3Config.bats')
+#}}}
+#packs list{{{
+#debian ubuntu manjaro etc
+packs_list=()
+packs_list+=('acpi') 
+packs_list+=('blueman')      
+packs_list+=('bzip2')
+packs_list+=('bats')
+packs_list+=('curl')         
+if [ "$osys" = "manjaro" ] || [ "$osys" = "$opensuse" ]; then
+    packs_list+=('fd')      
+    packs_list+=('picom') 
+    packs_list+=('xautolock') 
+    packs_list+=('i3-wm')           
+    packs_list+=('gsimplecal') 
+else
+    packs_list+=('fd-find')      
+    packs_list+=('exa')
+    packs_list+=('compton')
+    packs_list+=('i3')           
+    packs_list+=('i3lock-fancy') 
+    packs_list+=('x11-utils')    
+    packs_list+=('network-manager-gnome')
+    packs_list+=('rar')
+    packs_list+=('netcat-openbsd')
+    packs_list+=('openssh')          
+fi
+if [ "$osys" = "debian" ]; then
+    packs_list+=('alsautils')
+fi
+if [ "$osys" = "ubuntu" ]; then
+    packs_list+=('pulseaudio')
+fi
+
+packs_list+=('ffmpeg')       
+packs_list+=('fzf')          
+packs_list+=('ghostscript')  
+packs_list+=('git')          
+packs_list+=('gzip')
+packs_list+=('i3blocks')     
+packs_list+=('imagemagick')  
+packs_list+=('jq')           
+packs_list+=('neovim')       
+packs_list+=('nitrogen')     
+packs_list+=('openssl')      
+packs_list+=('pcmanfm') 
+packs_list+=('ranger')
+packs_list+=('rofi')
+packs_list+=('rsync')        
+packs_list+=('scrot')        
+packs_list+=('stow')      
+packs_list+=('sysstat')      
+packs_list+=('tar')
+packs_list+=('unzip')        
+packs_list+=('vifm')         
+packs_list+=('vim ')         
+packs_list+=('xfce4-power-manager') 
+packs_list+=('xfce4-terminal') 
+packs_list+=('zip')
+
+#}}}
+# Colors {{{ 
+# escape
+E='\033['
+p_italic="${E}3m"
+p_reset="${E}0m"
+p_bold="${E}1m"
+# Set foreground colors
+p_red="${E}31m"
+p_green="${E}32m"
+p_cyan="${E}96m"
+p_grey="${E}90m"
+p_yellow="${E}33m"
+p_blue="${E}34m"
+p_magenta="${E}35m"
+
+cInfo() {
+    printf "${p_grey}%-s${p_reset} "  "[INFO]"
+    local i=1
+    for arg in "$@"; do
+	case $i in
+	    1)printf "${p_cyan}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	    2)printf "${p_yellow}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	    *)printf "${p_grey}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	esac
+	(( i++ ))
+    done 
+    printf "\n"
+    unset i
+}
+
+cError() {
+    printf "${p_red}%-5s${p_reset} " "[FAIL]"
+    local i=1
+    for arg in "$@"; do
+	case $i in
+	    1)printf "${p_cyan}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	    2)printf "${p_yellow}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	    *)printf "${p_grey}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	esac
+	(( i++ ))
+    done 
+    printf "\n"
+    unset i
+}
+
+cOk() {
+    
+    printf "${p_green}%-s ${p_reset}" "[ OK ]"
+    local i=1
+    for arg in "$@"; do
+	case $i in
+	    1)printf "${p_cyan}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	    *)printf "${p_grey}${p_bold}${p_italic}%-s${p_reset} " "${arg}";;
+	esac
+	(( i++ ))
+    done 
+    printf "\n"
+}
+
+#colors
+black='"#2C323E"'
+black2='"#080910"'
+dark_gray2='"#181920"'
+dark_gray='"#5b5b5b"'
+gray='"#8f8f8f"'
+white='"#F5F6F7"'
+red='"#F74336"'
+#orange='"#FF5100"'
+#dark_orange='"#FFA366"'
+yellow='"#FFFF00"'
+green='"#00FF00"'
+#cyan='"#00FFFF"'
+blue='"#0066FF"'
+purple='"#9800FE"'
+#to i3blocks
+white_bg='     color="#FFFFFF" bgcolor="#5f5f5f"'
+red_bg='       color="#FF0000" bgcolor="#5f5f5f"'
+dark_red_bg='  color="#f77777" bgcolor="#5f5f5f"'
+green_bg='     color="#00FF00" bgcolor="#5f5f5f"'
+lima_green_bg='color="#C0FF00" bgcolor="#5f5f5f"'
+dark_green_bg='color="#418A03" bgcolor="#5f5f5f"'
+yellow_bg='    color="#FFED00" bgcolor="#5f5f5f"'
+orange_bg='    color="#FFA733" bgcolor="#5f5f5f"'
+color_on_bg=' color="#FF0000" bgcolor="#FFED00"'
+color_off_bg='  color="#5f5f5f" bgcolor="#5f5f5f"'
+
+white_code='     "#FFFFFF"'
+red_code='       "#FF0000"'
+dark_red_code='  "#BF616A"'
+green_code='     "#00FF00"'
+lima_green_code='"#C0FF00"'
+dark_green_code='"#418A03"'
+yellow_code='    "#FFED00"'
+orange_code='    "#FFA733"'
+
+#font
+font="Iosevka NFP"
+font_size="11"
+# #font='font="pattern from fc-list"' to i3blocks
+font_bg="font=\"$font\""
+
+# normal bold [100; - thin 400; - normal 900; - heavy(black)]
+weight='font-weight="bold"'
+font_bold='font-weight="bold"'
+font_normal='font-weight="normal"'
+
+#normal,italic
+style='font-style="italic"'
+
+#none ,uppercase,lowercase,capitalize
+capitalize='text-transform="capitalize"'
+uppercase='text-transform="uppercase"'
+
+# percent, xx-small , x-small , small , medium , large , x-large , xx-large , xxx-large.
+size='size="100%"'
+icon_size='size="100%"'
+
+
+# }}}

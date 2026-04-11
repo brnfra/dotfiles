@@ -1,0 +1,40 @@
+source_directories:
+  - /home
+  - /
+  - /boot
+
+repositories:
+  - path: /shared_data/backup/borg
+
+exclude_patterns:
+  - /proc
+  - /sys
+  - /dev
+  - /run
+  - /tmp
+  - /mnt
+  - /media
+  - /var/cache
+  - /var/tmp
+  - /.snapshots
+  - /swap
+  - /shared_data
+  - /home/*/.cache
+  - /home/*/Downloads
+  - /home/*/.local/share/docker
+  - /home/*/Sync
+
+compression: zstd,6
+
+keep_daily: 3
+keep_weekly: 3
+keep_monthly: 2
+
+checks:
+  - name: repository
+  - name: archives
+
+before_backup:
+  - echo "Iniciando backup..."
+after_backup:
+  - echo "Backup finalizado"

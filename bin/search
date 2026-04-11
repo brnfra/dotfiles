@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+cInfo "Search strings inside files"
+
+case $1 in 
+    "-h"|"--help")
+	cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - Search strings insid files
+
+SYNOPSIS
+    ${0##*/} [-h] [--help] 
+    ${0##*/} [OPTIONS] FILE 
+    ${0##*/} [PATH] PATTERN
+    ${0##*/} [FILE] PATTERN
+
+DESCRIPTION
+    Search for a string using grep or fzf program. Provide a string pattern and a directory to
+    search in, and retrieve lines from files that match the pattern. Use fuzzy search with the 
+    fzf program to find matches as you type the string (see the fzf manual for details).
+
+USAGE
+    To search for string 
+	${0##*/} -i|--inside "~/foo/bar" "string"
+	${0##*/} -i|--inside "[path]" "[string]"
+	${0##*/} -i|--inside "[file]" "[string]"
+
+    To search for string using fzf 
+	${0##*/} -f|--fzf "foo.sh" "bar"
+
+OPTIONS
+    -h,--help
+	Print help informations
+    -i,--inside
+	Search inside, all files, on informed path, for pattern
+    -f,--fzf
+	Choice a file to search in using fzf program
+
+Exit status:
+       0      if OK,
+
+       1      no valid folder 
+
+       2      empty string.
+
+       3      no file selected.
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; 
+;;
+"-f"|"-fzf")
+    if [ -e "$2" ] && [ -s "$2" ];then
+	LINE=""
+	LINE=$(cat "$2" | fzf -m -e \
+	    --preview "grep -nw -A 48 -B 48 --color=always -e {..} $2" \
+	    --preview-window=wrap \
+	    --height=80% \
+	    --bind="tab:toggle-preview" \
+	    --border)
+	if [ ! -z "$LINE" ];then
+	    #here $2 is the file
+	    grep --color=always -Rnw "$2" -e "$LINE"
+	fi
+
+	exit 0;
+    else
+	cError "No such file" "$2"
+	exit 3;
+    fi
+
+    ;;
+"-i"|"--inside")
+    if [ -d "$2" ];then
+	if ! [ -z "$2" ];then
+	    grep --color=always -Rnw "$2" -e "$3" 2>/dev/null
+	    exit 0;
+	else
+	    cInfo "Usage: search \"./folder/local\" \"string\"" 
+	    cError "The string is empty" 
+	    exit 2;
+	fi
+    else
+	cError "No such folder:" "$2"
+	exit 1;
+    fi
+    ;;
+*)
+    if [ -e "$1" ] && [ -s "$1" ] && [ ! -d "$1" ];then
+	if ! [ -z "$2" ];then
+	    grep --color=always -Rnw "$1" -e "$2"
+	    exit 0;
+	else
+	    cInfo "Usage: search \"./folder/local\" \"string\"" 
+	    cError "The string is empty" 
+	    exit 2;
+	fi
+    else
+	if [ -d "$1" ];then
+	    cError "Use -i or --inside option to check folders instead." "$1"
+	elif [ ! -s "$1"];then 
+	    cError "The file is empty." "$1"
+	elif [ ! -e "$1" ];then
+	    cError "No such file." "$1"
+	fi
+
+    fi
+    ;;
+
+esac
+

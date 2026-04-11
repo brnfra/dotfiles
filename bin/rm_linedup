@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Arquivo: rm_linedup
+# Autor: Bruno Franco
+# Ultima_modificacao: 11-04-2025
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#to compact mp4 video files
+# shellcheck source=dotfiles_env
+. dotfiles_env
+printf "Remove dupe lines \n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Remove dupes lines in file(text)
+
+SYNOPSIS
+    ${0##*/} {-uh| --undo | filename }
+
+DESCRIPTION
+    Check if there are line dupes in files and remove, trail space blanks at the end or both(begin and end).
+
+    -h, --help
+	Print help informations
+OPTIONS
+    -u,--undo
+	To undo modifications
+    -h,--help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      no selected file or not found.
+
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+backto=$(pwd)
+DIR_DATE=$(date '+%d_%m_%Y')
+newDir="${bkpdir}/${DIR_DATE}"
+mkdir -p "${newDir}"
+
+if [[ "$1" == "-u" || "$1" == "--undo" ]]; then
+    FILENAME=${2##*/}
+    
+    if [ -f "${newDir}/${FILENAME}" ]; then
+        if cp -f "${newDir}/${FILENAME}" "$backto"; then
+	    cOk "Revert rm_linedup script changes"
+        else
+	    cError "Copy fail:  ${newDir}/${FILENAME} to $backto "
+        fi
+    else
+	cError "No ${FILENAME} found in; " "${newDir}"
+	exit 1
+    fi
+else
+    if [ -f "$1" ];then
+	FILENAME=${1##*/}
+        cp "$1" "${newDir}"
+        cat "$1" | sort -u | uniq > /tmp/"${FILENAME}"
+	cp -f /tmp/"${FILENAME}" "$backto"
+	sed -i 's/[ \t]*$//' "$1"
+	cOk "Removing dup-lines in $1"
+    else
+	cError "No file selected."
+	exit 1
+    fi
+fi

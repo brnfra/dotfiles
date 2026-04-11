@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Arquivo: pull_config
+# Autor: Bruno Franco
+# Ultima_modificacao: 11-04-2025
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+printf "Get config from remote repo and update local config files.\n"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Get config from remote repo and update local config files.
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to get config from remote repo and update local config files. Becareful, if you made some 
+    local modifications it'll ovewrite with remote config.
+
+    -h, --help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      ssh-agent error.
+
+       2      connection problem error.
+
+       3      connection and ssh-agent problem(error).
+
+       4      pull and fetch fails.
+
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+for file in ~/bin/{config_check,bare_repo_pull,local_repo_pull,ssh_config,dotfiles_env}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+cInfo "Get last updates from remote. Branch:" "$branch"
+cInfo "Get config from remote:" "${0##*/}"
+printf "\n[INFO] ##########     Pull config - BEGIN     ###########\n"   > "$bkpLog"
+if config_check connect ;then
+    git_config stash save "Save config state[Pull Bare]" &>> "$bkpLog"
+    ##use to undo, to recover last saved#
+    ##>>  $ bare stash apply
+    cInfo "To revert this, use: " "bare stash apply"
+
+    #try pull or undo changes
+    if bare_repo_pull;then
+	local_repo_pull
+	i3_config
+    else
+	cError "Pull (in bare repo) fail"
+        printf "\n[ERROR]Script bare_repo_pull fail! ##########     Pull config - END     ###########\n"   >> "$bkpLog"
+        cInfo "Logs can be check in: " "$bkpLog"
+	exit 4
+    fi
+else 
+    cError "Check your connection and your ssh-agent."
+    printf "\n[ERROR]Script config_check connect fail! ##########     Pull config - END     ###########\n"   >> "$bkpLog"
+    cInfo "Logs can be check in: " "$bkpLog"
+    exit 3
+fi
+cInfo "Logs can be check in: " "$bkpLog"
+printf "\n[INFO] ##########     Pull config - END     ###########\n"   >> "$bkpLog"

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#  Arquivo: uninstall_brnfra_dotfiles
+#  Autor: Bruno Franco
+#  Download: git@github.com:brnfra
+#  Licence:Este arquivo é de domínio público
+#  Garantia: O autor não se responsabiliza por eventuais danos
+#            causados pelo uso deste arquivo.
+. dotfiles_env
+bkpdir="$HOME"/.config-bkp/original
+
+# restaure *.backup
+function restore() {
+    printf "[INFO] Restore original files\n" 
+    cp -a "$bkpdir/." "$HOME/"
+}
+
+# clean
+function uninstall() {
+    printf "[INFO] uninstall \n" 
+    printf "[INFO] unstow \n" 
+    if [ -e "$dotfiles_dir" ];then
+	cd $dotfiles_dir
+	stow -D --dotfiles --target=$HOME .
+    fi
+    cd $HOME
+
+}
+
+uninstall 
+restore
+rm -rf "$HOME/.config-bkp"
+rm -rf "$dotfiles_dir"
+
+printf "[INFO] uninstall complete. %s \n" "$(date)" 
+cd "$HOME" || return

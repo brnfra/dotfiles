@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+# Arquivo: get_font
+# Autor: Bruno Franco
+# Ultima_modificacao: 22-05-2025
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#Fonts
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Get roboto, codenewroman and nerdfont
+
+SYNOPSIS
+    ${0##*/} [font_name] [-h] --help
+
+DESCRIPTION
+    A simple script to get roboto, codenewroman and nerdfont.
+
+    -h, --help
+	Print help informations
+FONT_NAMES
+    3270 - Nerd font
+    cdr - Code New Roman font
+    jetbrains - JetBrainsMono font
+    iosevka - Iosevka font
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+get_font() {
+    cInfo "Get nerdfont" "$1"
+    nowIn=$(pwd)
+    cd "$fonts_path" || return
+
+    nerdfont_link="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/3270.zip"
+    nerdfont="$(echo "$nerdfont_link" | awk -F'/' '{print $NF}')"
+
+    codeNewRoman_link="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/CodeNewRoman.zip"
+    codeNewRoman=$(echo "$codeNewRoman_link" | awk -F'/' '{print $NF}' )
+
+    monofur_link="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Monofur.zip"
+    monofur=$(echo "$monofur_link" | awk -F'/' '{print $NF}' )
+
+    JetBrainsMono_link="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip"
+    JetBrainsMono=$(echo "$JetBrainsMono_link" | awk -F'/' '{print $NF}' )
+
+    Iosevka_link="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Iosevka.zip"
+    Iosevka=$(echo "$Iosevka_link" | awk -F'/' '{print $NF}' )
+
+    if  which unzip &>/dev/null
+    then
+	if [ "$(pwd)" = "$fonts_path" ]
+	then
+
+	    case "$1" in
+		"3270")
+		    if ! [ -e "$nerdfont" ];then
+			curl -# -C - -Lko "$nerdfont" "$nerdfont_link"
+			cInfo "Unpack downloaded font"
+			unzip -uo "$nerdfont"
+		    else
+			cInfo "$nerdfont already downloaded"
+		    fi
+		    ;;
+
+		"cdr")
+		    if ! [ -e "$codeNewRoman" ];then		    
+			curl -# -C - -Lko "$codeNewRoman" "$codeNewRoman_link"
+			cInfo "Unpack downloaded fonts."
+			unzip -uo "$codeNewRoman"
+		    else
+			cInfo "$codeNewRoman already downloaded"
+		    fi
+		    ;;
+
+		"monofur")
+		    if ! [ -e "$monofur" ];then
+			curl -# -C - -Lko "$monofur" "$monofur_link"
+			cInfo "Unpack downloaded fonts."
+			unzip -uo "$monofur"
+		    else
+			cInfo "$monofur already downloaded"
+		    fi
+		    ;;
+
+		"jetbrains")
+		    if ! [ -e "$JetBrainsMono" ];then
+			curl -# -C - -Lko "$JetBrainsMono" "$JetBrainsMono_link"
+			cInfo "Unpack downloaded fonts."
+			unzip -uo "$JetBrainsMono"
+		    else
+			cInfo "$JetBrainsMono already downloaded"
+		    fi
+		    ;;
+
+		"iosevka")
+		    if ! [ -e "$Iosevka" ];then
+			echo 
+			curl -# -C - -Lko "$Iosevka" "$Iosevka_link"
+			cInfo "Unpack downloaded fonts."
+			unzip -uo "$Iosevka"
+			[ $? -q 0 ] && fc-cache -f -v
+		    else
+			cInfo "$Iosevka already downloaded"
+		    fi
+		    ;;
+
+		*)
+		    cInfo "Options available: 3270, cdr(Code New Roman), monofur, jetbrains and iosevka. Wrong choice or empty, run :" "get_font font_name"
+		    exit 1
+		    ;;
+
+	    esac
+
+	    fc-cache -f -v
+	    cd "$nowIn" || return
+	    cInfo "Finish! ${FUNCNAME[0]}"
+	else
+	    cError "Wrong local installation."
+	    cInfo "$(pwd)" "now. "
+	    cInfo "$fonts_path" "the correct"
+	fi
+    else
+	cError "The package Unzip is not installed. Please install unzip."
+	cd "$nowIn" || return
+    fi
+}
+get_font "$@"

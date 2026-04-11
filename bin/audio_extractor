@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# Arquivo: audio_extractor
+# Autor: Bruno Franco
+# Ultima_modificacao: 09-03-2026
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+source dotfiles_env
+
+cInfo "Extract audio from media file to opus file"
+
+if ! which ffmpeg &> /dev/null
+then
+    cError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    exit 2
+fi
+
+
+function cleaner() {	
+    #Clean
+    rm -f newsize oldsize
+    find . -type d -empty -delete &> /dev/null
+    cInfo "Empty dirs removed"
+}
+
+function convertToOpus() {
+    source dotfiles_env
+    local path
+    local name
+    local path
+    local ffmpeg_opus
+
+    ffmpeg_opus=( -b:a 34k -acodec libopus )
+
+    if [ ! -z $2 ];then
+	path="$1"
+    fi
+    name="${2:-"$1"}"
+    name="${name%.*}.opus"
+
+    if [ -s "$2" ] && [ ! -z "$2" ]; then
+	ffmpeg -y -i "${2}" "${ffmpeg_opus[@]}" "${path}/${name}" &> "/tmp/${FUNCNAME[0]}.log" 
+	if [ ! $? -eq 0 ];then
+	    cError "${FUNCTION}:${LINENO}:Conversion error"
+	fi
+	return;
+    elif [ -s "$1" ]; then
+	ffmpeg -i "$1" "${ffmpeg_opus[@]}" "./${name}" &> "/tmp/${FUNCNAME[0]}.log" 
+	return;
+    else
+	cError "${FUNCTION}:${LINENO}:$1 is not a valid file."
+	exit 1
+    fi
+
+    unset path
+    unset name
+    unset ffmpeg_opus
+}
+
+function userChoice() {
+    cInfo "${0##*/}"
+    namestd 1> /dev/null
+    case "$1" in
+
+	"-a"|"--all")
+	    local saveDir
+	    saveDir='opus'
+
+	    # Create the output directory if it doesn't exist
+	    if [ ! -d "$saveDir" ]
+	    then
+		mkdir -p "$saveDir"
+	    fi
+
+	    FILES_LIST=$(find . -maxdepth 1 -type f -exec file --mime-type {} + | grep -E 'audio/|video/' | cut -d: -f1 | sed 's|\.\/||gi' )
+	    DEFAULT_IFS=$IFS
+	    IFS=$'\n'
+	    files_list=( $FILES_LIST )
+	    IFS=$DEFAULT_IFS
+
+	    export -f convertToOpus
+	    parallel --bar convertToOpus "${saveDir}" {} ::: "${files_list[@]}"
+	    if [ $? -eq 0 ];then
+		cOk "All done"
+	    else
+		cError "${FUNCTION}:${LINENO}:Conversion error"
+	    fi
+	   
+	    ;;
+
+	"-h"|"--help")
+
+	    cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - Extract audio from media file to opus
+
+SYNOPSIS
+    ${0##*/} {-a|--all|-h|--help | filename }
+
+DESCRIPTION
+    Get audio from files, audio or video, and converto or extract to opus audio file using FFmpeg. 
+    From audio format files or some videos that accept opus file format encoder codec. 
+    The bitrate is 34k. For more info: http://ffmpeg.org/ffmpeg-codecs.html#libopus-1
+
+    To convert a audio file to opus
+	${0##*/} file_name.mp3
+	output: ./file_name.opus
+    To extract from all files in current folder
+	${0##*/} -a|--all
+	Will create a folder compressed and and set output there.
+	output: ./opus/file_name.opus
+
+OPTIONS
+    -a,--all
+	To convert all audio files in current folder to opus
+    -h,--help
+	Print help informations
+
+Exit status:
+       0      if OK,
+
+       1      no valid files(ffmpeg not compatible).
+
+       2      ffmpeg is not installed.
+
+       3      no file selected.
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; 
+
+;;
+
+*)
+    if [ -s "$1" ]; then
+	convertToOpus "$1"
+    else
+    echo $1
+	cError "${FUNCTION}:${LINENO}:$1 is not a valid file."
+	exit 1
+    fi
+
+    ;;
+
+esac
+}
+
+if [ -z "$1" ]; then
+    cError "${FUNCTION}:${LINENO}:No option or file selected."
+    userChoice -h
+    exit 3
+fi
+
+userChoice "$@"
+cleaner

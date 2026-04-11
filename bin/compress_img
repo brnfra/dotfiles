@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+# Arquivo: compress_img
+# Autor: Bruno Franco
+# Ultima_modificacao: 10-04-2026
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+outname="_out"
+output="output"
+
+backup="backup_"
+# get name from parent folder
+backup+=$(pwd | awk -F / '{print $NF}')
+current="./$(pwd | awk -F / '{print $NF}')"
+
+cInfo "${0##*/}" "Compress images"
+# Check if ImageMagick is installed
+if ! command -v convert &> /dev/null
+then
+    cError "ImageMagick is not installed. Please install it and try again."
+    exit
+fi
+
+image_list=$(find . -maxdepth 1 -type f -print0 \
+    | xargs -0 file --mime-type \
+    | awk -F '/' /image/'{print $2}' \
+    | cut -d ':' -f 1 )
+
+num_images=${#image_list}
+#std image{{{
+
+function stdimage() {
+	local out
+	local file
+	file="$1"
+	# Set the output file name
+	out="${output}/${file%.*}${outname}.${file##*.}"
+
+	# Compress the image
+	magick "$1" -quality 25% "$out"
+	compareSize $file
+	unset out
+
+}
+#}}}
+#compareSize{{{
+function compareSize() {
+    #compare and get smaller
+    local out
+    local file_old
+    local file_new
+    file_old="$1"
+    # Set the output file name
+    file_new="${output}/${file_old%.*}${outname}.${file_old##*.}"
+
+    #take the size
+    du -b "$file_old" > oldsize
+    OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
+    du -b "./$file_new" > newsize
+    NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
+    if [[ $NEWSIZE -gt $OLDSIZE ]]
+    then
+	if rm ./"${file_new}";
+	then
+	    cInfo "$current/${file_new}" "is bigger than old file." "new file deleted"
+	else
+	    cError "${LINENO}:When delete new file:" "$file_new" 
+	    return
+	fi
+    else
+	if mv "$file_old" ./"$backup";
+	then
+	    cInfo "File" "$file_old" "copied to" "$current/${backup}"
+	    mv ./"$file_new" ./
+	    cInfo "File" "$file_new" "copied to" "$current/"
+	    # Print success message
+	    cInfo "Original image compressed and backup in" "$current/${backup}"
+	else
+	    cInfo "Image compressed without backup"
+	    cError "${LINENO}:Error when copy file" "$file" 
+	    return
+	fi
+    fi
+}
+#}}}
+#cleaner{{{
+cleaner() {	
+    #Clean
+    rm -f newsize oldsize
+    find . -type d -empty -delete &> /dev/null
+    cInfo "Empty dirs removed"
+
+}
+# }}}
+# userChoice {{{
+function userChoice() {
+    case $1 in
+	"-h"|"--help")
+	    cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - compress images sizes 
+SYNOPSIS
+    ${0##*/} [OPTION] [filename]
+DESCRIPTION
+    Compress images size.
+Examples: 
+    To compress specific image
+	${0##*/} file_name
+	output: ./file_name_out.img
+    To compress all images in current folder
+	${0##*/} -a
+	Will create a folder compressed and and set output there.
+	output: ./${output}/file_name_out.img
+OPTIONS    
+    -a,A	
+	To compress all images in current folder
+    -h,--help
+	Print help informations
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; 
+;;
+"-a"|"--all")
+    for file in $image_list
+    do
+	if [ -f "$file" ] && [ -s "$file" ] ;then
+	    stdimage "$file"
+	fi
+    done
+    ;;
+
+*)
+    # Check if the input file exists
+    if [ ! -f "$1" ] && [ -s "$1" ] ;then
+	cError "Input file not found. Please provide a valid input file."
+	exit 1
+    fi
+    stdimage "$1"
+    ;;
+esac
+}
+#}}}
+if [ $num_images = 0 ] ;then
+    cError "${LINENO}:There isn't image file"
+    exit 1
+else
+    mkdir -p "$output";
+    mkdir -p "$backup";
+fi
+
+userChoice "$@"
+cleaner 

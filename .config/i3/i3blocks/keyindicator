@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+source ~/bin/dotfiles_env
+
+TYPE="${BLOCK_INSTANCE:-caps}"
+
+lockLine=$(xset -q | awk '/Num Lock/{print}')
+
+capsLock=$(echo "${lockLine}" | awk -F ' ' '{print $4}')
+numLock=$(echo "${lockLine}" | awk -F ' ' '{print $8}')
+scrollLock=$(echo "${lockLine}" | awk -F ' ' '{print $12}')
+
+if [[ "${TYPE}" == "caps" ]]; then
+  checkLock="${capsLock}"
+elif [[ "${TYPE}" == "num" ]]; then
+  checkLock="${numLock}"
+elif [[ "${TYPE}" == "scroll" ]]; then
+  checkLock="${scrollLock}"
+else
+  exit
+fi
+indicator="${checkLock}"
+if [[ "${indicator}" == "on" ]]; then
+    echo "<span $font_bg $size $weight $color_on_bg $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $weight $color_on_bg $uppercase > $BLOCK_INSTANCE </span>"
+else                                    
+    echo "<span $font_bg $size $color_off_bg $uppercase > $BLOCK_INSTANCE </span>"
+    echo "<span $font_bg $size $color_off_bg $uppercase > $BLOCK_INSTANCE </span>"
+  
+fi

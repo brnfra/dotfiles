@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Arquivo: bkp_cfg_files
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+sname="${0##*/}"
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+$sname 
+
+NAME
+    $sname - Backup my config files
+
+SYNOPSIS
+    $sname [-h] --help
+
+DESCRIPTION
+    A simple script to backup my config files copy to defined in dotfiles_env (~/bin/dotfiles_env) backup folder.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+bkp_cfg_files() {
+
+    local DIR_DATE
+    local newDir
+    DIR_DATE=$(date '+%d_%m_%Y')
+    newDir="${bkpdir}/${DIR_DATE}"
+    printf "\n[INFO]%s [START %s]\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Backup config files:" "${0##*/} - ${FUNCNAME[0]}"
+
+    for dir in $Dirs; do
+	printf "[INFO] Folder to backup: (%s)\n" "$dir" &>> "$bkpLog"
+	mkdir -p "${newDir}/${dir}"
+    done
+
+    for file in $files; do
+	printf "[INFO] Files to backup: (%s)\n" "$file" &>> "$bkpLog"
+	cp "${HOME}/${file}" "${newDir}/${file}" | sed '/^$/d;/./!d' &>> "$bkpLog"
+    done
+    echo >>"$bkpLog"
+
+    printf "\n[INFO]%s [STOP %s]\n\n" "${0##*/} - ${FUNCNAME[0]}" "$DIR_DATE"  >> "$bkpLog"
+    cInfo "Done!" "${0##*/} - ${FUNCNAME[0]}"
+}
+bkp_cfg_files
+"$@"

@@ -1,0 +1,17 @@
+version: '3.6'
+services:
+  bats:
+    image: tests
+    environment:
+      - "Bats Test config files"
+    user: "root"
+    volumes:
+      - "./:/bin/"
+    build:
+      context: "configs"
+      dockerfile: "Dockerfile"
+    networks:
+      - "default"
+    command: exec ./bin/install
+
+

@@ -1,0 +1,159 @@
+
+[core]
+    filemode	    = true
+	editor = code --wait
+    pager	    = less -FRX
+    excludesfile    = ~/.gitignore
+[user]
+	name = brnfra
+	email = devlabbr@gmail.com
+    timestampResolution = 4000 nanoseconds
+    minRacyThreshold	= 7440 microseconds
+[push]
+    default = simple
+[pull]
+    rebase = false
+[fetch]
+    prune = true
+[diff]
+    mnemonicprefix = true
+[branch]
+    autosetuprebase = always
+[apply]
+    whitespace = nowarn
+[merge]
+    conflictStyle = diff3
+[mergetool]
+    prompt	= false
+    keepBackup	= false
+[mergetool "vimdiff3"]
+    cmd = vim \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+[branch "main"]
+    remote  = origin
+    merge   = refs/heads/main
+[log]
+    decorate = short
+
+[blame]
+    coloring = repeatedLines
+[color]
+    diff    = auto
+    status  = auto
+    branch  = auto
+    ui	    = auto
+[color "diff"]
+    new		= green bold
+    old		= red bold
+    meta	= blue
+    frag	= magenta bold
+    plain       = white
+    whitespace  = yellow reverse
+    func        = yellow
+    commit	= cyan
+[color "status"]
+    added	= green
+    changed	= yellow
+    untracked	= cyan
+    branch	= magenta blink
+    nobranch	= red blink
+[color "branch"]
+    current     = green ul
+    local       = yellow
+    remote      = red        # default
+    plain       = white
+[color "blame"]
+    repeatedLines = gray
+[color "interactive"]
+    help = brightmagenta
+[advice]
+    statusHints		= false
+    detachedHead	= false
+    addEmptyPathspec	= false
+    pushUpdateRejected	= false
+[color "grep"]
+    context     = white
+    filename    = cyan
+    function    = yellow
+    linenumber  = white
+    match       = white magenta
+    selected    = green
+    separator   = white
+
+[alias]
+    # how to use commands inside git aliases
+    age		= for-each-ref --format '%(authordate:iso) %(refname:short)' --sort=-authordate refs/remotes refs/heads
+    am		= commit --amend --no-edit
+    ama		= commit --amend --no-edit -a
+    b		= branch
+    ba		= branch -a
+    bav		= branch -a -vvv
+    br		= branch -r
+    branches	= branch -a
+    c		= commit
+    ca		= commit --amend
+    cm		= commit -m
+    cv		= commit -v
+    co		= checkout
+    config-to-push-all-branches = config --add remote.origin.push '+refs/heads/*:refs/heads/*'
+    config-to-push-all-tags	= config --add remote.origin.push '+refs/tags/*:refs/tags/*'
+    email	= config --get user.email
+    cp		= cherry-pick
+    d		= diff
+    dh		= diff HEAD..FETCH_HEAD
+    dc		= diff --cached
+    today	= diff --stat 'HEAD@{midnight}'
+    yesterday	= diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'
+    outd	= diff FETCH_HEAD..HEAD
+    forkup	= pull --rebase upstream
+    up		= pull --rebase origin
+    s		= stash
+    ss		= stash save
+    # Show files ignored by git:
+    ign		= ls-files -o -i --exclude-standard
+    ignored	= !git clean -ndX | sed -e 's/^Would remove //' | sed 's/^Would skip repository //'
+    l		= log --oneline --decorate -10 --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
+    lh		= log HEAD..FETCH_HEAD
+    lph		= log -p HEAD..FETCH_HEAD
+    lctxt	= log FETCH_HEAD..HEAD
+    lpf		= log -p FETCH_HEAD..HEAD
+    l1h		= log -1 HEAD
+    last	= for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'
+    lp		= log -p
+    lon         = log --graph --oneline --all
+    lgc		= log --graph --decorate --pretty=oneline --abbrev-commit
+    lgca	= log --graph --decorate --pretty=oneline --abbrev-commit --all
+    lod         = log --oneline --decorate --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an> %C(bold black)[%G?]%Creset'
+    l1m         = log --graph --decorate --after='1 month ago' --pretty=format:'%C(yellow)%cn%C(reset) commited %C(bold blue)%h%C(reset) on %C(green)%ar%C(reset). %C(italic)%s%C(reset)'
+    l10         = log -n 10 --pretty=format:'%C(yellow)%h%C(reset) | %C(bold blue)%an%C(reset) | %C(green)%ad%C(reset) | %C(italic)%s%C(reset)' --date=local
+    ls		= ls-files
+    name	= config --get user.name
+    newb	= checkout -b
+    p		= push origin
+    # avoid diff-so-fancy so we can create patches
+    patch	= !git --no-pager diff --no-color
+    prune-branches  = ! git remote prune origin && git branch -vv | cut -c 3- | awk '$4 ~ /gone\\]/ {print $1}' | xargs git branch -d
+    r		= remote
+    rem		= remote -v
+    rb		= rebase
+    svnprep	= rebase -i git-svn
+    svnup	= svn rebase
+    svnci	= svn dcommit
+    rewind-one	= reset --hard HEAD^
+    rl		= reflog
+    root	= rev-parse --show-toplevel
+    st		= status
+    sta		= stash
+    stq		= !git_foreach_repo.sh git status | grep --color=no -e "=======" -e branch -e GitHub
+    t		= tag
+    tags	= tag -l
+    undo	= reset --mixed HEAD^
+    undoamend	= reset --soft HEAD@{1}
+    unstage	= reset HEAD --
+    untracked	= ls-files --others --exclude-standard
+    visual	= !gitk
+    who		= !git config -l | grep -E '^user\\.(name|email)'
+    whoami	= who
+[safe]
+    directory = /data/shared_data/vimwiki
+[gui]
+	recentrepo = /home/devlab/.config/dotfiles

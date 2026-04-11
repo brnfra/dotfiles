@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# Arquivo: concat_videos
+# Autor: Bruno Franco
+# Ultima_modificacao: 13-03-2026
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+source dotfiles_env
+
+cInfo "Concatena videos em um único video."
+
+if ! which ffmpeg &> /dev/null
+then
+    cError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    exit 2
+fi
+
+
+function userChoice() {
+    
+    local level2_folder
+    level2_folder=$(basename "$(dirname "$PWD")")
+
+    cInfo "${0##*/}"
+    case "$1" in
+
+	"-a"|"--all")
+	    #create file list for ffmpeg
+
+	    for f in *.mp4; do echo "file '$f'"; done > lista.txt
+
+	    #sem reencodar
+	    ffmpeg -fflags +genpts+igndts \
+		-f concat -safe 0 \
+		-i lista.txt \
+		-c copy -avoid_negative_ts make_zero -movflags +faststart \
+		"${level2_folder}".mp4
+	    # Create the output directory if it doesn't exist
+
+	    if [ $? -eq 0 ];then
+		cOk "All done"
+	    else
+		cError "${FUNCTION}:${LINENO}:Concatenation error"
+	    fi
+
+	    ;;
+
+	"-h"|"--help")
+
+	    cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/} - Concatenate video files with ffmpeg
+
+SYNOPSIS
+    ${0##*/} {-a|--all|-h|--help | prefix }
+
+DESCRIPTION
+    Concatenate videos in current folder.
+    Prefix must be have the same to concat videos with respective parts.
+    For more info: http://ffmpeg.org/ffmpeg-codecs.html#libopus-1
+
+    To concatenate a small list(required prefix file_name)
+	${0##*/} file_name
+	output: ./norm/file_name.mp4
+    To concatenate all videos in current folder
+	${0##*/} -a|--all
+
+OPTIONS
+    -a,--all
+	To concatenate all videos files in current folder
+    -h,--help
+	Print help informations
+    Prefix
+	Ex: class_video_part*
+
+Exit status:
+       0      if OK,
+
+       1      no valid files(ffmpeg not compatible).
+
+       2      ffmpeg is not installed.
+
+       3      no file selected.
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; 
+
+;;
+
+*)
+    #create file list for ffmpeg
+
+    for f in ${1}*; do echo "file '$f'"; done > lista.txt
+
+	if [ -s lista.txt ]; then
+	    #sem reencodar
+	    ffmpeg -fflags +genpts+igndts \
+		-f concat -safe 0 \
+		-i lista.txt \
+		-c copy \
+		-avoid_negative_ts make_zero -movflags +faststart \
+		"${1}-concat".mp4
+	fi
+	;;
+
+    esac
+
+}
+
+if [ -z "$1" ]; then
+    cError "${FUNCTION}:${LINENO}:No option or file selected."
+    userChoice -h
+    exit 3
+fi
+
+# normalize the names and check if already done
+if [ $? -eq 0 ] && [ ! -s names_checked ];then
+    namestd -l
+    cOk "All done"
+    echo "names ok" > names_checked
+else
+    cInfo "Names already checked"
+fi
+
+userChoice "$@"
+#cleaner
+
+rm lista.txt

@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+# Arquivo: pdfstd
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#To compact pdf files using ghostscript
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+sname="pdfstd"
+printf "Normalize pdf files using ghostscript \n"
+
+
+LOCAL=$(pwd)
+if [ "$LOCAL" = "$HOME" ]; then
+    cError "Script avoid execute in [%s] directory." "$HOME"
+    exit 1
+fi
+backup="Backup_"
+# get name from parent folder
+backup+=$(pwd | awk -F / '{print $NF}')
+output="Output"
+pdf_list=$(find . -maxdepth 1 -type f -print0 \
+    | xargs -0 file --mime-type \
+    | awk -F '/' /pdf/'{print $2}' \
+    | cut -d ':' -f 1 )
+
+num_pdf=${#pdf_list}
+
+# stdpdf{{{
+stdpdf() {			
+	cInfo "File" "$1" "is the next:"
+	local file="$1"
+	gs \
+	    -sDEVICE=pdfwrite \
+	    `# font settings` \
+	    -dSubsetFonts=true \
+	    -dCompressFonts=true \
+	    -dEmbedAllFonts=true \
+	    `# color format` \
+	    -sProcessColorModel=DeviceRGB \
+	    -sColorConversionStrategy=sRGB \
+	    -sColorConversionStrategyForImages=sRGB \
+	    -dConvertCMYKImagesToRGB=true \
+	    `# image resample` \
+	    -dDetectDuplicateImages=true \
+	    -dDownsampleColorImages=true -dDownsampleGrayImages=true -dDownsampleMonoImages=true \
+	    -dColorImageResolution=140 -dGrayImageResolution=140 -dMonoImageResolution=140 \
+	    `# preset overrides` \
+	    -dDoThumbnails=false \
+	    -dCreateJobTicket=false \
+	    -dPreserveEPSInfo=false \
+	    -dPreserveOPIComments=false \
+	    -dPreserveOverprintSettings=false \
+	    -dUCRandBGInfo=/Remove \
+	    -dNOPAUSE -dQUIET -dBATCH \
+	    -sOutputFile=./"$output"/"$file" "$file"
+
+	if [ "$?" -eq 0 ];then
+	    cInfo "File" "$output/$file" "created."
+	fi
+
+}
+# }}}
+# checkSize{{{
+checkSize() {	
+    local file="$1"
+    #take the size
+    du -b "$file" > oldsize
+    OLDSIZE=$(cat oldsize | sed -e 's/[^0-9]//gi')
+    du -b "./$output/$file" > newsize
+    NEWSIZE=$(cat newsize | sed -e 's/[^0-9]//gi')
+    if [[ $NEWSIZE -gt $OLDSIZE ]]
+    then
+	if rm ./"$output"/"$file";
+	then
+	    cInfo "./$output/$file" "deleted"
+	else
+	    cError "${LINENO}:Discart file" "$file" 
+	    return
+	fi
+    else
+	if mv "$file" ./"$backup";
+	then
+	    cInfo "File" "$file" "copied to"
+	    cInfo "$backup/" "folder"
+	    mv ./"$output"/"$file" ./"$file"
+	    cInfo "New file substituted old file"
+	else
+	    cError "${LINENO}:Error when copy file" "$file" 
+	    return
+	fi
+    fi
+}
+#}}}
+#cleaner{{{
+cleaner() {	
+    #Clean
+    rm -f newsize oldsize
+    find . -type d -empty -delete &> /dev/null
+    cInfo "Done"
+
+}
+# }}}
+#userChoice {{{1
+userChoice() {		
+cInfo "Compacting pdf's files"
+case "$1" in
+    "-a"|"--all")
+	for file in $pdf_list
+	do
+	    stdpdf "$file"
+	    checkSize "$file"
+
+	done
+	;;
+    "-h"|"--help")
+# help{{{3
+cat <<HELP
+$sname 
+
+NAME
+    $sname - Normalize pdf files using ghostscript 
+
+SYNOPSIS
+    $sname [-a|--all|-h|--help] file
+
+DESCRIPTION
+    Normalize pdf files using ghostscrip. Compare files after process and backup older if newer is smaller or skip if not.
+    Backup to output folder inside current folder.
+
+    -a, --all
+	Do it in hole current folder
+    -h, --help
+	Print help informations
+
+USAGE
+    $sname [option] file
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+	exit; 
+
+
+# }}}3
+	;;
+    *)
+	stdpdf "$1"
+	checkSize "$1"
+	;;
+esac
+}
+# }}}1
+if [ "$num_pdf" = "0" ]
+then
+    cError "${LINENO}:There isn't .pdf file"
+    exit 1
+else
+    mkdir -p "$output";
+    mkdir -p "$backup";
+fi
+
+userChoice "$@"
+cleaner 

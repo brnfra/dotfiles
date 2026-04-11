@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+source ~/bin/dotfiles_env
+#From: https://github.com/Anachron/i3blocks
+
+TRASH_DIRECTORY="${BLOCK_INSTANCE}"
+TRASH_COUNT=$(( 0 ))
+COUNT=$(( 0 ))
+
+if [[ "${BLOCK_INSTANCE}" = "" ]]; then
+    TRASH="$HOME/.local/share/Trash/"
+fi
+if vifm -v &> /dev/null; then
+    VIFM_TRASH="$HOME/.local/share/vifm/Trash/"
+fi
+# Left click
+if [[ "${BLOCK_BUTTON}" -eq 1 ]]; then
+    xdg-open "${HOME}/.local/share/Trash/"
+
+    # Right click
+elif [[ "${BLOCK_BUTTON}" -eq 3 ]]; then
+    # Delete all files permanently (unlink them)
+    #free
+    find "${TRASH}" -mindepth 1 -delete &> /tmp/trash.log
+fi
+
+COUNT=$(find "$TRASH" -mindepth 1 | wc -l)
+# dirs minus files and info
+TRASH_COUNT=$(( TRASH_COUNT + COUNT - 2 ))
+
+if [ $TRASH_COUNT -lt 0 ];then
+    TRASH_COUNT=$(( 0 ))
+fi
+
+if (( TRASH_COUNT == 0 )); then
+    echo  "<span $font_bg $size $white_bg> &#xf014; [${TRASH_COUNT}] </span>"
+elif (( TRASH_COUNT > 0 )) && (( TRASH_COUNT < 100 )); then
+    echo  "<span $font_bg $size $yellow_bg> &#xf1f8; [${TRASH_COUNT}] </span>"
+elif (( TRASH_COUNT >= 100 )); then
+    echo  "<span $font_bg $size $dark_red_bg $font_bold> &#xf1f8; [+99] </span>"
+    #exit 33
+fi

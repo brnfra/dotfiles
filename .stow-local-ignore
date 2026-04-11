@@ -1,0 +1,11 @@
+\.git
+\.gitignore
+\.gitmodules
+\.github
+README.md
+LICENCE
+tags
+\.ctags
+private\.conf
+Dockerfile
+docker-compose\.yml

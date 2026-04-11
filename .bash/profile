@@ -1,0 +1,43 @@
+source ~/.bash/login
+
+for file in ~/.bash/{aliases,input,functions,extras}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+shopt -s autocd
+shopt -s checkwinsize
+shopt -s nocaseglob;
+shopt -s histappend;
+shopt -s cdspell;
+shopt -s dotglob nullglob
+for option in autocd globstar; do
+    shopt -s "$option" 2> /dev/null;
+done;
+
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+    fi
+fi
+if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+    export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d";
+    source "$(brew --prefix)/etc/profile.d/bash_completion.sh";
+fi;
+if type _git &> /dev/null; then
+    complete -o default -o nospace -F _git g;
+fi;
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/linux_key_ecdsa
+fi
+
+source ~/code-completion-bash
+source ~/.bash/prompt
+
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

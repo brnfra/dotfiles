@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Arquivo: dirs_config
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+${0##*/}
+
+NAME
+    ${0##*/}  - Create folders to current config files
+
+SYNOPSIS
+    ${0##*/} [-h] --help
+
+DESCRIPTION
+    A simple script to create folders to current config files and check if exists.
+
+    -h, --help
+	Print help informations
+
+See the README for documentation.
+https://github.com/brnfra/dotfiles
+Licensed under the MIT license.
+HELP
+exit; fi
+
+
+make_dirs() {
+    cInfo "${0##*/} - ${FUNCNAME[0]}"
+    printf "Create folders to current config files \n"
+    
+    for dir in "${Dirs[@]}"; do
+	if [ -d "${HOME}/${dir}" ]
+	then
+	    cInfo "Already exists:" "${HOME}/${dir}" 
+	else
+	    mkdir -p "${HOME}/${dir}"
+	    cOk "Folder created." "${HOME}/${dir}" 
+	fi
+    done
+    cOk "${0##*/} - ${FUNCNAME[0]}"
+}
+
+"$@"

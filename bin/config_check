@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# Arquivo: config_check
+# Autor: Bruno Franco
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+# shellcheck source=dotfiles_env
+for file in ~/bin/{ssh_config,dotfiles_env,git_config}; do                                              
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+
+tests() {
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
+    backto=$(pwd)
+    cd "$HOME/test" || return
+
+    if [[ "$1" == "-a" || "$1" == "--all" || "$1" == "-A" ]]; then 
+        cInfo "Config check all" &>> "$bkpLog"
+        if bash "$checkAll" | awk '/not ok|failed|line/{print $0}' &>> "$bkpLog";
+        then
+            if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+                cOk "I3config and i3 scripts"
+            else
+                cError "I3config not found. Installing config file "
+                if ! "$i3_scpt" "$bkpdir"; then
+                    cError "I3config "
+                    cItalic "$i3_cfg" " isn't installed "
+                    clnItalic "$i3_scpt" "exec fail or not found."
+                fi
+                cInfo "I3config file installed."
+            fi
+        else
+            bash "$checkAll" | awk '/test|OK|FAILED/{print $0}'
+            cError "Some tests fail"
+            cOk "Config files and folders checked"
+        fi
+    else
+        cInfo "Config check" "/home" &>> "$bkpLog"
+        if bats "$checkHome"| awk '/not ok|failed|line/{print $0}' &>> "$bkpLog";
+        then
+            if [ -f "$i3_cfg" ] && [ -f "$i3_scpt" ]; then
+                cOk "I3config and i3 scripts"
+            else
+                cError "I3config not found. Installing config file "
+                if ! "$i3_scpt" "$bkpdir"; then
+                    cError "I3config "
+                    cItalic "$i3_cfg" " isn't installed "
+                    clnItalic "$i3_scpt" "exec fail or not found."
+                fi
+                cInfo "I3config file installed."
+            fi
+        else
+            bats "$checkHome" | awk '/not ok|failed|line/{print $0}'
+            cError "Some tests fail"
+            cOk "Config files and folders checked"
+        fi
+    fi
+    cd "$backto" || return
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+}
+
+packs() {
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
+    osys=$(cat /etc/os-release | sed -n -r '/^ID=/p' | cut -d "=" -f 2)
+    opensuse="\"opensuse-tumbleweed\""
+   
+   
+    cInfo "Checking installed packs for" "$osys" "$user_name dotfiles"
+    for pack in $packs_list; do
+        if [ "$osys" = "ubuntu" ]; then
+            if  dpkg -s "$pack" &> /dev/null; then
+                cOk "$pack" >> "$bkpLog"
+
+            else
+                cError " " "$pack" >> "$bkpLog" 
+
+            fi
+        elif [ "$osys" = "debian" ]; then
+            if dpkg -s "$pack" &> /dev/null; then
+                cOk "$pack" >> "$bkpLog"
+
+            else
+                cError " " "$pack" >> "$bkpLog"
+
+            fi
+        elif [ "$osys" = "manjaro" ]; then
+            if pacman -Qi "$pack" &> /dev/null; then
+                cOk "$pack" >> "$bkpLog"
+            else
+                cError " " "$pack" >> "$bkpLog"
+            fi
+        elif [ "$osys" = "$opensuse" ]; then
+            if zypper se -i "$pack" &> /dev/null; then
+                cOk "$pack" >> "$bkpLog"
+            else
+                cError " " "$pack" >> "$bkpLog"
+            fi
+        fi
+    done
+     
+    cInfo "Check logs for results: " "$osys" "$user_name dotfiles. Finish."
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+}
+
+connect() {
+    printf "[INFO]%s [TEST START]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog" 
+    if connection &>> "$bkpLog" && ssh_connect &>> "$bkpLog"; then
+        cOk "Connection and ssh_connect check:"
+    elif ! connection &> /dev/null; then
+        cError "Connection"
+        exit 2
+    elif ! ssh_connect &> /dev/null; then
+        cError "ssh-agent"
+        exit 3
+    else
+        cError "Check your connection and your ssh-agent." &>> "$bkpLog"
+        exit 4
+    fi
+    printf "[INFO]%s [DONE]\n" "${0##*/} - ${FUNCNAME[0]}"  >> "$bkpLog"
+}
+
+case $1 in
+    tests) "$@"; exit;;
+    packs) "$@"; exit;;
+    connect) "$@"; exit;;
+esac

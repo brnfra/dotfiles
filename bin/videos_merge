@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+# Arquivo: videos_merge
+# Autor: Bruno Franco
+# Ultima_modificacao: 13-03-2026
+# Download: git@github.com:brnfra
+# Licence:Este arquivo é de domínio público
+# Garantia: O autor não se responsabiliza por eventuais danos
+#           causados pelo uso deste script.
+#to merge mp4 video files using ffmpeg and concat demux
+#search files in current folder
+# shellcheck source=dotfiles_env
+. dotfiles_env
+
+#set -euo pipefail
+
+output="${1:-merged.mp4}"
+
+printf "Create a video mp4 file from files(required files in ordered names).\n"
+
+if ! which ffmpeg &> /dev/null
+then
+    cError "ffmpeg is not installed. Please install ffmpeg it and try again."
+    exit 1
+fi
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    cat <<HELP
+${0##*/}
+
+NAME
+${0##*/} - Merge mp4 files in current folder.
+
+SYNOPSIS
+${0##*/} [output.mp4]
+
+DESCRIPTION
+Concatenate all mp4 files in the current directory using ffmpeg
+without re-encoding (fast method).
+
+If no output name is given the default is:
+
+merged.mp4
+
+OPTIONS
+-h, --help
+Show this help.
+
+HELP
+exit 0
+fi
+
+mapfile -t  video_list < <(find . -maxdepth 1 -type f -print0 \
+    | xargs -0 file --mime-type \
+    | awk /"video\/"/'{print}' \
+    | cut -d ':' -f 1 )
+
+echo "$video_list"
+
+if (( ${#video_list[@]} == 0 )); then
+    cInfo "No video files found."
+    exit 2
+fi
+
+cInfo "Found ${#video_list[@]} files."
+
+#tmpdir=$(mktemp -d)
+tmpdir="/tmp/videos_merge"
+mkdir -p "${tmpdir}"
+listfile="${tmpdir}/lista.txt"
+
+echo "lista de arquivos = $listfile"
+
+cInfo "Normalizing videos..."
+
+i=0
+for f in "${video_list[@]}"; do
+    out="$tmpdir/intermediate_$i.mp4"
+    echo "file = $f"
+
+    ffmpeg -loglevel error -y \
+	-i "$f" \
+	-c:v libx264 \
+	-preset veryfast \
+	-crf 18 \
+	-c:a aac \
+	-movflags +faststart \
+	"$out"
+
+    printf "file '%s'\n" "$out" >> "$listfile"
+
+    ((i++))
+done
+
+cInfo "Concatenating videos..."
+
+ffmpeg \
+    -f concat \
+    -safe 0 \
+    -i "$listfile" \
+    -c copy \
+    -movflags +faststart \
+    "$output"
+
+cInfo "Merge Success"
+rm -rf "$tmpdir"
+exit 0

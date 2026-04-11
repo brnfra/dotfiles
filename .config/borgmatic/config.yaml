@@ -1,0 +1,55 @@
+source_directories:
+  - /home
+  - /
+  - /boot
+
+repositories:
+  - path: /shared_data/backup/borg
+
+exclude_patterns:
+  - /proc
+  - /sys
+  - /dev
+  - /run
+  - /tmp
+  - /mnt
+  - /media
+  - /var/cache
+  - /var/tmp
+  - /var/crash
+  - /var/lib/systemd/coredump
+  - /var/lib/docker
+  - /var/log
+  - /.snapshots
+  - /swap
+  - /shared_data
+  - /home2
+  - /home/*/.cache
+  - /home/*/.var
+  - /home/*/.mozilla
+  - /home/*/.vscode
+  - /home/*/.docker
+  - /home/*/.local/share/docker
+  - /home/*/.local/share/Trash
+  - /home/*/.local/share/vifm/Trash
+  - /home/*/.flutter-devtools
+  - /home/*/.dartServer
+  - /home/*/.dart-tool
+  - /home/*/Sync
+  - /home/*/Downloads
+  - /home/*/scripts
+
+compression: zstd,6
+
+keep_daily: 3
+keep_weekly: 3
+keep_monthly: 2
+
+checks:
+  - name: repository
+  - name: archives
+
+before_backup:
+  - echo "Iniciando backup..."
+after_backup:
+  - echo "Backup finalizado"

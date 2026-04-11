@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+
+# Compare original and gzipped file size {{{
+function gz() {
+    local origsize=$(wc -c < "$1");
+    local gzipsize=$(gzip -c "$1" | wc -c);
+    local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
+    printf "orig: %d bytes\n" "$origsize";
+    printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
+}
+# }}}
+# GETCERTNAMES  {{{
+# Show all the names (CNs and SANs) listed in the SSL certificate
+# for a given domain
+function getcertnames() {
+    if [ -z "${1}" ]; then
+	echo "ERROR: No domain specified.";
+	return 1;
+    fi;
+    local domain="${1}";
+    echo "Testing ${domain}…";
+    echo ""; # newline
+    local tmp=$(echo -e "GET / HTTP/1.0\nEOT" | openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
+    if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
+	local certText=$(echo "${tmp}" | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, no_serial, no_sigdump, no_signame, no_validity, no_version")
+	echo "Common Name:"
+	echo ""; # newline
+	echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//"
+	echo ""; # newline
+	echo "Subject Alternative Name(s):"
+	echo ""; # newline
+	echo "${certText}" | grep -A 1 "Subject Alternative Name:" | sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2
+	return 0
+    else
+	echo "ERROR: Certificate not found."
+	return 1
+    fi;
+}
+# }}}
+# Start a PHP server from a directory, optionally specifying the port {{{
+# (Requires PHP 5.4.0+.)
+function phpserver() {
+    local port="${1:-4000}";
+    local ip=$(ipconfig getifaddr en1);
+    sleep 1 && open "http://${ip}:${port}/" &
+    php -S "${ip}:${port}";
+}
+# }}}
+# Counters (minutes) {{{
+function countdown (){
+    MINS=$(($1 * 60))
+    STARTCOUNT=$(($(date +%s) + $MINS));
+    while [[ "$STARTCOUNT" -ge $(date +%s) ]]; do
+	echo -ne "$(date -u --date @$(($STARTCOUNT - $(date +%s))) +%H:%M:%S)\r";
+	sleep 0.01
+	read -s -n 1 -t 0.001 pause
+	if [[ $pause = "p" ]];then
+	    clear
+	    pause=""
+	    STARTPAUSE=$(($(date +%s)))
+	    # next line is just for TEST
+	    #  tempo=$(time -p read -s -n 1 -p "Press some key to continue...")
+	    read -s -n 1 -p "Press some key to continue..."
+	    clear
+	    ENDPAUSE=$(($(date +%s)))
+	    DELTA=$(($ENDPAUSE - $STARTPAUSE))
+	    STARTCOUNT=$(($STARTCOUNT + $DELTA))
+	fi
+    done
+    clear
+    echo "Countdown finish"
+    eval 'notify-send --urgency=low "Counter" "The $1 minutes is over" | wall'
+    eval 'ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/complete.oga &> /dev/null'
+}
+function stopwatch () {
+    STARTCOUNT=$(($(date +%s)));
+    while true; do
+	echo -ne "$(date -u --date @$(($(date +%s) - STARTCOUNT)) +%H:%M:%S)\r";
+	sleep 0.1
+	read -s -n 1 -t 0.001 pause
+	if [[ $pause = "p" ]];then
+	    clear
+	    pause=""
+	    STARTPAUSE=$(($(date +%s)))
+	    # next line is just for TEST
+	    #  tempo=$(time -p read -s -n 1 -p "Press some key to continue...")
+	    read -s -n 1 -p "Press some key to continue..."
+	    clear
+	    ENDPAUSE=$(($(date +%s)))
+	    DELTA=$(($ENDPAUSE - $STARTPAUSE))
+	    STARTCOUNT=$(($STARTCOUNT + $DELTA))
+	fi
+    done
+}
+
+# }}}
+# logs{{{
+function logs() {
+    local TEMP
+    TEMP="$HOME/.cache/logs"
+    # Color
+    local E='\e['
+
+    local italic="${E}3m"
+    local reset="${E}0m"
+    local blink="${E}5m"
+    local inverted="${E}7m"
+    local bold="${E}1m"
+    # Set foreground colors
+    local cyan="${E}96m"
+    local violet="${E}95m"
+    local white="${E}99m"
+    local red="${E}31m"
+    local green="${E}32m"
+    local yellow="${E}33m"
+    local blue="${E}34m"
+    local lgray="${E}37m"
+    #echo -e "\n${yellow}[Stage backup]${reset}\n"
+    { 
+	echo -e "\nStage backup\n" 
+	cat < ~/.config-bkp/stage-bkp.log  | tail -n 48 
+
+	echo -e "\nWallpapers\n" 
+	cat < ~/.cache/wallpapers.log | tail -n 48 
+
+	echo -e "\nUpgrade logs(counter)\n"
+	cat < ~/.cache/is_upgraded 
+
+	echo -e "\nCron\n"
+	cat < /var/log/upgrade-distro-cron.log | tail -n 1000 
+    } &> "$TEMP"
+
+cat < $TEMP
+
+unset TEMP
+unset E
+unset italic
+unset reset
+unset blink
+unset inverted
+unset bold
+unset cyan
+unset violet
+unset white
+unset red
+unset green
+unset yellow
+unset blue
+unset lgray
+}
+previa() { 
+   cat "$1" | sed -n "/${2}/,+48p" $1 
+}
+logsearch() { 
+   cat "$HOME/.cache/logs" | sed -n "/${1}/,+48p" "$HOME/.cache/logs" 
+}
+#}}}
+# 	download from link{{{
+function download() {
+
+    if [ -z "$1" ];then
+	echo "No link to download"
+	return 1
+    fi
+    case $1 in
+	"-n"|"--name")
+	    # download -n "file" "link"
+	    link="$2"
+	    file=$(echo "$link" | awk -F'/' '{print $NF}')
+	    curl -# -C - -Lko "$file" "$link" 
+
+	    ;;
+	"-h"|"--help")
+
+	    cat <<HELP
+		$FUNCNAME 
+
+		NAME
+		    $FUNCNAME - Download file from web 
+
+		SYNOPSIS
+		    $FUNCNAME [n|--name|-h|--help] link 
+
+		DESCRIPTION
+		    Get file from web link using curl program.
+
+		    -n, --name
+			Set name to downloaded file
+		    -h, --help
+			Print help informations
+
+		See the README for documentation.
+		https://github.com/brnfra/dotfiles
+		Licensed under the MIT license.
+HELP
+return; 
+;;
+*)
+    link="$@"
+    file=$(echo "$link" | awk -F'/' '{print $NF}')
+    curl -# -C - -Lko "$file" "$link" 
+
+    ;;
+esac
+
+}
+#}}}
